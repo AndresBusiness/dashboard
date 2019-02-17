@@ -3,8 +3,18 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  firebase: {
+    apiKey: 'AIzaSyDswAZyitSyVq5r1guzikygl_X6NIAz46A',
+    authDomain: 'taxiapp-70751.firebaseapp.com',
+    databaseURL: 'https://taxiapp-70751.firebaseio.com',
+    projectId: 'taxiapp-70751',
+    storageBucket: 'taxiapp-70751.appspot.com',
+    messagingSenderId: '697356156489'
+  },
+  googleMapsKey: 'AIzaSyBIjYiShatFSJp6Uop7Fy1HAi2doE-8EAg'
 };
+
 
 /*
  * In development mode, for easier debugging, you can ignore zone related error

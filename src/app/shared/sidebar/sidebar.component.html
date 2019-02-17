@@ -1,95 +1,84 @@
 <!-- Left Sidebar - style you can find in sidebar.scss  -->
-      <!-- ============================================================== -->
-      <aside class="left-sidebar">
-          <!-- Sidebar scroll-->
-          <div class="scroll-sidebar">
-              <!-- Sidebar navigation-->
-              <nav class="sidebar-nav">
-                  <ul id="sidebarnav">
-                      <li class="user-profile">
-                          <a class="has-arrow waves-effect waves-dark" href="#"
-                          aria-expanded="false"><img src="https://scontent.fcjs3-2.fna.fbcdn.net/v/t1.0-9/46845676_1976356982454488_4054074554736181248_n.jpg?_nc_cat=105&_nc_eui2=AeFEchl9CCCOU_e-48NoWJU0v26TAVdLIuEk13x5erT_IX11dhTSXGqPo8YdXLhEfkQG3FiCG-sOuV6Fvf01j7O6bNXRbkJiOBhMMMBuaaYTDA&_nc_ht=scontent.fcjs3-2.fna&oh=5dc2a3bf2ad942172e711b354efab913&oe=5C8E03C9"
-                          alt="user" /><span class="hide-menu">Andrés Pérez Alonso</span></a>
-                          <ul aria-expanded="false" class="collapse">
-                              <li><a href="javascript:void()">
-                                <i class="icon-user"></i>   Mi Perfil </a></li>
-                              <li><a href="javascript:void()">
-                                <i class="icon-speech"></i>   Mensajes</a></li>
-                              <li><a href="javascript:void()">
-                                <i class="icon-settings"></i>  Configuración</a></li>
-                              <li><a href="javascript:void()">
-                                <i class="icon-logout"></i>   Cerrar Sesión</a></li>
-                          </ul>
-                      </li>
-                      <li class="nav-devider"></li>
-                      <li> <a class="has-arrow waves-effect waves-dark" href="#"
-                              aria-expanded="false"><i class="icon-chart"></i>
-                            <span class="hide-menu">Dashboard
-                              <span class="label label-rouded label-themecolor pull-right">4</span>
-                            </span>
-                          </a>
-                          <ul aria-expanded="false" class="collapse">
-                              <li><a href="index.html">Panel Administrativo</a></li>
-                              <li><a href="index2.html">Análisis</a></li>
-                          </ul>
-                      </li>
-                      <li class="nav-devider"></li>
-                      <li>
-                        <a class="waves-effect waves-dark" href="#" aria-expanded="false">
-                          <i class="icon-people"></i>
-                          <span class="hide-menu">Clientes
-                            <span class="label label-rouded label-themecolor pull-right">431</span>
-                          </span>
-                        </a>
-                      </li>
-                      <li>
-                        <a class="waves-effect waves-dark" href="#" aria-expanded="false">
-                          <i class="icon-game-controller"></i>
-                          <span class="hide-menu">Productos
-                          </span>
-                        </a>
-                      </li>
-                      <li>
-                        <a class="waves-effect waves-dark" href="#" aria-expanded="false">
-                          <i class="icon-folder-alt"></i>
-                          <span class="hide-menu">Almacén
-                          </span>
-                        </a>
-                      </li>
-                      <li>
-                        <a class="waves-effect waves-dark" href="#" aria-expanded="false">
-                          <i class="icon-basket-loaded"></i>
-                          <span class="hide-menu">Pedidos
-                          </span>
-                        </a>
-                      </li>
+<!-- ============================================================== -->
+<aside class="left-sidebar">
+    <!-- Sidebar scroll-->
+    <div class="scroll-sidebar">
+        <!-- Sidebar navigation-->
+        <nav class="sidebar-nav">
+            <ul id="sidebarnav">
+                <li class="user-profile">
+                    <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><img [src]="_servicioAuth.usuario.img" [alt]="_servicioAuth.usuario.nombre" /><span class="hide-menu">{{ _servicioAuth.usuario.nombre }}</span></a>
+                    <ul aria-expanded="false" class="collapse">
+                        <li routerLinkActive="active" routerLink="/perfil">
+                            <a routerLinkActive="active" routerLink="/perfil">
+                                <i class="icon-user"></i> Mi Perfil </a>
+                        </li>
+                        <li routerLinkActive="active" routerLink="/mensajes">
+                            <a routerLinkActive="active" routerLink="/mensajes">
+                                <i class="icon-speech"></i> Mensajes</a>
+                        </li>
+                        <li routerLinkActive="active" routerLink="/configuracion">
+                            <a routerLinkActive="active" routerLink="/configuracion">
+                                <i class="icon-settings"></i> Configuración</a>
+                        </li>
+                        <li (click)="salir()">
+                            <a href="#">
+                                <i class="icon-logout"></i> Cerrar Sesión</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-devider"></li>
 
-                      <li>
-                        <a class="waves-effect waves-dark" href="#" aria-expanded="false">
-                          <i class="icon-graph"></i>
-                          <span class="hide-menu">Ventas
+                <li class="nav-small-cap">PANEL DE GESTIÓN</li>
+
+                <li routerLinkActive="active" routerLink="/dashboard">
+                    <a routerLinkActive="active" routerLink="/dashboard">
+                        <i class="icon-map"></i>
+                        <span class="hide-menu">Monitoreo</span>
+                    </a>
+                </li>
+                <li routerLinkActive="active" routerLink="/reportes">
+                    <a routerLinkActive="active" routerLink="/reportes">
+                        <i class="icon-docs"></i>
+                        <span class="hide-menu">Reportes
+                            <span class="label label-rouded label-themecolor pull-right">431</span>
+                        </span>
+                    </a>
+                </li>
+                <li routerLinkActive="active" routerLink="/tabulador">
+                    <a routerLinkActive="active" routerLink="/tabulador">
+                        <i class="icon-book-open"></i>
+                        <span class="hide-menu">Tarifas
                           </span>
-                        </a>
-                      </li>
-                      <li>
-                        <a class="waves-effect waves-dark" href="#" aria-expanded="false">
-                          <i class="icon-handbag"></i>
-                          <span class="hide-menu">Compras
+                    </a>
+                </li>
+                <li routerLinkActive="active" routerLink="/solicitudes">
+                    <a routerLinkActive="active" routerLink="/solicitudes">
+                        <i class="icon-user-follow"></i>
+                        <span class="hide-menu">Solicitudes
                           </span>
-                        </a>
-                      </li>
-                      <li>
-                        <a class="waves-effect waves-dark" href="#" aria-expanded="false">
-                          <i class="icon-user-following"></i>
-                          <span class="hide-menu">Proveedores
+                    </a>
+                </li>
+
+                <li routerLinkActive="active" routerLink="/pasajeros">
+                    <a routerLinkActive="active" routerLink="/pasajeros">
+                        <i class="icon-people"></i>
+                        <span class="hide-menu">Pasajeros
                           </span>
-                        </a>
-                      </li>
-                  </ul>
-              </nav>
-              <!-- End Sidebar navigation -->
-          </div>
-          <!-- End Sidebar scroll-->
-      </aside>
-      <!-- ============================================================== -->
-      <!-- End Left Sidebar - style you can find in sidebar.scss  -->
+                    </a>
+                </li>
+                <li routerLinkActive="active" routerLink="/usuarios">
+                    <a routerLinkActive="active" routerLink="/usuarios">
+                        <i class="icon-user-following"></i>
+                        <span class="hide-menu">Usuarios
+                          </span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <!-- End Sidebar navigation -->
+    </div>
+    <!-- End Sidebar scroll-->
+</aside>
+<!-- ============================================================== -->
+<!-- End Left Sidebar - style you can find in sidebar.scss  -->
