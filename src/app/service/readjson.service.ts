@@ -16,5 +16,4 @@ export class ReadjsonService {
   obtenerGeopositionTaxistas(): Observable<any[]> {
     return this.http.get<any[]>('assets/json/ubicacionTaxistas.json');
   }
-  
 }

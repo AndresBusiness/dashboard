@@ -1,8 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FirebaseService } from 'src/app/service/firebase.service';
 import { Subscription } from 'rxjs';
-import { Field } from 'ng2-jsgrid/interfaces/field.interface';
 import { ReadjsonService } from 'src/app/service/readjson.service';
+import { Ng2SmartTableModule, LocalDataSource } from 'ng2-smart-table';
+import 'rxjs/add/observable/of';
 
 @Component({
   selector: 'app-dashboard',
@@ -11,30 +12,62 @@ import { ReadjsonService } from 'src/app/service/readjson.service';
 })
 export class DashboardComponent implements OnInit, OnDestroy {
 
-  lat = 20.5086946;
-  lng = -86.944684;
+  lat = 20.5024843;
+  lng = -86.9467869;
   taxistas: any[];
   infoTaxis: any [];
-  fields: Field[];
-  api: any;
+  settings: any;
+  source: LocalDataSource;
 
   private _observableSubscriptions: Subscription[] = [];
   constructor(private servicioFirebase: FirebaseService,
               private servicejson: ReadjsonService) {
-      // this._observarInfoTaxistas();
-      // this._observarUbicacionTaxistas();
+       this._observarInfoTaxistas();
+       this._observarUbicacionTaxistas();
   }
 
   ngOnInit() {
-    this.fields = [
-      { name: 'img', title: 'Foto' },
-      { name: 'uid', title: '#' },
-      { name: 'nombre', title: 'Nombre' },
-      { name: 'correo', title: 'Correo' },
-      { name: 'viajesHechos', title: 'Viajes hechos' },
-      { name: 'placas', title: 'Placa' },
-      { name: 'telefono', title: 'Teléfono' },
-    ];
+    this.settings = {
+      actions: {
+        add: false,
+        edit: false,
+        delete: false,
+      },
+      columns: {
+        img: {
+          title: 'Foto',
+          filter: false,
+          type: 'html',
+          valuePrepareFunction: (img: string) => {
+            return `<img width="50px" src="${img}" />`; },
+        },
+        uid: {
+          title: '#',
+          filter: false
+        },
+        nombre: {
+          title: 'Nombre',
+          filter: false
+        },
+        correo: {
+          title: 'Correo',
+          filter: false
+        },
+        viajesHechos: {
+          title: 'Viajes hechos',
+          filter: false
+        },
+        placas: {
+          title: 'Placa',
+          filter: false
+        },
+        telefono: {
+          title: 'Teléfono',
+          filter: false
+        }
+      }
+    };
+
     // this._agregarInfoTaxistasFake();
     // this._agregarUbicacionTaxistasFake();
   }
@@ -71,6 +104,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
                       data: taxistaData.payload.doc.data(),
                     });
                   });
+                 this.source = new LocalDataSource(this.infoTaxis);
                 });
       this._observableSubscriptions.push(s);
   }
@@ -84,11 +118,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
                     info.uid = taxistaData.payload.doc.id;
                     this.infoTaxis.push(info);
                   });
-                  this.api = async (filter) => {
-                    return {
-                      data: this.infoTaxis
-                    };
-                  };
                 });
     this._observableSubscriptions.push(s);
   }
@@ -98,6 +127,20 @@ export class DashboardComponent implements OnInit, OnDestroy {
         .then(data => {
           console.log(data);
         });
+  }
+
+  onSearch(query: string = '') {
+    this.source.setFilter([
+      // fields we want to include in the search
+      {
+        field: 'nombre',
+        search: query
+      },
+      {
+        field: 'uid',
+        search: query
+      }
+    ], false);
   }
 
   ngOnDestroy() {

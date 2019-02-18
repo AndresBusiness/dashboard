@@ -13,13 +13,15 @@ export class FirebaseService {
   obtenerUbicacionTaxistas() {
     return this.afs.collection('ubicacionTaxistas',
                               ref => ref.where('activo', '==', true)
-                              .where('enTurno', '==', true)).snapshotChanges();
+                              .where('enTurno', '==', true)
+                              .limit(20)).snapshotChanges();
   }
 
   obtenerInfoTaxistas() {
     return this.afs.collection('infoTaxistas',
                               ref => ref.where('activo', '==', true)
-                              .where('enTurno', '==', true)).snapshotChanges();
+                              .where('enTurno', '==', true)
+                              .limit(15)).snapshotChanges();
   }
 
   buscarInfoTaxistas(id: string) {

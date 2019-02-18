@@ -8,11 +8,12 @@ import { Router } from '@angular/router';
   styles: []
 })
 export class SidebarComponent implements OnInit {
-
+  usuario: any;
   constructor(public _servicioAuth: AuthService,
               private router: Router) { }
 
   ngOnInit() {
+    this.usuario = this._servicioAuth.usuario;
   }
 
   salir() {

@@ -8,12 +8,13 @@ import { Router } from '@angular/router';
   styles: []
 })
 export class HeaderComponent implements OnInit {
-
+  usuario: any;
   constructor(private servicioAuth: AuthService,
               private router: Router,
               public _usuario: AuthService) { }
 
   ngOnInit() {
+    this.usuario = this._usuario.usuario;
   }
 
   salir() {

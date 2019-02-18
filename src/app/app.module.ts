@@ -13,6 +13,7 @@ import { APP_ROUTES } from './app.routes';
 import { PagesModule } from './pages/pages.module';
 import { SharedModule } from './shared/shared.module';
 
+
 // DEPENDENCIAS DE ANGULARFIRE
 import { AngularFireModule } from 'angularfire2';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
@@ -24,7 +25,6 @@ import { FirebaseService } from './service/firebase.service';
 import { AuthService } from './service/auth.service';
 import { AuthGuardService } from './service/guard.service';
 import { ReadjsonService } from './service/readjson.service';
-
 
 
 @NgModule({

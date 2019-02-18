@@ -33,8 +33,8 @@ import { AdminPerfilComponent } from '../admin-perfil/admin-perfil.component';
 import { UsuariosComponent } from './usuarios/usuarios.component';
 // PLUGINS
 import { GridModule } from 'ng2-jsgrid';
-import { GridComponent } from '../components/grid/GridComponent';
 import { HeaderComponent } from '../shared/header/header.component';
+import { Ng2SmartTableModule } from 'ng2-smart-table';
 
 @NgModule({
   declarations: [
@@ -49,8 +49,7 @@ import { HeaderComponent } from '../shared/header/header.component';
     AdminPerfilComponent,
     PagesComponent,
     KeysPipe,
-    UsuariosComponent,
-    GridComponent
+    UsuariosComponent
   ],
   exports: [
     DashboardComponent,
@@ -67,6 +66,7 @@ import { HeaderComponent } from '../shared/header/header.component';
     SharedModule,
     FormsModule,
     ChartsModule,
+    Ng2SmartTableModule,
     BrowserModule,
     GridModule.forRoot(),
     AgmCoreModule.forRoot({

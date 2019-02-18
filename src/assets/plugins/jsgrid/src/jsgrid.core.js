@@ -20,7 +20,7 @@
         EMPTY_HREF = "javascript:void(0);";
 
     var getOrApply = function(value, context) {
-        if($.isFunction(value)) {
+        if ($.isFunction(value)) {
             return value.apply(context, $.makeArray(arguments).slice(2));
         }
         return value;
@@ -29,7 +29,7 @@
     var normalizePromise = function(promise) {
         var d = $.Deferred();
 
-        if(promise && promise.then) {
+        if (promise && promise.then) {
             promise.then(function() {
                 d.resolve.apply(d, arguments);
             }, function() {
@@ -78,7 +78,7 @@
         rowRenderer: null,
 
         rowClick: function(args) {
-            if(this.editing) {
+            if (this.editing) {
                 this.editItem($(args.event.target).closest("tr"));
             }
         },
@@ -92,15 +92,15 @@
         headerRowClass: "jsgrid-header-row",
         headerCellClass: "jsgrid-header-cell",
 
-        filtering: false,
+        filtering: true,
         filterRowRenderer: null,
         filterRowClass: "jsgrid-filter-row",
 
-        inserting: false,
+        inserting: true,
         insertRowRenderer: null,
         insertRowClass: "jsgrid-insert-row",
 
-        editing: false,
+        editing: true,
         editRowRenderer: null,
         editRowClass: "jsgrid-edit-row",
 
@@ -113,12 +113,12 @@
         evenRowClass: "jsgrid-alt-row",
         cellClass: "jsgrid-cell",
 
-        sorting: false,
+        sorting: true,
         sortableClass: "jsgrid-header-sortable",
         sortAscClass: "jsgrid-header-sort jsgrid-header-sort-asc",
         sortDescClass: "jsgrid-header-sort jsgrid-header-sort-desc",
 
-        paging: false,
+        paging: true,
         pagerContainer: null,
         pageIndex: 1,
         pageSize: 20,
@@ -137,10 +137,10 @@
         pageClass: "jsgrid-pager-page",
         currentPageClass: "jsgrid-pager-current-page",
 
-        customLoading: false,
-        pageLoading: false,
+        customLoading: true,
+        pageLoading: true,
 
-        autoload: false,
+        autoload: true,
         controller: defaultController,
 
         loadIndication: true,
@@ -195,9 +195,9 @@
         },
 
         loadStrategy: function() {
-            return this.pageLoading
-                ? new jsGrid.loadStrategies.PageLoadingStrategy(this)
-                : new jsGrid.loadStrategies.DirectLoadingStrategy(this);
+            return this.pageLoading ?
+                new jsGrid.loadStrategies.PageLoadingStrategy(this) :
+                new jsGrid.loadStrategies.DirectLoadingStrategy(this);
         },
 
         _initLoadStrategy: function() {
@@ -210,7 +210,7 @@
 
         renderTemplate: function(source, context, config) {
             args = [];
-            for(var key in config) {
+            for (var key in config) {
                 args.push(config[key]);
             }
 
@@ -231,7 +231,7 @@
         _initFields: function() {
             var self = this;
             self.fields = $.map(self.fields, function(field) {
-                if($.isPlainObject(field)) {
+                if ($.isPlainObject(field)) {
                     var fieldConstructor = (field.type && jsGrid.fields[field.type]) || jsGrid.Field;
                     field = new fieldConstructor(field);
                 }
@@ -245,7 +245,7 @@
         },
 
         _attachWindowResizeCallback: function() {
-            if(this.updateOnResize) {
+            if (this.updateOnResize) {
                 $(window).on("resize", $.proxy(this._refreshSize, this));
             }
         },
@@ -258,7 +258,7 @@
             var optionChangingEventArgs,
                 optionChangedEventArgs;
 
-            if(arguments.length === 1)
+            if (arguments.length === 1)
                 return this[key];
 
             optionChangingEventArgs = {
@@ -280,7 +280,7 @@
         fieldOption: function(field, key, value) {
             field = this._normalizeField(field);
 
-            if(arguments.length === 2)
+            if (arguments.length === 2)
                 return field[key];
 
             field[key] = value;
@@ -290,7 +290,7 @@
         _handleOptionChange: function(name, value) {
             this[name] = value;
 
-            switch(name) {
+            switch (name) {
                 case "width":
                 case "height":
                     this._refreshSize();
@@ -452,14 +452,14 @@
         _eachField: function(callBack) {
             var self = this;
             $.each(this.fields, function(index, field) {
-                if(field.visible) {
+                if (field.visible) {
                     callBack.call(self, field, index);
                 }
             });
         },
 
         _createHeaderRow: function() {
-            if($.isFunction(this.headerRowRenderer))
+            if ($.isFunction(this.headerRowRenderer))
                 return $(this.renderTemplate(this.headerRowRenderer, this));
 
             var $result = $("<tr>").addClass(this.headerRowClass);
@@ -469,7 +469,7 @@
                     .append(this.renderTemplate(field.headerTemplate, field))
                     .appendTo($result);
 
-                if(this.sorting && field.sorting) {
+                if (this.sorting && field.sorting) {
                     $th.addClass(this.sortableClass)
                         .on("click", $.proxy(function() {
                             this.sort(index);
@@ -488,7 +488,7 @@
         },
 
         _createFilterRow: function() {
-            if($.isFunction(this.filterRowRenderer))
+            if ($.isFunction(this.filterRowRenderer))
                 return $(this.renderTemplate(this.filterRowRenderer, this));
 
             var $result = $("<tr>").addClass(this.filterRowClass);
@@ -503,7 +503,7 @@
         },
 
         _createInsertRow: function() {
-            if($.isFunction(this.insertRowRenderer))
+            if ($.isFunction(this.insertRowRenderer))
                 return $(this.renderTemplate(this.insertRowRenderer, this));
 
             var $result = $("<tr>").addClass(this.insertRowClass);
@@ -573,7 +573,7 @@
             var $content = this._content;
             $content.empty();
 
-            if(!this.data.length) {
+            if (!this.data.length) {
                 $content.append(this._createNoDataRow());
                 return this;
             }
@@ -581,7 +581,7 @@
             var indexFrom = this._loadStrategy.firstDisplayIndex();
             var indexTo = this._loadStrategy.lastDisplayIndex();
 
-            for(var itemIndex = indexFrom; itemIndex < indexTo; itemIndex++) {
+            for (var itemIndex = indexFrom; itemIndex < indexTo; itemIndex++) {
                 var item = this.data[itemIndex];
                 $content.append(this._createRow(item, itemIndex));
             }
@@ -601,7 +601,7 @@
         _createRow: function(item, itemIndex) {
             var $result;
 
-            if($.isFunction(this.rowRenderer)) {
+            if ($.isFunction(this.rowRenderer)) {
                 $result = this.renderTemplate(this.rowRenderer, this, { item: item, itemIndex: itemIndex });
             } else {
                 $result = $("<tr>");
@@ -625,7 +625,7 @@
                     });
                 }, this));
 
-            if(this.selecting) {
+            if (this.selecting) {
                 this._attachRowHover($result);
             }
 
@@ -661,8 +661,8 @@
             var $result;
             var fieldValue = this._getItemFieldValue(item, field);
 
-            var args = { value: fieldValue, item : item };
-            if($.isFunction(field.cellRenderer)) {
+            var args = { value: fieldValue, item: item };
+            if ($.isFunction(field.cellRenderer)) {
                 $result = this.renderTemplate(field.cellRenderer, field, args);
             } else {
                 $result = $("<td>").append(this.renderTemplate(field.itemTemplate || fieldValue, field, args));
@@ -675,7 +675,7 @@
             var props = field.name.split('.');
             var result = item[props.shift()];
 
-            while(result && props.length) {
+            while (result && props.length) {
                 result = result[props.shift()];
             }
 
@@ -687,14 +687,14 @@
             var current = item;
             var prop = props[0];
 
-            while(current && props.length) {
+            while (current && props.length) {
                 item = current;
                 prop = props.shift();
                 current = item[prop];
             }
 
-            if(!current) {
-                while(props.length) {
+            if (!current) {
+                while (props.length) {
                     item = item[prop] = {};
                     prop = props.shift();
                 }
@@ -704,7 +704,7 @@
         },
 
         sort: function(field, order) {
-            if($.isPlainObject(field)) {
+            if ($.isPlainObject(field)) {
                 order = field.order;
                 field = field.field;
             }
@@ -730,11 +730,11 @@
         },
 
         _normalizeField: function(field) {
-            if($.isNumeric(field)) {
+            if ($.isNumeric(field)) {
                 return this.fields[field];
             }
 
-            if(typeof field === "string") {
+            if (typeof field === "string") {
                 return $.grep(this.fields, function(f) {
                     return f.name === field;
                 })[0];
@@ -762,7 +762,7 @@
             var sortFactor = this._sortFactor(),
                 sortField = this._sortField;
 
-            if(sortField) {
+            if (sortField) {
                 this.data.sort(function(item1, item2) {
                     return sortFactor * sortField.sortingFunc(item1[sortField.name], item2[sortField.name]);
                 });
@@ -787,7 +787,7 @@
             var $pagerContainer = this._pagerContainer;
             $pagerContainer.empty();
 
-            if(this.paging) {
+            if (this.paging) {
                 $pagerContainer.append(this._createPager());
             }
 
@@ -798,7 +798,7 @@
         _createPager: function() {
             var $result;
 
-            if($.isFunction(this.pagerRenderer)) {
+            if ($.isFunction(this.pagerRenderer)) {
                 $result = $(this.pagerRenderer({
                     pageIndex: this.pageIndex,
                     pageCount: this._pagesCount()
@@ -821,21 +821,21 @@
             return $.map(pagerParts, $.proxy(function(pagerPart) {
                 var result = pagerPart;
 
-                if(pagerPart === PAGES_PLACEHOLDER) {
+                if (pagerPart === PAGES_PLACEHOLDER) {
                     result = this._createPages();
-                } else if(pagerPart === FIRST_PAGE_PLACEHOLDER) {
+                } else if (pagerPart === FIRST_PAGE_PLACEHOLDER) {
                     result = this._createPagerNavButton(this.pageFirstText, 1, pageIndex > 1);
-                } else if(pagerPart === PREV_PAGE_PLACEHOLDER) {
+                } else if (pagerPart === PREV_PAGE_PLACEHOLDER) {
                     result = this._createPagerNavButton(this.pagePrevText, pageIndex - 1, pageIndex > 1);
-                } else if(pagerPart === NEXT_PAGE_PLACEHOLDER) {
+                } else if (pagerPart === NEXT_PAGE_PLACEHOLDER) {
                     result = this._createPagerNavButton(this.pageNextText, pageIndex + 1, pageIndex < pageCount);
-                } else if(pagerPart === LAST_PAGE_PLACEHOLDER) {
+                } else if (pagerPart === LAST_PAGE_PLACEHOLDER) {
                     result = this._createPagerNavButton(this.pageLastText, pageCount, pageIndex < pageCount);
-                } else if(pagerPart === PAGE_INDEX_PLACEHOLDER) {
+                } else if (pagerPart === PAGE_INDEX_PLACEHOLDER) {
                     result = pageIndex;
-                } else if(pagerPart === PAGE_COUNT_PLACEHOLDER) {
+                } else if (pagerPart === PAGE_COUNT_PLACEHOLDER) {
                     result = pageCount;
-                } else if(pagerPart === ITEM_COUNT_PLACEHOLDER) {
+                } else if (pagerPart === ITEM_COUNT_PLACEHOLDER) {
                     result = itemCount;
                 }
 
@@ -849,17 +849,17 @@
                 firstDisplayingPage = this._firstDisplayingPage,
                 pages = [];
 
-            if(firstDisplayingPage > 1) {
+            if (firstDisplayingPage > 1) {
                 pages.push(this._createPagerPageNavButton(this.pageNavigatorPrevText, this.showPrevPages));
             }
 
-            for(var i = 0, pageNumber = firstDisplayingPage; i < pageButtonCount && pageNumber <= pageCount; i++, pageNumber++) {
-                pages.push(pageNumber === this.pageIndex
-                    ? this._createPagerCurrentPage()
-                    : this._createPagerPage(pageNumber));
+            for (var i = 0, pageNumber = firstDisplayingPage; i < pageButtonCount && pageNumber <= pageCount; i++, pageNumber++) {
+                pages.push(pageNumber === this.pageIndex ?
+                    this._createPagerCurrentPage() :
+                    this._createPagerPage(pageNumber));
             }
 
-            if((firstDisplayingPage + pageButtonCount - 1) < pageCount) {
+            if ((firstDisplayingPage + pageButtonCount - 1) < pageCount) {
                 pages.push(this._createPagerPageNavButton(this.pageNavigatorNextText, this.showNextPages));
             }
 
@@ -925,7 +925,7 @@
             var result;
 
             return function() {
-                if(result === undefined) {
+                if (result === undefined) {
                     var $ghostContainer = $("<div style='width:50px;height:50px;overflow:hidden;position:absolute;top:-10000px;left:-10000px;'></div>");
                     var $ghostContent = $("<div style='height:100px;'></div>");
                     $ghostContainer.append($ghostContent).appendTo("body");
@@ -947,11 +947,11 @@
 
             container.height(height);
 
-            if(height !== "auto") {
+            if (height !== "auto") {
                 height = container.height();
 
                 nonBodyHeight = this._header.outerHeight(true);
-                if(pagerContainer.parents(container).length) {
+                if (pagerContainer.parents(container).length) {
                     nonBodyHeight += pagerContainer.outerHeight(true);
                 }
 
@@ -973,15 +973,15 @@
                 pageButtonCount = this.pageButtonCount,
                 pageCount = this._pagesCount();
 
-            this._firstDisplayingPage = (firstDisplayingPage + 2 * pageButtonCount > pageCount)
-                ? pageCount - pageButtonCount + 1
-                : firstDisplayingPage + pageButtonCount;
+            this._firstDisplayingPage = (firstDisplayingPage + 2 * pageButtonCount > pageCount) ?
+                pageCount - pageButtonCount + 1 :
+                firstDisplayingPage + pageButtonCount;
 
             this._refreshPager();
         },
 
         openPage: function(pageIndex) {
-            if(pageIndex < 1 || pageIndex > this._pagesCount())
+            if (pageIndex < 1 || pageIndex > this._pagesCount())
                 return;
 
             this._setPage(pageIndex);
@@ -994,11 +994,11 @@
 
             this.pageIndex = pageIndex;
 
-            if(pageIndex < firstDisplayingPage) {
+            if (pageIndex < firstDisplayingPage) {
                 this._firstDisplayingPage = pageIndex;
             }
 
-            if(pageIndex > firstDisplayingPage + pageButtonCount - 1) {
+            if (pageIndex > firstDisplayingPage + pageButtonCount - 1) {
                 this._firstDisplayingPage = pageIndex - pageButtonCount + 1;
             }
 
@@ -1008,13 +1008,13 @@
         },
 
         _controllerCall: function(method, param, isCanceled, doneCallback) {
-            if(isCanceled)
+            if (isCanceled)
                 return $.Deferred().reject().promise();
 
             this._showLoading();
 
             var controller = this._controller;
-            if(!controller || !controller[method]) {
+            if (!controller || !controller[method]) {
                 throw Error("controller has no method '" + method + "'");
             }
 
@@ -1031,7 +1031,7 @@
         },
 
         _showLoading: function() {
-            if(!this.loadIndication)
+            if (!this.loadIndication)
                 return;
 
             clearTimeout(this._loadingTimer);
@@ -1042,7 +1042,7 @@
         },
 
         _hideLoading: function() {
-            if(!this.loadIndication)
+            if (!this.loadIndication)
                 return;
 
             clearTimeout(this._loadingTimer);
@@ -1065,7 +1065,7 @@
             });
 
             return this._controllerCall("loadData", filter, args.cancel, function(loadedData) {
-                if(!loadedData)
+                if (!loadedData)
                     return;
 
                 this._loadStrategy.finishLoad(loadedData);
@@ -1079,7 +1079,7 @@
         getFilter: function() {
             var result = {};
             this._eachField(function(field) {
-                if(field.filtering) {
+                if (field.filtering) {
                     this._setItemFieldValue(result, field, field.filterValue());
                 }
             });
@@ -1087,7 +1087,7 @@
         },
 
         _sortingParams: function() {
-            if(this.sorting && this._sortField) {
+            if (this.sorting && this._sortField) {
                 return {
                     sortField: this._sortField.name,
                     sortOrder: this._sortOrder
@@ -1114,7 +1114,7 @@
         insertItem: function(item) {
             var insertingItem = item || this._getValidatedInsertItem();
 
-            if(!insertingItem)
+            if (!insertingItem)
                 return $.Deferred().reject().promise();
 
             var args = this._callEventHandler(this.onItemInserting, {
@@ -1139,7 +1139,7 @@
         _getInsertItem: function() {
             var result = {};
             this._eachField(function(field) {
-                if(field.inserting) {
+                if (field.inserting) {
                     this._setItemFieldValue(result, field, field.insertValue());
                 }
             });
@@ -1156,9 +1156,9 @@
             };
 
             this._eachField(function(field) {
-                if(!field.validate ||
-                   ($row === this._insertRow && !field.inserting) ||
-                   ($row === this._getEditRow() && !field.editing))
+                if (!field.validate ||
+                    ($row === this._insertRow && !field.inserting) ||
+                    ($row === this._getEditRow() && !field.editing))
                     return;
 
                 var fieldValue = this._getItemFieldValue(item, field);
@@ -1170,7 +1170,7 @@
 
                 this._setCellValidity($row.children().eq(this._visibleFieldIndex(field)), errors);
 
-                if(!errors.length)
+                if (!errors.length)
                     return;
 
                 validationErrors.push.apply(validationErrors,
@@ -1179,7 +1179,7 @@
                     }));
             });
 
-            if(!validationErrors.length)
+            if (!validationErrors.length)
                 return true;
 
             var invalidArgs = $.extend({
@@ -1206,13 +1206,13 @@
 
         editItem: function(item) {
             var $row = this.rowByItem(item);
-            if($row.length) {
+            if ($row.length) {
                 this._editRow($row);
             }
         },
 
         rowByItem: function(item) {
-            if(item.jquery || item.nodeType)
+            if (item.jquery || item.nodeType)
                 return $(item);
 
             return this._content.find("tr").filter(function() {
@@ -1221,7 +1221,7 @@
         },
 
         _editRow: function($row) {
-            if(!this.editing)
+            if (!this.editing)
                 return;
 
             var item = $row.data(JSGRID_ROW_DATA_KEY);
@@ -1232,10 +1232,10 @@
                 itemIndex: this._itemIndex(item)
             });
 
-            if(args.cancel)
+            if (args.cancel)
                 return;
 
-            if(this._editingRow) {
+            if (this._editingRow) {
                 this.cancelEdit();
             }
 
@@ -1248,7 +1248,7 @@
         },
 
         _createEditRow: function(item) {
-            if($.isFunction(this.editRowRenderer)) {
+            if ($.isFunction(this.editRowRenderer)) {
                 return $(this.renderTemplate(this.editRowRenderer, this, { item: item, itemIndex: this._itemIndex(item) }));
             }
 
@@ -1266,14 +1266,14 @@
         },
 
         updateItem: function(item, editedItem) {
-            if(arguments.length === 1) {
+            if (arguments.length === 1) {
                 editedItem = item;
             }
 
             var $row = item ? this.rowByItem(item) : this._editingRow;
             editedItem = editedItem || this._getValidatedEditedItem();
 
-            if(!editedItem)
+            if (!editedItem)
                 return;
 
             return this._updateRow($row, editedItem);
@@ -1331,7 +1331,7 @@
         _getEditedItem: function() {
             var result = {};
             this._eachField(function(field) {
-                if(field.editing) {
+                if (field.editing) {
                     this._setItemFieldValue(result, field, field.editValue());
                 }
             });
@@ -1339,7 +1339,7 @@
         },
 
         cancelEdit: function() {
-            if(!this._editingRow)
+            if (!this._editingRow)
                 return;
 
             var $row = this._editingRow,
@@ -1364,10 +1364,10 @@
         deleteItem: function(item) {
             var $row = this.rowByItem(item);
 
-            if(!$row.length)
+            if (!$row.length)
                 return;
 
-            if(this.confirmDeleting && !window.confirm(getOrApply(this.deleteConfirm, this, $row.data(JSGRID_ROW_DATA_KEY))))
+            if (this.confirmDeleting && !window.confirm(getOrApply(this.deleteConfirm, this, $row.data(JSGRID_ROW_DATA_KEY))))
                 return;
 
             return this._deleteRow($row);
@@ -1405,10 +1405,10 @@
                 instance = $element.data(JSGRID_DATA_KEY),
                 methodResult;
 
-            if(instance) {
-                if(typeof config === "string") {
+            if (instance) {
+                if (typeof config === "string") {
                     methodResult = instance[config].apply(instance, methodArgs);
-                    if(methodResult !== undefined && methodResult !== instance) {
+                    if (methodResult !== undefined && methodResult !== instance) {
                         result = methodResult;
                         return false;
                     }
@@ -1430,7 +1430,7 @@
     var setDefaults = function(config) {
         var componentPrototype;
 
-        if($.isPlainObject(config)) {
+        if ($.isPlainObject(config)) {
             componentPrototype = Grid.prototype;
         } else {
             componentPrototype = fields[config].prototype;
@@ -1445,7 +1445,7 @@
     var locale = function(lang) {
         var localeConfig = $.isPlainObject(lang) ? lang : locales[lang];
 
-        if(!localeConfig)
+        if (!localeConfig)
             throw Error("unknown locale " + lang);
 
         setLocale(jsGrid, localeConfig);
@@ -1453,12 +1453,12 @@
 
     var setLocale = function(obj, localeConfig) {
         $.each(localeConfig, function(field, value) {
-            if($.isPlainObject(value)) {
+            if ($.isPlainObject(value)) {
                 setLocale(obj[field] || obj[field[0].toUpperCase() + field.slice(1)], value);
                 return;
             }
 
-            if(obj.hasOwnProperty(field)) {
+            if (obj.hasOwnProperty(field)) {
                 obj[field] = value;
             } else {
                 obj.prototype[field] = value;
