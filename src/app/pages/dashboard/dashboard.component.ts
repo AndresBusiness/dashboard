@@ -33,6 +33,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
         edit: false,
         delete: false,
       },
+      defaultStyle: false,
+      attr: {
+      class: 'responstable'
+      },
       columns: {
         img: {
           title: 'Foto',
@@ -47,7 +51,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         },
         nombre: {
           title: 'Nombre',
-          filter: false
+          filter: false,
         },
         correo: {
           title: 'Correo',
