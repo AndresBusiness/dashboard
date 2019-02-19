@@ -18,10 +18,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
   infoTaxis: any [];
   settings: any;
   source: LocalDataSource;
+  loading: boolean;
 
   private _observableSubscriptions: Subscription[] = [];
   constructor(private servicioFirebase: FirebaseService,
               private servicejson: ReadjsonService) {
+       this.loading = true;
        this._observarInfoTaxistas();
        this._observarUbicacionTaxistas();
   }
@@ -29,13 +31,21 @@ export class DashboardComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.settings = {
       actions: {
+        title: 'Ver',
         add: false,
         edit: false,
         delete: false,
+        custom: [
+          {
+            name: 'Ver',
+            title: '<i class="icon-action-redo"></i>'
+          }
+        ],
+        position: 'right',
       },
       defaultStyle: false,
       attr: {
-      class: 'responstable'
+      class: 'table table-hover table-bordered'
       },
       columns: {
         img: {
@@ -43,7 +53,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
           filter: false,
           type: 'html',
           valuePrepareFunction: (img: string) => {
-            return `<img width="50px" src="${img}" />`; },
+            return `<img width="50px" class="profile-pic" src="${img}" />`; },
         },
         uid: {
           title: '#',
@@ -59,10 +69,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
         },
         viajesHechos: {
           title: 'Viajes hechos',
-          filter: false
-        },
-        placas: {
-          title: 'Placa',
           filter: false
         },
         telefono: {
@@ -83,6 +89,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.servicioFirebase.agregarInfoTaxistasFake(informacion[i], i);
       }
     });
+  }
+  onCustom(event) {
+    console.log(event.data);
+  }
+
+  onUserRowSelect(event): void {
+    console.log(event.data);
   }
 
 
@@ -117,6 +130,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     const s = this.servicioFirebase.obtenerInfoTaxistas()
                 .subscribe((infoSnapshot) => {
                   this.infoTaxis = [];
+                  this.loading = false;
                   infoSnapshot.forEach((taxistaData: any) => {
                     const info = taxistaData.payload.doc.data();
                     info.uid = taxistaData.payload.doc.id;

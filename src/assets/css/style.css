@@ -5363,11 +5363,11 @@ Table Cell
 
 .table thead th,
 .table th {
-    font-weight: 500;
+    font-weight: 400;
 }
 
 .table-hover tbody tr:hover {
-    background: #e9edf2;
+    background: #faf6f5;
 }
 
 .nowrap {
@@ -8065,6 +8065,13 @@ File: scss
     animation-fill-mode: both;
 }
 
+.normal {
+    -webkit-animation-duration: 1s;
+    animation-duration: 1s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+}
+
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -8076,4 +8083,32 @@ File: scss
 
 .fadeIn {
     animation-name: fadeIn;
+}
+
+
+/* Customización de tabla */
+
+th a {
+    color: #b72c29 !important;
+}
+
+tr td {
+    margin: 1px !important;
+    padding: 1px !important;
+    vertical-align: middle !important;
+}
+
+tr th {
+    margin: 0px !important;
+    padding: 0px !important;
+    padding-top: 15px !important;
+}
+
+tr td:last-child,
+tr th:last-child,
+tr td:first-child,
+tr th:first-child,
+tr td:nth-child(2),
+tr td:nth-child(5) {
+    text-align: center;
 }

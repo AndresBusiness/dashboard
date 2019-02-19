@@ -6,12 +6,16 @@
                 <li class="nav-item"> <a class="nav-link active" data-toggle="tab" href="#registro" role="tab"><span class="hidden-sm-up"><i class="icon-list"></i></span> <span class="hidden-xs-down">Registros</span></a> </li>
                 <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#mapa" role="tab"><span class="hidden-sm-up"><i class="icon-map"></i></span> <span class="hidden-xs-down">Mapa</span></a> </li>
             </ul>
+
             <!-- Tab panes -->
             <div class="tab-content">
                 <div class="tab-pane active" id="registro" role="tabpanel">
                     <div class="p-20">
                         <input #search class="form-control search" type="text" placeholder="Buscar por nombre o por número de taxi ..." (keydown.enter)="onSearch(search.value)">
-                        <ng2-smart-table [settings]="settings" [source]="source"></ng2-smart-table>
+                        <app-loading *ngIf="loading" margin></app-loading>
+                        <div class="table-responsive animated fadeIn normal" *ngIf="!loading">
+                            <ng2-smart-table [settings]="settings" [source]="source" (userRowSelect)="onUserRowSelect($event)" (custom)="onCustom($event)"></ng2-smart-table>
+                        </div>
                     </div>
                 </div>
                 <div class="tab-pane p-20" id="mapa" role="tabpanel">
