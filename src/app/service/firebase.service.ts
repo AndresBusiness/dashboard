@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AngularFirestore } from 'angularfire2/firestore';
+import { AngularFirestore, AngularFirestoreDocument } from 'angularfire2/firestore';
 import * as firebase from 'firebase/app';
 
 @Injectable({
@@ -40,7 +40,7 @@ export class FirebaseService {
   }
 
   agregarInfoTaxistasFake(info: any, number: number ) {
-  return this.afs.collection('infoTaxistas').doc(number.toString()).set(info);
+   return this.afs.collection('infoTaxistas').doc(number.toString()).set(info);
   }
 
   agregarUbicacionTaxistasFake(info: any, numeroTaxi: string ) {
@@ -53,6 +53,22 @@ export class FirebaseService {
       libre: info.libre
     };
     return this.afs.collection('ubicacionTaxistas').doc(numeroTaxi).set(data);
-    }
+  }
 
+  actualizarPerfilUsuario(usuario: any) {
+    const usuarioFirestore: AngularFirestoreDocument<any> = this.afs.doc(`admin/${usuario.uid}`);
+    const usuarioAuthAccount = firebase.auth().currentUser;
+
+    const data: any = {
+      nombre: usuario.nombre,
+      email: usuario.email,
+      img: usuario.img
+    };
+    usuarioFirestore.set(data);
+
+    return usuarioAuthAccount.updateProfile({
+            displayName: usuario.nombre,
+            photoURL: usuario.img
+          });
+  }
 }

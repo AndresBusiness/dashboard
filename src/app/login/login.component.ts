@@ -2,6 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AuthService } from '../service/auth.service';
 import { Router } from '@angular/router';
+import swal from 'sweetalert';
+import { LoadingBarService } from '@ngx-loading-bar/core';
+
+
 declare function init_plugins();
 @Component({
   selector: 'app-login',
@@ -12,10 +16,12 @@ export class LoginComponent implements OnInit {
 
   loginForm: FormGroup;
   errorMessage = '';
+  colorBar: '#b72c29';
 
   constructor(
     public authService: AuthService,
     private router: Router,
+    private loadingBar: LoadingBarService,
     private fb: FormBuilder) {
     this.createForm();
   }
@@ -31,20 +37,31 @@ export class LoginComponent implements OnInit {
     });
   }
   tryLogin(value) {
+    this.startLoading();
     this.authService.Login(value)
     .then(user => {
       if (user) {
         this.authService._obtenerUsuarioCloudStorage(user.uid)
         .then(data => {
           if (data) {
+            this.stopLoading();
             this.router.navigate(['/dashboard']);
           }
         });
       }
     }, err => {
-      console.log(err);
-      this.errorMessage = err.message;
+      this.stopLoading();
+      swal('Error!', err.message, 'error');
+      // this.errorMessage = err.message;
     });
+  }
+
+  startLoading() {
+    this.loadingBar.start();
+  }
+
+  stopLoading() {
+      this.loadingBar.complete();
   }
 
 

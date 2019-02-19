@@ -79,9 +79,13 @@ export class AuthService {
 
 guardarStorage( id: string, usuario: any ) {
   localStorage.setItem('uid', id);
+  this.uid = id;
+  this.actualizarUsuarioStore(usuario);
+}
+
+actualizarUsuarioStore(usuario:any){
   localStorage.setItem('user', JSON.stringify(usuario));
   this.usuario = usuario;
-  this.uid = id;
 }
 
 borrarStorage() {

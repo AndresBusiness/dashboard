@@ -16,7 +16,7 @@ import { SharedModule } from './shared/shared.module';
 
 // DEPENDENCIAS DE ANGULARFIRE
 import { AngularFireModule } from 'angularfire2';
-import { AngularFirestoreModule } from 'angularfire2/firestore';
+import { AngularFirestoreModule, FirestoreSettingsToken } from 'angularfire2/firestore';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { environment } from '../environments/environment';
 
@@ -25,6 +25,9 @@ import { FirebaseService } from './service/firebase.service';
 import { AuthService } from './service/auth.service';
 import { AuthGuardService } from './service/guard.service';
 import { ReadjsonService } from './service/readjson.service';
+
+// PLUGIN LOADING
+import { LoadingBarModule } from '@ngx-loading-bar/core';
 
 
 @NgModule({
@@ -42,9 +45,15 @@ import { ReadjsonService } from './service/readjson.service';
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule, // imports firebase/firestore, only needed for database features
     AngularFireAuthModule, // imports firebase/auth, only needed for auth features
-    APP_ROUTES
+    APP_ROUTES,
+    LoadingBarModule,
   ],
-  providers: [FirebaseService, AuthService, AuthGuardService, ReadjsonService],
+  providers: [FirebaseService,
+   AuthService,
+   AuthGuardService,
+   ReadjsonService,
+   { provide: FirestoreSettingsToken, useValue: {} }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
