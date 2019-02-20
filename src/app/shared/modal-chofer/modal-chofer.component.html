@@ -1,0 +1,32 @@
+<div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+          <h4 class="modal-title" id="myModalLabel">Unidad  {{ chofer.unidad }}</h4>
+          <button type="button" class="close" aria-label="Close" (click)="activeModal.close('Close click')" aria-hidden="true">×</button>
+      </div>
+      <div class="modal-body" >
+          <div style="text-align: center;">
+            <img [src]="chofer.img" width="100" />
+            <h4 class="card-title m-t-10">{{ chofer.nombre }}</h4>
+
+            <h6 class="card-subtitle">{{ chofer.descripcionUbicacion }}</h6>
+          </div>
+          <div>
+              <hr>
+          </div>
+          <div>
+              <small class="text-muted">Correo electrónico: </small>
+              <h6>{{ chofer.correo }}</h6>
+              <small class="text-muted">Teléfono: </small>
+              <h6>{{ chofer.telefono}}</h6>
+              <small class="text-muted">Estatus del Chofer: </small>
+              <span *ngIf="chofer.choferActivo"  class="label label-success">Activado</span>
+              <span *ngIf="!chofer.choferActivo" class="label label-danger">Desactivado</span>
+              <h6><a href="">Ver historia</a> </h6>
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">Close</button>
+      </div>
+    </div>
+  </div>

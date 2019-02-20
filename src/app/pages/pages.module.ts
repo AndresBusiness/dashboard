@@ -1,13 +1,20 @@
+import { ModalChoferComponent } from './../shared/modal-chofer/modal-chofer.component';
 import { NgModule } from '@angular/core';
 
+// COMPONENTES
 import { PagesComponent } from './pages.component';
-
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ReportesComponent } from './reportes/reportes.component';
 import { PasajerosComponent } from './pasajeros/pasajeros.component';
 import { SolicitudesComponent } from './solicitudes/solicitudes.component';
 import { TabuladorComponent } from './tabulador/tabulador.component';
-
+import { DetalleChoferComponent } from './detalle-chofer/detalle-chofer.component';
+import { ChoferesComponent } from './choferes/choferes.component';
+import { HeaderComponent } from '../shared/header/header.component';
+import { AdminConfiguracionComponent } from '../admin-configuracion/admin-configuracion.component';
+import { AdminMensajesComponent } from '../admin-mensajes/admin-mensajes.component';
+import { AdminPerfilComponent } from '../admin-perfil/admin-perfil.component';
+import { UsuariosComponent } from './usuarios/usuarios.component';
 
 // MODULOS
 import { SharedModule } from '../shared/shared.module';
@@ -27,16 +34,11 @@ import { BrowserModule } from '@angular/platform-browser';
 
 // PLUGIN
 import { AgmCoreModule } from '@agm/core';
-import { AdminConfiguracionComponent } from '../admin-configuracion/admin-configuracion.component';
-import { AdminMensajesComponent } from '../admin-mensajes/admin-mensajes.component';
-import { AdminPerfilComponent } from '../admin-perfil/admin-perfil.component';
-import { UsuariosComponent } from './usuarios/usuarios.component';
+
 // PLUGINS
 import { GridModule } from 'ng2-jsgrid';
-import { HeaderComponent } from '../shared/header/header.component';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
-import { DetalleChoferComponent } from './detalle-chofer/detalle-chofer.component';
-import { ChoferesComponent } from './choferes/choferes.component';
+import { NgbModule, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -54,7 +56,7 @@ import { ChoferesComponent } from './choferes/choferes.component';
     PagesComponent,
     KeysPipe,
     UsuariosComponent,
-    DetalleChoferComponent
+    ModalChoferComponent
   ],
   exports: [
     DashboardComponent,
@@ -65,7 +67,8 @@ import { ChoferesComponent } from './choferes/choferes.component';
     SolicitudesComponent,
     AdminConfiguracionComponent,
     AdminMensajesComponent,
-    AdminPerfilComponent
+    AdminPerfilComponent,
+    ModalChoferComponent
   ],
   imports: [
     SharedModule,
@@ -73,11 +76,18 @@ import { ChoferesComponent } from './choferes/choferes.component';
     ChartsModule,
     Ng2SmartTableModule,
     BrowserModule,
+    NgbModule.forRoot(),
     GridModule.forRoot(),
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyBIjYiShatFSJp6Uop7Fy1HAi2doE-8EAg'
      }),
     PAGES_ROUTES
+  ],
+  providers: [
+    NgbActiveModal
+  ],
+  entryComponents: [
+    ModalChoferComponent
   ]
 })
 export class PagesModule { }

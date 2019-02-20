@@ -1,9 +1,12 @@
+import { ModalChoferComponent } from './../../shared/modal-chofer/modal-chofer.component';
+
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FirebaseService } from 'src/app/service/firebase.service';
 import { Subscription } from 'rxjs';
 import { ReadjsonService } from 'src/app/service/readjson.service';
 
 import 'rxjs/add/observable/of';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-dashboard',
@@ -16,56 +19,33 @@ export class DashboardComponent implements OnInit, OnDestroy {
   lng = -86.9467869;
   taxistas: any[];
   busqueda: any[];
+  locaciones: any[];
   enTurno: string;
   zoom: number;
 
   private _observableSubscriptions: Subscription[] = [];
+  private _observableLocacion: Subscription;
   constructor(private servicioFirebase: FirebaseService,
-              private servicejson: ReadjsonService) {
+              private servicejson: ReadjsonService,
+              private modalService: NgbModal) {
     this._observarUbicacionUnidades();
     this.zoom = 15;
     this.enTurno = 'Todos';
-    // this._observarInfoTaxistas();
   }
 
   ngOnInit() {
-    // this._agregarInfoTaxistasFake();
-    // this._agregarUbicacionTaxistasFake();
-    // this._agregarUbicacionUnidades();
+    //this._agregarItem();
+    this.obtenerLocaciones();
   }
 
-  private _agregarInfoTaxistasFake() {
-    this.servicejson.obtenerInfoTaxistas()
+  private _agregarItem() {
+    this.servicejson.obtenerInfoChoferes()
     .subscribe(informacion => {
       for (let i = 0; i < informacion.length; i++) {
-        this.servicioFirebase.agregarInfoTaxistasFake(informacion[i], i);
+        this.servicioFirebase.agregarInfoChoferes(informacion[i]);
       }
     });
   }
-
-
-  private _agregarUbicacionTaxistasFake() {
-    this.servicejson.obtenerGeopositionTaxistas()
-    .subscribe(informacion => {
-      for (let i = 0; i < informacion.length; i++) {
-        this.servicioFirebase.agregarUbicacionTaxistasFake
-         (informacion[i], informacion[i].uid);
-      }
-    });
-  }
-
-  private _agregarUbicacionUnidades() {
-    this.servicejson.obtenerGeopositionUnidades()
-    .subscribe(informacion => {
-      console.log(informacion.length);
-      for (let i = 0; i < informacion.length; i++) {
-        console.log(informacion[i]);
-         this.servicioFirebase.agregarUbicacionUnidades
-          (informacion[i], informacion[i].unidad);
-      }
-    });
-  }
-
   public _observarUbicacionUnidades() {
     const s = this.servicioFirebase.obtenerUbicacionUnidades()
                 .subscribe((taxistasSnapshot) => {
@@ -77,15 +57,45 @@ export class DashboardComponent implements OnInit, OnDestroy {
                     });
                   });
                 });
-      this._observableSubscriptions.push(s);
+    this._observableSubscriptions.push(s);
   }
 
-  obtenerInfoTaxi(uid: string) {
-    this.servicioFirebase.buscarInfoTaxistas(uid)
+  public obtenerLocaciones() {
+    const listLocaciones = JSON.parse(localStorage.getItem('LOCACIONES'));
+    if (listLocaciones != null) {
+        console.log('ahora lo esta tomando localmente ', listLocaciones)
+        this.locaciones = listLocaciones;
+    } else {
+      this._observableLocacion.add(
+        this.servicioFirebase.obtenerLocaciones().subscribe((locacionSnapshot) => {
+        this.locaciones = [];
+        locacionSnapshot.forEach((locacionData: any) => {
+          this.locaciones.push({
+            id: locacionData.payload.doc.id,
+            data: locacionData.payload.doc.data(),
+          });
+        });
+        localStorage.setItem('LOCACIONES', JSON.stringify(this.locaciones));
+      }));
+    }
+  }
+
+  obtenerInfoChofer(info: any) {
+    const chofer = info;
+    this.servicioFirebase.buscarInfoChoferes(info.chofer)
         .then(data => {
-          console.log(data);
+          chofer.correo = data.correo;
+          chofer.nombre = data.nombre;
+          chofer.img = data.img;
+          chofer.telefono = data.telefono;
+          chofer.registrado = data.registrado;
+          chofer.choferActivo = data.activo;
+          chofer.genero = data.genero;
+          const modalRef = this.modalService.open(ModalChoferComponent);
+          modalRef.componentInstance.chofer = chofer;
         });
   }
+
 
   onSearch(unidad: any ) {
      this.servicioFirebase.buscarUnidad(unidad)

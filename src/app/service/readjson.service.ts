@@ -9,12 +9,8 @@ export class ReadjsonService {
 
   constructor(private http: HttpClient) { }
 
-  obtenerInfoTaxistas(): Observable<any[]> {
-    return this.http.get<any[]>('assets/json/infoTaxistas.json');
-  }
-
-  obtenerGeopositionTaxistas(): Observable<any[]> {
-    return this.http.get<any[]>('assets/json/ubicacionTaxistas.json');
+  obtenerInfoChoferes(): Observable<any[]> {
+    return this.http.get<any[]>('assets/json/infoChoferes.json');
   }
 
   obtenerGeopositionUnidades(): Observable<any[]> {

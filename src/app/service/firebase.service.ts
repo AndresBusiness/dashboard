@@ -35,42 +35,28 @@ export class FirebaseService {
     });
   }
 
-  obtenerInfoTaxistas() {
-    return this.afs.collection('infoTaxistas',
-                              ref => ref.where('activo', '==', true)
-                              .where('enTurno', '==', true)
-                              .limit(15)).snapshotChanges();
-  }
-
-  buscarInfoTaxistas(id: string) {
+  buscarInfoChoferes(id: string) {
     return new Promise<any>((resolve, reject) => {
-      this.afs.doc(`infoTaxistas/${id}`)
+      this.afs.doc(`infoChoferes/${id}`)
       .valueChanges()
       .subscribe((data: any) => {
         if (data) {
           resolve(data);
         } else {
-          console.log('NO SE ENCONTRO TAXISTA CON ESE UID');
+          console.log('NO SE ENCONTRO TAXISTA CON ESE UID: ' , id);
         }
       }, err => reject(err)
       );
     });
   }
 
-  agregarInfoTaxistasFake(info: any, number: number ) {
-   return this.afs.collection('infoTaxistas').doc(number.toString()).set(info);
+  obtenerInfoChoferes() {
+    return this.afs.collection('infoChoferes',
+                              ref => ref.limit(30)).snapshotChanges();
   }
 
-  agregarUbicacionTaxistasFake(info: any, numeroTaxi: string ) {
-    const data = {
-      geoposition: new firebase.firestore.GeoPoint(info.latitude, info.longitude),
-      activo: info.activo,
-      enBase: info.enBase ,
-      enMiniSitio: info.enMiniSitio,
-      enTurno: info.enTurno,
-      libre: info.libre
-    };
-    return this.afs.collection('ubicacionTaxistas').doc(numeroTaxi).set(data);
+  agregarInfoChoferes(info: any) {
+   return this.afs.collection('infoChoferes').doc(info.correo).set(info);
   }
 
   agregarUbicacionUnidades(info: any, numeroTaxi: number ) {
@@ -100,5 +86,9 @@ export class FirebaseService {
             displayName: usuario.nombre,
             photoURL: usuario.img
           });
+  }
+
+  obtenerLocaciones() {
+    return this.afs.collection('locaciones').snapshotChanges();
   }
 }

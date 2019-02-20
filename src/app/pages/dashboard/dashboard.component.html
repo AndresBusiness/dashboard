@@ -6,14 +6,7 @@
                     <h4 class="card-title">En Turno</h4>
                     <select [(ngModel)]="enTurno" class="form-control custom-select" (change)="onChange($event)">
                         <option>Todos</option>
-                        <option value="Chedraui">Chedraui</option>
-                        <option value="La Comercial Mexicana">La Comercial Mexicana</option>
-                        <option value="Bodega Aurrera">Bodega Aurrera</option>
-                        <option value="MiraFlores">MiraFlores</option>
-                        <option value="Emiliano Zapata">Emiliano Zapata</option>
-                        <option value="Base 1">Base 1</option>
-                        <option value="Base 2">Base 2</option>
-                        <option value="Base 3">Base 3</option>
+                        <option value="item.data.nombre" *ngFor="let item of locaciones" >{{ item.data.nombre}}</option>
                     </select>
                 </div>
 
@@ -28,10 +21,8 @@
                     </div>
                 </div>
             </div>
-
-
             <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom">
-                <agm-marker *ngFor="let item of taxistas" [latitude]="item.data.geoposition._lat" [longitude]="item.data.geoposition._long" iconUrl="../../../assets/images/taxi.png" (markerClick)="obtenerInfoTaxi(item.id)">
+                <agm-marker *ngFor="let item of taxistas" [latitude]="item.data.geoposition._lat" [longitude]="item.data.geoposition._long" iconUrl="../../../assets/images/taxi.png" (markerClick)="obtenerInfoChofer(item.data)">
                 </agm-marker>
             </agm-map>
         </div>

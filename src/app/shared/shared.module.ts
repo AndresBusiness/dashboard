@@ -13,7 +13,7 @@ import { LoadingComponent } from './loading/loading.component';
     NopagefoundComponent,
     SidebarComponent,
     BreadcrumbsComponent,
-    LoadingComponent,
+    LoadingComponent
   ],
   exports: [
     NopagefoundComponent,
