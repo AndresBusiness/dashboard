@@ -17,11 +17,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
   taxistas: any[];
   busqueda: any[];
   enTurno: string;
+  zoom: number;
 
   private _observableSubscriptions: Subscription[] = [];
   constructor(private servicioFirebase: FirebaseService,
               private servicejson: ReadjsonService) {
     this._observarUbicacionUnidades();
+    this.zoom = 15;
     this.enTurno = 'Todos';
     // this._observarInfoTaxistas();
   }
@@ -96,12 +98,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
         });
         this.lat = data.geoposition._lat;
         this.lng = data.geoposition._long;
+        this.zoom = 18;
       });
   }
 
   onChange($event) {
-    console.log(this.enTurno);
-
     const s = this.servicioFirebase.filtrarUnidades(this.enTurno)
                 .subscribe((taxistasSnapshot) => {
                   this.taxistas = [];
@@ -111,6 +112,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
                       data: taxistaData.payload.doc.data(),
                     });
                   });
+                  this.zoom = 18;
                   this.lat =  this.taxistas[0].data.geoposition._lat;
                   this.lng =  this.taxistas[0].data.geoposition._long;
                 });

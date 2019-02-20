@@ -30,7 +30,7 @@
             </div>
 
 
-            <agm-map [latitude]="lat" [longitude]="lng" [zoom]="15">
+            <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom">
                 <agm-marker *ngFor="let item of taxistas" [latitude]="item.data.geoposition._lat" [longitude]="item.data.geoposition._long" iconUrl="../../../assets/images/taxi.png" (markerClick)="obtenerInfoTaxi(item.id)">
                 </agm-marker>
             </agm-map>
