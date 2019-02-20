@@ -8112,3 +8112,16 @@ tr td:nth-child(2),
 tr td:nth-child(5) {
     text-align: center;
 }
+
+
+/* Customización del loading */
+
+#loading-bar .bar {
+    background: #b72c29 !important;
+    height: 3px;
+}
+
+#loading-bar-spinner .spinner-icon {
+    border-top-color: #b72c29 !important;
+    border-left-color: #b72c29 !important;
+}

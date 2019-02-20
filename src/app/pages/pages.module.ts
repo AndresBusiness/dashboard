@@ -35,6 +35,8 @@ import { UsuariosComponent } from './usuarios/usuarios.component';
 import { GridModule } from 'ng2-jsgrid';
 import { HeaderComponent } from '../shared/header/header.component';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
+import { DetalleChoferComponent } from './detalle-chofer/detalle-chofer.component';
+import { ChoferesComponent } from './choferes/choferes.component';
 
 @NgModule({
   declarations: [
@@ -43,13 +45,16 @@ import { Ng2SmartTableModule } from 'ng2-smart-table';
     PasajerosComponent,
     TabuladorComponent,
     SolicitudesComponent,
+    ChoferesComponent,
+    DetalleChoferComponent,
     HeaderComponent,
     AdminConfiguracionComponent,
     AdminMensajesComponent,
     AdminPerfilComponent,
     PagesComponent,
     KeysPipe,
-    UsuariosComponent
+    UsuariosComponent,
+    DetalleChoferComponent
   ],
   exports: [
     DashboardComponent,

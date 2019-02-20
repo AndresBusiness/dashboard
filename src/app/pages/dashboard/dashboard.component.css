@@ -1,3 +1,8 @@
 agm-map {
     height: 500px;
 }
+
+.container-filter {
+    display: flex;
+    flex-direction: row;
+}

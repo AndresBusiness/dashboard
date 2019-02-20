@@ -16,7 +16,6 @@ export class LoginComponent implements OnInit {
 
   loginForm: FormGroup;
   errorMessage = '';
-  colorBar: '#b72c29';
 
   constructor(
     public authService: AuthService,

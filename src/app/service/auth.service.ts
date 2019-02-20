@@ -23,7 +23,6 @@ export class AuthService {
     if ( localStorage.getItem('uid')) {
       this.uid = localStorage.getItem('uid');
       this.usuario = JSON.parse( localStorage.getItem('user') );
-      console.log('este es el usuario: ' + this.usuario + ' y este el uid: ' + this.uid );
     } else {
       this.uid = '';
       this.usuario = null;

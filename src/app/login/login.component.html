@@ -1,8 +1,8 @@
 <!-- Main wrapper - style you can find in pages.scss -->
 <!-- ============================================================== -->
 
-<section id="wrapper" class="login-register login-sidebar" style="background-image:url(https://1.bp.blogspot.com/--aTyY0BWnrE/WVEGOAjfqlI/AAAAAAAAgK8/kj14nohJHgMQQ3vWyiO53IULAzMn5mmsQCLcBGAs/s1600/13-6.%2BCozumel%2B%252884%2529.JPG);">
-  <ngx-loading-bar color="colorBar"></ngx-loading-bar>
+<!--<section id="wrapper" class="login-register login-sidebar" style="background-image:url(https://1.bp.blogspot.com/--aTyY0BWnrE/WVEGOAjfqlI/AAAAAAAAgK8/kj14nohJHgMQQ3vWyiO53IULAzMn5mmsQCLcBGAs/s1600/13-6.%2BCozumel%2B%252884%2529.JPG);">
+    <ngx-loading-bar></ngx-loading-bar>
     <div class="login-box card">
         <div class="card-body">
             <form class="form-horizontal form-material" id="loginform" [formGroup]="loginForm">
@@ -51,6 +51,39 @@
                     </div>
                 </div>
             </form>
+        </div>
+    </div>
+</section>-->
+<section id="wrapper">
+    <div class="login-register" style="background-image:url(../assets/images/background/login-register.jpg);">
+        <ngx-loading-bar></ngx-loading-bar>
+        <div class="login-box card">
+            <div class="card-body">
+                <form class="form-horizontal form-material" id="loginform" [formGroup]="loginForm">
+                    <h3 class="box-title m-b-20">Taxistas de Cozumel</h3>
+                    <div class="form-group ">
+                        <div class="col-xs-12">
+                            <input class="form-control" formControlName="email" type="email" required="" placeholder="Correo electrónico"> </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-xs-12">
+                            <input class="form-control" formControlName="password" type="password" required="" placeholder="Contraseña"> </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-12">
+                            <div class="checkbox checkbox-info pull-left p-t-0">
+                                <input id="checkbox-signup" type="checkbox" class="filled-in chk-col-light-blue">
+                                <label for="checkbox-signup">Recuerdame </label>
+                            </div> <a href="javascript:void(0)" id="to-recover" class="text-dark pull-right"><i class="fa fa-lock m-r-5"></i> Olvidaste tu contraseña?</a> </div>
+                    </div>
+                    <div class="form-group text-center">
+                        <div class="col-xs-12 p-b-20">
+                            <button class="btn btn-block btn-lg btn-info btn-rounded" (click)="tryLogin(loginForm.value)" type="submit">Iniciar Sesión</button>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
         </div>
     </div>
 </section>

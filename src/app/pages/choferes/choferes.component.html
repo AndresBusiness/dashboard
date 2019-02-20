@@ -1,0 +1,13 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="card animated fadeIn">
+            <div class="p-20">
+                <input #search class="form-control search" type="text" placeholder="Buscar por nombre o por número de taxi ..." (keydown.enter)="onSearch(search.value)">
+                <app-loading *ngIf="loading" margin></app-loading>
+                <div class="animated fadeIn normal" *ngIf="!loading">
+                    <ng2-smart-table [settings]="settings" [source]="source" (userRowSelect)="onUserRowSelect($event)" (custom)="onCustom($event)"></ng2-smart-table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

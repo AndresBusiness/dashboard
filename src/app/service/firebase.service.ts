@@ -10,11 +10,29 @@ export class FirebaseService {
   constructor(public afs: AngularFirestore) {
    }
 
-  obtenerUbicacionTaxistas() {
-    return this.afs.collection('ubicacionTaxistas',
-                              ref => ref.where('activo', '==', true)
-                              .where('enTurno', '==', true)
-                              .limit(20)).snapshotChanges();
+  obtenerUbicacionUnidades() {
+    return this.afs.collection('ubicacionUnidades',
+                              ref => ref.where('activo', '==', true)).snapshotChanges();
+  }
+
+  filtrarUnidades(criterio: string) {
+    return this.afs.collection('ubicacionUnidades',
+                              ref => ref.where('descripcionUbicacion', '==', criterio)).snapshotChanges();
+  }
+
+  buscarUnidad(unidad: number) {
+    return new Promise<any>((resolve, reject) => {
+      this.afs.doc(`ubicacionUnidades/${unidad.toString()}`)
+      .valueChanges()
+      .subscribe((data: any) => {
+        if (data) {
+          resolve(data);
+        } else {
+          console.log('NO SE ENCONTRO TAXISTA CON ESE UID');
+        }
+      }, err => reject(err)
+      );
+    });
   }
 
   obtenerInfoTaxistas() {
@@ -53,6 +71,18 @@ export class FirebaseService {
       libre: info.libre
     };
     return this.afs.collection('ubicacionTaxistas').doc(numeroTaxi).set(data);
+  }
+
+  agregarUbicacionUnidades(info: any, numeroTaxi: number ) {
+    const data = {
+      geoposition: new firebase.firestore.GeoPoint(info.latitug, info.longitud),
+      unidad: info.unidad,
+      descripcionUbicacion: info.descripcionUbicacion ,
+      activo: info.activo,
+      chofer: info.chofer,
+      llevaPasaje: info.llevaPasaje
+    };
+    return this.afs.collection('ubicacionUnidades').doc(numeroTaxi.toString()).set(data);
   }
 
   actualizarPerfilUsuario(usuario: any) {

@@ -16,4 +16,9 @@ export class ReadjsonService {
   obtenerGeopositionTaxistas(): Observable<any[]> {
     return this.http.get<any[]>('assets/json/ubicacionTaxistas.json');
   }
+
+  obtenerGeopositionUnidades(): Observable<any[]> {
+    return this.http.get<any[]>('assets/json/ubicacionUnidades.json');
+  }
+
 }

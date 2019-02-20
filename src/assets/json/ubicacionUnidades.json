@@ -1,0 +1,487 @@
+[{
+        "unidad": 200,
+        "longitud": -86.957462,
+        "latitug": 20.502623,
+        "descripcionUbicacion": "Chedraui",
+        "activo": true,
+        "chofer": "idChofer",
+        "llevaPasaje": "no"
+    },
+    {
+        "unidad": 201,
+        "longitud": -86.928518,
+        "latitug": 20.490887,
+        "descripcionUbicacion": "MiraFlores",
+        "activo": true,
+        "chofer": "idChofer",
+        "llevaPasaje": "idusuario"
+    },
+    {
+        "unidad": 202,
+        "longitud": -86.956303,
+        "latitug": 20.506275,
+        "descripcionUbicacion": "La Comercial Mexicana",
+        "activo": true,
+        "chofer": "idChofer",
+        "llevaPasaje": "no"
+    },
+    {
+        "unidad": 203,
+        "longitud": -86.957534,
+        "latitug": 20.502683,
+        "descripcionUbicacion": "Chedraui",
+        "activo": true,
+        "chofer": "idChofer",
+        "llevaPasaje": "idusuario"
+    },
+    {
+        "unidad": 204,
+        "longitud": -86.931558,
+        "latitug": 20.490141,
+        "descripcionUbicacion": "MiraFlores",
+        "activo": true,
+        "chofer": "idChofer",
+        "llevaPasaje": "idusuario"
+    },
+    {
+        "unidad": 205,
+        "longitud": -86.944964,
+        "latitug": 20.493401,
+        "descripcionUbicacion": "Bodega Aurrera",
+        "activo": true,
+        "chofer": "idChofer",
+        "llevaPasaje": "idusuario"
+    },
+    {
+        "unidad": 206,
+        "longitud": -86.95641,
+        "latitug": 20.506124,
+        "descripcionUbicacion": "La Comercial Mexicana",
+        "activo": true,
+        "chofer": "idChofer",
+        "llevaPasaje": "idusuario"
+    },
+    {
+        "unidad": 207,
+        "longitud": -86.929992,
+        "latitug": 20.490764,
+        "descripcionUbicacion": "MiraFlores",
+        "activo": true,
+        "chofer": "idChofer",
+        "llevaPasaje": "idusuario"
+    },
+    {
+        "unidad": 208,
+        "longitud": -86.957673,
+        "latitug": 20.502768,
+        "descripcionUbicacion": "Chedraui",
+        "activo": true,
+        "chofer": "idChofer",
+        "llevaPasaje": "idusuario"
+    },
+    {
+        "unidad": 209,
+        "longitud": -86.956464,
+        "latitug": 20.506094,
+        "descripcionUbicacion": "La Comercial Mexicana",
+        "activo": true,
+        "chofer": "idChofer",
+        "llevaPasaje": "idusuario"
+    },
+    {
+        "unidad": 210,
+        "longitud": -86.956496,
+        "latitug": 20.505983,
+        "descripcionUbicacion": "La Comercial Mexicana",
+        "activo": true,
+        "chofer": "idChofer",
+        "llevaPasaje": "idusuario"
+    },
+    {
+        "unidad": 211,
+        "longitud": -86.956582,
+        "latitug": 20.505852,
+        "descripcionUbicacion": "La Comercial Mexicana",
+        "activo": true,
+        "chofer": "idChofer",
+        "llevaPasaje": "idusuario"
+    },
+    {
+        "unidad": 212,
+        "longitud": -86.945103,
+        "latitug": 20.493296,
+        "descripcionUbicacion": "Bodega Aurrera",
+        "activo": true,
+        "chofer": "idChofer",
+        "llevaPasaje": "idusuario"
+    },
+    {
+        "unidad": 213,
+        "longitud": -86.944857,
+        "latitug": 20.493547,
+        "descripcionUbicacion": "Bodega Aurrera",
+        "activo": true,
+        "chofer": "idChofer",
+        "llevaPasaje": "idusuario"
+    },
+    {
+        "unidad": 214,
+        "longitud": -86.92834,
+        "latitug": 20.492402,
+        "descripcionUbicacion": "MiraFlores",
+        "activo": true,
+        "chofer": "idChofer",
+        "llevaPasaje": "idusuario"
+    },
+    {
+        "unidad": 215,
+        "longitud": -86.944808,
+        "latitug": 20.493346,
+        "descripcionUbicacion": "Bodega Aurrera",
+        "activo": true,
+        "chofer": "idChofer",
+        "llevaPasaje": "idusuario"
+    },
+    {
+        "unidad": 216,
+        "longitud": -86.932528,
+        "latitug": 20.54174,
+        "descripcionUbicacion": "libre_ZONA_NORTE_HOTELERA",
+        "activo": true,
+        "chofer": "idChofer",
+        "llevaPasaje": "idusuario"
+    },
+    {
+        "unidad": 217,
+        "longitud": -86.926542,
+        "latitug": 20.549335,
+        "descripcionUbicacion": "libre_ZONA_NORTE_HOTELERA",
+        "activo": true,
+        "chofer": "idChofer",
+        "llevaPasaje": "idusuario"
+    },
+    {
+        "unidad": 218,
+        "longitud": -86.92343,
+        "latitug": 20.55247,
+        "descripcionUbicacion": "libre_ZONA_NORTE_HOTELERA",
+        "activo": true,
+        "chofer": "idChofer",
+        "llevaPasaje": "idusuario"
+    },
+    {
+        "unidad": 219,
+        "longitud": -86.930061,
+        "latitug": 20.546844,
+        "descripcionUbicacion": "libre_ZONA_NORTE_HOTELERA",
+        "activo": true,
+        "chofer": "idChofer",
+        "llevaPasaje": "idusuario"
+    },
+    {
+        "unidad": 220,
+        "longitud": -86.933237,
+        "latitug": 20.541238,
+        "descripcionUbicacion": "libre_ZONA_NORTE_HOTELERA",
+        "activo": true,
+        "chofer": "idChofer",
+        "llevaPasaje": "idusuario"
+    },
+    {
+        "unidad": 221,
+        "longitud": -86.953601,
+        "latitug": 20.508357,
+        "descripcionUbicacion": "libre_MUELLE",
+        "activo": true,
+        "chofer": "idChofer",
+        "llevaPasaje": "idusuario"
+    },
+    {
+        "unidad": 222,
+        "longitud": -86.953418,
+        "latitug": 20.508402,
+        "descripcionUbicacion": "libre_MUELLE",
+        "activo": true,
+        "chofer": "idChofer",
+        "llevaPasaje": "idusuario"
+    },
+    {
+        "unidad": 223,
+        "longitud": -86.953267,
+        "latitug": 20.508477,
+        "descripcionUbicacion": "libre_MUELLE",
+        "activo": true,
+        "chofer": "idChofer",
+        "llevaPasaje": "idusuario"
+    },
+    {
+        "unidad": 224,
+        "longitud": -86.953911,
+        "latitug": 20.508231,
+        "descripcionUbicacion": "libre_MUELLE",
+        "activo": true,
+        "chofer": "idChofer",
+        "llevaPasaje": "idusuario"
+    },
+    {
+        "unidad": 225,
+        "longitud": -86.947597,
+        "latitug": 20.510921,
+        "descripcionUbicacion": "Base 1",
+        "activo": true,
+        "chofer": "idChofer",
+        "llevaPasaje": "idusuario"
+    },
+    {
+        "unidad": 226,
+        "longitud": -86.947382,
+        "latitug": 20.512056,
+        "descripcionUbicacion": "Base 1",
+        "activo": true,
+        "chofer": "idChofer",
+        "llevaPasaje": "no"
+    },
+    {
+        "unidad": 227,
+        "longitud": -86.94495402,
+        "latitug": 20.50422635,
+        "descripcionUbicacion": "Base 2",
+        "activo": true,
+        "chofer": "idChofer",
+        "llevaPasaje": "idusuario"
+    },
+    {
+        "unidad": 228,
+        "longitud": -86.945126,
+        "latitug": 20.504468,
+        "descripcionUbicacion": "Base 2",
+        "activo": true,
+        "chofer": "idChofer",
+        "llevaPasaje": "idusuario"
+    },
+    {
+        "unidad": 229,
+        "longitud": -86.946739,
+        "latitug": 20.510187,
+        "descripcionUbicacion": "Base 1",
+        "activo": true,
+        "chofer": "idChofer",
+        "llevaPasaje": "no"
+    },
+    {
+        "unidad": 230,
+        "longitud": -86.944428,
+        "latitug": 20.503855,
+        "descripcionUbicacion": "Base 2",
+        "activo": true,
+        "chofer": "idChofer",
+        "llevaPasaje": "no"
+    },
+    {
+        "unidad": 231,
+        "longitud": -86.94548,
+        "latitug": 20.504679,
+        "descripcionUbicacion": "Base 2",
+        "activo": true,
+        "chofer": "idChofer",
+        "llevaPasaje": "idusuario"
+    },
+    {
+        "unidad": 232,
+        "longitud": -86.957688,
+        "latitug": 20.502776,
+        "descripcionUbicacion": "Chedraui",
+        "activo": true,
+        "chofer": "idChofer",
+        "llevaPasaje": "idusuario"
+    },
+    {
+        "unidad": 233,
+        "longitud": -86.957742,
+        "latitug": 20.502826,
+        "descripcionUbicacion": "Chedraui",
+        "activo": true,
+        "chofer": "idChofer",
+        "llevaPasaje": "idusuario"
+    },
+    {
+        "unidad": 234,
+        "longitud": -86.957812,
+        "latitug": 20.502871,
+        "descripcionUbicacion": "Chedraui",
+        "activo": true,
+        "chofer": "idChofer",
+        "llevaPasaje": "no"
+    },
+    {
+        "unidad": 235,
+        "longitud": -86.95638464,
+        "latitug": 20.48231545,
+        "descripcionUbicacion": "Base 3",
+        "activo": true,
+        "chofer": "idChofer",
+        "llevaPasaje": "idusuario"
+    },
+    {
+        "unidad": 236,
+        "longitud": -86.956621,
+        "latitug": 20.482516,
+        "descripcionUbicacion": "Base 3",
+        "activo": true,
+        "chofer": "idChofer",
+        "llevaPasaje": "idusuario"
+    },
+    {
+        "unidad": 237,
+        "longitud": -86.956857,
+        "latitug": 20.482667,
+        "descripcionUbicacion": "Base 3",
+        "activo": true,
+        "chofer": "idChofer",
+        "llevaPasaje": "no"
+    },
+    {
+        "unidad": 238,
+        "longitud": -86.931336,
+        "latitug": 20.505106,
+        "descripcionUbicacion": "Emiliano Zapata",
+        "activo": true,
+        "chofer": "idChofer",
+        "llevaPasaje": "idusuario"
+    },
+    {
+        "unidad": 239,
+        "longitud": -86.931497,
+        "latitug": 20.506966,
+        "descripcionUbicacion": "Emiliano Zapata",
+        "activo": true,
+        "chofer": "idChofer",
+        "llevaPasaje": "idusuario"
+    },
+    {
+        "unidad": 240,
+        "longitud": -86.957007,
+        "latitug": 20.482778,
+        "descripcionUbicacion": "Base 3",
+        "activo": true,
+        "chofer": "idChofer",
+        "llevaPasaje": "no"
+    },
+    {
+        "unidad": 241,
+        "longitud": -86.934115,
+        "latitug": 20.505056,
+        "descripcionUbicacion": "Emiliano Zapata",
+        "activo": true,
+        "chofer": "idChofer",
+        "llevaPasaje": "no"
+    },
+    {
+        "unidad": 242,
+        "longitud": -86.933299,
+        "latitug": 20.504956,
+        "descripcionUbicacion": "Emiliano Zapata",
+        "activo": true,
+        "chofer": "idChofer",
+        "llevaPasaje": "idusuario"
+    },
+    {
+        "unidad": 243,
+        "longitud": -86.94839,
+        "latitug": 20.511031,
+        "descripcionUbicacion": "Base 1",
+        "activo": true,
+        "chofer": "idChofer",
+        "llevaPasaje": "idusuario"
+    },
+    {
+        "unidad": 244,
+        "longitud": -86.944085,
+        "latitug": 20.504066,
+        "descripcionUbicacion": "Base 2",
+        "activo": true,
+        "chofer": "idChofer",
+        "llevaPasaje": "idusuario"
+    },
+    {
+        "unidad": 245,
+        "longitud": -86.879131,
+        "latitug": 20.453611,
+        "descripcionUbicacion": "libre_RECORRIDO_ISLA",
+        "activo": true,
+        "chofer": "idChofer",
+        "llevaPasaje": "no"
+    },
+    {
+        "unidad": 246,
+        "longitud": -86.865742,
+        "latitug": 20.395295,
+        "descripcionUbicacion": "libre_RECORRIDO_ISLA",
+        "activo": true,
+        "chofer": "idChofer",
+        "llevaPasaje": "no"
+    },
+    {
+        "unidad": 247,
+        "longitud": -86.910373,
+        "latitug": 20.342511,
+        "descripcionUbicacion": "libre_RECORRIDO_ISLA",
+        "activo": true,
+        "chofer": "idChofer",
+        "llevaPasaje": "idusuario"
+    },
+    {
+        "unidad": 248,
+        "longitud": -87.018005,
+        "latitug": 20.365285,
+        "descripcionUbicacion": "libre_RECORRIDO_ISLA",
+        "activo": true,
+        "chofer": "idChofer",
+        "llevaPasaje": "idusuario"
+    },
+    {
+        "unidad": 249,
+        "longitud": -87.018177,
+        "latitug": 20.374377,
+        "descripcionUbicacion": "libre_RECORRIDO_ISLA",
+        "activo": true,
+        "chofer": "idChofer",
+        "llevaPasaje": "idusuario"
+    },
+    {
+        "unidad": 250,
+        "longitud": -87.018348,
+        "latitug": 20.382342,
+        "descripcionUbicacion": "libre_RECORRIDO_ISLA",
+        "activo": true,
+        "chofer": "idChofer",
+        "llevaPasaje": "idusuario"
+    },
+    {
+        "unidad": 251,
+        "longitud": -86.984445,
+        "latitug": 20.312732,
+        "descripcionUbicacion": "libre_RECORRIDO_ISLA",
+        "activo": true,
+        "chofer": "idChofer",
+        "llevaPasaje": "idusuario"
+    },
+    {
+        "unidad": 252,
+        "longitud": -86.957409,
+        "latitug": 20.294137,
+        "descripcionUbicacion": "libre_RECORRIDO_ISLA",
+        "activo": true,
+        "chofer": "idChofer",
+        "llevaPasaje": "idusuario"
+    },
+    {
+        "unidad": 253,
+        "longitud": -86.98393,
+        "latitug": 20.311524,
+        "descripcionUbicacion": "libre_RECORRIDO_ISLA",
+        "activo": true,
+        "chofer": "idChofer",
+        "llevaPasaje": "idusuario"
+    }
+]
