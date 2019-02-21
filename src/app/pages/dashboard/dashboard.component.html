@@ -3,10 +3,10 @@
         <div class="card animated fadeIn">
             <div class="p-10 container-filter">
                 <div class="col-lg-5 col-md-5">
-                    <h4 class="card-title">En Turno</h4>
-                    <select [(ngModel)]="enTurno" class="form-control custom-select" (change)="onChange($event)">
+                    <h4 class="card-title">Roles</h4>
+                    <select [(ngModel)]="rol" class="form-control custom-select" (change)="onChange($event)">
                         <option>Todos</option>
-                        <option value="item.data.nombre" *ngFor="let item of locaciones" >{{ item.data.nombre}}</option>
+                        <option [value]="item.data.nombre" *ngFor="let item of locaciones" >{{ item.data.nombre}}</option>
                     </select>
                 </div>
 
@@ -14,12 +14,12 @@
                     <h4 class="card-title">Buscar por unidad</h4>
                     <input #search class="form-control search" type="number" (keydown.enter)="onSearch(search.value)">
                 </div>
-                <div class="col-lg-2 col-md-2">
+                <!-- <div class="col-lg-2 col-md-2">
                     <h4 class="card-title">Ver Libres</h4>
                     <div class="switch">
                         <label>NO<input type="checkbox" checked><span class="lever"></span>SI</label>
                     </div>
-                </div>
+                </div>-->
             </div>
             <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom">
                 <agm-marker *ngFor="let item of taxistas" [latitude]="item.data.geoposition._lat" [longitude]="item.data.geoposition._long" iconUrl="../../../assets/images/taxi.png" (markerClick)="obtenerInfoChofer(item.data)">

@@ -4,7 +4,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FirebaseService } from 'src/app/service/firebase.service';
 import { Subscription } from 'rxjs';
 import { ReadjsonService } from 'src/app/service/readjson.service';
-
+import swal from 'sweetalert';
 import 'rxjs/add/observable/of';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -20,21 +20,20 @@ export class DashboardComponent implements OnInit, OnDestroy {
   taxistas: any[];
   busqueda: any[];
   locaciones: any[];
-  enTurno: string;
+  rol: string;
   zoom: number;
 
   private _observableSubscriptions: Subscription[] = [];
-  private _observableLocacion: Subscription;
   constructor(private servicioFirebase: FirebaseService,
               private servicejson: ReadjsonService,
               private modalService: NgbModal) {
     this._observarUbicacionUnidades();
     this.zoom = 15;
-    this.enTurno = 'Todos';
+    this.rol = 'Todos';
   }
 
   ngOnInit() {
-    //this._agregarItem();
+    // this._agregarItem();
     this.obtenerLocaciones();
   }
 
@@ -63,10 +62,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
   public obtenerLocaciones() {
     const listLocaciones = JSON.parse(localStorage.getItem('LOCACIONES'));
     if (listLocaciones != null) {
-        console.log('ahora lo esta tomando localmente ', listLocaciones)
+        console.log('ahora lo esta tomando localmente ', listLocaciones);
         this.locaciones = listLocaciones;
     } else {
-      this._observableLocacion.add(
         this.servicioFirebase.obtenerLocaciones().subscribe((locacionSnapshot) => {
         this.locaciones = [];
         locacionSnapshot.forEach((locacionData: any) => {
@@ -76,7 +74,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
           });
         });
         localStorage.setItem('LOCACIONES', JSON.stringify(this.locaciones));
-      }));
+      });
     }
   }
 
@@ -113,20 +111,37 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   onChange($event) {
-    const s = this.servicioFirebase.filtrarUnidades(this.enTurno)
-                .subscribe((taxistasSnapshot) => {
-                  this.taxistas = [];
-                  taxistasSnapshot.forEach((taxistaData: any) => {
-                    this.taxistas.push({
-                      id: taxistaData.payload.doc.id,
-                      data: taxistaData.payload.doc.data(),
-                    });
-                  });
-                  this.zoom = 18;
-                  this.lat =  this.taxistas[0].data.geoposition._lat;
-                  this.lng =  this.taxistas[0].data.geoposition._long;
-                });
+    if (this.rol === 'Todos') {
+      this.lat = 20.5024843;
+      this.lng = -86.9467869;
+      this.zoom = 15;
+      this._observarUbicacionUnidades();
+    } else {
+      const s = this.servicioFirebase.filtrarUnidades(this.rol)
+      .subscribe((taxistasSnapshot) => {
+        this.taxistas = [];
+        taxistasSnapshot.forEach((taxistaData: any) => {
+          this.taxistas.push({
+            id: taxistaData.payload.doc.id,
+            data: taxistaData.payload.doc.data(),
+          });
+        });
+        if (this.taxistas.length === 0) {
+          swal('Sin datos!', 'No hay unidades con este rol', 'warning');
+        } else {
+          if (this.rol === 'Libre') {
+            this.zoom = 11;
+            this.lat =  20.4492543;
+            this.lng =  -86.9566575;
+          } else {
+            this.zoom = 18;
+            this.lat =  this.taxistas[0].data.geoposition._lat;
+            this.lng =  this.taxistas[0].data.geoposition._long;
+          }
+        }
+      });
       this._observableSubscriptions.push(s);
+    }
 }
 
   ngOnDestroy() {

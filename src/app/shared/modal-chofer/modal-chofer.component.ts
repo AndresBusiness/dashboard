@@ -16,8 +16,8 @@ export class ModalChoferComponent implements OnInit {
   }
 
   ngOnInit() {
-    const castor = 'http://img2.tvtome.com/i/u/8dff27592c90427ec295f3cfd9ca9ea6.png';
-    const lira = 'https://i.pinimg.com/originals/8c/f3/bb/8cf3bbade59aac19591eb0d236712d6a.png';
+    const castor = 'http://www.aldiadallas.com/wp-content/uploads/2016/12/brasil-taxista-300x300.jpg';
+    const lira = 'https://anamariaalvarado.tv/wp-content/uploads/2018/08/29507e94-9bef-4ad4-bf16-eb0eda3ac7f3-1-300x300.jpg';
     this.chofer.img = this.chofer.genero === 'male' ? castor : lira;
   }
 

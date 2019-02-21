@@ -19,8 +19,8 @@ export class ChoferesComponent implements OnInit {
   private _observableSubscriptions: Subscription[] = [];
   constructor(private servicioFirebase: FirebaseService) {
     this.loading = true;
-    this.castor = 'https://tvadikto.files.wordpress.com/2015/04/castor.png?w=50&h=50&crop=1';
-    this.lira = 'https://i2.wp.com/www.thesnarkingdeadrecaps.com/wp-content/uploads/2017/08/OB-S5-E10-Cover.jpg?resize=50%2C50';
+    this.castor = 'http://www.aldiadallas.com/wp-content/uploads/2016/12/brasil-taxista-300x300.jpg';
+    this.lira  = 'https://anamariaalvarado.tv/wp-content/uploads/2018/08/29507e94-9bef-4ad4-bf16-eb0eda3ac7f3-1-300x300.jpg';
 
     this._observarInfoTaxistas();
   }
