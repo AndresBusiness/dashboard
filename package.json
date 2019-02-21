@@ -22,6 +22,8 @@
         "@angular/platform-browser": "^7.1.4",
         "@angular/platform-browser-dynamic": "^7.1.4",
         "@angular/router": "^7.1.4",
+        "@ionic-native/core": "^5.0.0",
+        "@ionic-native/google-maps": "^5.0.0-beta.27",
         "@ng-bootstrap/ng-bootstrap": "^4.0.0",
         "@ngx-loading-bar/core": "^4.1.1",
         "@ngx-loading-bar/http": "^4.1.1",
