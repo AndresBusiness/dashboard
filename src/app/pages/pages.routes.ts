@@ -12,6 +12,7 @@ import { AdminPerfilComponent } from '../admin-perfil/admin-perfil.component';
 import { UsuariosComponent } from './usuarios/usuarios.component';
 import { ChoferesComponent } from './choferes/choferes.component';
 import { DetalleChoferComponent } from './detalle-chofer/detalle-chofer.component';
+import { AgregarChoferComponent } from './agregar-chofer/agregar-chofer.component';
 
 
 const pageRoutes: Routes = [
@@ -23,6 +24,7 @@ const pageRoutes: Routes = [
       {path: 'dashboard', component: DashboardComponent, data : { titulo: 'Monitoreo de Unidades'}},
       {path: 'reportes', component: ReportesComponent, data : { titulo: 'Reporte de incidencias'} },
       {path: 'choferes', component: ChoferesComponent, data : { titulo: 'Listado de Choferes'} },
+      {path: 'agregar-chofer', component: AgregarChoferComponent, data : { titulo: 'Alta de Choferes'} },
       {path: 'detalle-choferes/:uid', component: DetalleChoferComponent, data : { titulo: 'Detalle del Chofer'} },
       {path: 'solicitudes', component: SolicitudesComponent, data : { titulo: 'Solicitudes a nuevos taxistas'}},
       {path: 'tabulador', component: TabuladorComponent, data : { titulo: 'Tabulador de Tarifas'}},

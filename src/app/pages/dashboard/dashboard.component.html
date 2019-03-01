@@ -22,7 +22,7 @@
                 </div>-->
             </div>
             <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom">
-                <agm-marker *ngFor="let item of taxistas" [latitude]="item.data.geoposition._lat" [longitude]="item.data.geoposition._long" iconUrl="../../../assets/images/taxi.png" (markerClick)="obtenerInfoChofer(item.data)">
+                <agm-marker *ngFor="let item of taxistas" [latitude]="item.data.geoposition._lat" [longitude]="item.data.geoposition._long" [iconUrl]="item.img" (markerClick)="obtenerInfoChofer(item.data)">
                 </agm-marker>
             </agm-map>
         </div>

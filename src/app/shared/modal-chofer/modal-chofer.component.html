@@ -20,7 +20,8 @@
             <small class="text-muted">Estatus del Chofer: </small>
             <span *ngIf="chofer.choferActivo" class="label label-success">Activado</span>
             <span *ngIf="!chofer.choferActivo" class="label label-danger">Desactivado</span>
-            <h6><a href="">Ver historia</a> </h6>
+            <h6><a (click)="abrirDetalle(chofer.chofer)">Ver Detalle del Chofer</a> </h6>
+
         </div>
     </div>
     <div class="modal-footer">

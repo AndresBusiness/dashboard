@@ -46,6 +46,7 @@ export class AuthService {
 
   Logout() {
     return new Promise((resolve, reject) => {
+      console.log(firebase.auth());
       if (firebase.auth().currentUser) {
         this.afAuth.auth.signOut();
         this.borrarStorage();

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Ng2SmartTableModule, LocalDataSource } from 'ng2-smart-table';
 import { FirebaseService } from 'src/app/service/firebase.service';
 import { Subscription } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-choferes',
@@ -17,7 +18,8 @@ export class ChoferesComponent implements OnInit {
   castor: string;
   lira: string;
   private _observableSubscriptions: Subscription[] = [];
-  constructor(private servicioFirebase: FirebaseService) {
+  constructor(private servicioFirebase: FirebaseService,
+    public router: Router) {
     this.loading = true;
     this.castor = 'http://www.aldiadallas.com/wp-content/uploads/2016/12/brasil-taxista-300x300.jpg';
     this.lira  = 'https://anamariaalvarado.tv/wp-content/uploads/2018/08/29507e94-9bef-4ad4-bf16-eb0eda3ac7f3-1-300x300.jpg';
@@ -81,10 +83,14 @@ export class ChoferesComponent implements OnInit {
 
   onCustom(event) {
     console.log(event.data);
+    const path = `/detalle-choferes/${event.data.uid}`;
+    this.router.navigate([path]);
   }
 
   onUserRowSelect(event): void {
     console.log(event.data);
+    const path = `/detalle-choferes/${event.data.uid}`;
+    this.router.navigate([path]);
   }
 
   onSearch(query: string = '') {
@@ -117,6 +123,10 @@ export class ChoferesComponent implements OnInit {
       s.unsubscribe();
     }, 2000);
     // this._observableSubscriptions.push(s);
+  }
+
+  abrirAgregarChofer() {
+    this.router.navigate(['/agregar-chofer']);
   }
 
 }

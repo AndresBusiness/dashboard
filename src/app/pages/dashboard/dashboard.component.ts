@@ -50,9 +50,19 @@ export class DashboardComponent implements OnInit, OnDestroy {
                 .subscribe((taxistasSnapshot) => {
                   this.taxistas = [];
                   taxistasSnapshot.forEach((taxistaData: any) => {
+                    let img = '';
+                    const info = taxistaData.payload.doc;
+                    if (info.data().descripcionUbicacion === 'Libre') {
+                      img = '../../../assets/images/libre.png';
+                    } else if (info.data().descripcionUbicacion === 'SemiLibre') {
+                      img = '../../../assets/images/semilibre.png';
+                    } else {
+                      img = '../../../assets/images/enturno.png';
+                    }
                     this.taxistas.push({
-                      id: taxistaData.payload.doc.id,
-                      data: taxistaData.payload.doc.data(),
+                      id: info.id,
+                      data: info.data(),
+                      img: img
                     });
                   });
                 });
@@ -100,10 +110,20 @@ export class DashboardComponent implements OnInit, OnDestroy {
       .then(data => {
         console.log(data);
         this.taxistas = [];
+        let img = '';
+        if (data.descripcionUbicacion === 'Libre') {
+          img = '../../../assets/images/libre.png';
+        } else if (data.descripcionUbicacion === 'SemiLibre') {
+          img = '../../../assets/images/semilibre.png';
+        } else {
+          img = '../../../assets/images/enturno.png';
+        }
         this.taxistas.push({
           id: data.unidad,
           data: data,
+          img: img
         });
+
         this.lat = data.geoposition._lat;
         this.lng = data.geoposition._long;
         this.zoom = 18;
@@ -121,9 +141,19 @@ export class DashboardComponent implements OnInit, OnDestroy {
       .subscribe((taxistasSnapshot) => {
         this.taxistas = [];
         taxistasSnapshot.forEach((taxistaData: any) => {
+          let img = '';
+          const info = taxistaData.payload.doc;
+          if (info.data().descripcionUbicacion === 'Libre') {
+            img = '../../../assets/images/libre.png';
+          } else if (info.data().descripcionUbicacion === 'SemiLibre') {
+            img = '../../../assets/images/semilibre.png';
+          } else {
+            img = '../../../assets/images/enturno.png';
+          }
           this.taxistas.push({
-            id: taxistaData.payload.doc.id,
-            data: taxistaData.payload.doc.data(),
+            id: info.id,
+            data: info.data(),
+            img: img
           });
         });
         if (this.taxistas.length === 0) {
