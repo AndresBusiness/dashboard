@@ -3,12 +3,17 @@
         <div class="card animated fadeIn">
             <div class="p-20">
                 <div class="seccion-buscar-agregar">
-                    <input #search class="form-control search col-6" type="text" placeholder="Buscar por nombre o por número de taxi ..." (keydown.enter)="onSearch(search.value)">
-                    <button (click)="abrirAgregarChofer()" class="btn btn-outline-secondary" style="float: right;">Agregar chofer</button>
+                    <input #search class="form-control search col-6"
+                    type="text" placeholder="Buscar por nombre o por número de taxi ..."
+                    (keydown.enter)="onSearch(search.value)">
+                    <button (click)="abrirAgregarChofer()" class="btn btn-outline-success"
+                    style="float: right;">Agregar chofer</button>
                 </div>
                 <app-loading *ngIf="loading" margin></app-loading>
                 <div class="animated fadeIn normal" *ngIf="!loading">
-                    <ng2-smart-table [settings]="settings" [source]="source" (userRowSelect)="onUserRowSelect($event)" (custom)="onCustom($event)">
+                    <ng2-smart-table [settings]="settings" [source]="source"
+                    (userRowSelect)="onUserRowSelect($event)"
+                    (custom)="onCustom($event)">
                     </ng2-smart-table>
                 </div>
             </div>

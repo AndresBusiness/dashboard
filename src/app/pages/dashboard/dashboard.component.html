@@ -1,30 +1,113 @@
 <div class="row">
-    <div class="col-md-12">
-        <div class="card animated fadeIn">
-            <div class="p-10 container-filter">
-                <div class="col-lg-5 col-md-5">
-                    <h4 class="card-title">Roles</h4>
-                    <select [(ngModel)]="rol" class="form-control custom-select" (change)="onChange($event)">
-                        <option>Todos</option>
-                        <option [value]="item.data.nombre" *ngFor="let item of locaciones" >{{ item.data.nombre}}</option>
-                    </select>
-                </div>
-
-                <div class="col-lg-5 col-md-5">
-                    <h4 class="card-title">Buscar por unidad</h4>
-                    <input #search class="form-control search" type="number" (keydown.enter)="onSearch(search.value)">
-                </div>
-                <!-- <div class="col-lg-2 col-md-2">
-                    <h4 class="card-title">Ver Libres</h4>
-                    <div class="switch">
-                        <label>NO<input type="checkbox" checked><span class="lever"></span>SI</label>
-                    </div>
-                </div>-->
+  <div class="col-lg-4">
+    <div class="card animated fadeIn">
+        <div class="card-body">
+            <div class="d-flex no-block">
+                <div class="m-r-20 align-self-center"><span class="lstick m-r-20"></span><img src="../assets/images/icon-panel/assets.png" alt="Income" /></div>
+                <div class="align-self-center">
+                    <h6 class="text-muted m-t-10 m-b-0">Usuarios</h6>
+                    <h2 class="m-t-0">953</h2></div>
             </div>
-            <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom">
-                <agm-marker *ngFor="let item of taxistas" [latitude]="item.data.geoposition._lat" [longitude]="item.data.geoposition._long" [iconUrl]="item.img" (markerClick)="obtenerInfoChofer(item.data)">
-                </agm-marker>
-            </agm-map>
         </div>
     </div>
+  </div>
+
+  <div class="col-lg-4">
+    <div class="card animated fadeIn">
+         <div class="card-body">
+             <div class="d-flex no-block">
+                 <div class="m-r-20 align-self-center"><span class="lstick m-r-20"></span><img src="../assets/images/icon-panel/assets.png" alt="Income" /></div>
+                 <div class="align-self-center">
+                     <h6 class="text-muted m-t-10 m-b-0">Choferes activos</h6>
+                     <h2 class="m-t-0">765</h2></div>
+             </div>
+         </div>
+     </div>
+  </div>
+
+  <div class="col-lg-4">
+    <div class="card animated fadeIn">
+          <div class="card-body">
+              <div class="d-flex no-block">
+                  <div class="m-r-20 align-self-center"><span class="lstick m-r-20"></span><img src="../assets/images/icon-panel/assets.png" alt="Income" /></div>
+                  <div class="align-self-center">
+                      <h6 class="text-muted m-t-10 m-b-0">Quejas del servicio</h6>
+                      <h2 class="m-t-0">34</h2></div>
+              </div>
+          </div>
+      </div>
+  </div>
+
+  <div class="col-lg-7 m-10">
+    <div class="card animated fadeIn">
+      <div class="card-body">
+        <h4 class="font-medium m-t-30">Nivel de satisfacción global en la calidad del servicio</h4>
+        <hr>
+        <div class="container-progress">
+          <font class="icon-margin text-muted display-5"><i style="color:#06d79c" class="mdi mdi-emoticon"></i></font>
+          <div class="container-calificacion">
+            <h5>Excelente</h5>
+            <p class="p-nomargin">2,304 reviews <span class="pull-right">65%</span></p>
+            <div class="progress">
+                <div class="progress-bar bg-success" role="progressbar" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100" style="width:65%; height:4px;"> <span class="sr-only">65% Complete</span> </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="container-progress">
+          <font class="icon-margin text-muted display-5"><i style="color:#398bf7" class="mdi mdi-emoticon-happy"></i></font>
+          <div class="container-calificacion">
+            <h5>Bueno</h5>
+            <p class="p-nomargin">1,004 reviews <span class="pull-right">20%</span></p>
+            <div class="progress">
+                <div class="progress-bar bg-info" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width:20%; height:4px;"> <span class="sr-only">20% Complete</span> </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="container-progress">
+          <font class="icon-margin text-muted display-5"><i style="color:#ffb22b" class="mdi mdi-emoticon-neutral"></i></font>
+          <div class="container-calificacion">
+            <h5>Bueno</h5>
+            <p class="p-nomargin">504 reviews <span class="pull-right">10%</span></p>
+            <div class="progress">
+                <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100" style="width:10%; height:4px;"> <span class="sr-only">10% Complete</span> </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="container-progress">
+          <font class="icon-margin text-muted display-5"><i style="color:#ef5350" class="mdi mdi-emoticon-sad"></i></font>
+          <div class="container-calificacion">
+            <h5>Bueno</h5>
+            <p class="p-nomargin">204 reviews <span class="pull-right">5%</span></p>
+            <div class="progress">
+                <div class="progress-bar bg-danger" role="progressbar" aria-valuenow="5" aria-valuemin="0" aria-valuemax="100" style="width:5%; height:4px;"> <span class="sr-only">5% Complete</span> </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!--Little Profile widget-->
+  <div class="col-lg-5 col-xlg-4">
+      <div class="card animated fadeIn">
+          <div class="card-body little-profile text-center">
+             <h5 class="card-title">El Chofer del mes</h5>
+              <div class="pro-img m-t-20"><img src="http://www.santaritaasistencia.com/wp-content/uploads/2014/03/chofer.jpg" alt="user"></div>
+              <h3 class="m-b-0">Mark J. Freeman</h3>
+              <h6 class="text-muted">650 viajes este mes</h6>
+              <h6 class="text-muted">Nivel de satisfacción 85%</h6>
+
+          </div>
+
+          <div class="card-body text-center">
+              <a href="javascript:void(0)"
+              class="m-t-10 m-b-20 waves-effect waves-dark btn btn-success btn-md btn-rounded">Ver detalle</a>
+          </div>
+      </div>
+  </div>
+  <!--Little Profile widget-->
 </div>

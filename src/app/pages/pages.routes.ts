@@ -13,6 +13,7 @@ import { UsuariosComponent } from './usuarios/usuarios.component';
 import { ChoferesComponent } from './choferes/choferes.component';
 import { DetalleChoferComponent } from './detalle-chofer/detalle-chofer.component';
 import { AgregarChoferComponent } from './agregar-chofer/agregar-chofer.component';
+import { MonitoreoComponent } from './monitoreo/monitoreo.component';
 
 
 const pageRoutes: Routes = [
@@ -21,7 +22,8 @@ const pageRoutes: Routes = [
     component: PagesComponent,
     canActivate: [ AuthGuardService ],
     children: [
-      {path: 'dashboard', component: DashboardComponent, data : { titulo: 'Monitoreo de Unidades'}},
+      {path: 'dashboard', component: DashboardComponent, data : { titulo: 'Panel de control'}},
+      {path: 'monitoreo', component: MonitoreoComponent, data : { titulo: 'Monitoreo de Unidades'}},
       {path: 'reportes', component: ReportesComponent, data : { titulo: 'Reporte de incidencias'} },
       {path: 'choferes', component: ChoferesComponent, data : { titulo: 'Listado de Choferes'} },
       {path: 'agregar-chofer', component: AgregarChoferComponent, data : { titulo: 'Alta de Choferes'} },

@@ -1,0 +1,16 @@
+agm-map {
+    height: 550px;
+}
+
+.container-filter {
+    display: flex;
+    flex-direction: row;
+    position: absolute;
+    z-index: auto;
+}
+select{
+  background-color: white;
+}
+select:focus, input:focus{
+  border:solid 1px #b72c29;
+}

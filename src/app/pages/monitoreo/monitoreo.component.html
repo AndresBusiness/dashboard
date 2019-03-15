@@ -1,0 +1,36 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="card animated fadeIn">
+            <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom">
+                <agm-marker
+                  *ngFor="let item of taxistas"
+                  [latitude]="item.data.geoposition._lat"
+                  [longitude]="item.data.geoposition._long"
+                  [iconUrl]="item.img"
+                  (markerClick)="obtenerInfoChofer(item.data)">
+                </agm-marker>
+            </agm-map>
+            <div class="p-10 container-filter col-lg-12 col-md-12">
+                <div class="col-lg-4 col-md-4 col-sm-12">
+                    <select [(ngModel)]="rol" class="form-control custom-select" (change)="onChange($event)">
+                        <option>Selecciona el rol</option>
+                        <option>Todos</option>
+                        <option [value]="item.data.nombre" *ngFor="let item of locaciones" >{{ item.data.nombre}}</option>
+                    </select>
+                </div>
+
+                <div class="col-lg-4 col-md-4 col-sm-12">
+                    <input #search class="form-control search"
+                    type="number" [(ngModel)]="concesion"
+                    placeholder="Número de concesión"
+                    (keydown.enter)="onSearch(search.value)">
+                </div>
+                 <!--<div class="col-lg-4 col-md-4 col-sm-12">
+                    <div class="switch">
+                        <label>Seguir<input type="checkbox"><span class="lever"></span></label>
+                    </div>
+                </div>-->
+            </div>
+        </div>
+    </div>
+</div>

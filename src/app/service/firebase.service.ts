@@ -21,18 +21,16 @@ export class FirebaseService {
   }
 
   buscarUnidad(unidad: number) {
-    return new Promise<any>((resolve, reject) => {
+    return   this.afs.doc(`ubicacionUnidades/${unidad.toString()}`)
+            .valueChanges()
+    /*return new Promise<any>((resolve, reject) => {
       this.afs.doc(`ubicacionUnidades/${unidad.toString()}`)
       .valueChanges()
       .subscribe((data: any) => {
-        if (data) {
-          resolve(data);
-        } else {
-          console.log('NO SE ENCONTRO TAXISTA CON ESE UID');
-        }
+        resolve(data);
       }, err => reject(err)
       );
-    });
+    });*/
   }
 
   buscarInfoChoferes(id: string) {

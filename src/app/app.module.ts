@@ -28,17 +28,20 @@ import { ReadjsonService } from './service/readjson.service';
 
 // PLUGIN LOADING
 import { LoadingBarModule } from '@ngx-loading-bar/core';
-
+import { ArchwizardModule } from 'angular-archwizard';
+import { AgregarChoferComponent } from './pages/agregar-chofer/agregar-chofer.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent
+    LoginComponent,
+    AgregarChoferComponent,
   ],
   imports: [
     BrowserModule,
     PagesModule,
     SharedModule,
+    ArchwizardModule,
     FormsModule,
     HttpClientModule,
     ReactiveFormsModule,

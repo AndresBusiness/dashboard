@@ -2,6 +2,141 @@
     <div class="col-md-12">
         <div class="card animated fadeIn">
             <div class="p-20">
+              <form [formGroup]="forma" (ngSubmit)="guardarUsuario()" >
+                {{ forma.valid }}
+              <aw-wizard>
+                <aw-wizard-step stepTitle="Datos Personales">
+                  <div class="form-group p-10">
+
+                    <div class="container-form">
+                      <div class="item item-form-6">
+                        <h5>Nombre: <span class="text-danger">*</span></h5>
+                        <input type="text" name="text" formControlName="nombre" class="form-control" required>
+                      </div>
+                      <div class="item item-form-6">
+                        <h5>Apellidos: <span class="text-danger">*</span></h5>
+                        <input type="text" name="text" formControlName="apellidos" class="form-control" required>
+                      </div>
+                    </div>
+
+                    <div class="container-form">
+                      <div class="item item-form-6">
+                        <h5>Correo: <span class="text-danger">*</span></h5>
+                        <input type="text" name="text" formControlName="correo" class="form-control" required>
+                      </div>
+                      <div class="item item-form-6">
+                        <h5>Folio de Chofer: <span class="text-danger">*</span></h5>
+                        <input type="text" name="text" formControlName="folio" class="form-control" required>
+                      </div>
+                    </div>
+
+                    <div class="container-form">
+                      <div class="item item-form-6">
+                        <h5>Teléfono: <span class="text-danger">*</span></h5>
+                        <input type="text" data-mask="(999) 999-9999" formControlName="telefono" name="text" class="form-control" required>
+                        <span class="font-13 text-muted">(999) 999-9999</span>
+                      </div>
+                      <div class="item item-form-6">
+                            <h5>Etiqueta: <span class="text-danger">*</span></h5>
+                            <select class="form-control custom-select" formControlName="etiqueta">
+                                <option value="">Seleccione su etiqueta de chofer</option>
+                                <option value="0">Socio Concesionario, Dueño de placa</option>
+                                <option value="1">Socio Ayudante</option>
+                                <option value="2">Posturero</option>
+                            </select>
+                      </div>
+                    </div>
+
+                    <div class="container-form">
+                      <div class="item item-form-6">
+                        <h5>Fecha de nacimiento: <span class="text-danger">*</span></h5>
+                        <input type="text" placeholder="" data-mask="99/99/9999"
+                        formControlName="fechaNacimiento" class="form-control">
+                        <span class="font-13 text-muted">dd/mm/yyyy</span>
+                      </div>
+                      <div class="item item-form-6">
+                        <h5>Genero: <span class="text-danger">*</span></h5>
+                        <div class="form-check">
+                            <label class="custom-control custom-radio">
+                                <input id="radio1" name="radio" type="radio" class="custom-control-input">
+                                <span class="custom-control-indicator"></span>
+                                <span class="custom-control-description">Hombre</span>
+                            </label>
+                            <label class="custom-control custom-radio">
+                                <input id="radio2" name="radio" type="radio" class="custom-control-input">
+                                <span class="custom-control-indicator"></span>
+                                <span class="custom-control-description">Mujer</span>
+                            </label>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="container-form">
+                      <div class="item item-form-6">
+                        <h5>Foto: <span class="text-danger">*</span></h5>
+                        <input type="file" placeholder="" class="form-control">
+                      </div>
+                    </div>
+
+                    <button type="button" class="btn btn-outline-info btn-wizard-btn-next-step"
+                     awNextStep>Siguiente</button>
+                  </div>
+
+                </aw-wizard-step>
+                <aw-wizard-step stepTitle="Vehículo" >
+                    <div class="form-group p-10">
+                      <div class="container-form">
+                        <div class="item item-form-6">
+                          <h5>Modelo: <span class="text-danger">*</span></h5>
+                          <input type="text" name="text" class="form-control" required>
+                        </div>
+                        <div class="item item-form-6">
+                          <h5>Marca: <span class="text-danger">*</span></h5>
+                          <input type="text" name="text" class="form-control" required>
+                        </div>
+                      </div>
+                      <div class="container-form">
+                        <div class="item item-form-6">
+                          <h5>Matricula: <span class="text-danger">*</span></h5>
+                          <input type="text" name="text" class="form-control" required>
+                        </div>
+                        <div class="item item-form-6">
+                          <h5>Capacidad: <span class="text-danger">*</span></h5>
+                          <select class="form-control custom-select">
+                              <option value="">Seleccione la capacidad de personas del vehículo</option>
+                              <option value="">Hasta 4 personas</option>
+                              <option value="">Hasta 8 personas</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="container-form">
+                        <div class="item" p-10>
+                          <input type="checkbox" id="con_rampa" />
+                          <label for="con_rampa">Con Rampa</label>
+                        </div>
+                        <div class="item" p-10>
+                          <input type="checkbox" id="con_placa" />
+                          <label for="con_placa">Con Placa</label>
+                        </div>
+                      </div>
+
+                      <div class="btn-wizard-btn-next-step">
+                        <button type="button" class="btn btn-outline-warning btn-regresar"
+                         awPreviousStep>Regresar</button>
+                        <button type="button" class="btn btn-outline-info"
+                         awNextStep>Siguiente</button>
+                      </div>
+                    </div>
+                </aw-wizard-step>
+
+                <aw-wizard-step stepTitle="Finalizar">
+                  Content of Step 3
+                  <button type="button" class="btn btn-outline-warning"
+                   awPreviousStep>Regresar</button>
+                  <button type="submit" class="btn btn-outline-success">Finish</button>
+                </aw-wizard-step>
+              </aw-wizard>
+              </form>
 
             </div>
         </div>

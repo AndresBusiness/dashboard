@@ -10,10 +10,16 @@ import { filter, map } from 'rxjs/operators';
 export class BreadcrumbsComponent implements OnInit {
 
   titulo: string;
+  esMonitoreo: boolean;
   constructor(private router: Router) {
     this.getDataRoute()
     .subscribe(data => {
       this.titulo = data.titulo;
+      if(data.titulo == 'Monitoreo de Unidades'){
+        this.esMonitoreo = true;
+      }else{
+        this.esMonitoreo = false;
+      }
     });
    }
 

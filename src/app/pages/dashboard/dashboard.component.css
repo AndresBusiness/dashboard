@@ -1,8 +1,13 @@
-agm-map {
-    height: 500px;
+.container-progress{
+  display: flex;
+  flex-direction: row;
 }
-
-.container-filter {
-    display: flex;
-    flex-direction: row;
+.container-calificacion{
+  width: 100%;
+}
+.p-nomargin{
+  margin:0px;
+}
+.icon-margin{
+  margin-right: 20px;
 }

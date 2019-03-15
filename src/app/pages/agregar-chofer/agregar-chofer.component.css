@@ -1,0 +1,19 @@
+.btn-wizard-btn-next-step{
+  margin-top: 20px;
+  float: right;
+}
+
+.container-form{
+  display: flex;
+  flex-direction: row;
+}
+
+.item{
+  margin:10px;
+}
+.item-form-6{
+  width: 50%;
+}
+.btn-regresar{
+  margin-right: 15px;
+}

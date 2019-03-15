@@ -39,7 +39,7 @@ import { AgmCoreModule } from '@agm/core';
 import { GridModule } from 'ng2-jsgrid';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { NgbModule, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { AgregarChoferComponent } from './agregar-chofer/agregar-chofer.component';
+import { MonitoreoComponent } from './monitoreo/monitoreo.component';
 
 
 @NgModule({
@@ -59,7 +59,7 @@ import { AgregarChoferComponent } from './agregar-chofer/agregar-chofer.componen
     KeysPipe,
     UsuariosComponent,
     ModalChoferComponent,
-    AgregarChoferComponent
+    MonitoreoComponent
   ],
   exports: [
     DashboardComponent,
