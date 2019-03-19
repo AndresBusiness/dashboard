@@ -9,7 +9,7 @@ export class ReadjsonService {
 
   constructor(private http: HttpClient) { }
 
-  obtenerInfoChoferes(): Observable<any[]> {
+  obtenerItemJson(): Observable<any[]> {
     return this.http.get<any[]>('assets/json/infoChoferes.json');
   }
 

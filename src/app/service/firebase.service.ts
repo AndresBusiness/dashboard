@@ -53,8 +53,15 @@ export class FirebaseService {
                               ref => ref.limit(30)).snapshotChanges();
   }
 
-  agregarInfoChoferes(info: any) {
-   return this.afs.collection('infoChoferes').doc(info.correo).set(info);
+  agregarItem(numeroconcesion: string, push:string, nombre:string, img:string) {
+   // return this.afs.collection('ubicacionUnidades').doc(info.correo).set(info);
+     return  this.afs.collection('ubicacionUnidades')
+     .doc(numeroconcesion).update(
+       {
+        idPush: push,
+        nombre: nombre,
+        img: img
+       });
   }
 
   agregarUbicacionUnidades(info: any, numeroTaxi: number ) {

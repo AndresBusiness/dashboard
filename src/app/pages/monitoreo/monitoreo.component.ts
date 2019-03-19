@@ -32,15 +32,21 @@ export class MonitoreoComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.zoom= 14;
+    this.zoom = 14;
     this.obtenerLocaciones();
+    //this._agregarItem();
   }
 
   private _agregarItem() {
-    this.servicejson.obtenerInfoChoferes()
+    this.servicejson.obtenerItemJson()
     .subscribe(informacion => {
-      for (let i = 0; i < informacion.length; i++) {
-        this.servicioFirebase.agregarInfoChoferes(informacion[i]);
+      console.log(informacion.length);
+      let count = 200;
+      for (let i = 0; i < 54; i++) {
+        console.log(informacion[i]);
+        this.servicioFirebase.agregarItem(count.toString(), 'PUSH_ID', informacion[i].nombre,
+        informacion[i].img);
+        count++;
       }
     });
   }
@@ -155,25 +161,25 @@ export class MonitoreoComponent implements OnInit {
     }
   }
 
-  _addIconMarquer(data: any){
+  _addIconMarquer(data: any) {
   let img = '';
   if (data.descripcionUbicacion === 'Libre') {
-    if(data.llevaPasaje != "no"){
-      img = '../../../assets/images/pin/Taxi-libre.png';
-    }else{
+    if (data.llevaPasaje !== 'no') {
       img = '../../../assets/images/pin/Taxi-libre-ocupado.png';
+    } else {
+      img = '../../../assets/images/pin/Taxi-libre.png';
     }
   } else if (data.descripcionUbicacion === 'SemiLibre') {
-    if(data.llevaPasaje != "no"){
-      img = '../../../assets/images/pin/Taxi-Semilibre.png';
-    }else{
+    if (data.llevaPasaje !== 'no') {
       img = '../../../assets/images/pin/Taxi-Semilibre-ocupado.png';
+    } else {
+      img = '../../../assets/images/pin/Taxi-Semilibre.png';
     }
   } else {
-    if(data.llevaPasaje != "no"){
-      img = '../../../assets/images/pin/Taxi-turno.png';
-    }else{
+    if (data.llevaPasaje !== 'no') {
       img = '../../../assets/images/pin/Taxi-turno-ocupado.png';
+    } else {
+      img = '../../../assets/images/pin/Taxi-turno.png';
     }
   }
   return img;
