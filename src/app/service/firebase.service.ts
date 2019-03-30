@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreDocument } from 'angularfire2/firestore';
 import * as firebase from 'firebase/app';
+import { filter } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -46,6 +47,11 @@ export class FirebaseService {
       }, err => reject(err)
       );
     });
+  }
+
+  buscarComentariosChoferes(id: string) {
+    return this.afs.collection('rating',
+                              ref => ref.where('uidChofer', '==', id)).valueChanges();
   }
 
   obtenerInfoChoferes() {

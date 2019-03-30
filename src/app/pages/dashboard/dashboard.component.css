@@ -11,3 +11,18 @@
 .icon-margin{
   margin-right: 20px;
 }
+.excelente{
+  background:#27AE60;
+}
+.muybueno{
+  background:#F1C40F;
+}
+.normal{
+  background:#398bf7;
+}
+.malo{
+  background:#DC7633;
+}
+.pesimo{
+  background:#ef5350;
+ }

@@ -3,17 +3,17 @@
     <div class="col-lg-4 col-xlg-3 col-md-5">
         <div class="card">
             <div class="card-body">
-                <div class="m-t-30">
+                <div class="m-t-30" *ngIf="user" >
                     <div class="center-image-profile">
-                        <img src="http://www.aldiadallas.com/wp-content/uploads/2016/12/brasil-taxista-300x300.jpg" class="img-circle" width="150" />
-                        <h4 class="card-title m-t-10">Hanna Gover</h4>
+                        <img [src]="user.img" class="img-circle" width="150" />
+                        <h4 class="card-title m-t-10">{{user.nombre}}</h4>
                     </div>
                     <hr />
                     <div class="card-body">
                         <small class="text-muted">Correo Electrónico </small>
-                        <h6>hannagover@gmail.com</h6>
+                        <h6>{{user.correo}}</h6>
                         <small class="text-muted p-t-30 db">Teléfono: </small>
-                        <h6>+91 654 784 547</h6>
+                        <h6>{{user.telefono}}</h6>
                         <hr/>
                         <span class="label label-success">Dueño</span><br />
                         <small class="text-muted">Unidad <strong>212</strong> </small><br />
@@ -43,89 +43,79 @@
                     <div class="card-body">
                         <h4 class="font-medium m-t-30">Nivel de satisfacción en la calidad de su servicio</h4>
                         <hr>
+
                         <div class="container-progress">
-                          <font class="icon-margin text-muted display-5"><i style="color:#06d79c" class="mdi mdi-emoticon"></i></font>
+                            <font class="icon-margin text-muted display-5"><i style="color:#27AE60" class="mdi mdi-emoticon-cool"></i></font>
+                            <div class="container-calificacion">
+                              <h5>Excelente</h5>
+                              <p class="p-nomargin">2,304 reviews <span class="pull-right">65%</span></p>
+                              <div class="progress">
+                                  <div class="progress-bar excelente" role="progressbar" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100" style="width:65%; height:4px;"> <span class="sr-only">65% Complete</span> </div>
+                              </div>
+                            </div>
+                          </div>
+                  
+                        <div class="container-progress">
+                          <font class="icon-margin text-muted display-5"><i style="color:#F1C40F" class="mdi mdi-emoticon"></i></font>
                           <div class="container-calificacion">
-                            <h5>Excelente</h5>
+                            <h5>Muy bueno</h5>
                             <p class="p-nomargin">2,304 reviews <span class="pull-right">65%</span></p>
                             <div class="progress">
-                                <div class="progress-bar bg-success" role="progressbar" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100" style="width:65%; height:4px;"> <span class="sr-only">65% Complete</span> </div>
+                                <div class="progress-bar muybueno" role="progressbar" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100" style="width:65%; height:4px;"> <span class="sr-only">65% Complete</span> </div>
                             </div>
                           </div>
                         </div>
-
+                  
                         <div class="container-progress">
                           <font class="icon-margin text-muted display-5"><i style="color:#398bf7" class="mdi mdi-emoticon-happy"></i></font>
                           <div class="container-calificacion">
-                            <h5>Bueno</h5>
+                            <h5>Normal</h5>
                             <p class="p-nomargin">1,004 reviews <span class="pull-right">20%</span></p>
                             <div class="progress">
-                                <div class="progress-bar bg-info" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width:20%; height:4px;"> <span class="sr-only">20% Complete</span> </div>
+                                <div class="progress-bar normal" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width:20%; height:4px;"> <span class="sr-only">20% Complete</span> </div>
                             </div>
                           </div>
                         </div>
-
+                  
                         <div class="container-progress">
-                          <font class="icon-margin text-muted display-5"><i style="color:#ffb22b" class="mdi mdi-emoticon-neutral"></i></font>
+                          <font class="icon-margin text-muted display-5"><i style="color:#DC7633" class="mdi mdi-emoticon-neutral"></i></font>
                           <div class="container-calificacion">
-                            <h5>Bueno</h5>
+                            <h5>Malo</h5>
                             <p class="p-nomargin">504 reviews <span class="pull-right">10%</span></p>
                             <div class="progress">
-                                <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100" style="width:10%; height:4px;"> <span class="sr-only">10% Complete</span> </div>
+                                <div class="progress-bar malo" role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100" style="width:10%; height:4px;"> <span class="sr-only">10% Complete</span> </div>
                             </div>
                           </div>
                         </div>
-
+                  
                         <div class="container-progress">
                           <font class="icon-margin text-muted display-5"><i style="color:#ef5350" class="mdi mdi-emoticon-sad"></i></font>
                           <div class="container-calificacion">
-                            <h5>Bueno</h5>
+                            <h5>Pésimo</h5>
                             <p class="p-nomargin">204 reviews <span class="pull-right">5%</span></p>
                             <div class="progress">
-                                <div class="progress-bar bg-danger" role="progressbar" aria-valuenow="5" aria-valuemin="0" aria-valuemax="100" style="width:5%; height:4px;"> <span class="sr-only">5% Complete</span> </div>
+                                <div class="progress-bar pesimo" role="progressbar"aria-valuenow="5" aria-valuemin="0" aria-valuemax="100" style="width:5%; height:4px;"> <span class="sr-only">5% Complete</span> </div>
                             </div>
                           </div>
                         </div>
+                  
 
                         <h4 class="font-medium m-t-30">Comentarios</h4>
                         <hr>
+                        <h4 *ngIf="listComentarios.length == 0" >Este Chofer aún no tiene ningún comentario</h4>
 
-                        <div class="profiletimeline">
-                            <div class="sl-item">
-                                <div class="sl-left"> <img src="http://www.aldiadallas.com/wp-content/uploads/2016/12/brasil-taxista-300x300.jpg" alt="user" class="img-circle" /> </div>
+                        <div class="profiletimeline" *ngIf="listComentarios.length !== 0" >
+                            <div  class="sl-item" *ngFor="let item of listComentarios" >
+                                <div class="sl-left"> <img [src]="item.imgPasajero" alt="user" class="img-circle" /> </div>
                                 <div class="sl-right">
-                                    <div> <a href="#" class="link">John Doe</a> <span class="sl-date">5 minutes ago</span>
-                                        <div class="m-t-20 row">
-                                            <div class="col-md-3 col-xs-12"><img src="http://www.aldiadallas.com/wp-content/uploads/2016/12/brasil-taxista-300x300.jpg" alt="user" class="img-responsive radius" /></div>
-                                            <div class="col-md-9 col-xs-12">
-                                                <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. </p> <a href="#" class="btn btn-success"> Design weblayout</a></div>
-                                        </div>
-                                        <div class="like-comm m-t-20"> <a href="javascript:void(0)" class="link m-r-10">2 comment</a> <a href="javascript:void(0)" class="link m-r-10"><i class="fa fa-heart text-danger"></i> 5 Love</a> </div>
+                                    <div><a href="#" class="link">{{ item.nombrePasajero }}</a> <span class="sl-date">{{item.fecha}}</span>
+                                        <p class="m-t-10"> {{ item.comentario}} </p>
                                     </div>
+                                    <div class="like-comm m-t-20"><i [ngStyle]="{'color': item.emoji.class}"  [class]="item.emoji.icon"></i>{{item.emoji.rating}} </div>
                                 </div>
+                                <hr>
                             </div>
-                            <hr>
-                            <div class="sl-item">
-                                <div class="sl-left"> <img src="http://www.aldiadallas.com/wp-content/uploads/2016/12/brasil-taxista-300x300.jpg" alt="user" class="img-circle" /> </div>
-                                <div class="sl-right">
-                                    <div><a href="#" class="link">John Doe</a> <span class="sl-date">5 minutes ago</span>
-                                        <p class="m-t-10"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet. Duis sagittis ipsum. Praesent mauris.
-                                            Fusce nec tellus sed augue semper </p>
-                                    </div>
-                                    <div class="like-comm m-t-20"> <a href="javascript:void(0)" class="link m-r-10">2 comment</a> <a href="javascript:void(0)" class="link m-r-10"><i class="fa fa-heart text-danger"></i> 5 Love</a> </div>
-                                </div>
-                            </div>
-                            <hr>
-                            <div class="sl-item">
-                                <div class="sl-left"> <img src="http://www.aldiadallas.com/wp-content/uploads/2016/12/brasil-taxista-300x300.jpg" alt="user" class="img-circle" /> </div>
-                                <div class="sl-right">
-                                    <div><a href="#" class="link">John Doe</a> <span class="sl-date">5 minutes ago</span>
-                                        <blockquote class="m-t-10">
-                                            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt
-                                        </blockquote>
-                                    </div>
-                                </div>
-                            </div>
+
                         </div>
                     </div>
                 </div>

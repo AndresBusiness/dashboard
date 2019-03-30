@@ -1,4 +1,6 @@
+import { FirebaseService } from './../../service/firebase.service';
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-detalle-chofer',
@@ -6,10 +8,54 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./detalle-chofer.component.css']
 })
 export class DetalleChoferComponent implements OnInit {
-
-  constructor() { }
+  
+  user = {
+    "uid":"",
+    "correo":"",    
+    "nombre":"",    
+    "img":"",    
+    "telefono":"",  
+    "registrado":"", 
+    "choferActivo":""
+  }
+  listComentarios: any[]=[];
+  colorIcon:string[] =[ "#ef5350", "#DC7633", "#398bf7", "#F1C40F","#27AE60"];
+  icons:string[] = ["mdi mdi-emoticon-sad", "mdi mdi-emoticon-neutral", "mdi mdi-emoticon-happy","mdi mdi-emoticon","mdi mdi-emoticon-cool"];
+  rating:string[]=["Péismo", "Malo", "Normal", "Muy bueno", "Excelente"];
+  constructor(private route: ActivatedRoute,
+    private servicioFirebase: FirebaseService) { 
+    this.user.uid = this.route.snapshot.paramMap.get('uid');
+    this.obtenerInfoChofer(this.user.uid);
+  }
 
   ngOnInit() {
+  }
+
+  obtenerInfoChofer(uid: string) {
+    this.servicioFirebase.buscarInfoChoferes(uid)
+        .then(data => {
+          this.user.correo     = data.correo;
+          this.user.nombre     = data.nombre;
+          this.user.img        = data.img;
+          this.user.telefono   = data.telefono;
+          this.user.registrado = data.registrado;
+          this.user.choferActivo  = data.activo;
+        });
+    
+    this.servicioFirebase.buscarComentariosChoferes(uid)
+        .subscribe((data: any)=>{
+          this.listComentarios = [];
+          for(let i = 0; i< data.length; i++){
+            if(data[i].comentario !== ""){
+              data[i].emoji = {
+                icon: this.icons[data[i].calificacion-1],
+                class: this.colorIcon[data[i].calificacion-1],
+                rating :this.rating[data[i].calificacion-1],
+              }
+              this.listComentarios.push(data[i]);
+            }
+          }
+        });
   }
 
 }

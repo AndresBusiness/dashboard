@@ -15,15 +15,10 @@ export class ChoferesComponent implements OnInit {
   settings: any;
   loading: boolean;
   infoChoferes: any [];
-  castor: string;
-  lira: string;
   private _observableSubscriptions: Subscription[] = [];
   constructor(private servicioFirebase: FirebaseService,
     public router: Router) {
     this.loading = true;
-    this.castor = 'http://www.aldiadallas.com/wp-content/uploads/2016/12/brasil-taxista-300x300.jpg';
-    this.lira  = 'https://anamariaalvarado.tv/wp-content/uploads/2018/08/29507e94-9bef-4ad4-bf16-eb0eda3ac7f3-1-300x300.jpg';
-
     this._observarInfoTaxistas();
   }
 
@@ -47,12 +42,11 @@ export class ChoferesComponent implements OnInit {
       class: 'table table-hover table-bordered'
       },
       columns: {
-        genero: {
+        img: {
           title: 'Foto',
           filter: false,
           type: 'html',
-          valuePrepareFunction: (genero: string) => {
-            const img = genero === 'male' ? this.castor : this.lira;
+          valuePrepareFunction: (img: string) => {
             return `<img  width="50" height="50" class="profile-pic" src="${img}" />`; },
         },
         nombre: {
@@ -117,6 +111,7 @@ export class ChoferesComponent implements OnInit {
                     info.uid = taxistaData.payload.doc.id;
                     this.infoChoferes.push(info);
                   });
+                  console.log(this.infoChoferes)
                   this.source = new LocalDataSource(this.infoChoferes);
                 });
     setTimeout(() => {
