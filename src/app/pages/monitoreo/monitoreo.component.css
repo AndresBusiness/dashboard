@@ -7,6 +7,7 @@ agm-map {
     flex-direction: row;
     position: absolute;
     z-index: auto;
+    width: 80%;
 }
 select{
   background-color: white;

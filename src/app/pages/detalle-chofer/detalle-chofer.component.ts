@@ -18,12 +18,14 @@ export class DetalleChoferComponent implements OnInit {
     "registrado":"", 
     "choferActivo":""
   }
+  imgDefault : string;
   listComentarios: any[]=[];
   colorIcon:string[] =[ "#ef5350", "#DC7633", "#398bf7", "#F1C40F","#27AE60"];
   icons:string[] = ["mdi mdi-emoticon-sad", "mdi mdi-emoticon-neutral", "mdi mdi-emoticon-happy","mdi mdi-emoticon","mdi mdi-emoticon-cool"];
   rating:string[]=["Péismo", "Malo", "Normal", "Muy bueno", "Excelente"];
   constructor(private route: ActivatedRoute,
     private servicioFirebase: FirebaseService) { 
+    this.imgDefault = 'https://firebasestorage.googleapis.com/v0/b/directtaxi-prod.appspot.com/o/imgDefault.png?alt=media&token=e65da24c-3355-4327-8e4f-d9c177564f47';
     this.user.uid = this.route.snapshot.paramMap.get('uid');
     this.obtenerInfoChofer(this.user.uid);
   }
@@ -52,6 +54,7 @@ export class DetalleChoferComponent implements OnInit {
                 class: this.colorIcon[data[i].calificacion-1],
                 rating :this.rating[data[i].calificacion-1],
               }
+              data[i].imgPasajero =  data[i].imgPasajero == 'sin imagen' ? this.imgDefault : data[i].imgPasajero;
               this.listComentarios.push(data[i]);
             }
           }

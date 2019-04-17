@@ -10,11 +10,7 @@ export class ReadjsonService {
   constructor(private http: HttpClient) { }
 
   obtenerItemJson(): Observable<any[]> {
-    return this.http.get<any[]>('assets/json/infoChoferes.json');
-  }
-
-  obtenerGeopositionUnidades(): Observable<any[]> {
-    return this.http.get<any[]>('assets/json/ubicacionUnidades.json');
+    return this.http.get<any[]>('assets/json/rolles.json');
   }
 
 }

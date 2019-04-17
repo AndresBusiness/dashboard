@@ -1,12 +1,11 @@
 export const environment = {
   production: true,
   firebase: {
-    apiKey: 'AIzaSyDswAZyitSyVq5r1guzikygl_X6NIAz46A',
-    authDomain: 'taxiapp-70751.firebaseapp.com',
-    databaseURL: 'https://taxiapp-70751.firebaseio.com',
-    projectId: 'taxiapp-70751',
-    storageBucket: 'taxiapp-70751.appspot.com',
-    messagingSenderId: '697356156489'
-  },
-  googleMapsKey: 'AIzaSyBIjYiShatFSJp6Uop7Fy1HAi2doE-8EAg'
+    apiKey: "AIzaSyDCSZP6QgfBgbUa3jsq5rnVAtdYHuZxTgM",
+    authDomain: "directtaxi-prod.firebaseapp.com",
+    databaseURL: "https://directtaxi-prod.firebaseio.com",
+    projectId: "directtaxi-prod",
+    storageBucket: "directtaxi-prod.appspot.com",
+    messagingSenderId: "262883718255"
+  }
 };

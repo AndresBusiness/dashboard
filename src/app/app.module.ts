@@ -18,7 +18,7 @@ import { SharedModule } from './shared/shared.module';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFirestoreModule, FirestoreSettingsToken } from 'angularfire2/firestore';
 import { AngularFireAuthModule } from 'angularfire2/auth';
-import { environment } from '../environments/environment';
+import { environment } from '../environments/environment.prod';
 
 // SERVICIOS
 import { FirebaseService } from './service/firebase.service';

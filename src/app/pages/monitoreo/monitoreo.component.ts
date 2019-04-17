@@ -33,20 +33,20 @@ export class MonitoreoComponent implements OnInit {
 
   ngOnInit() {
     this.zoom = 14;
-    this.obtenerLocaciones();
-    //this._agregarItem();
+    this.obtenerRoles();
+    // this._agregarItem();
   }
 
   private _agregarItem() {
     this.servicejson.obtenerItemJson()
     .subscribe(informacion => {
       console.log(informacion.length);
-      let count = 200;
-      for (let i = 0; i < 54; i++) {
+      for (let i = 0; i < informacion.length; i++) {
         console.log(informacion[i]);
-        this.servicioFirebase.agregarItem(count.toString(), 'PUSH_ID', informacion[i].nombre,
-        informacion[i].img);
-        count++;
+        this.servicioFirebase.agregarItem(informacion[i].id, informacion[i].data)
+        .then(()=>{
+          console.log('guardado');
+        });
       }
     });
   }
@@ -66,14 +66,22 @@ export class MonitoreoComponent implements OnInit {
                   });
                 });
     this._observableSubscriptions.push(s);
+    setTimeout(()=>{
+      for(let i = 0; i< this.taxistas.length; i++){
+        /*this.servicioFirebase.actualizarItem(this.taxistas[i].id, liostaddons[i].capacidad, liostaddons[i].conRampa)
+        .then(()=>{
+          console.log('GUARDADO');
+        });*/
+      }
+    }, 5000);
   }
 
-  public obtenerLocaciones() {
-    const listLocaciones = JSON.parse(localStorage.getItem('LOCACIONES'));
+  public obtenerRoles() {
+    const listLocaciones = JSON.parse(localStorage.getItem('ROLES'));
     if (listLocaciones != null) {
         this.locaciones = listLocaciones;
     } else {
-        this.servicioFirebase.obtenerLocaciones().subscribe((locacionSnapshot) => {
+        this.servicioFirebase.obtenerRolles().subscribe((locacionSnapshot) => {
         this.locaciones = [];
         locacionSnapshot.forEach((locacionData: any) => {
           this.locaciones.push({
@@ -81,7 +89,7 @@ export class MonitoreoComponent implements OnInit {
             data: locacionData.payload.doc.data(),
           });
         });
-        localStorage.setItem('LOCACIONES', JSON.stringify(this.locaciones));
+        localStorage.setItem('ROLES', JSON.stringify(this.locaciones));
       });
     }
   }

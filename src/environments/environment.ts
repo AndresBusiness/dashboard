@@ -11,8 +11,7 @@ export const environment = {
     projectId: 'taxiapp-70751',
     storageBucket: 'taxiapp-70751.appspot.com',
     messagingSenderId: '697356156489'
-  },
-  googleMapsKey: 'AIzaSyBIjYiShatFSJp6Uop7Fy1HAi2doE-8EAg'
+  }
 };
 
 

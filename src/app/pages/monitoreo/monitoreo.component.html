@@ -1,7 +1,11 @@
 <div class="row">
     <div class="col-md-12">
         <div class="card animated fadeIn">
-            <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom">
+            
+            <agm-map [latitude]="lat" [longitude]="lng" 
+               [fullscreenControl]="true" 
+               [streetViewControl]="false"
+               [zoom]="zoom" [maxZoom]="18" [minZoom] ="12">
                 <agm-marker
                   *ngFor="let item of taxistas"
                   [latitude]="item.data.geoposition._lat"

@@ -51,24 +51,45 @@ export class FirebaseService {
 
   buscarComentariosChoferes(id: string) {
     return this.afs.collection('rating',
-                              ref => ref.where('uidChofer', '==', id)).valueChanges();
+                              ref => ref.where('uidChofer', '==', id)
+                              .orderBy('fecha','asc').limit(10)).valueChanges();
   }
 
   obtenerInfoChoferes() {
     return this.afs.collection('infoChoferes',
-                              ref => ref.limit(30)).snapshotChanges();
+                              ref => ref.limit(50)).snapshotChanges();
   }
 
-  agregarItem(numeroconcesion: string, push:string, nombre:string, img:string) {
-   // return this.afs.collection('ubicacionUnidades').doc(info.correo).set(info);
-     return  this.afs.collection('ubicacionUnidades')
+  agregarItem(uid: string, value: any) {
+
+  
+    return this.afs.collection('roll').doc(uid).set(value);
+     /*return  this.afs.collection('ubicacionUnidades')
      .doc(numeroconcesion).update(
        {
-        idPush: push,
-        nombre: nombre,
-        img: img
-       });
+      "activo": value.activo,
+      "capacidad": value.capacidad,
+      "chofer": value.chofer,
+      "conRampa": value.conRampa,
+      "descripcionUbicacion": value.descripcionUbicacion,
+      "geoposition": new firebase.firestore.GeoPoint(value.geoposition._lat, value.geoposition._long),
+      "idPush": "PUSH_ID",
+      "img": value.img,
+      "llevaPasaje":  value.llevaPasaje,
+      "nombre": value.nombre,
+      "unidad": value.unidad
+       });*/
   }
+
+  actualizarItem(numeroconcesion: string, capacidad:number, conRampa:boolean) {
+    // return this.afs.collection('ubicacionUnidades').doc(info.correo).set(info);
+      return  this.afs.collection('ubicacionUnidades')
+      .doc(numeroconcesion).update(
+        {
+         conRampa: conRampa,
+         capacidad: capacidad
+        });
+   }
 
   agregarUbicacionUnidades(info: any, numeroTaxi: number ) {
     const data = {
@@ -99,7 +120,7 @@ export class FirebaseService {
           });
   }
 
-  obtenerLocaciones() {
-    return this.afs.collection('locaciones').snapshotChanges();
+  obtenerRolles() {
+    return this.afs.collection('roll').snapshotChanges();
   }
 }

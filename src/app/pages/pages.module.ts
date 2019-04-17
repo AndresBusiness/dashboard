@@ -82,7 +82,7 @@ import { MonitoreoComponent } from './monitoreo/monitoreo.component';
     NgbModule.forRoot(),
     GridModule.forRoot(),
     AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyBIjYiShatFSJp6Uop7Fy1HAi2doE-8EAg'
+      apiKey: 'AIzaSyDCSZP6QgfBgbUa3jsq5rnVAtdYHuZxTgM'
      }),
     PAGES_ROUTES
   ],
