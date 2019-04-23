@@ -35,6 +35,7 @@ export class FirebaseService {
   }
 
   buscarInfoChoferes(id: string) {
+    
     return new Promise<any>((resolve, reject) => {
       this.afs.doc(`infoChoferes/${id}`)
       .valueChanges()
@@ -47,6 +48,13 @@ export class FirebaseService {
       }, err => reject(err)
       );
     });
+  }
+
+
+  buscarInfoUnidad(chofer: string) {
+    return this.afs.collection('ubicacionUnidades',
+    ref => ref.where('chofer', '==', chofer)).valueChanges();
+
   }
 
   buscarComentariosChoferes(id: string) {

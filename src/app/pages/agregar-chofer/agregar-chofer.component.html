@@ -84,7 +84,12 @@
 
                 </aw-wizard-step>
                 <aw-wizard-step stepTitle="Vehículo" >
+          
+                    
                     <div class="form-group p-10">
+
+                        <h2>Vehículo 1</h2>
+
                       <div class="container-form">
                         <div class="item item-form-6">
                           <h5>Modelo: <span class="text-danger">*</span></h5>
@@ -109,17 +114,20 @@
                           </select>
                         </div>
                       </div>
+
+                      
                       <div class="container-form">
                         <div class="item" p-10>
                           <input type="checkbox" id="con_rampa" />
                           <label for="con_rampa">Con Rampa</label>
                         </div>
+                        POSTURERO NO LLEVA CONCESION
                         <div class="item" p-10>
                           <input type="checkbox" id="con_placa" />
-                          <label for="con_placa">Con Placa</label>
+                          <label for="con_placa">Con concesión</label>
                         </div>
                       </div>
-
+                      <button type="button" class="btn btn-outline-info">Agregar otro vehículo</button>
                       <div class="btn-wizard-btn-next-step">
                         <button type="button" class="btn btn-outline-warning btn-regresar"
                          awPreviousStep>Regresar</button>
@@ -131,6 +139,7 @@
 
                 <aw-wizard-step stepTitle="Finalizar">
                   Content of Step 3
+                  <li>imprimir usuario administrador que dio de alta el chofer</li>
                   <button type="button" class="btn btn-outline-warning"
                    awPreviousStep>Regresar</button>
                   <button type="submit" class="btn btn-outline-success">Finish</button>

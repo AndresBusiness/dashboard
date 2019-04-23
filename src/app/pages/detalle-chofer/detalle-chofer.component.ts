@@ -16,7 +16,8 @@ export class DetalleChoferComponent implements OnInit {
     "img":"",    
     "telefono":"",  
     "registrado":"", 
-    "choferActivo":""
+    "choferActivo":"", 
+    "unidad": null,
   }
   imgDefault : string;
   listComentarios: any[]=[];
@@ -42,6 +43,12 @@ export class DetalleChoferComponent implements OnInit {
           this.user.telefono   = data.telefono;
           this.user.registrado = data.registrado;
           this.user.choferActivo  = data.activo;
+          console.log(this.user)
+          this.servicioFirebase.buscarInfoUnidad(this.user.correo)
+          .subscribe((data: any)=>{
+            console.log(data)
+            this.user.unidad = data[0].unidad
+          })
         });
     
     this.servicioFirebase.buscarComentariosChoferes(uid)
