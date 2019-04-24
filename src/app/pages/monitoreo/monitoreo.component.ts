@@ -38,21 +38,26 @@ export class MonitoreoComponent implements OnInit {
   }
 
   private _agregarItem() {
-    this.servicejson.obtenerItemJson()
+    const list: any[] = [];
+    this.servicejson.obtenerItemJsonConcesion()
     .subscribe(informacion => {
-      console.log(informacion.length);
-      for (let i = 0; i < informacion.length; i++) {
-        console.log(informacion[i]);
-        this.servicioFirebase.agregarItem(informacion[i].id, informacion[i].data)
-        .then(()=>{
+      for (let i = 0; i < 53; i++) {
+
+        this.servicioFirebase.agregarItem(
+          (informacion[i].unidad).toString(),
+           informacion[i])
+        .then(() => {
           console.log('guardado');
         });
       }
+      setTimeout(()=>{
+        console.log(JSON.stringify(list));
+      }, 5000);
     });
   }
 
   public _observarUbicacionUnidades() {
-    const s = this.servicioFirebase.obtenerUbicacionUnidades()
+    const s = this.servicioFirebase.obtenerConcesiones()
                 .subscribe((taxistasSnapshot) => {
                   this.taxistas = [];
                   taxistasSnapshot.forEach((taxistaData: any) => {
@@ -66,14 +71,7 @@ export class MonitoreoComponent implements OnInit {
                   });
                 });
     this._observableSubscriptions.push(s);
-    setTimeout(()=>{
-      for(let i = 0; i< this.taxistas.length; i++){
-        /*this.servicioFirebase.actualizarItem(this.taxistas[i].id, liostaddons[i].capacidad, liostaddons[i].conRampa)
-        .then(()=>{
-          console.log('GUARDADO');
-        });*/
-      }
-    }, 5000);
+
   }
 
   public obtenerRoles() {
@@ -96,7 +94,7 @@ export class MonitoreoComponent implements OnInit {
 
   obtenerInfoChofer(info: any) {
     const chofer = info;
-    this.servicioFirebase.buscarInfoChoferes(info.chofer)
+    this.servicioFirebase.buscarChofer(info.chofer)
         .then(data => {
           chofer.correo = data.correo;
           chofer.nombre = data.nombre;
@@ -111,9 +109,9 @@ export class MonitoreoComponent implements OnInit {
   }
 
   onSearch(unidad: any ) {
-     this.servicioFirebase.buscarUnidad(unidad)
+     this.servicioFirebase.buscarConcesion(unidad)
       .subscribe((data: any) => {
-        if(data){
+        if (data) {
           this.taxistas = [];
           this.rol = 'Selecciona el rol';
           let img = this._addIconMarquer(data);
@@ -132,14 +130,14 @@ export class MonitoreoComponent implements OnInit {
   }
 
   onChange($event) {
-    this.concesion= '';
+    this.concesion = '';
     if (this.rol === 'Todos' || this.rol === 'Selecciona el rol') {
       this.lat = 20.5024843;
       this.lng = -86.9467869;
       this.zoom = 15;
       this._observarUbicacionUnidades();
     } else {
-      const s = this.servicioFirebase.filtrarUnidades(this.rol)
+      const s = this.servicioFirebase.filtrarConcesiones(this.rol)
       .subscribe((taxistasSnapshot) => {
         this.taxistas = [];
         taxistasSnapshot.forEach((taxistaData: any) => {

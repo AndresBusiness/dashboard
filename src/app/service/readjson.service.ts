@@ -9,8 +9,12 @@ export class ReadjsonService {
 
   constructor(private http: HttpClient) { }
 
-  obtenerItemJson(): Observable<any[]> {
-    return this.http.get<any[]>('assets/json/rolles.json');
+  obtenerItemJsonChofer(): Observable<any[]> {
+    return this.http.get<any[]>('assets/json/infoChoferes.json');
+  }
+
+  obtenerItemJsonConcesion(): Observable<any[]> {
+    return this.http.get<any[]>('assets/json/ubicacionUnidades.json');
   }
 
 }

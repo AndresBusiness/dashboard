@@ -63,7 +63,7 @@ export class AuthService {
 
  _obtenerUsuarioCloudStorage(id: string) {
     return new Promise<any>((resolve, reject) => {
-      this.afBD.doc(`admin/${id}`)
+      this.afBD.doc(`ciudades/cozumel/admin/${id}`)
         .valueChanges()
         .subscribe((data: any) => {
             if (data) {

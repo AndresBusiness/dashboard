@@ -75,11 +75,6 @@ export class ChoferesComponent implements OnInit {
     };
   }
 
-  onCustom(event) {
-    console.log(event.data);
-    const path = `/detalle-choferes/${event.data.uid}`;
-    this.router.navigate([path]);
-  }
 
   onUserRowSelect(event): void {
     console.log(event.data);
@@ -95,7 +90,7 @@ export class ChoferesComponent implements OnInit {
         search: query
       },
       {
-        field: 'uid',
+        field: 'concesion',
         search: query
       }
     ], false);
@@ -111,7 +106,7 @@ export class ChoferesComponent implements OnInit {
                     info.uid = taxistaData.payload.doc.id;
                     this.infoChoferes.push(info);
                   });
-                  console.log(JSON.stringify(this.infoChoferes))
+                  console.log(JSON.stringify(this.infoChoferes));
                   this.source = new LocalDataSource(this.infoChoferes);
                 });
     setTimeout(() => {
