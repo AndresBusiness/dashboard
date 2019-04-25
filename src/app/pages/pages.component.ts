@@ -13,7 +13,6 @@ export class PagesComponent implements OnInit {
   constructor(private router: Router) {
     this.getDataRoute()
     .subscribe(data => {
-      console.log(data.titulo)
       if(data.titulo == 'Monitoreo de Unidades'){
         this.esMonitoreo = true;
       }else{

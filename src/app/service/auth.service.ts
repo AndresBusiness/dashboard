@@ -46,7 +46,6 @@ export class AuthService {
 
   Logout() {
     return new Promise((resolve, reject) => {
-      console.log(firebase.auth());
       if (firebase.auth().currentUser) {
         this.afAuth.auth.signOut();
         this.borrarStorage();
@@ -70,7 +69,7 @@ export class AuthService {
             this.guardarStorage(id, data);
             resolve(data);
             } else {
-            console.log('NO SE ENCONTRO USUARIO CON ESE UID');
+            console.log('NO SE ENCONTRO USUARIO CON ESE UID', id);
             }
         }, err => reject(err)
         );

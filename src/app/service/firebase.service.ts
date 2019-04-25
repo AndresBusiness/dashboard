@@ -83,6 +83,6 @@ export class FirebaseService {
   }
 
   obtenerRolles() {
-    return this.afs.collection('roll').snapshotChanges();
+    return this.afs.collection('ciudades/cozumel/turnos').snapshotChanges();
   }
 }
