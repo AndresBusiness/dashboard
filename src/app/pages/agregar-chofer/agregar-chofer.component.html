@@ -2,8 +2,8 @@
     <div class="col-md-12">
         <div class="card animated fadeIn">
             <div class="p-20">
+              {{ forma.valid }}
               <form [formGroup]="forma" (ngSubmit)="guardarUsuario()" >
-                {{ forma.valid }}
               <aw-wizard>
                 <aw-wizard-step stepTitle="Datos Personales">
                   <div class="form-group p-10">
@@ -40,9 +40,8 @@
                             <h5>Etiqueta: <span class="text-danger">*</span></h5>
                             <select class="form-control custom-select" formControlName="etiqueta">
                                 <option value="">Seleccione su etiqueta de chofer</option>
-                                <option value="0">Socio Concesionario, Dueño de placa</option>
-                                <option value="1">Socio Ayudante</option>
-                                <option value="2">Posturero</option>
+                                <option value="1">Socio Concesionario, Dueño de placa</option>
+                                <option value="0">Socio Ayudante</option>
                             </select>
                       </div>
                     </div>
@@ -58,12 +57,12 @@
                         <h5>Genero: <span class="text-danger">*</span></h5>
                         <div class="form-check">
                             <label class="custom-control custom-radio">
-                                <input id="radio1" name="radio" type="radio" class="custom-control-input">
+                                <input id="radio1" name="genero" type="radio" class="custom-control-input"  value="1" formControlName="genero" >
                                 <span class="custom-control-indicator"></span>
                                 <span class="custom-control-description">Hombre</span>
                             </label>
                             <label class="custom-control custom-radio">
-                                <input id="radio2" name="radio" type="radio" class="custom-control-input">
+                                <input id="radio2" name="genero" type="radio" class="custom-control-input"  value="0" formControlName="genero" >
                                 <span class="custom-control-indicator"></span>
                                 <span class="custom-control-description">Mujer</span>
                             </label>
@@ -74,7 +73,7 @@
                     <div class="container-form">
                       <div class="item item-form-6">
                         <h5>Foto: <span class="text-danger">*</span></h5>
-                        <input type="file" placeholder="" class="form-control">
+                        <input type="file" placeholder="" class="form-control" formControlName="img" >
                       </div>
                     </div>
 
@@ -88,50 +87,81 @@
                     
                     <div class="form-group p-10">
 
-                        <h2>Vehículo 1</h2>
+                      <h2 class="p-10" *ngIf="forma.value.etiqueta === '1'" >SOCIO CONCESIONARIO, DUEÑO DE PLACA</h2>
+                      <h2 class="p-10" *ngIf="forma.value.etiqueta === '0'" >SOCIO AYUDANTE</h2>
+                      <div formGroupName="vehiculo">
+                          <div class="container-form" *ngIf="forma.value.etiqueta === '1'" >
+                              <div class="item item-form-3">
+                                <h5>Concesión: <span class="text-danger">*</span></h5>
+                                <input type="number" name="text" class="form-control" required formControlName="concesion">
+                              </div>
+                          </div>
+                          <div class="container-form">
+                            <div class="item item-form-6">
+                              <h5>Modelo: <span class="text-danger">*</span></h5>
+                              <input type="text" name="text" class="form-control" required formControlName="modelo">
+                            </div>
+                            <div class="item item-form-6">
+                              <h5>Marca: <span class="text-danger">*</span></h5>
+                              <input type="text" name="text" class="form-control" required formControlName="marca">
+                            </div>
+                          </div>
+                          <div class="container-form">
+                            <div class="item item-form-6">
+                              <h5>Matricula: <span class="text-danger">*</span></h5>
+                              <input type="text" name="text" class="form-control" required formControlName="matricula">
+                            </div>
+                            <div class="item item-form-6">
+                              <h5>Capacidad: <span class="text-danger">*</span></h5>
+                              <select class="form-control custom-select" formControlName="capacidad">
+                                  <option value="">Seleccione la capacidad de personas del vehículo</option>
+                                  <option value="4">Hasta 4 personas</option>
+                                  <option value="8">Hasta 8 personas</option>
+                              </select>
+                            </div>
+                          </div>
+                          <div class="container-form">
+                              <div class="item item-form-6">
+                                <h5>Modalidad de vehiculo: <span class="text-danger">*</span></h5>
+                                <select class="form-control custom-select" formControlName="modalidad">
+                                    <option value="1" *ngIf="forma.value.etiqueta === '1'">Fijo</option>
+                                    <option value="0" *ngIf="forma.value.etiqueta === '0'">Posturero</option>
+                                </select>
+                              </div>
+                            </div>
+                          <div class="container-form">
+                            <div class="item" p-10>
+                              <input type="checkbox" id="con_rampa" formControlName="conRampa"/>
+                              <label for="con_rampa">Con Rampa</label>
+                            </div>
+                          </div>
+                      </div>
+                     
+                      <button type="button" class="btn btn-outline-info" (click)="crearRelacion()">Crear relación de ayudante</button>
+                      <div class="message-max-conceiones">
+                        <p> {{ menssageMaxLengthAyudanteconcesiones }}</p>
+                      </div>
+                      
+                      <div  class="container-form" formArrayName="ayudante_concesiones">
+                            <div *ngFor="let item of forma.controls['ayudante_concesiones'].controls; let i = index;" >
+                              <div class="item item-form-3">
+                                <h5>Concesión: <span class="text-danger">*</span></h5>
+                                <input type="number" name="text" class="form-control"
+                                  required [formControlName] ="i">
+                              </div>
+                              <div class="item item-form-3">
+                                  <button type="button" (click)="sacarInputArrayList(i)" class="btn btn-outline-danger btn-regresar" >Cancelar</button>
+                              </div>
+                        </div>
+                      </div>
 
-                      <div class="container-form">
-                        <div class="item item-form-6">
-                          <h5>Modelo: <span class="text-danger">*</span></h5>
-                          <input type="text" name="text" class="form-control" required>
-                        </div>
-                        <div class="item item-form-6">
-                          <h5>Marca: <span class="text-danger">*</span></h5>
-                          <input type="text" name="text" class="form-control" required>
-                        </div>
-                      </div>
-                      <div class="container-form">
-                        <div class="item item-form-6">
-                          <h5>Matricula: <span class="text-danger">*</span></h5>
-                          <input type="text" name="text" class="form-control" required>
-                        </div>
-                        <div class="item item-form-6">
-                          <h5>Capacidad: <span class="text-danger">*</span></h5>
-                          <select class="form-control custom-select">
-                              <option value="">Seleccione la capacidad de personas del vehículo</option>
-                              <option value="">Hasta 4 personas</option>
-                              <option value="">Hasta 8 personas</option>
-                          </select>
-                        </div>
-                      </div>
 
                       
-                      <div class="container-form">
-                        <div class="item" p-10>
-                          <input type="checkbox" id="con_rampa" />
-                          <label for="con_rampa">Con Rampa</label>
-                        </div>
-                        POSTURERO NO LLEVA CONCESION
-                        <div class="item" p-10>
-                          <input type="checkbox" id="con_placa" />
-                          <label for="con_placa">Con concesión</label>
-                        </div>
-                      </div>
-                      <button type="button" class="btn btn-outline-info">Agregar otro vehículo</button>
                       <div class="btn-wizard-btn-next-step">
                         <button type="button" class="btn btn-outline-warning btn-regresar"
                          awPreviousStep>Regresar</button>
-                        <button type="button" class="btn btn-outline-info"
+                      
+                         <button type="button" class="btn btn-outline-info"
                          awNextStep>Siguiente</button>
                       </div>
                     </div>
@@ -146,8 +176,11 @@
                 </aw-wizard-step>
               </aw-wizard>
               </form>
-
+             
             </div>
         </div>
     </div>
 </div>
+<pre>
+  {{forma.value | json}}
+</pre>

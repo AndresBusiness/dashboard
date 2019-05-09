@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {FormBuilder, FormGroup, Validators, FormControl} from '@angular/forms';
-
+import {FormBuilder, FormGroup, Validators, FormControl, FormArray} from '@angular/forms';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-agregar-chofer',
@@ -10,44 +10,33 @@ import {FormBuilder, FormGroup, Validators, FormControl} from '@angular/forms';
 export class AgregarChoferComponent implements OnInit {
 
   forma:FormGroup;
-
-  userChofer: any = {
-    "datos-personales": {
-      "folio":"",
-      "nombre":"",
-      "apellidos":"",
-      "correo":"",
-      "telefono":"",
-      "etiqueta":"",
-      "genero":"",
-      "fechaNacimiento":"",
-      "img":""
-    },
-    "datos-vehiculo": [{
-      "tipo":"",
-      "modelo":"",
-      "marca":"",
-      "matricula":"",
-      "conRampa":"",
-      "num-concesion":"",
-      "folioAsociado":""
-    }]
-
-
-  }
+  menssageMaxLengthAyudanteconcesiones:string;
 
   constructor() {
+    const uid = localStorage.getItem('uid');
     this.forma = new FormGroup({
       "folio": new FormControl('28940', Validators.required),
-      "nombre": new FormControl('', Validators.required),
+      "nombre": new FormControl('Andres', Validators.required),
       "apellidos": new FormControl('Perez Alonso', Validators.required),
       "correo": new FormControl('andres-tic@hotmail.com'),
       "telefono": new FormControl('4775674124', Validators.required),
-      "etiqueta": new FormControl('0', Validators.required),
-      "genero": new FormControl('1'),
-      "fechaNacimiento": new FormControl('05/01/1995'),
-      "img": new FormControl('https://scontent.fcjs3-2.fna.fbcdn.net/v/t1.0-9/49300537_2051461048277414_8579443709177757696_n.jpg?_nc_cat=109&_nc_eui2=AeHxl5et_EU1EWw9Fp0rUvpj-ONaL8YVxRJpFBWOakdrGFH8016-RGqbiOmPBAec_rmBohZkprkRNGHKTpYh8BLAOB4cuH-DxJS_mmfEn8zGh4uQaYF9UMbqYsvtI3LaWT4&_nc_ht=scontent.fcjs3-2.fna&oh=85d2572aeaf392f04487db08d54d5096&oe=5CF0A56F'),
-
+      "etiqueta": new FormControl('1', Validators.required),
+      "genero": new FormControl('1', Validators.required),
+      "fechaNacimiento": new FormControl('05/01/1995', Validators.required),
+      "img": new FormControl(''),
+      "activo": new FormControl(false, Validators.required),
+      "autorizado": new FormControl(true, Validators.required),
+      "uidUserSystem": new FormControl(uid, Validators.required),
+      "vehiculo": new FormGroup({
+        "concesion": new FormControl(210, Validators.maxLength(3)),
+        "modelo": new FormControl('2018', Validators.required),
+        "marca": new FormControl('Mazda', Validators.required),
+        "matricula": new FormControl('ERWS-2342D', Validators.required),
+        "capacidad": new FormControl('4', Validators.required),
+        "modalidad": new FormControl('1', Validators.required),
+        "conRampa": new FormControl(false, Validators.required),
+      }),
+      "ayudante_concesiones": new FormArray([], Validators.required) 
     });
 
   }
@@ -58,5 +47,24 @@ export class AgregarChoferComponent implements OnInit {
 
   guardarUsuario(){
      console.log(this.forma.value);
+     this.forma.addControl('fechaRegistro', 
+         new FormControl(moment().locale('es').format('MMMM Do YYYY, h:mm:ss a'), Validators.required));
+     
+  }
+
+  crearRelacion(){
+    if (this.forma.value.ayudante_concesiones.length < 3){
+      (<FormArray>this.forma.controls['ayudante_concesiones']).push(
+        new FormControl('', Validators.required))
+    } else {
+      this.menssageMaxLengthAyudanteconcesiones = 'solo se puede asociar a un máximo de 3 concesiones'
+    }
+  }
+
+  sacarInputArrayList(index: any){
+    this.forma.controls['ayudante_concesiones'].removeAt(index)
+    if (this.forma.value.ayudante_concesiones.length < 3){
+      this.menssageMaxLengthAyudanteconcesiones = ''
+    } 
   }
 }
