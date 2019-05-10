@@ -4,8 +4,8 @@
             <div class="p-20">
               {{ forma.valid }}
               <form [formGroup]="forma" (ngSubmit)="guardarUsuario()" >
-              <aw-wizard>
-                <aw-wizard-step stepTitle="Datos Personales">
+              <aw-wizard navBarLayout="large-filled-symbols" class="my-custom-css-wrapper">
+                <aw-wizard-step  stepTitle="Datos Personales">
                   <div class="form-group p-10">
 
                     <div class="container-form">
@@ -33,7 +33,7 @@
                     <div class="container-form">
                       <div class="item item-form-6">
                         <h5>Teléfono: <span class="text-danger">*</span></h5>
-                        <input type="text" data-mask="(999) 999-9999" formControlName="telefono" name="text" class="form-control" required>
+                        <input type="text" data-mask="+529999999999" formControlName="telefono" name="text" class="form-control" required>
                         <span class="font-13 text-muted">(999) 999-9999</span>
                       </div>
                       <div class="item item-form-6">
@@ -138,20 +138,23 @@
                       </div>
                      
                       <button type="button" class="btn btn-outline-info" (click)="crearRelacion()">Crear relación de ayudante</button>
-                      <div class="message-max-conceiones">
-                        <p> {{ menssageMaxLengthAyudanteconcesiones }}</p>
+                    
+                      <div *ngIf="this.forma.value.ayudante_concesiones.length > 0" class="margin-top-15">
+                          <h2>Registra conceciónes como socio ayudante.</h2>
                       </div>
-                      
+                      <div class="message-max-conceiones">
+                          <p> {{ menssageMaxLengthAyudanteconcesiones }}</p>
+                      </div>
                       <div  class="container-form" formArrayName="ayudante_concesiones">
-                            <div *ngFor="let item of forma.controls['ayudante_concesiones'].controls; let i = index;" >
-                              <div class="item item-form-3">
-                                <h5>Concesión: <span class="text-danger">*</span></h5>
-                                <input type="number" name="text" class="form-control"
-                                  required [formControlName] ="i">
-                              </div>
-                              <div class="item item-form-3">
-                                  <button type="button" (click)="sacarInputArrayList(i)" class="btn btn-outline-danger btn-regresar" >Cancelar</button>
-                              </div>
+                          <div *ngFor="let item of forma.controls['ayudante_concesiones'].controls; let i = index;" >
+                            <div class="item item-form-3">
+                              <h5>Concesión: <span class="text-danger">*</span></h5>
+                              <input type="number" name="text" class="form-control"
+                                required [formControlName] ="i">
+                            </div>
+                            <div class="item item-form-3">
+                                <button type="button" (click)="sacarInputArrayList(i)" class="btn btn-outline-danger btn-regresar" >Cancelar</button>
+                            </div>
                         </div>
                       </div>
 
@@ -176,11 +179,11 @@
                 </aw-wizard-step>
               </aw-wizard>
               </form>
-             
             </div>
         </div>
     </div>
 </div>
 <pre>
+  {{ respuesta }}
   {{forma.value | json}}
 </pre>

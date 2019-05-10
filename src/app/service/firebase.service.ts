@@ -85,4 +85,22 @@ export class FirebaseService {
   obtenerRolles() {
     return this.afs.collection('ciudades/cozumel/turnos').snapshotChanges();
   }
+
+  subirFotoPerfil(nombre: any){
+    const storage = firebase.storage();
+    const storageRef = storage.ref();
+    var file = ''
+    var metadata = {
+      contentType: 'image/jpeg'
+    };
+    
+    var uploadTask = storageRef.child('images/' + nombre).put(file, metadata).then(data=>{
+      
+    })
+  }
+
 }
+
+
+
+

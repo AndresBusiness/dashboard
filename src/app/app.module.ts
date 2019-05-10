@@ -30,6 +30,8 @@ import { ReadjsonService } from './service/readjson.service';
 import { LoadingBarModule } from '@ngx-loading-bar/core';
 import { ArchwizardModule } from 'angular-archwizard';
 import { AgregarChoferComponent } from './pages/agregar-chofer/agregar-chofer.component';
+import { FunctionsService } from './service/functions.service';
+import { HttpModule } from '@angular/http';
 
 @NgModule({
   declarations: [
@@ -44,6 +46,9 @@ import { AgregarChoferComponent } from './pages/agregar-chofer/agregar-chofer.co
     ArchwizardModule,
     FormsModule,
     HttpClientModule,
+    FormsModule,
+    HttpModule,
+    HttpClientModule,
     ReactiveFormsModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule, // imports firebase/firestore, only needed for database features
@@ -55,6 +60,7 @@ import { AgregarChoferComponent } from './pages/agregar-chofer/agregar-chofer.co
    AuthService,
    AuthGuardService,
    ReadjsonService,
+   FunctionsService,
    { provide: FirestoreSettingsToken, useValue: {} }
   ],
   bootstrap: [AppComponent]
