@@ -20,6 +20,7 @@ export class AgregarChoferComponent implements OnInit {
   imageSrc: any;
   fileImg: any;
   counttimeUploading:number= 0;
+  step1:boolean = true;
 
   uploadProgress: Observable<number>;
   uploadURL: Observable<string>;
@@ -29,26 +30,53 @@ export class AgregarChoferComponent implements OnInit {
     const uid = localStorage.getItem('uid');
 
     this.formArray = this.fb.array([]);
+    // this.forma = new FormGroup({
+    //   "folio": new FormControl('28940', Validators.required),
+    //   "nombre": new FormControl('Andres', Validators.required),
+    //   "apellidos": new FormControl('Perez Alonso', Validators.required),
+    //   "correo": new FormControl('andres-tic@hotmail.com'),
+    //   "telefono": new FormControl('+524775674124', Validators.required),
+    //   "etiqueta": new FormControl('-1', Validators.required),
+    //   "genero": new FormControl('1', Validators.required),
+    //   "fechaNacimiento": new FormControl('05/01/1995', Validators.required),
+    //   "img": new FormControl(''),
+    //   "concesion": new FormControl('210'),
+    //   "propietarioVehiculo": new FormControl(true, Validators.required),
+    //   "activo": new FormControl(false, Validators.required),
+    //   "autorizado": new FormControl(true, Validators.required),
+    //   "uidUserSystem": new FormControl(uid, Validators.required),
+    //   "vehiculo": new FormGroup({
+    //     "concesion": new FormControl('210', Validators.maxLength(3)),
+    //     "modelo": new FormControl('2018', Validators.required),
+    //     "marca": new FormControl('Mazda', Validators.required),
+    //     "matricula": new FormControl('ERWS-2342D', Validators.required),
+    //     "capacidad": new FormControl('-1', Validators.required),
+    //     "modalidad": new FormControl('-1', Validators.required),
+    //     "conRampa": new FormControl(false, Validators.required),
+    //   }),
+    //   "ayudante_concesiones": this.formArray
+    // });
+
     this.forma = new FormGroup({
-      "folio": new FormControl('28940', Validators.required),
-      "nombre": new FormControl('Andres', Validators.required),
-      "apellidos": new FormControl('Perez Alonso', Validators.required),
-      "correo": new FormControl('andres-tic@hotmail.com'),
+      "folio": new FormControl('', Validators.required),
+      "nombre": new FormControl('', Validators.required),
+      "apellidos": new FormControl('', Validators.required),
+      "correo": new FormControl(''),
       "telefono": new FormControl('+524775674124', Validators.required),
       "etiqueta": new FormControl('-1', Validators.required),
       "genero": new FormControl('1', Validators.required),
       "fechaNacimiento": new FormControl('05/01/1995', Validators.required),
       "img": new FormControl(''),
-      "concesion": new FormControl('210'),
+      "concesion": new FormControl(''),
       "propietarioVehiculo": new FormControl(true, Validators.required),
       "activo": new FormControl(false, Validators.required),
       "autorizado": new FormControl(true, Validators.required),
       "uidUserSystem": new FormControl(uid, Validators.required),
       "vehiculo": new FormGroup({
-        "concesion": new FormControl('210', Validators.maxLength(3)),
-        "modelo": new FormControl('2018', Validators.required),
-        "marca": new FormControl('Mazda', Validators.required),
-        "matricula": new FormControl('ERWS-2342D', Validators.required),
+        "concesion": new FormControl('', Validators.maxLength(3)),
+        "modelo": new FormControl('', Validators.required),
+        "marca": new FormControl('', Validators.required),
+        "matricula": new FormControl('', Validators.required),
         "capacidad": new FormControl('-1', Validators.required),
         "modalidad": new FormControl('-1', Validators.required),
         "conRampa": new FormControl(false, Validators.required),
@@ -61,6 +89,16 @@ export class AgregarChoferComponent implements OnInit {
     .subscribe(data=>{
       if(this.forma.value.propietarioVehiculo === '1' || this.forma.value.propietarioVehiculo ===  true){
         this.forma.value.vehiculo.concesion = data
+      }
+    });
+
+    this.forma.controls['etiqueta'].valueChanges
+    .subscribe(data=>{
+      console.log(data);
+      if(data === '1' || data ===  '0'){
+        this.step1 = false;
+      } else {
+        this.step1 = true;
       }
     });
 

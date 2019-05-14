@@ -16,26 +16,26 @@
               <aw-wizard navBarLayout="large-filled-symbols" class="my-custom-css-wrapper">
                 <aw-wizard-step  stepTitle="Datos Personales">
                   <div class="form-group p-10">
-
+                    <h2 class="p-10" >LLENAR TODOS LOS DATOS DEL CHOFER</h2>
                     <div class="container-form">
                       <div class="item item-form-6">
                         <h5>Nombre: <span class="text-danger">*</span></h5>
-                        <input type="text" name="text" formControlName="nombre" class="form-control" required>
+                        <input type="text" name="text" formControlName="nombre" placeholder="Ejemplo: Juan" class="form-control" required>
                       </div>
                       <div class="item item-form-6">
                         <h5>Apellidos: <span class="text-danger">*</span></h5>
-                        <input type="text" name="text" formControlName="apellidos" class="form-control" required>
+                        <input type="text" name="text" formControlName="apellidos" placeholder="Ejemplo: Hernández López" class="form-control" required>
                       </div>
                     </div>
 
                     <div class="container-form">
                       <div class="item item-form-6">
                         <h5>Correo: <span class="text-danger">*</span></h5>
-                        <input type="text" name="text" formControlName="correo" class="form-control" required>
+                        <input type="text" name="text" formControlName="correo" placeholder="Ejemplo: juan-39@gmail.com" class="form-control" required>
                       </div>
                       <div class="item item-form-6">
                         <h5>Folio de Chofer: <span class="text-danger">*</span></h5>
-                        <input type="text" name="text" formControlName="folio" class="form-control" required>
+                        <input type="text" name="text" formControlName="folio" placeholder="Ejemplo: 210283" class="form-control" required>
                       </div>
                     </div>
 
@@ -89,6 +89,7 @@
                  
 
                     <button type="button" class="btn btn-outline-info btn-wizard-btn-next-step"
+                    [disabled]="step1"
                      awNextStep>Siguiente</button>
                   </div>
 
@@ -168,7 +169,7 @@
                           <p>  {{ error }}</p>
                       </div>
                       <div  class="container-form" formArrayName="ayudante_concesiones">
-                          <div *ngFor="let item of forma.controls['ayudante_concesiones'].controls; let i = index;" >
+                          <div *ngFor="let item of forma.controls['ayudante_concesiones']['controls']; let i = index;" >
                             <div class="item item-form-3">
                               <h5>Concesión de Ayudante: <span class="text-danger">*</span></h5>
                               <input type="number" name="text" class="form-control" placeholder="Ejemplo: 213, 392, 102"
