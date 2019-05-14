@@ -17,7 +17,7 @@
 .btn-regresar{
   margin-right: 15px;
 }
-.message-max-conceiones {
+.message-max-concesiones {
   margin: 15px;
   color: red;
 }
@@ -26,4 +26,13 @@
 }
 li.done.navigable{
   background: yellow !important;
+}
+
+.img-profile-chofer {
+  margin: 10px;
+  width: 150px;
+  border-radius: 50%;
+}
+.bar-progress{
+  margin:20px;
 }

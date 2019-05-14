@@ -17,6 +17,8 @@ import { SharedModule } from './shared/shared.module';
 // DEPENDENCIAS DE ANGULARFIRE
 import { AngularFireModule } from 'angularfire2';
 import { AngularFirestoreModule, FirestoreSettingsToken } from 'angularfire2/firestore';
+import { AngularFireStorageModule } from 'angularfire2/storage';
+
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { environment } from '../environments/environment.prod';
 
@@ -32,12 +34,14 @@ import { ArchwizardModule } from 'angular-archwizard';
 import { AgregarChoferComponent } from './pages/agregar-chofer/agregar-chofer.component';
 import { FunctionsService } from './service/functions.service';
 import { HttpModule } from '@angular/http';
+import { SanitizeUrlPipe } from './pipes/sanitize-url.pipe';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     AgregarChoferComponent,
+    SanitizeUrlPipe,
   ],
   imports: [
     BrowserModule,
@@ -53,6 +57,7 @@ import { HttpModule } from '@angular/http';
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule, // imports firebase/firestore, only needed for database features
     AngularFireAuthModule, // imports firebase/auth, only needed for auth features
+    AngularFireStorageModule,
     APP_ROUTES,
     LoadingBarModule,
   ],
