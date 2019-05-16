@@ -36,6 +36,9 @@ import { FunctionsService } from './service/functions.service';
 import { HttpModule } from '@angular/http';
 import { SanitizeUrlPipe } from './pipes/sanitize-url.pipe';
 
+import {NgxMaskModule, IConfig} from 'ngx-mask'
+var options: Partial<IConfig> | (() => Partial<IConfig>);
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -53,6 +56,7 @@ import { SanitizeUrlPipe } from './pipes/sanitize-url.pipe';
     FormsModule,
     HttpModule,
     HttpClientModule,
+    NgxMaskModule.forRoot(options),
     ReactiveFormsModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule, // imports firebase/firestore, only needed for database features

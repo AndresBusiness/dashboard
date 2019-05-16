@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ElementRef, ViewChild, SimpleChanges } from '@angular/core';
 import {FormBuilder, FormGroup, Validators, FormControl, FormArray} from '@angular/forms';
 import * as moment from 'moment';
 import { FunctionsService } from 'src/app/service/functions.service';
@@ -20,10 +20,12 @@ export class AgregarChoferComponent implements OnInit {
   imageSrc: any;
   fileImg: any;
   counttimeUploading:number= 0;
-  step1:boolean = true;
+  step2:boolean = true;
 
   uploadProgress: Observable<number>;
   uploadURL: Observable<string>;
+  @ViewChild("fechaNacimiento") fechaNacimiento: ElementRef;
+
 
   constructor(private fb: FormBuilder, private _changeDetectionRef: ChangeDetectorRef, 
     private servicio: FunctionsService, private _storage: AngularFireStorage) {
@@ -62,13 +64,13 @@ export class AgregarChoferComponent implements OnInit {
       "nombre": new FormControl('', Validators.required),
       "apellidos": new FormControl('', Validators.required),
       "correo": new FormControl(''),
-      "telefono": new FormControl('+524775674124', Validators.required),
+      "telefono": new FormControl('', Validators.required),
       "etiqueta": new FormControl('-1', Validators.required),
       "genero": new FormControl('1', Validators.required),
-      "fechaNacimiento": new FormControl('05/01/1995', Validators.required),
+      "fechaNacimiento": new FormControl('', Validators.required),
       "img": new FormControl(''),
       "concesion": new FormControl(''),
-      "propietarioVehiculo": new FormControl(true, Validators.required),
+      "propietarioVehiculo": new FormControl(false, Validators.required),
       "activo": new FormControl(false, Validators.required),
       "autorizado": new FormControl(true, Validators.required),
       "uidUserSystem": new FormControl(uid, Validators.required),
@@ -91,16 +93,19 @@ export class AgregarChoferComponent implements OnInit {
         this.forma.value.vehiculo.concesion = data
       }
     });
-
+   
     this.forma.controls['etiqueta'].valueChanges
     .subscribe(data=>{
       console.log(data);
       if(data === '1' || data ===  '0'){
-        this.step1 = false;
+        this.step2 = false;
       } else {
-        this.step1 = true;
+        this.step2 = true;
       }
     });
+
+    this.formArray.push(new FormControl(''))
+    
 
   }
 
@@ -110,6 +115,12 @@ export class AgregarChoferComponent implements OnInit {
   ngAfterViewInit(): void {
     // Force another change detection in order to fix an occuring ExpressionChangedAfterItHasBeenCheckedError
     this._changeDetectionRef.detectChanges();
+
+  }
+  
+  paso2() { // without type info
+    console.log(this.fechaNacimiento.nativeElement.value);
+    this.forma.value.fechaNacimiento = this.fechaNacimiento.nativeElement.value;
   }
 
   guardarUsuario(){
@@ -127,6 +138,7 @@ export class AgregarChoferComponent implements OnInit {
         form.vehiculo.concesion = '-1';      
       }
     }
+    form.telefono = '+52' + form.telefono;
      console.log(form);
        const filepath = `choferes/${ form.folio}`;
        const fileRef = this._storage.ref(filepath);

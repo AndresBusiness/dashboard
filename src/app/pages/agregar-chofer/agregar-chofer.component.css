@@ -18,7 +18,8 @@
   margin-right: 15px;
 }
 .message-max-concesiones {
-  margin: 15px;
+  margin-top: 15px;
+  margin-bottom: 15px;
   color: red;
 }
 .margin-top-15{
@@ -35,4 +36,11 @@ li.done.navigable{
 }
 .bar-progress{
   margin:20px;
+}
+.container-concesiones-ayudante{
+  display: block;
+}
+.position-absolute{
+  position: absolute;
+  bottom:24px;
 }

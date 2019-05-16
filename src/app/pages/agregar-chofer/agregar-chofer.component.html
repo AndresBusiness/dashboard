@@ -1,3 +1,4 @@
+
 <div class="row">
     <div class="col-md-3">
         <div class="card animated fadeIn">
@@ -10,200 +11,230 @@
     </div>
     <div class="col-md-9">
         <div class="card animated fadeIn">
-            <div class="p-20">
-                
-              <form [formGroup]="forma" (ngSubmit)="guardarUsuario()" >
-              <aw-wizard navBarLayout="large-filled-symbols" class="my-custom-css-wrapper">
-                <aw-wizard-step  stepTitle="Datos Personales">
-                  <div class="form-group p-10">
-                    <h2 class="p-10" >LLENAR TODOS LOS DATOS DEL CHOFER</h2>
-                    <div class="container-form">
-                      <div class="item item-form-6">
-                        <h5>Nombre: <span class="text-danger">*</span></h5>
-                        <input type="text" name="text" formControlName="nombre" placeholder="Ejemplo: Juan" class="form-control" required>
-                      </div>
-                      <div class="item item-form-6">
-                        <h5>Apellidos: <span class="text-danger">*</span></h5>
-                        <input type="text" name="text" formControlName="apellidos" placeholder="Ejemplo: Hernández López" class="form-control" required>
-                      </div>
-                    </div>
-
-                    <div class="container-form">
-                      <div class="item item-form-6">
-                        <h5>Correo: <span class="text-danger">*</span></h5>
-                        <input type="text" name="text" formControlName="correo" placeholder="Ejemplo: juan-39@gmail.com" class="form-control" required>
-                      </div>
-                      <div class="item item-form-6">
-                        <h5>Folio de Chofer: <span class="text-danger">*</span></h5>
-                        <input type="text" name="text" formControlName="folio" placeholder="Ejemplo: 210283" class="form-control" required>
-                      </div>
-                    </div>
-
-                    <div class="container-form">
-                      <div class="item item-form-6">
-                        <h5>Teléfono: <span class="text-danger">*</span></h5>
-                        <input type="text" formControlName="telefono" name="text" class="form-control" required>
-                        <span class="font-13 text-muted">(999) 999-9999</span>
-                      </div>
-                      <div class="item item-form-6">
-                            <h5>Etiqueta: <span class="text-danger">*</span></h5>
-                            <select class="form-control custom-select" 
-                             formControlName="etiqueta">
-                                <option value="-1">Seleccione su etiqueta de chofer</option>
-                                <option value="1">Socio Concesionario, Dueño de placa</option>
-                                <option value="0">Socio Ayudante</option>
-                            </select>
-                      </div>
-                    </div>
-
-                    <div class="container-form">
-                      <div class="item item-form-6">
-                        <h5>Fecha de nacimiento: <span class="text-danger">*</span></h5>
-                        <input type="text" placeholder="" data-mask="99/99/9999"
-                        formControlName="fechaNacimiento" class="form-control">
-                        <span class="font-13 text-muted">dd/mm/yyyy</span>
-
-                        <div class="item">
-                            <h5>Genero: <span class="text-danger">*</span></h5>
-                            <div class="form-check">
-                                <label class="custom-control custom-radio">
-                                    <input id="radio1" name="genero" type="radio" class="custom-control-input"  value="1" formControlName="genero" >
-                                    <span class="custom-control-indicator"></span>
-                                    <span class="custom-control-description">Hombre</span>
-                                </label>
-                                <label class="custom-control custom-radio">
-                                    <input id="radio2" name="genero" type="radio" class="custom-control-input"  value="0" formControlName="genero" >
-                                    <span class="custom-control-indicator"></span>
-                                    <span class="custom-control-description">Mujer</span>
-                                </label>
-                            </div>
+            <form [formGroup]="forma" (ngSubmit)="guardarUsuario()" >
+                <aw-wizard navBarLayout="large-filled-symbols" class="my-custom-css-wrapper">
+                  <aw-wizard-step stepTitle="Datos Personales">
+                    <div class="form-group p-10">
+                      <h2 class="p-10" >LLENAR TODOS LOS DATOS DEL CHOFER</h2>
+                      <div class="container-form">
+                        <div class="item item-form-6">
+                          <h5>Nombre: <span class="text-danger">*</span></h5>
+                          <input type="text" name="text" formControlName="nombre" placeholder="Ejemplo: Juan" class="form-control" required>
+                        </div>
+                        <div class="item item-form-6">
+                          <h5>Apellidos: <span class="text-danger">*</span></h5>
+                          <input type="text" name="text" formControlName="apellidos" placeholder="Ejemplo: Hernández López" class="form-control" required>
                         </div>
                       </div>
-                      <div class="item item-form-6">
-                          <h5>Foto: <span class="text-danger">*</span></h5>
-                          <input type="file" placeholder="" (change)="upload($event)"  class="form-control" formControlName="img" >
-                          <img id="blah" [src]="imageSrc || '../../../assets/images/user.png'  " alt="your image" class="img-profile-chofer"/>
+  
+                      <div class="container-form">
+                        <div class="item item-form-6">
+                            <h5>Fecha de nacimiento: <span class="text-danger">*</span></h5>
+                            <input type="text" id="mdate" class="form-control " placeholder="Seleccionar fecha de nacimiento"
+                            formControlName="fechaNacimiento" #fechaNacimiento class="form-control">
+                         
+                        </div>
+                        <div class="item item-form-6">
+                            <h5>Teléfono: <span class="text-danger">*</span></h5>
+                            <input type="text" formControlName="telefono" name="text" class="form-control" mask="(000) 000-0000" prefix="+52" [showMaskTyped] = "true" required>
+                            <span class="font-13 text-muted">Ejemplo: (987) 118-9232</span>
+                        </div>
                       </div>
-                    </div>
-
-                 
-
-                    <button type="button" class="btn btn-outline-info btn-wizard-btn-next-step"
-                    [disabled]="step1"
-                     awNextStep>Siguiente</button>
-                  </div>
-
-                </aw-wizard-step>
-                <aw-wizard-step stepTitle="Vehículo" >
-          
-                    
-                    <div class="form-group p-10">
-
-                      <h2 class="p-10" *ngIf="forma.value.etiqueta === '1'" >SOCIO CONCESIONARIO, DUEÑO DE PLACA</h2>
-                      <h2 class="p-10" *ngIf="forma.value.etiqueta === '0'" >SOCIO AYUDANTE</h2>
-                      
-                      
-                      <div class="container-form" *ngIf="forma.value.etiqueta === '1'" >
-                          <div class="item item-form-3">
-                            <h5>Concesión de dueño de placa: <span class="text-danger">*</span></h5>
-                            <input type="number" name="text" class="form-control" required formControlName="concesion" placeholder="Ejemplo: 213, 392, 102">
+                      <div class="container-form">
+                        <div class="item item-form-6">
+                            <h5>Correo: <span class="text-danger">*</span></h5>
+                            <input type="text" name="text" formControlName="correo" placeholder="Ejemplo: juan-39@gmail.com" class="form-control" required>
+  
+                          <div class="item">
+                              <h5>Genero: <span class="text-danger">*</span></h5>
+                              <div class="form-check">
+                                  <label class="custom-control custom-radio">
+                                      <input id="radio1" name="genero" type="radio" class="custom-control-input"  value="1" formControlName="genero" >
+                                      <span class="custom-control-indicator"></span>
+                                      <span class="custom-control-description">Hombre</span>
+                                  </label>
+                                  <label class="custom-control custom-radio">
+                                      <input id="radio2" name="genero" type="radio" class="custom-control-input"  value="0" formControlName="genero" >
+                                      <span class="custom-control-indicator"></span>
+                                      <span class="custom-control-description">Mujer</span>
+                                  </label>
+                              </div>
                           </div>
+                        </div>
+                        <div class="item item-form-6">
+                            <h5>Foto: <span class="text-danger">*</span></h5>
+                            <input type="file" placeholder="" (change)="upload($event)"  class="form-control" formControlName="img" >
+                            <img id="blah" [src]="imageSrc || '../../../assets/images/user.png'  " alt="your image" class="img-profile-chofer"/>
+                        </div>
                       </div>
-
-                      <div class="item item-form-3">
-                          <input type="checkbox" id="propietario" formControlName="propietarioVehiculo"/>
-                          <label for="propietario">Soy propietario de un vehículo</label>
+                      <button type="button" class="btn btn-outline-info btn-wizard-btn-next-step" (click)="paso2()"
+                       awNextStep>Siguiente</button>
+                    </div>
+  
+                  </aw-wizard-step> 
+                  <aw-wizard-step stepTitle="Datos Laborales">
+                    <div class="form-group p-10">
+                      <h2 class="p-10" >RELACIÓN DEL CHOFER CON SU ESTADO LABORAL</h2>
+                        <div class="container-form">
+                          <div class="item item-form-3 col-5 pl-0">
+                            <h5>Folio de Chofer: <span class="text-danger">*</span></h5>
+                            <input type="text" name="text" formControlName="folio" placeholder="Ejemplo: 210283" class="form-control" required>
+                          </div>
+                        </div>
+                        <div class="container-form">
+                            <div class="item item-form-3 col-5 pl-0">
+                                <h5>Etiqueta: <span class="text-danger">*</span></h5>
+                                <select class="form-control custom-select" 
+                                 formControlName="etiqueta">
+                                    <option value="-1">Seleccione su etiqueta de chofer</option>
+                                    <option value="1">Socio Concesionario, Dueño de placa</option>
+                                    <option value="0">Socio Ayudante</option>
+                                </select>
+                            </div>
+                            
+                        </div>
+                        
+                        <div class="container-form" *ngIf="forma.value.etiqueta === '1'" >
+                            <div class="item item-form-3 col-5 pl-0">
+                                <h5>Número de concesión de <strong>socio</strong>:</h5>
+                                <input type="text" mask="000"  [showMaskTyped] = "true" name="text" class="form-control" 
+                                  required formControlName="concesion">
+                                  <span class="font-13 text-muted">del 001 al 765 (tres digitos)</span>
+                            </div>
+                        </div>
+                        <div class="container-form">
+                            <div class="item item-form-3">
+                                <input type="checkbox" id="propietario" formControlName="propietarioVehiculo"/>
+                                <label for="propietario">Soy propietario de un vehículo</label>
+                            </div>
+                        </div>
+  
+                        <div class="item">
+                            <!-- <button type="button" class="btn btn-outline-info" (click)="crearRelacion()">Vincular concesiones de ayudante</button> -->
+                            <div *ngIf="forma.value.ayudante_concesiones.length > 0" class="mt-4 mb-3">
+                                <h2>Registra conceciónes como socio ayudante.</h2>
+                            </div>
+                           
+                            <div  class="container-concesiones-ayudante" formArrayName="ayudante_concesiones">
+                                <div *ngFor="let item of forma.controls['ayudante_concesiones']['controls']; let i = index;" class="col-12 mb-4 pl-0">
+                                  <div class="col-7 d-flex pl-0">
+                                      <div class="col-8 pl-0">
+                                          <h5>Número de concesión de <strong>ayudante</strong> :</h5>
+                                          <input type="text" mask="000"  [showMaskTyped] = "true"  name="text" class="form-control" 
+                                            required [formControlName] ="i">
+                                            <span class="font-13 text-muted">del 001 al 765 (tres digitos)</span>
+                                      </div>
+                                      <div class="col-4 pl-0 position-relative ">
+                                          <button  type="button" (click)="sacarInputArrayList(i)" style="margin-left: 50px;"
+                                          *ngIf="forma.value.ayudante_concesiones.length > 1" 
+                                          class="position-absolute btn btn-outline-danger" ><i class="far fa-trash-alt"></i></button>
+                                          <button  type="button" (click)="crearRelacion()" 
+                                          class="position-absolute btn btn-outline-info"><i class="fas fa-plus-circle"></i></button>
+                                          
+                                      </div>
+                                  </div>
+                                
+                              </div>
+                            </div>
+                            <div class="message-max-concesiones">
+                                <p>  {{ error }}</p>
+                            </div> 
+                        </div>
+  
+                        
+  
+                        <div class="btn-wizard-btn-next-step">
+                            <button type="button" class="btn btn-outline-warning btn-regresar"
+                             awPreviousStep>Regresar</button>
+                          
+                             <button type="button" class="btn btn-outline-info"
+                             awNextStep>Siguiente</button>
+                          </div>
+  
+                          
                       </div>
-                      <div  *ngIf="this.forma.value.propietarioVehiculo">
-                          <div formGroupName="vehiculo" >
-                              <div class="container-form">
-                                <div class="item item-form-6">
-                                  <h5>Modelo: <span class="text-danger">*</span></h5>
-                                  <input type="text" name="text" class="form-control" required formControlName="modelo">
-                                </div>
-                                <div class="item item-form-6">
-                                  <h5>Marca: <span class="text-danger">*</span></h5>
-                                  <input type="text" name="text" class="form-control" required formControlName="marca">
-                                </div>
-                              </div>
-                              <div class="container-form">
-                                <div class="item item-form-6">
-                                  <h5>Matricula: <span class="text-danger">*</span></h5>
-                                  <input type="text" name="text" class="form-control" required formControlName="matricula">
-                                </div>
-                                <div class="item item-form-6">
-                                  <h5>Capacidad: <span class="text-danger">*</span></h5>
-                                  <select class="form-control custom-select" formControlName="capacidad">
-                                      <option value="-1">Seleccione la capacidad de personas del vehículo</option>
-                                      <option value="4">Hasta 4 personas</option>
-                                      <option value="8">Hasta 8 personas</option>
-                                  </select>
-                                </div>
-                              </div>
-                              <div class="container-form">
+                  </aw-wizard-step>
+                  <aw-wizard-step stepTitle="Datos de Vehículo" >
+                      <div class="form-group p-10">
+                        <h2 class="p-10" *ngIf="forma.value.etiqueta === '1'" >SOCIO CONCESIONARIO, DUEÑO DE PLACA</h2>
+                        <h2 class="p-10" *ngIf="forma.value.etiqueta === '0'" >SOCIO AYUDANTE</h2>
+                        <div class="container-form" *ngIf="forma.value.etiqueta === '1'" >
+                            <div class="item item-form-3">
+                              <h5>Concesión de dueño de placa: <span class="text-danger">*</span></h5>
+                              <input type="number" name="text" class="form-control" required formControlName="concesion" placeholder="Ejemplo: 213, 392, 102">
+                            </div>
+                        </div>
+  
+                       
+                        <div  *ngIf="forma.value.propietarioVehiculo">
+                            <div formGroupName="vehiculo" >
+                                <div class="container-form">
                                   <div class="item item-form-6">
-                                    <h5>Modalidad de vehiculo: <span class="text-danger">*</span></h5>
-                                    <select class="form-control custom-select" formControlName="modalidad">
-                                        <option value="-1">Seleccione la modalidad del vehículo</option>
-                                        <option value="1" *ngIf="forma.value.etiqueta === '1'">Fijo</option>
-                                        <option value="0" *ngIf="forma.value.etiqueta === '0'">Posturero</option>
+                                    <h5>Modelo: <span class="text-danger">*</span></h5>
+                                    <input type="text" name="text" class="form-control" required formControlName="modelo">
+                                  </div>
+                                  <div class="item item-form-6">
+                                    <h5>Marca: <span class="text-danger">*</span></h5>
+                                    <input type="text" name="text" class="form-control" required formControlName="marca">
+                                  </div>
+                                </div>
+                                <div class="container-form">
+                                  <div class="item item-form-6">
+                                    <h5>Matricula: <span class="text-danger">*</span></h5>
+                                    <input type="text" name="text" class="form-control" required formControlName="matricula">
+                                  </div>
+                                  <div class="item item-form-6">
+                                    <h5>Capacidad: <span class="text-danger">*</span></h5>
+                                    <select class="form-control custom-select" formControlName="capacidad">
+                                        <option value="-1">Seleccione la capacidad de personas del vehículo</option>
+                                        <option value="4">Hasta 4 personas</option>
+                                        <option value="8">Hasta 8 personas</option>
                                     </select>
                                   </div>
                                 </div>
-                              <div class="container-form">
-                                <div class="item" p-10>
-                                  <input type="checkbox" id="con_rampa" formControlName="conRampa"/>
-                                  <label for="con_rampa">Con Rampa</label>
+                                <div class="container-form">
+                                    <div class="item item-form-6">
+                                      <h5>Modalidad de vehiculo: <span class="text-danger">*</span></h5>
+                                      <select class="form-control custom-select" formControlName="modalidad">
+                                          <option value="-1">Seleccione la modalidad del vehículo</option>
+                                          <option value="1">Fijo</option>
+                                          <option value="0">Posturero</option>
+                                      </select>
+                                    </div>
+                                  </div>
+                                <div class="container-form">
+                                  <div class="item" p-10>
+                                    <input type="checkbox" id="con_rampa" formControlName="conRampa"/>
+                                    <label for="con_rampa">Con Rampa</label>
+                                  </div>
                                 </div>
-                              </div>
-                          </div>
-                      </div>
-                   
-                     
-                      <button type="button" class="btn btn-outline-info" (click)="crearRelacion()">Crear relación de ayudante</button>
-                    
-                      <div *ngIf="this.forma.value.ayudante_concesiones.length > 0" class="margin-top-15">
-                          <h2>Registra conceciónes como socio ayudante.</h2>
-                      </div>
-                      <div class="message-max-concesiones">
-                          <p>  {{ error }}</p>
-                      </div>
-                      <div  class="container-form" formArrayName="ayudante_concesiones">
-                          <div *ngFor="let item of forma.controls['ayudante_concesiones']['controls']; let i = index;" >
-                            <div class="item item-form-3">
-                              <h5>Concesión de Ayudante: <span class="text-danger">*</span></h5>
-                              <input type="number" name="text" class="form-control" placeholder="Ejemplo: 213, 392, 102"
-                                required [formControlName] ="i">
-                            </div>
-                            <div class="item item-form-3">
-                                <button type="button" (click)="sacarInputArrayList(i)" class="btn btn-outline-danger btn-regresar" >Cancelar</button>
-                                <button type="button" (click)="crearRelacion()" 
-                                *ngIf="forma.value.ayudante_concesiones.length < 3" 
-                                class="btn btn-outline-success btn-regresar" >Añadir otro</button>
-
                             </div>
                         </div>
+                     
+                       
+                        
+                        <div class="btn-wizard-btn-next-step">
+                          <button type="button" class="btn btn-outline-warning btn-regresar"
+                           awPreviousStep>Regresar</button>
+                        
+                           <button type="button" class="btn btn-outline-info"
+                           awNextStep>Siguiente</button>
+                        </div>
                       </div>
-                      <div class="btn-wizard-btn-next-step">
-                        <button type="button" class="btn btn-outline-warning btn-regresar"
-                         awPreviousStep>Regresar</button>
-                      
-                         <button type="button" class="btn btn-outline-info"
-                         awNextStep>Siguiente</button>
-                      </div>
-                    </div>
-                </aw-wizard-step>
-
-                <aw-wizard-step stepTitle="Finalizar">
-                    <h2 class="p-10" >RESUMEN PREVIO  </h2>
-                  <!-- <li>imprimir usuario administrador que dio de alta el chofer</li> -->
-                  {{ respuesta }}
-                  <button type="button" class="btn btn-outline-warning btn-regresar"
-                   awPreviousStep>Regresar</button>
-                  <button type="submit" class="btn btn-outline-success">Finalizar y crear cuenta</button>
-                </aw-wizard-step>
-              </aw-wizard>
-              </form>
+                  </aw-wizard-step>
+  
+                  <aw-wizard-step stepTitle="Finalizar">
+                      <h2 class="p-10" >RESUMEN PREVIO  </h2>
+                    <!-- <li>imprimir usuario administrador que dio de alta el chofer</li> -->
+                    {{ respuesta }}
+                    <button type="button" class="btn btn-outline-warning btn-regresar"
+                     awPreviousStep>Regresar</button>
+                    <button type="submit" class="btn btn-outline-success">Finalizar y crear cuenta</button>
+                  </aw-wizard-step>
+                </aw-wizard>
+                </form>
+            <div class="p-20">
+             
               <div class="progress-bar bar-progress" role="progressbar"  aria-valuemin="0" [attr.ariaValuenow]="counttimeUploading"aria-valuemax="100" 
               [style.width]="counttimeUploading + '%'"> <span class="sr-only">65% Complete</span> </div>
             </div>
