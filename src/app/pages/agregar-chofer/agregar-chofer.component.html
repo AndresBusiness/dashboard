@@ -74,74 +74,72 @@
                   </aw-wizard-step> 
                   <aw-wizard-step stepTitle="Datos Laborales">
                     <div class="form-group p-10">
-                      <h2 class="p-10" >RELACIÓN DEL CHOFER CON SU ESTADO LABORAL</h2>
-                        <div class="container-form">
-                          <div class="item item-form-3 col-5 pl-0">
-                            <h5>Folio de Chofer: <span class="text-danger">*</span></h5>
-                            <input type="text" name="text" formControlName="folio" placeholder="Ejemplo: 210283" class="form-control" required>
-                          </div>
-                        </div>
-                        <div class="container-form">
-                            <div class="item item-form-3 col-5 pl-0">
-                                <h5>Etiqueta: <span class="text-danger">*</span></h5>
-                                <select class="form-control custom-select" 
-                                 formControlName="etiqueta">
-                                    <option value="-1">Seleccione su etiqueta de chofer</option>
-                                    <option value="1">Socio Concesionario, Dueño de placa</option>
-                                    <option value="0">Socio Ayudante</option>
-                                </select>
-                            </div>
-                            
-                        </div>
-                        
-                        <div class="container-form" *ngIf="forma.value.etiqueta === '1'" >
-                            <div class="item item-form-3 col-5 pl-0">
-                                <h5>Número de concesión de <strong>socio</strong>:</h5>
-                                <input type="text" mask="000"  [showMaskTyped] = "true" name="text" class="form-control" 
-                                  required formControlName="concesion">
-                                  <span class="font-13 text-muted">del 001 al 765 (tres digitos)</span>
-                            </div>
-                        </div>
-                        <div class="container-form">
-                            <div class="item item-form-3">
-                                <input type="checkbox" id="propietario" formControlName="propietarioVehiculo"/>
-                                <label for="propietario">Soy propietario de un vehículo</label>
-                            </div>
-                        </div>
-  
-                        <div class="item">
-                            <!-- <button type="button" class="btn btn-outline-info" (click)="crearRelacion()">Vincular concesiones de ayudante</button> -->
-                            <div *ngIf="forma.value.ayudante_concesiones.length > 0" class="mt-4 mb-3">
-                                <h2>Registra conceciónes como socio ayudante.</h2>
-                            </div>
-                           
-                            <div  class="container-concesiones-ayudante" formArrayName="ayudante_concesiones">
-                                <div *ngFor="let item of forma.controls['ayudante_concesiones']['controls']; let i = index;" class="col-12 mb-4 pl-0">
-                                  <div class="col-7 d-flex pl-0">
-                                      <div class="col-8 pl-0">
-                                          <h5>Número de concesión de <strong>ayudante</strong> :</h5>
-                                          <input type="text" mask="000"  [showMaskTyped] = "true"  name="text" class="form-control" 
-                                            required [formControlName] ="i">
-                                            <span class="font-13 text-muted">del 001 al 765 (tres digitos)</span>
-                                      </div>
-                                      <div class="col-4 pl-0 position-relative ">
-                                          <button  type="button" (click)="sacarInputArrayList(i)" style="margin-left: 50px;"
-                                          *ngIf="forma.value.ayudante_concesiones.length > 1" 
-                                          class="position-absolute btn btn-outline-danger" ><i class="far fa-trash-alt"></i></button>
-                                          <button  type="button" (click)="crearRelacion()" 
-                                          class="position-absolute btn btn-outline-info"><i class="fas fa-plus-circle"></i></button>
-                                          
-                                      </div>
-                                  </div>
-                                
+                        <h2 class="p-10" >REGISTRO DE CONCESIONES</h2>
+                      <div class="col-12 d-flex" >
+                        <div class="col-6">
+                            <div class="container-form">
+                              <div class="item item-form-3 col-12 pl-0">
+                                <h5>Folio de Chofer: <span class="text-danger">*</span></h5>
+                                <input type="text" name="text" formControlName="folio" placeholder="Ejemplo: 210283" class="form-control" required>
                               </div>
                             </div>
-                            <div class="message-max-concesiones">
-                                <p>  {{ error }}</p>
-                            </div> 
+                            <div class="container-form">
+                                <div class="item item-form-3 col-12 pl-0">
+                                    <h5>Etiqueta: <span class="text-danger">*</span></h5>
+                                    <select class="form-control custom-select" 
+                                     formControlName="etiqueta">
+                                        <option value="-1">Seleccione su etiqueta de chofer</option>
+                                        <option value="1">Socio Concesionario, Dueño de placa</option>
+                                        <option value="0">Socio Ayudante</option>
+                                    </select>
+                                </div>
+                                
+                            </div>
+                            
+                            <div class="container-form" *ngIf="forma.value.etiqueta === '1'" >
+                                <div class="item item-form-3 col-12 pl-0">
+                                    <h5>Número de concesión de <strong>socio</strong>:</h5>
+                                    <input type="text" mask="000"  [showMaskTyped] = "true" name="text" class="form-control" 
+                                      required formControlName="concesion">
+                                      <span class="font-13 text-muted">del 001 al 765 (tres digitos)</span>
+                                </div>
+                            </div>
+                            <div class="container-form">
+                                <div class="item item-form-3">
+                                    <input type="checkbox" id="propietario" formControlName="propietarioVehiculo"/>
+                                    <label for="propietario">Soy propietario de un vehículo</label>
+                                </div>
+                            </div>
                         </div>
-  
-                        
+                        <div class="col-6">
+                            <div class="item">
+                                <div  class="container-concesiones-ayudante" formArrayName="ayudante_concesiones">
+                                    <div *ngFor="let item of forma.controls['ayudante_concesiones']['controls']; let i = index;" class="col-12 mb-4 pl-0">
+                                      <div class="col-12 d-flex pl-0">
+                                          <div class="col-9 pl-0">
+                                              <h5>Número de concesión de <strong>ayudante</strong> :</h5>
+                                              <input type="text" mask="000"  [showMaskTyped] = "true"  name="text" class="form-control" 
+                                                required [formControlName] ="i">
+                                                <span class="font-13 text-muted">del 001 al 765 (tres digitos)</span>
+                                          </div>
+                                          <div class="col-3 pl-0 position-relative ">
+                                              <button  type="button" (click)="sacarInputArrayList(i)" style="margin-left: 50px;"
+                                              *ngIf="forma.value.ayudante_concesiones.length > 1" 
+                                              class="position-absolute btn btn-outline-danger" ><i class="far fa-trash-alt"></i></button>
+                                              <button  type="button" (click)="crearRelacion()" 
+                                              class="position-absolute btn btn-outline-info"><i class="fas fa-plus-circle"></i></button>
+                                              
+                                          </div>
+                                      </div>
+                                    
+                                  </div>
+                                </div>
+                                <div class="message-max-concesiones">
+                                    <p>  {{ error }}</p>
+                                </div> 
+                            </div>
+                        </div>
+                      </div>
   
                         <div class="btn-wizard-btn-next-step">
                             <button type="button" class="btn btn-outline-warning btn-regresar"
