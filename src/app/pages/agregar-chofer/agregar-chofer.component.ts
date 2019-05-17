@@ -14,7 +14,10 @@ import { finalize } from 'rxjs/operators';
 export class AgregarChoferComponent implements OnInit {
 
   public forma:FormGroup;
-  public formArray: FormArray;
+  public ayudante_concesionesArray: FormArray;
+  public vehiculosArray: FormArray;
+  public choferesArray: FormArray;
+
   public respuesta: any;
   error:string;
   imageSrc: any;
@@ -31,7 +34,9 @@ export class AgregarChoferComponent implements OnInit {
     private servicio: FunctionsService, private _storage: AngularFireStorage) {
     const uid = localStorage.getItem('uid');
 
-    this.formArray = this.fb.array([]);
+    this.ayudante_concesionesArray = this.fb.array([]);
+    this.vehiculosArray = this.fb.array([]);
+
     // this.forma = new FormGroup({
     //   "folio": new FormControl('28940', Validators.required),
     //   "nombre": new FormControl('Andres', Validators.required),
@@ -74,16 +79,8 @@ export class AgregarChoferComponent implements OnInit {
       "activo": new FormControl(false, Validators.required),
       "autorizado": new FormControl(true, Validators.required),
       "uidUserSystem": new FormControl(uid, Validators.required),
-      "vehiculo": new FormGroup({
-        "concesion": new FormControl('', Validators.maxLength(3)),
-        "modelo": new FormControl('', Validators.required),
-        "marca": new FormControl('', Validators.required),
-        "matricula": new FormControl('', Validators.required),
-        "capacidad": new FormControl('-1', Validators.required),
-        "modalidad": new FormControl('-1', Validators.required),
-        "conRampa": new FormControl(false, Validators.required),
-      }),
-      "ayudante_concesiones": this.formArray
+      "ayudante_concesiones": this.ayudante_concesionesArray,
+      "vehiculos": this.vehiculosArray
     });
 
     // OBSERVA LOS CAMBIOS EN EL CAMPO DE FECHA PARA HACER SU VALIDACION
@@ -93,6 +90,7 @@ export class AgregarChoferComponent implements OnInit {
         this.forma.value.vehiculo.concesion = data
       }
     });
+
    
     this.forma.controls['etiqueta'].valueChanges
     .subscribe(data=>{
@@ -103,10 +101,8 @@ export class AgregarChoferComponent implements OnInit {
         this.step2 = true;
       }
     });
-
-    this.formArray.push(new FormControl(''))
-    
-
+    //AGREGAR 1 POR DEFECTO
+    this._createArrayControls();
   }
 
   ngOnInit() {
@@ -118,8 +114,7 @@ export class AgregarChoferComponent implements OnInit {
 
   }
   
-  paso2() { // without type info
-    console.log(this.fechaNacimiento.nativeElement.value);
+  paso2() { 
     this.forma.value.fechaNacimiento = this.fechaNacimiento.nativeElement.value;
   }
 
@@ -162,16 +157,34 @@ export class AgregarChoferComponent implements OnInit {
          })).subscribe();
   }
 
-  crearRelacion(){
+  _createArrayControls(){
     if (this.forma.value.ayudante_concesiones.length < 3){
-      this.formArray.push(new FormControl(''))
+        this.ayudante_concesionesArray.push(new FormControl(''))
+        this.vehiculosArray.push(new FormGroup({
+          "concesion": new FormControl('-1', Validators.maxLength(3)),
+          "modelo": new FormControl('', Validators.required),
+          "marca": new FormControl('', Validators.required),
+          "ano": new FormControl('', Validators.required),
+          "matricula": new FormControl('', Validators.required),
+          "capacidad": new FormControl('-1', Validators.required),
+          "modalidad": new FormControl('-1', Validators.required),
+          "conRampa": new FormControl(false, Validators.required),
+          //"choferes": this.choferesArray,
+          "propietario": new FormControl('', Validators.required),
+        }));
+        for (let index = 0; index < this.forma.controls['vehiculos']['controls'].length; index++) {
+          const element = this.forma.controls['vehiculos']['controls'][index];
+          console.log(element.controls);
+          
+        }
     } else {
       this.error = 'solo se puede asociar a un máximo de 3 concesiones';
     }
   }
 
   sacarInputArrayList(index: any){
-    this.formArray.removeAt(index);
+    this.ayudante_concesionesArray.removeAt(index);
+    this.vehiculosArray.removeAt(index);
     if (this.forma.value.ayudante_concesiones.length < 3){
       this.error = ''
     } 
