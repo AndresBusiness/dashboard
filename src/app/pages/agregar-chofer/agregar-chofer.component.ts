@@ -5,6 +5,7 @@ import { FunctionsService } from 'src/app/service/functions.service';
 import { Observable } from 'rxjs';
 import { AngularFireStorage } from 'angularfire2/storage';
 import { finalize } from 'rxjs/operators';
+import { NgbDateCustomParserFormatter } from 'src/app/service/dateformat.service';
 
 @Component({
   selector: 'app-agregar-chofer',
@@ -24,14 +25,24 @@ export class AgregarChoferComponent implements OnInit {
   fileImg: any;
   counttimeUploading:number= 0;
   step2:boolean = true;
+  public minDate: any;
+  public maxDate: any;
+  public startDate: any;
 
   uploadProgress: Observable<number>;
   uploadURL: Observable<string>;
-  @ViewChild("fechaNacimiento") fechaNacimiento: ElementRef;
+  public expRefEmail    = /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$/;
+  revisionStep1: boolean = false;
+ 
 
 
   constructor(private fb: FormBuilder, private _changeDetectionRef: ChangeDetectorRef, 
+    public servicioFecha: NgbDateCustomParserFormatter,
     private servicio: FunctionsService, private _storage: AngularFireStorage) {
+    this.minDate = {year: 1950, month: 1, day: 1};
+    this.maxDate = {year: 2001, month: 1, day: 1};
+    this.startDate = {year: 1973, month: 6, day: 15};
+
     const uid = localStorage.getItem('uid');
 
     this.ayudante_concesionesArray = this.fb.array([]);
@@ -66,14 +77,14 @@ export class AgregarChoferComponent implements OnInit {
 
     this.forma = new FormGroup({
       "folio": new FormControl('', Validators.required),
-      "nombre": new FormControl('', Validators.required),
-      "apellidos": new FormControl('', Validators.required),
-      "correo": new FormControl(''),
-      "telefono": new FormControl('', Validators.required),
+      "nombre": new FormControl('Andres', Validators.required),
+      "apellidos": new FormControl('Perez Alonso', Validators.required),
+      "correo": new FormControl('andres-tic@hotmail.com', [Validators.required, Validators.pattern(this.expRefEmail)]),
+      "telefono": new FormControl('4775674234', [Validators.required,Validators.minLength(10)]),
       "etiqueta": new FormControl('-1', Validators.required),
       "genero": new FormControl('1', Validators.required),
-      "fechaNacimiento": new FormControl('', Validators.required),
-      "img": new FormControl(''),
+      "fechaNacimiento": new FormControl('', [Validators.required, this.validarFecha]),
+      "img": new FormControl('', Validators.required),
       "concesion": new FormControl(''),
       "propietarioVehiculo": new FormControl(false, Validators.required),
       "activo": new FormControl(false, Validators.required),
@@ -114,8 +125,34 @@ export class AgregarChoferComponent implements OnInit {
 
   }
   
-  paso2() { 
-    this.forma.value.fechaNacimiento = this.fechaNacimiento.nativeElement.value;
+  paso1() { 
+    let countErrrors = 0;
+    const fieldStep1 = ['nombre', 'apellidos', 'correo', 'telefono', 'fechaNacimiento', 'img']
+    for (let index = 0; index < fieldStep1.length; index++) {
+      const element = fieldStep1[index];
+     if(this.forma.controls[element].errors){
+        countErrrors ++;
+      }
+      this.forma.controls[element].statusChanges.subscribe(data=>{
+        if(data == 'INVALID'){
+          this.revisionStep1 = false;
+        }
+      })
+    }
+    this.revisionStep1 = countErrrors>0? false : true;
+    
+  }
+
+  validarFecha(control: FormControl): {[s:string]: boolean}{
+    if(control.value){
+      if(control.value.month > 13 && control.value.month >= 1
+        && control.value.day >= 1 && control.value.day < 32){
+        return {
+          formatoFecha: true
+        }
+      }
+    }
+    return null;
   }
 
   guardarUsuario(){
@@ -172,13 +209,8 @@ export class AgregarChoferComponent implements OnInit {
           //"choferes": this.choferesArray,
           "propietario": new FormControl('', Validators.required),
         }));
-        for (let index = 0; index < this.forma.controls['vehiculos']['controls'].length; index++) {
-          const element = this.forma.controls['vehiculos']['controls'][index];
-          console.log(element.controls);
-          
-        }
     } else {
-      this.error = 'solo se puede asociar a un máximo de 3 concesiones';
+      this.error = 'Solo se puede asociar a un máximo de 3 concesiones';
     }
   }
 

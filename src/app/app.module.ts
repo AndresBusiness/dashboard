@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, LOCALE_ID } from '@angular/core';
 import { ReactiveFormsModule , FormsModule} from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
@@ -36,8 +36,21 @@ import { FunctionsService } from './service/functions.service';
 import { HttpModule } from '@angular/http';
 import { SanitizeUrlPipe } from './pipes/sanitize-url.pipe';
 
-import {NgxMaskModule, IConfig} from 'ngx-mask'
+import {NgxMaskModule, IConfig} from 'ngx-mask';
+
+import { NgbModule, NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
+
 var options: Partial<IConfig> | (() => Partial<IConfig>);
+
+
+import { registerLocaleData } from '@angular/common';
+
+// importar locales
+import localeMX from '@angular/common/locales/es-MX';
+import { NgbDateCustomParserFormatter } from './service/dateformat.service';
+
+// registrar los locales con el nombre que quieras utilizar a la hora de proveer
+registerLocaleData(localeMX, 'es');
 
 @NgModule({
   declarations: [
@@ -54,6 +67,7 @@ var options: Partial<IConfig> | (() => Partial<IConfig>);
     FormsModule,
     HttpClientModule,
     FormsModule,
+    NgbModule,
     HttpModule,
     HttpClientModule,
     NgxMaskModule.forRoot(options),
@@ -70,6 +84,9 @@ var options: Partial<IConfig> | (() => Partial<IConfig>);
    AuthGuardService,
    ReadjsonService,
    FunctionsService,
+   NgbDateCustomParserFormatter,
+   {provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter},
+   { provide: LOCALE_ID, useValue: 'es' },
    { provide: FirestoreSettingsToken, useValue: {} }
   ],
   bootstrap: [AppComponent]

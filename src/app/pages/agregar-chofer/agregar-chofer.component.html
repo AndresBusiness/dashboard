@@ -13,40 +13,66 @@
         <div class="card animated fadeIn">
             <form [formGroup]="forma" (ngSubmit)="guardarUsuario()" >
                 <aw-wizard #wizard [navBarLayout]="'large-empty-symbols'">
-                  <aw-wizard-step [stepTitle]="'Datos Personales'">
+                  <aw-wizard-step [stepTitle]="'Datos Personales'" >
                       <ng-template awWizardStepSymbol><i class="fas fa-id-card"></i></ng-template>
                       <div class="form-group p-10">
                       <h2 class="p-10" >LLENAR TODOS LOS DATOS DEL CHOFER</h2>
                       <div class="container-form">
                         <div class="item item-form-6">
-                          <h5>Nombre: <span class="text-danger">*</span></h5>
+                          <h5>Nombre (s): <span class="text-danger">*</span></h5>
                           <input type="text" name="text" formControlName="nombre" placeholder="Ejemplo: Juan" class="form-control" required>
+                          <p class="field-requiered" 
+                          *ngIf="forma.controls['nombre'].errors?.required">Campo requerido*</p>
                         </div>
                         <div class="item item-form-6">
                           <h5>Apellidos: <span class="text-danger">*</span></h5>
                           <input type="text" name="text" formControlName="apellidos" placeholder="Ejemplo: Hernández López" class="form-control" required>
+                          <p class="field-requiered" 
+                          *ngIf="forma.controls['apellidos'].errors?.required">Campo requerido*</p>
                         </div>
                       </div>
                       <div class="container-form">
                         <div class="item item-form-6">
-                            <h5>Fecha de nacimiento: <span class="text-danger">*</span></h5>
-                            <input type="text" id="mdate" class="form-control " placeholder="Seleccionar fecha de nacimiento"
-                            formControlName="fechaNacimiento" #fechaNacimiento class="form-control">
-                         
+                            <h5>Correo eléctronico: <span class="text-danger">*</span></h5>
+                            <input type="text" name="text" formControlName="correo" placeholder="Ejemplo: juan-39@gmail.com" class="form-control" required>
+                            <p class="field-requiered" 
+                            *ngIf="forma.controls['correo'].errors?.required">Campo requerido*</p>
+                            <p class="field-requiered" 
+                            *ngIf="forma.controls['correo'].errors?.pattern">Formato de correo incorrecto*</p>
                         </div>
                         <div class="item item-form-6">
                             <h5>Teléfono: <span class="text-danger">*</span></h5>
                             <input type="text" formControlName="telefono" name="text" class="form-control" mask="(000) 000-0000" prefix="+52" [showMaskTyped] = "true" required>
                             <span class="font-13 text-muted">Ejemplo: +52(987) 118-9232</span>
+                            <p class="field-requiered" 
+                            *ngIf="forma.controls['telefono'].errors?.required">Campo requerido*</p>
+                            <p class="field-requiered" 
+                            *ngIf="forma.controls['telefono'].errors?.minlength">Se requieren 10 digitos*</p>
                         </div>
                       </div>
                       <div class="container-form">
                         <div class="item item-form-6">
-                            <h5>Correo: <span class="text-danger">*</span></h5>
-                            <input type="text" name="text" formControlName="correo" placeholder="Ejemplo: juan-39@gmail.com" class="form-control" required>
+                            <h5>Fecha de nacimiento: <span class="text-danger">*</span></h5>
+                            <div class="col-12 d-flex p-0">
+                              <div class="col-11" >
+                                  <input class="form-control" placeholder="Día Mes, Año" 
+                                  [minDate]="minDate"
+                                  [maxDate] ="maxDate"
+                                  [startDate]="startDate"
+                                  name="dp" formControlName="fechaNacimiento" #fechaNacimiento 
+                                  ngbDatepicker #d="ngbDatepicker">
+                              </div>
+                              <div>
+                                  <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button"><i class="far fa-calendar-alt"></i></button>
+                              </div>
+                            </div>
+                            <p class="field-requiered" 
+                            *ngIf="forma.controls['fechaNacimiento'].errors?.ngbDate">Formato de fecha incorrecto*</p>
+                            <p class="field-requiered"
+                            *ngIf="forma.controls['fechaNacimiento'].errors?.required">Campo requerido*</p>
   
-                          <div class="item">
-                              <h5>Genero: <span class="text-danger">*</span></h5>
+                          <div class="item mt-5">
+                              <h5>Género: <span class="text-danger">*</span></h5>
                               <div class="form-check">
                                   <label class="custom-control custom-radio">
                                       <input id="radio1" name="genero" type="radio" class="custom-control-input"  value="1" formControlName="genero" >
@@ -62,16 +88,18 @@
                           </div>
                         </div>
                         <div class="item item-form-6">
-                            <h5>Foto: <span class="text-danger">*</span></h5>
-                            <input type="file" placeholder="" (change)="upload($event)"  class="form-control" formControlName="img" >
+                            <h5>Selecciona la foto del chofer: <span class="text-danger">*</span></h5>
+                            <input type="file" accept="image/*" placeholder="" (change)="upload($event)"  class="form-control" formControlName="img" >
                             <img id="blah" [src]="imageSrc || '../../../assets/images/user.png'  " alt="your image" class="img-profile-chofer"/>
+                            <p class="field-requiered" 
+                            *ngIf="forma.controls['img'].errors?.required">Seleccione la foto del chofer*</p>
                         </div>
                       </div>
-                      <button type="button" class="btn btn-outline-info btn-wizard-btn-next-step" (click)="paso2()"
-                       awNextStep>Continuar</button>
+                      <button type="button" class="btn btn-info btn-wizard-btn-next-step" *ngIf="!revisionStep1"  (click)="paso1()">Validar</button>
+                      <button  *ngIf="revisionStep1" type="button" class="btn btn-info btn-wizard-btn-next-step"   awNextStep>Continuar</button>
                       </div>
                   </aw-wizard-step> 
-                  <aw-wizard-step [stepTitle]="'Relación de concesiones'">
+                  <aw-wizard-step [stepTitle]="'Relación de concesiones'" >
                       <ng-template awWizardStepSymbol><i class="fas fa-briefcase"></i></ng-template>
                     <div class="form-group p-10">
                         <h2 class="p-10" >REGISTRO DE CONCESIONES</h2>
@@ -141,13 +169,19 @@
                         </div>
                       </div>
   
-                        <div class="btn-wizard-btn-next-step">
-                            <button type="button" class="btn btn-outline-warning btn-regresar"
-                             awPreviousStep>Regresar</button>
-                          
-                             <button type="button" class="btn btn-outline-info"
-                             awNextStep>Siguiente</button>
-                          </div>
+                      <div class="btn-wizard-btn-next-step">
+                        <button type="button" class="btn btn-outline-warning btn-regresar"
+                        awPreviousStep>Regresar</button>
+                      
+                        <button type="button" class="btn btn-outline-info"
+                        awNextStep>Siguiente</button>
+
+                        <button type="button" class="btn btn-outline-info"
+                         *ngIf="!forma.value.propietarioVehiculo"
+                         [awGoToStep]="{ stepIndex: 3 }">Finalizar</button>
+
+                        
+                      </div>
   
                           
                       </div>
@@ -166,54 +200,54 @@
   
                        
                         <div  *ngIf="forma.value.propietarioVehiculo">
+                          <div formArrayName="vehiculos">
                             <div *ngFor="let item of forma.controls['vehiculos']['controls']; let i = index;"  >
-                             
-                                <div class="col-12 d-flex mb-4">
-                                  <div class="col-4">
-                                    <h5>Marca: <span class="text-danger">*</span></h5>
-                                    <input type="text" name="text" placeholder="Ejemplo: Chevrolet" class="form-control" required [formControlName] ="item[i]">
-                                  </div>
-                                  <div class="col-4">
-                                    <h5>Modelo de vehículo: <span class="text-danger">*</span></h5>
-                                    <input type="text" name="text" placeholder="Ejemplo: Aveo, Spark .." class="form-control" required [formControlName] ="item[i]">
-                                  </div>
-
-                                  <div class="col-4">
-                                    <h5>Año: <span class="text-danger">*</span></h5>
-                                    <input type="text" name="text" placeholder="Ejemplo: 2010" class="form-control" required [formControlName] ="item[i]">
-                                  </div>
-                             
-                                </div>
-                                <div class="col-12 d-flex mb-4">
-                                  <div class="col-4">
-                                    <h5>Matricula: <span class="text-danger">*</span></h5>
-                                    <input type="text" name="text" placeholder="Ejemplo: 15-48-TRG" class="form-control" required [formControlName] ="item[i]">
-                                  </div>
-                                  <div class="col-4">
-                                    <h5>Para 4 u 8 personas?: <span class="text-danger">*</span></h5>
-                                    <select class="form-control custom-select" [formControlName] ="item[i]">
-                                        <option value="-1">Seleccionar Capacidad</option>
-                                        <option value="4">Hasta 4 personas</option>
-                                        <option value="8">Hasta 8 personas</option>
-                                    </select>
-                                  </div>
-                                  <div class="col-4">
-                                      <h5>Fijo o Posturero?: <span class="text-danger">*</span></h5>
-                                      <select class="form-control custom-select" [formControlName] ="item[i]">
-                                          <option value="-1">Seleccionar modalidad</option>
-                                          <option value="1">Fijo</option>
-                                          <option value="0">Posturero</option>
-                                      </select>
+                              <div [formGroupName]="i">
+                                  <div class="col-12 d-flex mb-4" >
+                                    <div class="col-4">
+                                        <h5>Marca: <span class="text-danger">*</span></h5>
+                                        <input type="text" name="text" placeholder="Ejemplo: Chevrolet" class="form-control" required formControlName ="marca">
                                     </div>
-                                </div>
-                                
-                                <div class="col-12 d-flex">
-                                  <div class="item" p-10>
-                                    <input type="checkbox" id="con_rampa" [formControlName] ="item[i]"/>
-                                    <label for="con_rampa">Con Rampa</label>
+                                    <div class="col-4">
+                                        <h5>Modelo de vehículo: <span class="text-danger">*</span></h5>
+                                        <input type="text" name="text" placeholder="Ejemplo: Aveo, Spark .." class="form-control" required formControlName ="modelo">
+                                    </div>
+                                    <div class="col-4">
+                                        <h5>Año: <span class="text-danger">*</span></h5>
+                                        <input type="text" name="text" placeholder="Ejemplo: 2010" class="form-control" required formControlName ="ano">
+                                    </div>
                                   </div>
-                                </div>
+                                  <div class="col-12 d-flex mb-4">
+                                      <div class="col-4">
+                                        <h5>Matricula: <span class="text-danger">*</span></h5>
+                                        <input type="text" name="text" placeholder="Ejemplo: 15-48-TRG" class="form-control" required formControlName ="matricula">
+                                      </div>
+                                      <div class="col-4">
+                                        <h5>Para 4 u 8 personas?: <span class="text-danger">*</span></h5>
+                                        <select class="form-control custom-select" formControlName ="capacidad">
+                                            <option value="-1">Seleccionar Capacidad</option>
+                                            <option value="4">Hasta 4 personas</option>
+                                            <option value="8">Hasta 8 personas</option>
+                                        </select>
+                                      </div>
+                                      <div class="col-4">
+                                          <h5>Fijo o Posturero?: <span class="text-danger">*</span></h5>
+                                          <select class="form-control custom-select" formControlName ="modalidad">
+                                              <option value="-1">Seleccionar modalidad</option>
+                                              <option value="1">Fijo</option>
+                                              <option value="0">Posturero</option>
+                                          </select>
+                                        </div>
+                                  </div>
+                                  <div class="col-12 d-flex">
+                                      <div class="item" p-10>
+                                        <input type="checkbox" id="con_rampa" formControlName ="conRampa"/>
+                                        <label for="con_rampa">Con Rampa</label>
+                                      </div>
+                                  </div>
+                              </div>
                             </div>
+                          </div>
                         </div>
                      
                        
@@ -234,7 +268,7 @@
                     {{ respuesta }}
                     <button type="button" class="btn btn-outline-warning btn-regresar"
                      awPreviousStep>Regresar</button>
-                    <button type="submit" class="btn btn-outline-success">Finalizar y crear cuenta</button>
+                    <button type="submit" class="btn btn-outline-success">Crear cuenta</button>
                   </aw-wizard-step>
                 </aw-wizard>
                 </form>

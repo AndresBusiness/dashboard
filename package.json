@@ -26,7 +26,7 @@
         "@angular/router": "^7.1.4",
         "@ionic-native/core": "^5.0.0",
         "@ionic-native/google-maps": "^5.0.0-beta.27",
-        "@ng-bootstrap/ng-bootstrap": "^4.0.0",
+        "@ng-bootstrap/ng-bootstrap": "^4.1.3",
         "@ngx-loading-bar/core": "^4.1.1",
         "@ngx-loading-bar/http": "^4.1.1",
         "@ngx-loading-bar/http-client": "^4.1.1",

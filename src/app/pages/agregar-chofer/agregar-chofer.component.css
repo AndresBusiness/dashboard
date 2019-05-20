@@ -44,3 +44,7 @@ li.done.navigable{
   position: absolute;
   bottom:24px;
 }
+.field-requiered{
+ color: #b72b28;
+ font-weight: 600;
+}

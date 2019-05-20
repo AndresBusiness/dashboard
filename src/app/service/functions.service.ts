@@ -29,5 +29,6 @@ export class FunctionsService  {
     registarChofer(obj:any) {
         return this.launchPetitionServerNode("registrarUsuario", obj);
       }
+      
 
 }
