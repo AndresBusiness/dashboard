@@ -1,6 +1,6 @@
 
 <div class="row">
-    <div class="col-md-3">
+     <div class="col-md-3">
         <div class="card animated fadeIn">
             <div class="p-20">
                 <pre>
@@ -8,7 +8,7 @@
                 </pre>
             </div>
       </div>
-    </div>
+    </div> 
     <div class="col-md-9">
         <div class="card animated fadeIn">
             <form [formGroup]="forma" (ngSubmit)="guardarUsuario()" >
@@ -20,15 +20,15 @@
                       <div class="container-form">
                         <div class="item item-form-6">
                           <h5>Nombre (s): <span class="text-danger">*</span></h5>
-                          <input type="text" name="text" formControlName="nombre" placeholder="Ejemplo: Juan" class="form-control" required>
+                          <input type="text" name="text" formControlName="nombre" (input)="capitalizaCamelCase($event.target.value, 'nombre')" placeholder="Ejemplo: Juan" class="form-control" required>
                           <p class="field-requiered" 
-                          *ngIf="forma.controls['nombre'].errors?.required">Campo requerido*</p>
+                          *ngIf="forma.controls['nombre'].errors?.required && VALIDATIONS_STEP1.nombre">Campo requerido*</p>
                         </div>
                         <div class="item item-form-6">
                           <h5>Apellidos: <span class="text-danger">*</span></h5>
-                          <input type="text" name="text" formControlName="apellidos" placeholder="Ejemplo: Hernández López" class="form-control" required>
+                          <input type="text" name="text" formControlName="apellidos" (input)="capitalizaCamelCase($event.target.value, 'apellidos')" placeholder="Ejemplo: Hernández López" class="form-control" required>
                           <p class="field-requiered" 
-                          *ngIf="forma.controls['apellidos'].errors?.required">Campo requerido*</p>
+                          *ngIf="forma.controls['apellidos'].errors?.required && VALIDATIONS_STEP1.apellidos">Campo requerido*</p>
                         </div>
                       </div>
                       <div class="container-form">
@@ -36,18 +36,18 @@
                             <h5>Correo eléctronico: <span class="text-danger">*</span></h5>
                             <input type="text" name="text" formControlName="correo" placeholder="Ejemplo: juan-39@gmail.com" class="form-control" required>
                             <p class="field-requiered" 
-                            *ngIf="forma.controls['correo'].errors?.required">Campo requerido*</p>
+                            *ngIf="forma.controls['correo'].errors?.required && VALIDATIONS_STEP1.correo">Campo requerido*</p>
                             <p class="field-requiered" 
-                            *ngIf="forma.controls['correo'].errors?.pattern">Formato de correo incorrecto*</p>
+                            *ngIf="forma.controls['correo'].errors?.pattern && forma.controls['correo'].value">Formato de correo incorrecto*</p>
                         </div>
                         <div class="item item-form-6">
                             <h5>Teléfono: <span class="text-danger">*</span></h5>
                             <input type="text" formControlName="telefono" name="text" class="form-control" mask="(000) 000-0000" prefix="+52" [showMaskTyped] = "true" required>
                             <span class="font-13 text-muted">Ejemplo: +52(987) 118-9232</span>
                             <p class="field-requiered" 
-                            *ngIf="forma.controls['telefono'].errors?.required">Campo requerido*</p>
+                            *ngIf="forma.controls['telefono'].errors?.required && VALIDATIONS_STEP1.telefono">Campo requerido*</p>
                             <p class="field-requiered" 
-                            *ngIf="forma.controls['telefono'].errors?.minlength">Se requieren 10 digitos*</p>
+                            *ngIf="forma.controls['telefono'].errors?.minlength && forma.controls['telefono'].value">Se requieren 10 digitos*</p>
                         </div>
                       </div>
                       <div class="container-form">
@@ -67,9 +67,9 @@
                               </div>
                             </div>
                             <p class="field-requiered" 
-                            *ngIf="forma.controls['fechaNacimiento'].errors?.ngbDate">Formato de fecha incorrecto*</p>
+                            *ngIf="forma.controls['fechaNacimiento'].errors?.ngbDate && forma.controls['fechaNacimiento'].value">Formato de fecha incorrecto*</p>
                             <p class="field-requiered"
-                            *ngIf="forma.controls['fechaNacimiento'].errors?.required">Campo requerido*</p>
+                            *ngIf="forma.controls['fechaNacimiento'].errors?.required  && VALIDATIONS_STEP1.fechaNacimiento">Campo requerido*</p>
   
                           <div class="item mt-5">
                               <h5>Género: <span class="text-danger">*</span></h5>
@@ -92,7 +92,7 @@
                             <input type="file" accept="image/*" placeholder="" (change)="upload($event)"  class="form-control" formControlName="img" >
                             <img id="blah" [src]="imageSrc || '../../../assets/images/user.png'  " alt="your image" class="img-profile-chofer"/>
                             <p class="field-requiered" 
-                            *ngIf="forma.controls['img'].errors?.required">Seleccione la foto del chofer*</p>
+                            *ngIf="forma.controls['img'].errors?.required  && VALIDATIONS_STEP1.img">Seleccione la foto del chofer*</p>
                         </div>
                       </div>
                       <button type="button" class="btn btn-info btn-wizard-btn-next-step" *ngIf="!revisionStep1"  (click)="paso1()">Validar</button>
@@ -109,17 +109,21 @@
                               <div class="item item-form-3 col-12 pl-0">
                                 <h5>Folio de Chofer: <span class="text-danger">*</span></h5>
                                 <input type="text" name="text" formControlName="folio" placeholder="Ejemplo: 210283" class="form-control" required>
+                                <p class="field-requiered" 
+                                *ngIf="forma.controls['folio'].errors?.required && VALIDATIONS_STEP2.folio">Campo requerido*</p>
                               </div>
                             </div>
                             <div class="container-form">
                                 <div class="item item-form-3 col-12 pl-0">
-                                    <h5>Etiqueta: <span class="text-danger">*</span></h5>
+                                    <h5>Selecciona el tipo de chofer: <span class="text-danger">*</span></h5>
                                     <select class="form-control custom-select" 
                                      formControlName="etiqueta">
-                                        <option value="-1">Seleccione su etiqueta de chofer</option>
+                                        <option value="">¿Socio o Ayudante?</option>
                                         <option value="1">Socio Concesionario, Dueño de placa</option>
                                         <option value="0">Socio Ayudante</option>
                                     </select>
+                                    <p class="field-requiered" 
+                                    *ngIf="forma.controls['etiqueta'].errors?.required && VALIDATIONS_STEP2.etiqueta">Campo requerido*</p>
                                 </div>
                                 
                             </div>
@@ -130,6 +134,19 @@
                                     <input type="text" mask="000"  [showMaskTyped] = "true" name="text" class="form-control" 
                                       required formControlName="concesion">
                                       <span class="font-13 text-muted">del 001 al 765 (tres digitos)</span>
+                                      <p class="field-requiered" 
+                                      *ngIf="forma.controls['concesion'].errors?.required && VALIDATIONS_STEP2.concesion">Campo requerido*</p>
+                                      <div *ngIf="forma.controls['concesion'].errors" >
+                                        <p class="field-requiered" 
+                                        *ngIf="forma.controls['concesion'].errors['Mask error']">Se requieren 3 digitos*</p>
+                                      </div>
+                                      <p class="field-requiered" 
+                                      *ngIf="forma.controls['concesion'].errors?.max && VALIDATIONS_STEP2.concesion">Máximo 765 concesiones*</p>
+                                      <p class="field-requiered" 
+                                      *ngIf="forma.controls['concesion'].errors?.min && VALIDATIONS_STEP2.concesion">Minimo 001*</p>
+                                      <p class="field-requiered" 
+                                      *ngIf="forma.controls['concesion'].errors?.maxLength && VALIDATIONS_STEP2.concesion">Máximo 3 digitos*</p>
+                                      
                                 </div>
                             </div>
                             <div class="container-form">
@@ -143,12 +160,23 @@
                             <div class="item">
                                 <div  class="container-concesiones-ayudante" formArrayName="ayudante_concesiones">
                                     <div *ngFor="let item of forma.controls['ayudante_concesiones']['controls']; let i = index;" class="col-12 mb-4 pl-0">
-                                      <div class="col-12 d-flex pl-0">
-                                          <div class="col-9 pl-0">
+                                      <div class="col-12 d-flex pl-0" [formGroupName]="i">
+                                          <div class="col-9 pl-0" >
                                               <h5>Número de concesión de <strong>ayudante</strong> :</h5>
                                               <input type="text" mask="000"  [showMaskTyped] = "true"  name="text" class="form-control" 
-                                                required [formControlName] ="i">
+                                                required formControlName ="concesion_ayudante">
                                                 <span class="font-13 text-muted">del 001 al 765 (tres digitos)</span>
+                                              <div *ngIf="forma.controls['ayudante_concesiones']['controls'][i]['controls']['concesion_ayudante'].errors" >
+                                                <p class="field-requiered" 
+                                                *ngIf="forma.controls['ayudante_concesiones']['controls'][i]['controls']['concesion_ayudante'].errors['Mask error']">Se requieren 3 digitos*</p>
+                                              </div>
+                                              <p class="field-requiered" 
+                                              *ngIf="forma.controls['ayudante_concesiones']['controls'][i]['controls']['concesion_ayudante'].errors?.max">Máximo 765 concesiones*</p>
+                                              <p class="field-requiered" 
+                                              *ngIf="forma.controls['ayudante_concesiones']['controls'][i]['controls']['concesion_ayudante'].errors?.min">Minimo 001*</p>
+                                              <p class="field-requiered" 
+                                              *ngIf="forma.controls['ayudante_concesiones']['controls'][i]['controls']['concesion_ayudante'].errors?.maxLength">Máximo 3 digitos*</p>
+
                                           </div>
                                           <div class="col-3 pl-0 position-relative ">
                                               <button  type="button" (click)="sacarInputArrayList(i)" style="margin-left: 50px;"
@@ -170,15 +198,16 @@
                       </div>
   
                       <div class="btn-wizard-btn-next-step">
-                        <button type="button" class="btn btn-outline-warning btn-regresar"
+                        <button type="button" class="btn btn-warning btn-regresar"
                         awPreviousStep>Regresar</button>
-                      
-                        <button type="button" class="btn btn-outline-info"
-                        awNextStep>Siguiente</button>
+                        <button type="button" class="btn btn-info" 
+                        *ngIf="!revisionStep2"  (click)="paso2()">Validar</button>
+                        <button type="button" class="btn btn-info"
+                        *ngIf="revisionStep2"  awNextStep>Siguiente</button>
 
-                        <button type="button" class="btn btn-outline-info"
+                        <!-- <button type="button" class="btn btn-outline-info"
                          *ngIf="!forma.value.propietarioVehiculo"
-                         [awGoToStep]="{ stepIndex: 3 }">Finalizar</button>
+                         [awGoToStep]="{ stepIndex: 3 }">Finalizar</button> -->
 
                         
                       </div>
@@ -197,8 +226,6 @@
                               <input type="number" name="text" class="form-control" required formControlName="concesion" placeholder="Ejemplo: 213, 392, 102">
                             </div>
                         </div> -->
-  
-                       
                         <div  *ngIf="forma.value.propietarioVehiculo">
                           <div formArrayName="vehiculos">
                             <div *ngFor="let item of forma.controls['vehiculos']['controls']; let i = index;"  >

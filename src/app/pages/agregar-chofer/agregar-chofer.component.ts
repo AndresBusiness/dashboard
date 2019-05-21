@@ -33,8 +33,23 @@ export class AgregarChoferComponent implements OnInit {
   uploadURL: Observable<string>;
   public expRefEmail    = /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$/;
   revisionStep1: boolean = false;
- 
+  revisionStep2: boolean = false;
 
+  VALIDATIONS_STEP1 = {
+    'nombre':   false,
+    'apellidos':   false,
+    'correo':   false,
+    'telefono':   false,
+    'fechaNacimiento':   false,
+    'img':   false,
+  }
+
+  VALIDATIONS_STEP2 = {
+    'folio':   false,
+    'etiqueta':   false,
+    'concesion':   false,
+  }
+ 
 
   constructor(private fb: FormBuilder, private _changeDetectionRef: ChangeDetectorRef, 
     public servicioFecha: NgbDateCustomParserFormatter,
@@ -48,44 +63,17 @@ export class AgregarChoferComponent implements OnInit {
     this.ayudante_concesionesArray = this.fb.array([]);
     this.vehiculosArray = this.fb.array([]);
 
-    // this.forma = new FormGroup({
-    //   "folio": new FormControl('28940', Validators.required),
-    //   "nombre": new FormControl('Andres', Validators.required),
-    //   "apellidos": new FormControl('Perez Alonso', Validators.required),
-    //   "correo": new FormControl('andres-tic@hotmail.com'),
-    //   "telefono": new FormControl('+524775674124', Validators.required),
-    //   "etiqueta": new FormControl('-1', Validators.required),
-    //   "genero": new FormControl('1', Validators.required),
-    //   "fechaNacimiento": new FormControl('05/01/1995', Validators.required),
-    //   "img": new FormControl(''),
-    //   "concesion": new FormControl('210'),
-    //   "propietarioVehiculo": new FormControl(true, Validators.required),
-    //   "activo": new FormControl(false, Validators.required),
-    //   "autorizado": new FormControl(true, Validators.required),
-    //   "uidUserSystem": new FormControl(uid, Validators.required),
-    //   "vehiculo": new FormGroup({
-    //     "concesion": new FormControl('210', Validators.maxLength(3)),
-    //     "modelo": new FormControl('2018', Validators.required),
-    //     "marca": new FormControl('Mazda', Validators.required),
-    //     "matricula": new FormControl('ERWS-2342D', Validators.required),
-    //     "capacidad": new FormControl('-1', Validators.required),
-    //     "modalidad": new FormControl('-1', Validators.required),
-    //     "conRampa": new FormControl(false, Validators.required),
-    //   }),
-    //   "ayudante_concesiones": this.formArray
-    // });
 
     this.forma = new FormGroup({
       "folio": new FormControl('', Validators.required),
-      "nombre": new FormControl('Andres', Validators.required),
-      "apellidos": new FormControl('Perez Alonso', Validators.required),
-      "correo": new FormControl('andres-tic@hotmail.com', [Validators.required, Validators.pattern(this.expRefEmail)]),
-      "telefono": new FormControl('4775674234', [Validators.required,Validators.minLength(10)]),
-      "etiqueta": new FormControl('-1', Validators.required),
+      "nombre": new FormControl('', Validators.required),
+      "apellidos": new FormControl('', Validators.required),
+      "correo": new FormControl('', [Validators.required, Validators.pattern(this.expRefEmail)]),
+      "telefono": new FormControl('', [Validators.required,Validators.minLength(10)]),
+      "etiqueta": new FormControl('', Validators.required),
       "genero": new FormControl('1', Validators.required),
       "fechaNacimiento": new FormControl('', [Validators.required, this.validarFecha]),
       "img": new FormControl('', Validators.required),
-      "concesion": new FormControl(''),
       "propietarioVehiculo": new FormControl(false, Validators.required),
       "activo": new FormControl(false, Validators.required),
       "autorizado": new FormControl(true, Validators.required),
@@ -94,26 +82,32 @@ export class AgregarChoferComponent implements OnInit {
       "vehiculos": this.vehiculosArray
     });
 
-    // OBSERVA LOS CAMBIOS EN EL CAMPO DE FECHA PARA HACER SU VALIDACION
-    this.forma.controls['concesion'].valueChanges
-    .subscribe(data=>{
-      if(this.forma.value.propietarioVehiculo === '1' || this.forma.value.propietarioVehiculo ===  true){
-        this.forma.value.vehiculo.concesion = data
-      }
-    });
+    // this.forma.controls['concesion'].valueChanges
+    // .subscribe(data=>{
+    //   if(this.forma.value.propietarioVehiculo === '1' || this.forma.value.propietarioVehiculo ===  true){
+    //     this.forma.value.vehiculo.concesion = data
+    //   }
+    // });
 
    
     this.forma.controls['etiqueta'].valueChanges
     .subscribe(data=>{
-      console.log(data);
-      if(data === '1' || data ===  '0'){
-        this.step2 = false;
+      if(data === '1' || data ===  true){
+        this.forma.addControl('concesion', new FormControl('', [Validators.required, Validators.maxLength(3), Validators.max(765), Validators.min(1)]));
       } else {
-        this.step2 = true;
+        this.forma.removeControl('concesion');
       }
+
     });
     //AGREGAR 1 POR DEFECTO
     this._createArrayControls();
+
+    const fieldStep1 = ['nombre', 'apellidos', 'correo', 'telefono', 'fechaNacimiento', 'img']
+    for (let index = 0; index < fieldStep1.length; index++) {
+      this.forma.controls[fieldStep1[index]].statusChanges.subscribe(data=>{
+        if(data === 'VALID')this.VALIDATIONS_STEP1[fieldStep1[index]] = true;
+      })
+    }
   }
 
   ngOnInit() {
@@ -131,6 +125,7 @@ export class AgregarChoferComponent implements OnInit {
     for (let index = 0; index < fieldStep1.length; index++) {
       const element = fieldStep1[index];
      if(this.forma.controls[element].errors){
+       this.VALIDATIONS_STEP1[element] = true;
         countErrrors ++;
       }
       this.forma.controls[element].statusChanges.subscribe(data=>{
@@ -140,7 +135,60 @@ export class AgregarChoferComponent implements OnInit {
       })
     }
     this.revisionStep1 = countErrrors>0? false : true;
-    
+  }
+
+  paso2() { 
+    let countErrrors = 0;
+    const fieldStep2 = ['folio', 'etiqueta', 'concesion']
+    for (let index = 0; index < fieldStep2.length; index++) {
+      const element = fieldStep2[index];
+      if(this.forma.controls[element]){
+        if(this.forma.controls[element].errors){
+          this.VALIDATIONS_STEP2[element] = true;
+         countErrrors ++;
+       }
+       this.forma.controls[element].statusChanges.subscribe(data=>{
+         if(data == 'INVALID'){
+           this.revisionStep2 = false;
+         }
+       })
+      }
+    }
+
+    for (let index = 0; index < this.forma.value.ayudante_concesiones.length; index++) {
+      const element = (this.forma.controls['ayudante_concesiones']['controls'][index]['controls']['concesion_ayudante'] as FormControl);
+      if(element.errors){
+        if(element.errors['max'] || element.errors['min'] || element.errors['maxLength'] || element.errors['Mask error']){
+          console.log(element.errors)
+          countErrrors ++;
+        }
+      }
+    }
+    this.revisionStep2 = countErrrors > 0 ? false : true;
+    console.log(countErrrors)
+    console.log(this.revisionStep2)
+
+  }
+
+  capitalizaCamelCase(value : string , control) {  
+    let newString = '';
+    if (value) {
+      const cadenas = value.split(' ');
+      if (cadenas.length > 1){
+        for (let index = 0; index < cadenas.length; index++) {
+          let element = cadenas[index];
+              element = (element.charAt(0).toUpperCase() + element.slice(1));
+          if (index  !== (cadenas.length - 1 )) {
+            element = element + ' ';
+          }
+          newString += element;
+        }
+      } else {
+        newString = value.charAt(0).toUpperCase() + value.slice(1);
+      }
+      
+      this.forma.controls[control].setValue(newString);
+    }
   }
 
   validarFecha(control: FormControl): {[s:string]: boolean}{
@@ -196,16 +244,28 @@ export class AgregarChoferComponent implements OnInit {
 
   _createArrayControls(){
     if (this.forma.value.ayudante_concesiones.length < 3){
-        this.ayudante_concesionesArray.push(new FormControl(''))
+        this.ayudante_concesionesArray.push(new FormGroup({
+          "concesion_ayudante": new FormControl('', [Validators.maxLength(3), Validators.max(765), Validators.min(1)]),
+        }))
+        this.revisionStep2 = false;
+        for (let index = 0; index < this.forma.value.ayudante_concesiones.length; index++) {
+          const element = (this.forma.controls['ayudante_concesiones']['controls'][index]['controls']['concesion_ayudante'] as FormControl);
+          element.statusChanges.subscribe(data=>{
+            if(data == 'INVALID'){
+              this.revisionStep2 = false;
+            }
+          })
+        }
+
         this.vehiculosArray.push(new FormGroup({
-          "concesion": new FormControl('-1', Validators.maxLength(3)),
-          "modelo": new FormControl('', Validators.required),
-          "marca": new FormControl('', Validators.required),
-          "ano": new FormControl('', Validators.required),
-          "matricula": new FormControl('', Validators.required),
-          "capacidad": new FormControl('-1', Validators.required),
-          "modalidad": new FormControl('-1', Validators.required),
-          "conRampa": new FormControl(false, Validators.required),
+          "concesion": new FormControl('-1',  [Validators.maxLength(3), Validators.max(765), Validators.min(1)]),
+          "modelo":    new FormControl('',    Validators.required),
+          "marca":     new FormControl('',    Validators.required),
+          "ano":       new FormControl('',    Validators.required),
+          "matricula": new FormControl('',    Validators.required),
+          "capacidad": new FormControl('-1',  Validators.required),
+          "modalidad": new FormControl('-1',  Validators.required),
+          "conRampa":  new FormControl(false, Validators.required),
           //"choferes": this.choferesArray,
           "propietario": new FormControl('', Validators.required),
         }));
