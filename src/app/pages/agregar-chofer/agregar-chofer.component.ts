@@ -15,7 +15,7 @@ import { NgbDateCustomParserFormatter } from 'src/app/service/dateformat.service
 export class AgregarChoferComponent implements OnInit {
 
   public forma:FormGroup;
-  public ayudante_concesionesArray: FormArray;
+  public concesionesArray: FormArray;
   public vehiculosArray: FormArray;
   public choferesArray: FormArray;
 
@@ -49,9 +49,9 @@ export class AgregarChoferComponent implements OnInit {
     'etiqueta':   false,
     'concesion':   false,
   }
- 
 
-  constructor(private fb: FormBuilder, private _changeDetectionRef: ChangeDetectorRef, 
+
+  constructor(private fb: FormBuilder, private _changeDetectionRef: ChangeDetectorRef,
     public servicioFecha: NgbDateCustomParserFormatter,
     private servicio: FunctionsService, private _storage: AngularFireStorage) {
     this.minDate = {year: 1950, month: 1, day: 1};
@@ -60,53 +60,63 @@ export class AgregarChoferComponent implements OnInit {
 
     const uid = localStorage.getItem('uid');
 
-    this.ayudante_concesionesArray = this.fb.array([]);
+    this.concesionesArray = this.fb.array([]);
     this.vehiculosArray = this.fb.array([]);
 
 
     this.forma = new FormGroup({
-      "folio": new FormControl('', Validators.required),
-      "nombre": new FormControl('', Validators.required),
-      "apellidos": new FormControl('', Validators.required),
-      "correo": new FormControl('', [Validators.required, Validators.pattern(this.expRefEmail)]),
-      "telefono": new FormControl('', [Validators.required,Validators.minLength(10)]),
-      "etiqueta": new FormControl('', Validators.required),
-      "genero": new FormControl('1', Validators.required),
-      "fechaNacimiento": new FormControl('', [Validators.required, this.validarFecha]),
-      "img": new FormControl('', Validators.required),
-      "propietarioVehiculo": new FormControl(false, Validators.required),
-      "activo": new FormControl(false, Validators.required),
-      "autorizado": new FormControl(true, Validators.required),
-      "uidUserSystem": new FormControl(uid, Validators.required),
-      "ayudante_concesiones": this.ayudante_concesionesArray,
-      "vehiculos": this.vehiculosArray
+      'folio':           new FormControl('', Validators.required),
+      'nombre':          new FormControl('rger', Validators.required),
+      'apellidos':       new FormControl('ertr', Validators.required),
+      'correo':          new FormControl('andres-tic@hototot.com', [Validators.required, Validators.pattern(this.expRefEmail)]),
+      'telefono':        new FormControl('', [Validators.required, Validators.minLength(10)]),
+      'etiqueta':        new FormControl('', Validators.required),
+      'genero':          new FormControl('1', Validators.required),
+      'fechaNacimiento': new FormControl('', [Validators.required, this.validarFecha]),
+      'img':             new FormControl('', Validators.required),
+      'propietarioVehiculo':  new FormControl(false, Validators.required),
+      'activo':               new FormControl(false, Validators.required),
+      'autorizado':           new FormControl(true, Validators.required),
+      'uidUserSystem':        new FormControl(uid, Validators.required),
+      'concesiones':          this.concesionesArray,
+      'vehiculos':            this.vehiculosArray
     });
 
-    // this.forma.controls['concesion'].valueChanges
-    // .subscribe(data=>{
-    //   if(this.forma.value.propietarioVehiculo === '1' || this.forma.value.propietarioVehiculo ===  true){
-    //     this.forma.value.vehiculo.concesion = data
-    //   }
-    // });
-
-   
     this.forma.controls['etiqueta'].valueChanges
-    .subscribe(data=>{
-      if(data === '1' || data ===  true){
-        this.forma.addControl('concesion', new FormControl('', [Validators.required, Validators.maxLength(3), Validators.max(765), Validators.min(1)]));
+    .subscribe(data => {
+      if (data === '1' || data ===  true) {
+        this._pushConcesion('Socio');
       } else {
-        this.forma.removeControl('concesion');
+        for (let index = 0; index < this.forma.value.concesiones.length; index++) {
+          if (this.forma.controls['concesiones']['controls'][index]['controls']['tipo'].value === 'Socio') {
+            this.concesionesArray.removeAt(index);
+          }
+        }
       }
-
     });
+
+
+     this.forma.controls['propietarioVehiculo'].valueChanges
+     .subscribe(data => {
+       if (data === 1 || data === true) {
+         this._pushVehiculos('Socio');
+       } else {
+        for (let index = 0; index < this.forma.value.concesiones.length; index++) {
+          if (this.forma.controls['vehiculos']['controls'][index]['controls']['tipo'].value === 'Socio') {
+            this.vehiculosArray.removeAt(index);
+          }
+        }
+       }
+     });
+
     //AGREGAR 1 POR DEFECTO
     this._createArrayControls();
 
     const fieldStep1 = ['nombre', 'apellidos', 'correo', 'telefono', 'fechaNacimiento', 'img']
     for (let index = 0; index < fieldStep1.length; index++) {
-      this.forma.controls[fieldStep1[index]].statusChanges.subscribe(data=>{
-        if(data === 'VALID')this.VALIDATIONS_STEP1[fieldStep1[index]] = true;
-      })
+      this.forma.controls[fieldStep1[index]].statusChanges.subscribe(data => {
+        if (data === 'VALID') this.VALIDATIONS_STEP1[fieldStep1[index]] = true;
+      });
     }
   }
 
@@ -118,63 +128,59 @@ export class AgregarChoferComponent implements OnInit {
     this._changeDetectionRef.detectChanges();
 
   }
-  
-  paso1() { 
+
+  paso1() {
     let countErrrors = 0;
     const fieldStep1 = ['nombre', 'apellidos', 'correo', 'telefono', 'fechaNacimiento', 'img']
     for (let index = 0; index < fieldStep1.length; index++) {
       const element = fieldStep1[index];
-     if(this.forma.controls[element].errors){
+     if (this.forma.controls[element].errors) {
        this.VALIDATIONS_STEP1[element] = true;
         countErrrors ++;
       }
-      this.forma.controls[element].statusChanges.subscribe(data=>{
-        if(data == 'INVALID'){
+      this.forma.controls[element].statusChanges.subscribe(data => {
+        if (data === 'INVALID') {
           this.revisionStep1 = false;
         }
-      })
+      });
     }
-    this.revisionStep1 = countErrrors>0? false : true;
+    this.revisionStep1 = countErrrors > 0 ? false : true;
   }
 
-  paso2() { 
+  paso2() {
     let countErrrors = 0;
-    const fieldStep2 = ['folio', 'etiqueta', 'concesion']
+    const fieldStep2 = ['folio', 'etiqueta']
     for (let index = 0; index < fieldStep2.length; index++) {
       const element = fieldStep2[index];
-      if(this.forma.controls[element]){
-        if(this.forma.controls[element].errors){
+      if (this.forma.controls[element]) {
+        if (this.forma.controls[element].errors) {
           this.VALIDATIONS_STEP2[element] = true;
          countErrrors ++;
        }
-       this.forma.controls[element].statusChanges.subscribe(data=>{
-         if(data == 'INVALID'){
+       this.forma.controls[element].statusChanges.subscribe(data => {
+         if (data === 'INVALID') {
            this.revisionStep2 = false;
          }
        })
       }
     }
 
-    for (let index = 0; index < this.forma.value.ayudante_concesiones.length; index++) {
-      const element = (this.forma.controls['ayudante_concesiones']['controls'][index]['controls']['concesion_ayudante'] as FormControl);
-      if(element.errors){
-        if(element.errors['max'] || element.errors['min'] || element.errors['maxLength'] || element.errors['Mask error']){
-          console.log(element.errors)
+    for (let index = 0; index < this.forma.value.concesiones.length; index++) {
+      const element = (this.forma.controls['concesiones']['controls'][index]['controls']['placa'] as FormControl);
+      if (element.errors) {
+        if (element.errors['max'] || element.errors['min'] || element.errors['maxLength'] || element.errors['Mask error']) {
           countErrrors ++;
         }
       }
     }
     this.revisionStep2 = countErrrors > 0 ? false : true;
-    console.log(countErrrors)
-    console.log(this.revisionStep2)
-
   }
 
-  capitalizaCamelCase(value : string , control) {  
+  capitalizaCamelCase(value: string , control) {
     let newString = '';
     if (value) {
       const cadenas = value.split(' ');
-      if (cadenas.length > 1){
+      if (cadenas.length > 1) {
         for (let index = 0; index < cadenas.length; index++) {
           let element = cadenas[index];
               element = (element.charAt(0).toUpperCase() + element.slice(1));
@@ -186,15 +192,14 @@ export class AgregarChoferComponent implements OnInit {
       } else {
         newString = value.charAt(0).toUpperCase() + value.slice(1);
       }
-      
       this.forma.controls[control].setValue(newString);
     }
   }
 
-  validarFecha(control: FormControl): {[s:string]: boolean}{
-    if(control.value){
-      if(control.value.month > 13 && control.value.month >= 1
-        && control.value.day >= 1 && control.value.day < 32){
+  validarFecha(control: FormControl): {[s: string]: boolean} {
+    if (control.value) {
+      if (control.value.month > 13 && control.value.month >= 1
+        && control.value.day >= 1 && control.value.day < 32) {
         return {
           formatoFecha: true
         }
@@ -203,19 +208,19 @@ export class AgregarChoferComponent implements OnInit {
     return null;
   }
 
-  guardarUsuario(){
+  guardarUsuario() {
     this.respuesta = 'guardando';
     const form = this.forma.value;
     form.propietarioVehiculo = form.propietarioVehiculo ? '1':'-1';
-    if(form.etiqueta === '1'){
+    if (form.etiqueta === '1') {
       form.concesion = (form.concesion).toString();
-      if(form.propietarioVehiculo === '1'){
-        form.vehiculo.concesion = (form.vehiculo.concesion).toString();      
+      if (form.propietarioVehiculo === '1') {
+        form.vehiculo.concesion = (form.vehiculo.concesion).toString();
       }
     } else {
       form.concesion = '-1';
-      if(form.propietarioVehiculo === '1'){
-        form.vehiculo.concesion = '-1';      
+      if (form.propietarioVehiculo === '1') {
+        form.vehiculo.concesion = '-1';
       }
     }
     form.telefono = '+52' + form.telefono;
@@ -225,61 +230,69 @@ export class AgregarChoferComponent implements OnInit {
        const task = this._storage.upload(filepath, this.fileImg);
        this.uploadProgress = task.percentageChanges();
        this.uploadProgress.subscribe(count => {
-         this.counttimeUploading= count;
+         this.counttimeUploading = count;
          console.log(count);
        });
        task.snapshotChanges().pipe(
          finalize(() => {
              this.uploadURL = fileRef.getDownloadURL()
-             this.uploadURL.subscribe(urlPath=>{
+             this.uploadURL.subscribe(urlPath => {
                form.img = urlPath;
-               this.servicio.registarChofer(form).subscribe(data=>{
+               this.servicio.registarChofer(form).subscribe(data => {
                 this.forma.reset();
-                this.respuesta = JSON.stringify(data); 
+                this.respuesta = JSON.stringify(data);
               });
 
              });
          })).subscribe();
   }
 
-  _createArrayControls(){
-    if (this.forma.value.ayudante_concesiones.length < 3){
-        this.ayudante_concesionesArray.push(new FormGroup({
-          "concesion_ayudante": new FormControl('', [Validators.maxLength(3), Validators.max(765), Validators.min(1)]),
-        }))
+  _createArrayControls() {
+    if (this.forma.value.concesiones.length < 3) {
+        this._pushConcesion('Ayudante');
         this.revisionStep2 = false;
-        for (let index = 0; index < this.forma.value.ayudante_concesiones.length; index++) {
-          const element = (this.forma.controls['ayudante_concesiones']['controls'][index]['controls']['concesion_ayudante'] as FormControl);
-          element.statusChanges.subscribe(data=>{
-            if(data == 'INVALID'){
+        for (let index = 0; index < this.forma.value.concesiones.length; index++) {
+          const element = (this.forma.controls['concesiones']['controls'][index]['controls']['placa'] as FormControl);
+          element.statusChanges.subscribe(data => {
+            if (data === 'INVALID') {
               this.revisionStep2 = false;
             }
-          })
+          });
         }
-
-        this.vehiculosArray.push(new FormGroup({
-          "concesion": new FormControl('-1',  [Validators.maxLength(3), Validators.max(765), Validators.min(1)]),
-          "modelo":    new FormControl('',    Validators.required),
-          "marca":     new FormControl('',    Validators.required),
-          "ano":       new FormControl('',    Validators.required),
-          "matricula": new FormControl('',    Validators.required),
-          "capacidad": new FormControl('-1',  Validators.required),
-          "modalidad": new FormControl('-1',  Validators.required),
-          "conRampa":  new FormControl(false, Validators.required),
-          //"choferes": this.choferesArray,
-          "propietario": new FormControl('', Validators.required),
-        }));
+        this._pushVehiculos('Ayudante');
     } else {
       this.error = 'Solo se puede asociar a un máximo de 3 concesiones';
     }
   }
 
-  sacarInputArrayList(index: any){
-    this.ayudante_concesionesArray.removeAt(index);
+  _removeArrayControls(index: any) {
+    this.concesionesArray.removeAt(index);
     this.vehiculosArray.removeAt(index);
-    if (this.forma.value.ayudante_concesiones.length < 3){
-      this.error = ''
-    } 
+    if (this.forma.value.concesiones.length < 3) this.error = '';
+  }
+
+
+  _pushVehiculos(tipo: string) {
+    this.vehiculosArray.push(new FormGroup({
+      'concesion': new FormControl('-1',  [Validators.maxLength(3), Validators.max(765), Validators.min(1)]),
+      'modelo':    new FormControl('',    Validators.required),
+      'marca':     new FormControl('',    Validators.required),
+      'anio':      new FormControl('',    Validators.required),
+      'matricula': new FormControl('',    Validators.required),
+      'capacidad': new FormControl('-1',  Validators.required),
+      'modalidad': new FormControl('-1',  Validators.required),
+      'conRampa':  new FormControl(false, Validators.required),
+      // 'choferes': this.choferesArray,
+      'propietario': new FormControl('', Validators.required),
+      'tipo':      new FormControl(tipo),
+    }));
+  }
+
+  _pushConcesion(tipo: string) {
+    this.concesionesArray.push(new FormGroup({
+      'placa': new FormControl('', [Validators.maxLength(3), Validators.max(765), Validators.min(1)]),
+      'tipo': new FormControl(tipo),
+    }));
   }
 
   upload(event) {
@@ -287,6 +300,6 @@ export class AgregarChoferComponent implements OnInit {
     const reader = new FileReader();
     reader.onload = e => this.imageSrc = reader.result;
     reader.readAsDataURL(this.fileImg);
-    
+
   }
 }
