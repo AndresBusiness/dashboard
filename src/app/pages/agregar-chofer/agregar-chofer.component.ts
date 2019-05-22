@@ -20,11 +20,11 @@ export class AgregarChoferComponent implements OnInit {
   public choferesArray: FormArray;
 
   public respuesta: any;
-  error:string;
+  error: string;
   imageSrc: any;
   fileImg: any;
-  counttimeUploading:number= 0;
-  step2:boolean = true;
+  counttimeUploading: number= 0;
+  step2: boolean = true;
   public minDate: any;
   public maxDate: any;
   public startDate: any;
@@ -248,7 +248,17 @@ export class AgregarChoferComponent implements OnInit {
   }
 
   _createArrayControls() {
-    if (this.forma.value.concesiones.length < 3) {
+    let countAyudante = 0;
+
+    const arrayControl = this.forma.get('concesiones') as FormArray;
+    for (let index = 0; index < arrayControl.length; index++) {
+      const element = arrayControl.at(index);
+      if(element['controls']['tipo'].value === 'Ayudante'){
+        countAyudante++;
+      }
+    }
+
+    if (countAyudante < 3) {
         this._pushConcesion('Ayudante');
         this.revisionStep2 = false;
         for (let index = 0; index < this.forma.value.concesiones.length; index++) {
@@ -265,9 +275,9 @@ export class AgregarChoferComponent implements OnInit {
     }
   }
 
-  _removeArrayControls(index: any) {
-    this.concesionesArray.removeAt(index);
-    this.vehiculosArray.removeAt(index);
+  _removeArrayControls(event: any) {
+    this.concesionesArray.removeAt(event.indice);
+    this.vehiculosArray.removeAt(event.indice);
     if (this.forma.value.concesiones.length < 3) this.error = '';
   }
 
@@ -288,9 +298,11 @@ export class AgregarChoferComponent implements OnInit {
     }));
   }
 
-  _pushConcesion(tipo: string) {
+   _pushConcesion(tipo: string) {
+    const validators = tipo === 'Socio' ? [Validators.required, Validators.maxLength(3), Validators.max(765), Validators.min(1)]:
+                                           [Validators.maxLength(3), Validators.max(765), Validators.min(1)];
     this.concesionesArray.push(new FormGroup({
-      'placa': new FormControl('', [Validators.maxLength(3), Validators.max(765), Validators.min(1)]),
+      'placa': new FormControl('', validators),
       'tipo': new FormControl(tipo),
     }));
   }

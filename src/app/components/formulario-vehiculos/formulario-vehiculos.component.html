@@ -1,0 +1,50 @@
+<div *ngIf="forma !== undefined" >
+    <form [formGroup]="forma">
+        <div formArrayName="vehiculos">
+            <div [formGroupName]="i">
+                <div class="col-12 d-flex mb-4" >
+                    <div class="col-4">
+                        <h5>Marca: <span class="text-danger">*</span></h5>
+                        <input type="text" name="text" placeholder="Ejemplo: Chevrolet" class="form-control" required formControlName ="marca">
+                    </div>
+                    <div class="col-4">
+                        <h5>Modelo de vehículo: <span class="text-danger">*</span></h5>
+                        <input type="text" name="text" placeholder="Ejemplo: Aveo, Spark .." class="form-control" required formControlName ="modelo">
+                    </div>
+                    <div class="col-4">
+                        <h5>Año: <span class="text-danger">*</span></h5>
+                        <input type="text" name="text" placeholder="Ejemplo: 2010" class="form-control" required formControlName ="anio">
+                    </div>
+                  </div>
+                  <div class="col-12 d-flex mb-4">
+                      <div class="col-4">
+                        <h5>Matricula: <span class="text-danger">*</span></h5>
+                        <input type="text" name="text" placeholder="Ejemplo: 15-48-TRG" class="form-control" required formControlName ="matricula">
+                      </div>
+                      <div class="col-4">
+                        <h5>Para 4 u 8 personas?: <span class="text-danger">*</span></h5>
+                        <select class="form-control custom-select" formControlName ="capacidad">
+                            <option value="-1">Seleccionar Capacidad</option>
+                            <option value="4">Hasta 4 personas</option>
+                            <option value="8">Hasta 8 personas</option>
+                        </select>
+                      </div>
+                      <div class="col-4">
+                          <h5>Fijo o Posturero?: <span class="text-danger">*</span></h5>
+                          <select class="form-control custom-select" formControlName ="modalidad">
+                              <option value="-1">Seleccionar modalidad</option>
+                              <option value="1">Fijo</option>
+                              <option value="0">Posturero</option>
+                          </select>
+                        </div>
+                  </div>
+                  <div class="col-12 d-flex">
+                      <div class="item" p-10>
+                        <input type="checkbox" id="con_rampa" formControlName ="conRampa"/>
+                        <label for="con_rampa">Con Rampa</label>
+                      </div>
+                  </div>
+            </div>
+        </div>
+    </form>
+</div>

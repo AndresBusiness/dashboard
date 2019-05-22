@@ -48,6 +48,10 @@ import { registerLocaleData } from '@angular/common';
 // importar locales
 import localeMX from '@angular/common/locales/es-MX';
 import { NgbDateCustomParserFormatter } from './service/dateformat.service';
+import { FormularioVehiculosComponent } from './components/formulario-vehiculos/formulario-vehiculos.component';
+import { FormularioConcesionesComponent } from './components/formulario-concesiones/formulario-concesiones.component';
+
+import { OrderModule } from 'ngx-order-pipe';
 
 // registrar los locales con el nombre que quieras utilizar a la hora de proveer
 registerLocaleData(localeMX, 'es');
@@ -58,6 +62,8 @@ registerLocaleData(localeMX, 'es');
     LoginComponent,
     AgregarChoferComponent,
     SanitizeUrlPipe,
+    FormularioVehiculosComponent,
+    FormularioConcesionesComponent,
   ],
   imports: [
     BrowserModule,
@@ -65,6 +71,7 @@ registerLocaleData(localeMX, 'es');
     SharedModule,
     ArchwizardModule,
     FormsModule,
+    OrderModule,
     HttpClientModule,
     FormsModule,
     NgbModule,
