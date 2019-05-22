@@ -87,11 +87,13 @@ export class AgregarChoferComponent implements OnInit {
       if (data === '1' || data ===  true) {
         this._pushConcesion('Socio');
       } else {
-        for (let index = 0; index < this.forma.value.concesiones.length; index++) {
-          if (this.forma.controls['concesiones']['controls'][index]['controls']['tipo'].value === 'Socio') {
-            this.concesionesArray.removeAt(index);
+        const arrayControl = this.forma.get('concesiones') as FormArray;
+        for (let index = 0; index < arrayControl.length; index++) {
+              const element = arrayControl.at(index);
+              if (element['controls']['tipo'].value === 'Socio') {
+                this.concesionesArray.removeAt(index);
+              }
           }
-        }
       }
     });
 
@@ -101,11 +103,13 @@ export class AgregarChoferComponent implements OnInit {
        if (data === 1 || data === true) {
          this._pushVehiculos('Socio');
        } else {
-        for (let index = 0; index < this.forma.value.concesiones.length; index++) {
-          if (this.forma.controls['vehiculos']['controls'][index]['controls']['tipo'].value === 'Socio') {
-            this.vehiculosArray.removeAt(index);
+        const arrayControl = this.forma.get('vehiculos') as FormArray;
+        for (let index = 0; index < arrayControl.length; index++) {
+              const element = arrayControl.at(index);
+              if (element['controls']['tipo'].value === 'Socio') {
+                this.vehiculosArray.removeAt(index);
+              }
           }
-        }
        }
      });
 
