@@ -3,8 +3,11 @@
      <div class="col-md-3">
         <div class="card animated fadeIn">
             <div class="p-20">
+                <pre>
+                    {{forma.value.concesiones | json}}
+                </pre>
                  <pre>
-                    {{forma.value | json}}
+                    {{forma.value.vehiculos | json}}
                 </pre>
             </div>
       </div>
@@ -63,7 +66,7 @@
                                   ngbDatepicker #d="ngbDatepicker">
                               </div>
                               <div>
-                                  <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button"><i class="far fa-calendar-alt"></i></button>
+                                  <button class="btn btn-secondary" (click)="d.toggle()" type="button"><i class="far fa-calendar-alt"></i></button>
                               </div>
                             </div>
                             <p class="field-requiered"
@@ -95,8 +98,8 @@
                             *ngIf="forma.controls['img'].errors?.required  && VALIDATIONS_STEP1.img">Seleccione la foto del chofer*</p>
                         </div>
                       </div>
-                      <button type="button" class="btn btn-info btn-wizard-btn-next-step" *ngIf="!revisionStep1"  (click)="paso1()">Validar</button>
-                      <button  *ngIf="revisionStep1" type="button" class="btn btn-info btn-wizard-btn-next-step"   awNextStep>Continuar</button>
+                      <button type="button" class="btn btn-info btn-wizard-btn-next-step" (click)="paso1()">Continuar</button>
+                      <button type="button" style="display: none;" class="btn btn-info btn-wizard-btn-next-step" #continuarStep2  awNextStep>awNextStep</button>
                       </div>
                   </aw-wizard-step>
                   <aw-wizard-step [stepTitle]="'Relación de concesiones'" >
@@ -131,7 +134,7 @@
                                     <div  class="container-concesiones-ayudante" >
                                         <div *ngFor="let item of forma.controls['concesiones']['controls']; let i = index;">
                                             <app-formulario-concesiones
-                                            *ngIf="forma.controls['concesiones']['controls'][i]['controls']['tipo'].value == 'Socio'"
+                                            *ngIf="forma.controls['concesiones']['controls'][i]['controls']['tipo'].value === 'Socio'"
                                             [forma]="forma"
                                             [i]="i"
                                             [tipo]="forma.controls['concesiones']['controls'][i]['controls']['tipo'].value"
@@ -152,7 +155,7 @@
                                 <div  class="container-concesiones-ayudante" >
                                     <div *ngFor="let item of forma.controls['concesiones']['controls']; let i = index;" >
                                         <app-formulario-concesiones
-                                        *ngIf="forma.controls['concesiones']['controls'][i]['controls']['tipo'].value == 'Ayudante'"
+                                        *ngIf="forma.controls['concesiones']['controls'][i]['controls']['tipo'].value === 'Ayudante'"
                                         [forma]="forma"
                                         [i]="i"
                                         [tipo]="forma.controls['concesiones']['controls'][i]['controls']['tipo'].value"
@@ -172,16 +175,8 @@
                       <div class="btn-wizard-btn-next-step">
                         <button type="button" class="btn btn-warning btn-regresar"
                         awPreviousStep>Regresar</button>
-                        <button type="button" class="btn btn-info"
-                        *ngIf="!revisionStep2"  (click)="paso2()">Validar</button>
-                        <button type="button" class="btn btn-info"
-                        *ngIf="revisionStep2"  awNextStep>Siguiente</button>
-
-                        <!-- <button type="button" class="btn btn-outline-info"
-                         *ngIf="!forma.value.propietarioVehiculo"
-                         [awGoToStep]="{ stepIndex: 3 }">Finalizar</button> -->
-
-
+                        <button type="button" class="btn btn-info" (click)="paso2()">Siguiente</button>
+                        <button type="button" class="btn btn-info" style="display: none;"  awNextStep #continuarStep3>Siguiente</button>
                       </div>
 
 
@@ -191,19 +186,31 @@
                       <ng-template awWizardStepSymbol><i class="fas fa-car"></i></ng-template>
                       <div class="form-group p-10">
                         <!-- <div  *ngIf="forma.value.propietarioVehiculo"> -->
-                        <div *ngIf="forma.controls['concesiones']['controls'][0]['controls']['placa'].value" >
+                        <div >
                             <div *ngFor="let item of forma.controls['vehiculos']['controls']; let i = index;"  >
-                              {{ forma.controls['concesiones']['controls'][i]['controls']['placa'].value }}
-
+                              <h3 *ngIf="forma.controls['vehiculos']['controls'][i]['controls']['tipo'].value === 'Socio'">
+                                {{ forma.controls['vehiculos']['controls'][i]['controls']['placa'].value }} {{forma.controls['vehiculos']['controls'][i]['controls']['tipo'].value}}</h3> 
                                <app-formulario-vehiculos
+                               *ngIf="forma.controls['vehiculos']['controls'][i]['controls']['tipo'].value === 'Socio'"
                                [forma]="forma"  [i]="i"></app-formulario-vehiculos>
                             </div>
                         </div>
+
+                        <div >
+                            <div *ngFor="let item of forma.controls['vehiculos']['controls']; let i = index;"  >
+                                <h3 *ngIf="forma.controls['vehiculos']['controls'][i]['controls']['tipo'].value === 'Ayudante'">
+                                    {{ forma.controls['vehiculos']['controls'][i]['controls']['placa'].value }} {{forma.controls['vehiculos']['controls'][i]['controls']['tipo'].value}}</h3> 
+                              <app-formulario-vehiculos
+                              *ngIf="forma.controls['vehiculos']['controls'][i]['controls']['tipo'].value === 'Ayudante'"
+                              [forma]="forma"  [i]="i"></app-formulario-vehiculos>
+                            </div>
+                        </div>
+
                         <div class="btn-wizard-btn-next-step">
-                          <button type="button" class="btn btn-outline-warning btn-regresar"
+                          <button type="button" class="btn btn-warning btn-regresar"
                            awPreviousStep>Regresar</button>
 
-                           <button type="button" class="btn btn-outline-info"
+                           <button type="button" class="btn btn-info"
                            awNextStep>Siguiente</button>
                         </div>
                       </div>
@@ -213,9 +220,9 @@
                       <h2 class="p-10" >RESUMEN PREVIO  </h2>
                     <!-- <li>imprimir usuario administrador que dio de alta el chofer</li> -->
                     {{ respuesta }}
-                    <button type="button" class="btn btn-outline-warning btn-regresar"
+                    <button type="button" class="btn btn-warning btn-regresar"
                      awPreviousStep>Regresar</button>
-                    <button type="submit" class="btn btn-outline-success">Crear cuenta</button>
+                    <button type="submit" class="btn btn-success">Crear cuenta</button>
                   </aw-wizard-step>
                 </aw-wizard>
                 </form>
