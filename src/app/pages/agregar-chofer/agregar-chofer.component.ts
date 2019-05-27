@@ -108,8 +108,12 @@ export class AgregarChoferComponent implements OnInit {
     this.forma.controls['propietarioVehiculo'].valueChanges
     .subscribe(data => {
       if (data === 1 || data === true) {
+        let revicion_Concesion = '***'; 
+        if(this.forma.value.concesion_socio){
+          revicion_Concesion = this.forma.value.concesion_socio;
+        }
         this.forma.addControl('vehiculo_socio',new FormGroup({
-          'concesion': new FormControl('***'),
+          'concesion': new FormControl(revicion_Concesion),
           'modelo':    new FormControl('',    Validators.required),
           'marca':     new FormControl('',    Validators.required),
           'anio':      new FormControl('',    Validators.required),

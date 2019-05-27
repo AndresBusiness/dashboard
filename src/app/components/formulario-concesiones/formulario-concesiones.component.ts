@@ -31,13 +31,11 @@ export class FormularioConcesionesComponent implements OnInit {
     for (let index = 0; index < arrayControl.length; index++) {
       const element = arrayControl.at(index);
       this.observablePrimerPlano =  element.valueChanges.subscribe(data=>{
-        console.log('indice: ', index + ' data: ' + data.placa )
-        if(this.forma.value.vehiculos_ayudantes[index]){
+        if(this.forma.value.vehiculos_ayudantes[index] && data.placa !== '***'){
+          console.log('hola :v ',data.placa);
           this.forma.value.vehiculos_ayudantes[index]['concesion'] = data.placa
         }
-      })
-      console.log(element)
-      
+      });
     }
   }
 
