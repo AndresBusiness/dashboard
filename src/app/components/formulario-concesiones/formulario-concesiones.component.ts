@@ -32,8 +32,8 @@ export class FormularioConcesionesComponent implements OnInit {
       const element = arrayControl.at(index);
       this.observablePrimerPlano =  element.valueChanges.subscribe(data=>{
         if(this.forma.value.vehiculos_ayudantes[index] && data.placa !== '***'){
-          console.log('hola :v ',data.placa);
-          this.forma.value.vehiculos_ayudantes[index]['concesion'] = data.placa
+          // this.forma.value.vehiculos_ayudantes[index]['concesion'] = data.placa
+          this.forma.controls['vehiculos_ayudantes']['controls'][index]['controls']['concesion'].setValue(data.placa);
         }
       });
     }

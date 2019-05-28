@@ -2,6 +2,7 @@
     <form [formGroup]="forma">
         <div formArrayName="vehiculos_ayudantes">
             <div [formGroupName]="i">
+                    <h2>Concesión de Ayudante: {{ forma.value.vehiculos_ayudantes[i].concesion }}</h2>
                 <div class="col-12 d-flex mb-4" >
                     <div class="col-4">
                         <h5>Marca: <span class="text-danger">*</span></h5>
