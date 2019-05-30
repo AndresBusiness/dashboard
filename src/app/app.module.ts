@@ -40,9 +40,6 @@ import {NgxMaskModule, IConfig} from 'ngx-mask';
 
 import { NgbModule, NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
 
-var options: Partial<IConfig> | (() => Partial<IConfig>);
-
-
 import { registerLocaleData } from '@angular/common';
 
 // importar locales
@@ -77,7 +74,7 @@ registerLocaleData(localeMX, 'es');
     NgbModule,
     HttpModule,
     HttpClientModule,
-    NgxMaskModule.forRoot(options),
+    NgxMaskModule.forRoot(),
     ReactiveFormsModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule, // imports firebase/firestore, only needed for database features
