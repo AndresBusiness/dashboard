@@ -20,6 +20,7 @@ export class AgregarChoferComponent implements OnInit {
   public choferesArray: FormArray;
 
   public respuesta: any;
+  fecha:string;
   error: string;
   imageSrc: any;
   fileImg: any;
@@ -47,13 +48,13 @@ export class AgregarChoferComponent implements OnInit {
     'telefono':   false,
     'fechaNacimiento':   false,
     'img':   false,
-  }
+  };
 
   VALIDATIONS_STEP2 = {
     'folio':   false,
     'etiqueta':   false,
     'concesion':   false,
-  }
+  };
 
 
   constructor(private fb: FormBuilder, private _changeDetectionRef: ChangeDetectorRef,
@@ -83,23 +84,24 @@ export class AgregarChoferComponent implements OnInit {
       'activo':               new FormControl(false, Validators.required),
       'autorizado':           new FormControl(false, Validators.required),
       'uidUserSystem':        new FormControl(uid, Validators.required),
-      'concesiones_ayudantes':  this.concesionesArray,
-      'vehiculos_ayudantes':              this.vehiculosArray
+      'concesiones_ayudantes': this.concesionesArray,
+      'vehiculos_ayudantes':   this.vehiculosArray
     });
 
     this.forma.controls['etiqueta'].valueChanges
     .subscribe(dataEtiqueta => {
       if (dataEtiqueta === '1' || dataEtiqueta ===  true) {
         this.tieneConcesion = true;
-        this.forma.addControl('concesion_socio',new FormControl('***', [Validators.required, Validators.maxLength(3), Validators.max(765), Validators.min(1)]));
-        this.forma.controls['concesion_socio'].valueChanges.subscribe(dataConcesionSocio=>{
-          if(this.tieneVehiculo && dataEtiqueta === '1'){
+        this.forma.addControl('concesion_socio',
+        new FormControl('***', [Validators.required, Validators.maxLength(3), Validators.max(765), Validators.min(1)]));
+        this.forma.controls['concesion_socio'].valueChanges.subscribe(dataConcesionSocio => {
+          if (this.tieneVehiculo && dataEtiqueta === '1') {
             this.forma.controls['vehiculo_propio']['controls']['concesion'].setValue(dataConcesionSocio);
           }
-        })
+        });
       } else {
         this.tieneConcesion = false;
-        if(this.tieneVehiculo && dataEtiqueta === '0'){
+        if (this.tieneVehiculo && dataEtiqueta === '0') {
           this.forma.controls['vehiculo_propio']['controls']['concesion'].setValue('***');
         }
         this.forma.removeControl('concesion_socio');
@@ -110,8 +112,8 @@ export class AgregarChoferComponent implements OnInit {
     this.forma.controls['propietarioVehiculo'].valueChanges
     .subscribe(data => {
       if (data === 1 || data === true) {
-        let revicion_Concesion = '***'; 
-        if(this.forma.value.concesion_socio){
+        let revicion_Concesion = '***';
+        if (this.forma.value.concesion_socio) {
           revicion_Concesion = this.forma.value.concesion_socio;
         }
         this.forma.addControl('vehiculo_propio',new FormGroup({
@@ -132,10 +134,15 @@ export class AgregarChoferComponent implements OnInit {
       }
     });
 
+    this.forma.controls['fechaNacimiento'].valueChanges
+    .subscribe(data => {
+      this.fecha = this.servicioFecha.format(data);
+    });
+
     const fieldStep1 = ['nombre', 'apellidos', 'correo', 'telefono', 'fechaNacimiento', 'img']
     for (let index = 0; index < fieldStep1.length; index++) {
       this.forma.controls[fieldStep1[index]].statusChanges.subscribe(data => {
-        if (data === 'VALID') this.VALIDATIONS_STEP1[fieldStep1[index]] = true;
+        if (data === 'VALID') {this.VALIDATIONS_STEP1[fieldStep1[index]] = true; }
       });
     }
   }
@@ -165,7 +172,7 @@ export class AgregarChoferComponent implements OnInit {
       });
     }
     this.revisionStep1 = countErrrors > 0 ? false : true;
-    if(this.revisionStep1){
+    if (this.revisionStep1) {
       this.continuarStep2.nativeElement.click();
     }
   }
@@ -185,7 +192,7 @@ export class AgregarChoferComponent implements OnInit {
            this.revisionStep2 = false;
          }
        })
-       if(countErrrors > 0 && index === fieldStep2.length -1){
+       if (countErrrors > 0 && index === fieldStep2.length -1) {
          return
        }
       }
@@ -193,7 +200,7 @@ export class AgregarChoferComponent implements OnInit {
 
       for (let index = 0; index < this.forma.value.concesiones_ayudantes.length; index++) {
         const placa = (this.forma.controls['concesiones_ayudantes']['controls'][index]['controls']['placa'] as FormControl);
-        if(placa.value === '***'){
+        if (placa.value === '***') {
           placa.setErrors({required:true})
         }
         if (placa.errors) {
@@ -203,9 +210,9 @@ export class AgregarChoferComponent implements OnInit {
         }
       }
 
-      if(this.forma.controls['concesion_socio']){
+      if (this.forma.controls['concesion_socio']) {
         const placa = (this.forma.controls['concesion_socio'] as FormControl)
-        if(placa.value === '***'){
+        if (placa.value === '***') {
           placa.setErrors({required:true})
         }
         if (placa.errors) {
@@ -216,13 +223,13 @@ export class AgregarChoferComponent implements OnInit {
 
       }
 
-     
+
       this.revisionStep2 = countErrrors > 0 ? false : true;
-      if(this.revisionStep2){
+      if (this.revisionStep2) {
         this.continuarStep3.nativeElement.click();
       }
 
-   
+
   }
 
   capitalizaCamelCase(value: string , control) {
@@ -319,7 +326,7 @@ export class AgregarChoferComponent implements OnInit {
     if (this.forma.value.concesiones_ayudantes.length < 3) this.error = '';
   }
 
-  _removeVehiculos(indice){
+  _removeVehiculos(indice) {
     this.vehiculosArray.removeAt(indice);
   }
 
