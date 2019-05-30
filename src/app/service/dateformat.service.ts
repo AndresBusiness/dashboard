@@ -27,9 +27,6 @@ export class NgbDateCustomParserFormatter extends NgbDateParserFormatter {
   verificarFecha(date: any): boolean {
     let valido = false
     if(this.isNumber(date.month) && this.isNumber(date.day)  && date.year){
-        console.log('mes: ', date.month);
-        console.log('dia: ', date.day);
-        console.log('año: ', date.year);
         valido = true
     }
     return valido

@@ -70,36 +70,38 @@ export class AgregarChoferComponent implements OnInit {
 
 
     this.forma = new FormGroup({
-      'folio':           new FormControl('xtjrt', Validators.required),
-      'nombre':          new FormControl('rger', Validators.required),
-      'apellidos':       new FormControl('ertr', Validators.required),
-      'correo':          new FormControl('andres-tic@hototot.com', [Validators.required, Validators.pattern(this.expRefEmail)]),
-      'telefono':        new FormControl('4775674253', [Validators.required, Validators.minLength(10)]),
+      'folio':           new FormControl('', Validators.required),
+      'nombre':          new FormControl('', Validators.required),
+      'apellidos':       new FormControl('', Validators.required),
+      'correo':          new FormControl('', [Validators.required, Validators.pattern(this.expRefEmail)]),
+      'telefono':        new FormControl('', [Validators.required, Validators.minLength(10)]),
       'etiqueta':        new FormControl('', Validators.required),
       'genero':          new FormControl('1', Validators.required),
       'fechaNacimiento': new FormControl('', [Validators.required, this.validarFecha]),
       'img':             new FormControl('', Validators.required),
       'propietarioVehiculo':  new FormControl(false, Validators.required),
       'activo':               new FormControl(false, Validators.required),
-      'autorizado':           new FormControl(true, Validators.required),
+      'autorizado':           new FormControl(false, Validators.required),
       'uidUserSystem':        new FormControl(uid, Validators.required),
       'concesiones_ayudantes':  this.concesionesArray,
       'vehiculos_ayudantes':              this.vehiculosArray
     });
 
     this.forma.controls['etiqueta'].valueChanges
-    .subscribe(data => {
-      if (data === '1' || data ===  true) {
+    .subscribe(dataEtiqueta => {
+      if (dataEtiqueta === '1' || dataEtiqueta ===  true) {
         this.tieneConcesion = true;
         this.forma.addControl('concesion_socio',new FormControl('***', [Validators.required, Validators.maxLength(3), Validators.max(765), Validators.min(1)]));
-        this.forma.controls['concesion_socio'].valueChanges.subscribe(data=>{
-          console.log(data)
-          if(this.tieneVehiculo){
-            this.forma.value.vehiculo_socio.concesion = data
+        this.forma.controls['concesion_socio'].valueChanges.subscribe(dataConcesionSocio=>{
+          if(this.tieneVehiculo && dataEtiqueta === '1'){
+            this.forma.controls['vehiculo_propio']['controls']['concesion'].setValue(dataConcesionSocio);
           }
         })
       } else {
         this.tieneConcesion = false;
+        if(this.tieneVehiculo && dataEtiqueta === '0'){
+          this.forma.controls['vehiculo_propio']['controls']['concesion'].setValue('***');
+        }
         this.forma.removeControl('concesion_socio');
       }
     });
@@ -112,7 +114,7 @@ export class AgregarChoferComponent implements OnInit {
         if(this.forma.value.concesion_socio){
           revicion_Concesion = this.forma.value.concesion_socio;
         }
-        this.forma.addControl('vehiculo_socio',new FormGroup({
+        this.forma.addControl('vehiculo_propio',new FormGroup({
           'concesion': new FormControl(revicion_Concesion),
           'modelo':    new FormControl('',    Validators.required),
           'marca':     new FormControl('',    Validators.required),
@@ -126,7 +128,7 @@ export class AgregarChoferComponent implements OnInit {
         this.tieneVehiculo = true;
       } else {
         this.tieneVehiculo = false;
-        this.forma.removeControl('vehiculo_socio');
+        this.forma.removeControl('vehiculo_propio');
       }
     });
 
@@ -184,7 +186,6 @@ export class AgregarChoferComponent implements OnInit {
          }
        })
        if(countErrrors > 0 && index === fieldStep2.length -1){
-         console.log('es todo , me largo alv.');
          return
        }
       }
@@ -195,13 +196,26 @@ export class AgregarChoferComponent implements OnInit {
         if(placa.value === '***'){
           placa.setErrors({required:true})
         }
-        console.log(placa.errors);
         if (placa.errors) {
           if (placa.errors['required'] || placa.errors['max'] || placa.errors['min'] || placa.errors['maxLength'] || placa.errors['Mask error']) {
             countErrrors ++;
           }
         }
       }
+
+      if(this.forma.controls['concesion_socio']){
+        const placa = (this.forma.controls['concesion_socio'] as FormControl)
+        if(placa.value === '***'){
+          placa.setErrors({required:true})
+        }
+        if (placa.errors) {
+          if (placa.errors['required'] || placa.errors['max'] || placa.errors['min'] || placa.errors['maxLength'] || placa.errors['Mask error']) {
+            countErrrors ++;
+          }
+        }
+
+      }
+
      
       this.revisionStep2 = countErrrors > 0 ? false : true;
       if(this.revisionStep2){
@@ -259,14 +273,12 @@ export class AgregarChoferComponent implements OnInit {
       }
     }
     form.telefono = '+52' + form.telefono;
-     console.log(form);
        const filepath = `choferes/${ form.folio}`;
        const fileRef = this._storage.ref(filepath);
        const task = this._storage.upload(filepath, this.fileImg);
        this.uploadProgress = task.percentageChanges();
        this.uploadProgress.subscribe(count => {
          this.counttimeUploading = count;
-         console.log(count);
        });
        task.snapshotChanges().pipe(
          finalize(() => {

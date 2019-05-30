@@ -40,7 +40,6 @@ export class LoginComponent implements OnInit {
     this.authService.Login(value)
     .then(user => {
       if (user) {
-        console.log(user);
         this.authService._obtenerUsuarioCloudStorage(user.uid)
         .then(data => {
           if (data) {

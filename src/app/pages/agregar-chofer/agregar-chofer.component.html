@@ -1,28 +1,18 @@
 
 <div class="row">
-     <div class="col-md-3">
+     <!-- <div class="col-md-3">
         <div class="card animated fadeIn">
             <div class="p-20">
-                <pre>
-                  <h2>concesiones_ayudantes</h2>
-                    {{forma.value.concesiones_ayudantes | json}}
-                </pre>
-                 <pre>
-                   <h2>Vehiculos_ayudantes</h2>
-                    {{forma.value.vehiculos_ayudantes | json}}
-                </pre> 
-                <pre>
-                    <h2>Vehiculo socio</h2>
-                    {{ forma.value.vehiculo_socio | json}}
-                  </pre>
-                <pre>
-                  <h2>Concesion socio</h2>
-                  {{ forma.value.concesion_socio | json}}
-                </pre>
+                <fieldset class="scheduler-border">
+                    <legend class="scheduler-border">Formulariio</legend>
+                    <pre>
+                      {{ forma.value | json }}
+                    </pre>
+                </fieldset>
             </div>
       </div>
-    </div>
-    <div class="col-md-9">
+    </div> -->
+    <div class="col-md-12">
         <div class="card animated fadeIn">
             <form [formGroup]="forma" (ngSubmit)="guardarUsuario()" >
                 <aw-wizard #wizard [navBarLayout]="'large-empty-symbols'">
@@ -208,8 +198,10 @@
                   </aw-wizard-step>
                   <aw-wizard-step [stepTitle]="'Relación con vehículos'" >
                       <ng-template awWizardStepSymbol><i class="fas fa-car"></i></ng-template>
-                      <div *ngIf="tieneVehiculo" >
-                          <div formGroupName="vehiculo_socio">
+                      <div *ngIf="tieneVehiculo" class="m-3">
+                          <fieldset class="scheduler-border" formGroupName="vehiculo_propio">
+                              <legend class="scheduler-border" *ngIf="forma.value.etiqueta === '1'" > Concesión de Socio: <strong>{{ forma.value.vehiculo_propio.concesion }}</strong> <span class="text-danger" > *</span></legend>
+                              <legend class="scheduler-border" *ngIf="forma.value.etiqueta === '0'" > Vehículo de Ayudante, sin concesión</legend>
                               <div class="col-12 d-flex mb-4" >
                                   <div class="col-4">
                                       <h5>Marca: <span class="text-danger">*</span></h5>
@@ -252,7 +244,7 @@
                                       <label for="con_rampa">Con Rampa</label>
                                     </div>
                                 </div>
-                          </div>
+                          </fieldset>
                       </div>
                      <div class="form-group p-10" *ngIf="forma.value.vehiculos_ayudantes" >
                         <div *ngIf="forma.value.vehiculos_ayudantes.length > 0"  >
@@ -274,6 +266,13 @@
                   <aw-wizard-step [stepTitle]="'Finalizar'">
                       <ng-template awWizardStepSymbol><i class="far fa-check-circle"></i></ng-template>
                       <h2 class="p-10" >RESUMEN PREVIO  </h2>
+                      <fieldset class="scheduler-border">
+                        <legend class="scheduler-border">Formulariio</legend>
+                        <pre>
+                          {{ forma.value | json }}
+                        </pre>
+                    </fieldset>
+                    
                     <!-- <li>imprimir usuario administrador que dio de alta el chofer</li> -->
                     {{ respuesta }}
                     <button type="button" class="btn btn-warning btn-regresar"

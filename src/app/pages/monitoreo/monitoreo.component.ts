@@ -47,12 +47,8 @@ export class MonitoreoComponent implements OnInit {
           (informacion[i].unidad).toString(),
            informacion[i])
         .then(() => {
-          console.log('guardado');
         });
       }
-      setTimeout(()=>{
-        console.log(JSON.stringify(list));
-      }, 5000);
     });
   }
 

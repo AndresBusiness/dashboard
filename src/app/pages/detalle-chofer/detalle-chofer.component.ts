@@ -53,10 +53,8 @@ export class DetalleChoferComponent implements OnInit {
           this.user.registrado   = data.fechaRegistro;
           this.user.choferActivo = data.activo;
           this.user.unidad       = data.concesion;
-          console.log(this.user);
           this.servicioFirebase.buscarInfoUnidad(this.user.correo)
           .subscribe((data: any) => {
-            console.log(data);
           })
         });
 
