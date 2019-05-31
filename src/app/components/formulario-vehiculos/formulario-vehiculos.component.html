@@ -2,7 +2,7 @@
     <form [formGroup]="forma">
         <div formArrayName="vehiculos_ayudantes">
             <fieldset class="scheduler-border"  [formGroupName]="i">
-                    <legend class="scheduler-border"> Concesión de Ayudante: <strong>{{ forma.value.vehiculos_ayudantes[i].concesion }}</strong></legend>
+                    <legend class="scheduler-border"> Vehículo de otro socio con placa: <strong>{{ forma.value.vehiculos_ayudantes[i].concesion }}</strong></legend>
                 <div class="col-12 d-flex mb-4" >
                     <div class="col-4">
                         <h5>Marca: <span class="text-danger">*</span></h5>
@@ -41,8 +41,8 @@
                   </div>
                   <div class="col-12 d-flex">
                       <div class="item" p-10>
-                        <input type="checkbox" id="con_rampa" formControlName ="conRampa"/>
-                        <label for="con_rampa">Con Rampa</label>
+                        <input type="checkbox" [id]="i" formControlName ="conRampa"/>
+                        <label [for]="i">Con Rampa</label>
                       </div>
                   </div>
             </fieldset>

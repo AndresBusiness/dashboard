@@ -1,6 +1,6 @@
 
 <div class="row">
-     <!-- <div class="col-md-3">
+     <div class="col-md-3">
         <div class="card animated fadeIn">
             <div class="p-20">
                 <fieldset class="scheduler-border">
@@ -11,8 +11,8 @@
                 </fieldset>
             </div>
       </div>
-    </div> -->
-    <div class="col-md-12">
+    </div> 
+    <div class="col-md-9">
         <div class="card animated fadeIn">
             <form [formGroup]="forma" (ngSubmit)="guardarUsuario()" >
                 <aw-wizard #wizard [navBarLayout]="'large-empty-symbols'">
@@ -279,18 +279,14 @@
                                       <div  class="m-4 d-grid">
                                               <div><label for="nombre">Nombre: </label> {{forma.value.nombre}}</div>
                                               <div><label for="apellidos">Apellidos: </label> {{forma.value.apellidos}}</div>
-                                              <div><label for="telefono">Teléfono: </label> {{forma.value.telefono}}</div>
+                                              <div><label for="telefono">Teléfono: </label>+52 {{forma.value.telefono}}</div>
                                               <div><label for="correo">Correo: </label> {{forma.value.correo}}</div>
                                               <div><label for="fechaNacimiento">Fecha Nacimiento: </label> {{fecha}}</div>
                                       </div>
                                   </div>
-                                  <div>
-
-                                  </div>
-
                                 </div>
                                 <div>
-                                    <h2>Datos Laborales</h2>
+                                    <h2>Relación de concesiones</h2>
                                     <div class="m-4 d-grid">
                                             <div><label for="folio">Folio: </label> {{forma.value.folio}}</div>
                                             <div>
@@ -318,15 +314,73 @@
                                     </div>
                                 </div>
                               </div>
+                              <div *ngIf="forma.controls['vehiculos_ayudantes'] || tieneVehiculo" >
+                                <fieldset class="scheduler-border d-flex" *ngIf="tieneVehiculo" >
+                                    <legend class="scheduler-border">Vehículo Propio</legend>
+                                  <div class="m-4">
+                                      <div *ngIf="forma.value.vehiculo_propio.concesion === '***'">
+                                        <label for="concesion_vehiculo">Vehículo sin concesion</label>
+                                      </div>
+                                      <div *ngIf="forma.value.vehiculo_propio.concesion !== '***'">
+                                        <label for="concesion_vehiculo">Socio de la concesión: {{ forma.value.vehiculo_propio.concesion }}</label>
+                                      </div>
+
+                                      <div><label for="auto">{{forma.value.vehiculo_propio.marca}}, {{forma.value.vehiculo_propio.modelo}}, {{forma.value.vehiculo_propio.anio}}</label></div>
+                                      <div><label for="matricula">Matrícula: </label> {{forma.value.vehiculo_propio.matricula}}</div>
+                                      <div><label for="capacidad">Capacidad: </label> Hasta {{forma.value.vehiculo_propio.capacidad}} personas</div>
+                                      <div *ngIf="forma.value.vehiculo_propio.modalidad === '1'">
+                                        <label for="modalidad">Modalidad: Fijo</label>
+                                      </div>
+                                      <div *ngIf="forma.value.vehiculo_propio.modalidad === '0'">
+                                        <label for="modalidad">Modalidad: Posturero</label>
+                                      </div>
+                                      <div *ngIf="forma.value.vehiculo_propio.conRampa">
+                                        <label for="conRampa">Con Rampa: Si </label>
+                                      </div>
+                                      <div *ngIf="!forma.value.vehiculo_propio.conRampa">
+                                        <label for="conRampa">Con Rampa: No</label>
+                                      </div>
+                                  </div>
+                                </fieldset>
+
+                                <fieldset class="scheduler-border" *ngIf="forma.controls['vehiculos_ayudantes']" >
+                                  <legend class="scheduler-border">Vehículos de otros socios con placa</legend>
+                                  <div class="d-flex">
+                                      <div *ngFor="let item of forma.controls['vehiculos_ayudantes']['controls']; let i = index;" class="m-4">
+                                          <div><label for="vehiculos_ayudantes">Ayudante de la concesión: {{ forma.value.vehiculos_ayudantes[i].concesion }}</label></div>
+                                          <div><label for="auto"> {{forma.value.vehiculos_ayudantes[i].marca}}, {{forma.value.vehiculos_ayudantes[i].modelo}}, {{forma.value.vehiculos_ayudantes[i].anio}}</label></div>
+                                          <div><label for="matricula">Matrícula: </label> {{forma.value.vehiculos_ayudantes[i].matricula}}</div>
+                                          <div><label for="capacidad">Capacidad: </label> Hasta {{forma.value.vehiculos_ayudantes[i].capacidad}} personas</div>
+                                          <div *ngIf="forma.value.vehiculos_ayudantes[i].modalidad === '1'">
+                                            <label for="modalidad">Modalidad: Fijo</label>
+                                          </div>
+                                          <div *ngIf="forma.value.vehiculos_ayudantes[i].modalidad === '0'">
+                                            <label for="modalidad">Modalidad: Posturero</label>
+                                          </div>
+                                          <div *ngIf="forma.value.vehiculos_ayudantes[i].conRampa">
+                                            <label for="conRampa">Con Rampa: Si </label>
+                                          </div>
+                                          <div *ngIf="!forma.value.vehiculos_ayudantes[i].conRampa">
+                                            <label for="conRampa">Con Rampa: No</label>
+                                          </div>
+      
+                                        </div>
+                                  </div>
+                                </fieldset>
+                               
+                              </div>
                             </fieldset>
                       </div>
 
 
                     <!-- <li>imprimir usuario administrador que dio de alta el chofer</li> -->
                     {{ respuesta }}
-                    <button type="button" class="btn btn-warning btn-regresar"
-                     awPreviousStep>Regresar</button>
-                    <button type="submit" class="btn btn-success">Crear cuenta</button>
+                    <div class="m-5 float-right">
+                        <button type="button" class="btn btn-warning btn-regresar"
+                        awPreviousStep>Regresar</button>
+                       <button type="submit" class="btn btn-success">Registrar</button>
+                    </div>
+                    
                   </aw-wizard-step>
                 </aw-wizard>
                 </form>

@@ -71,11 +71,11 @@ export class AgregarChoferComponent implements OnInit {
 
 
     this.forma = new FormGroup({
-      'folio':           new FormControl('', Validators.required),
-      'nombre':          new FormControl('', Validators.required),
-      'apellidos':       new FormControl('', Validators.required),
-      'correo':          new FormControl('', [Validators.required, Validators.pattern(this.expRefEmail)]),
-      'telefono':        new FormControl('', [Validators.required, Validators.minLength(10)]),
+      'folio':           new FormControl('sfb', Validators.required),
+      'nombre':          new FormControl('andres', Validators.required),
+      'apellidos':       new FormControl('perez alonso', Validators.required),
+      'correo':          new FormControl('andres@hotmail.com', [Validators.required, Validators.pattern(this.expRefEmail)]),
+      'telefono':        new FormControl('4775673723', [Validators.required, Validators.minLength(10)]),
       'etiqueta':        new FormControl('', Validators.required),
       'genero':          new FormControl('1', Validators.required),
       'fechaNacimiento': new FormControl('', [Validators.required, this.validarFecha]),
@@ -118,12 +118,12 @@ export class AgregarChoferComponent implements OnInit {
         }
         this.forma.addControl('vehiculo_propio',new FormGroup({
           'concesion': new FormControl(revicion_Concesion),
-          'modelo':    new FormControl('',    Validators.required),
-          'marca':     new FormControl('',    Validators.required),
-          'anio':      new FormControl('',    Validators.required),
-          'matricula': new FormControl('',    Validators.required),
-          'capacidad': new FormControl('-1',  Validators.required),
-          'modalidad': new FormControl('-1',  Validators.required),
+          'marca':     new FormControl('Nissan',    Validators.required),
+          'modelo':    new FormControl('Sentra',    Validators.required),
+          'anio':      new FormControl('2019',    Validators.required),
+          'matricula': new FormControl('212-24-TID',    Validators.required),
+          'capacidad': new FormControl('4',  Validators.required),
+          'modalidad': new FormControl('0',  Validators.required),
           'conRampa':  new FormControl(false, Validators.required),
           // 'choferes': this.choferesArray,
         }));
@@ -268,37 +268,28 @@ export class AgregarChoferComponent implements OnInit {
     this.respuesta = 'guardando';
     const form = this.forma.value;
     form.propietarioVehiculo = form.propietarioVehiculo ? '1':'-1';
-    if (form.etiqueta === '1') {
-      form.concesion = (form.concesion).toString();
-      if (form.propietarioVehiculo === '1') {
-        form.vehiculo.concesion = (form.vehiculo.concesion).toString();
-      }
-    } else {
-      form.concesion = '-1';
-      if (form.propietarioVehiculo === '1') {
-        form.vehiculo.concesion = '-1';
-      }
-    }
     form.telefono = '+52' + form.telefono;
-       const filepath = `choferes/${ form.folio}`;
-       const fileRef = this._storage.ref(filepath);
-       const task = this._storage.upload(filepath, this.fileImg);
-       this.uploadProgress = task.percentageChanges();
-       this.uploadProgress.subscribe(count => {
-         this.counttimeUploading = count;
-       });
-       task.snapshotChanges().pipe(
-         finalize(() => {
-             this.uploadURL = fileRef.getDownloadURL()
-             this.uploadURL.subscribe(urlPath => {
-               form.img = urlPath;
-               this.servicio.registarChofer(form).subscribe(data => {
-                this.forma.reset();
-                this.respuesta = JSON.stringify(data);
-              });
+    form.fechaNacimiento = this.fecha;
 
-             });
-         })).subscribe();
+    const filepath = `choferes/${ form.folio}`;
+    const fileRef = this._storage.ref(filepath);
+    const task = this._storage.upload(filepath, this.fileImg);
+    this.uploadProgress = task.percentageChanges();
+    this.uploadProgress.subscribe(count => {
+      this.counttimeUploading = count;
+    });
+    task.snapshotChanges().pipe(
+      finalize(() => {
+          this.uploadURL = fileRef.getDownloadURL()
+          this.uploadURL.subscribe(urlPath => {
+            form.img = urlPath;
+            this.servicio.registarChofer(form).subscribe(data => {
+             this.forma.reset();
+             this.respuesta = JSON.stringify(data);
+           });
+          });
+  
+      })).subscribe();
   }
 
   _pushConcesion_Vehiculos() {
@@ -333,15 +324,14 @@ export class AgregarChoferComponent implements OnInit {
   _pushVehiculos(concesion: any) {
     this.vehiculosArray.push(new FormGroup({
       'concesion': new FormControl(concesion),
-      'modelo':    new FormControl('',    Validators.required),
-      'marca':     new FormControl('',    Validators.required),
-      'anio':      new FormControl('',    Validators.required),
-      'matricula': new FormControl('',    Validators.required),
-      'capacidad': new FormControl('-1',  Validators.required),
-      'modalidad': new FormControl('-1',  Validators.required),
+      'marca':     new FormControl('Nissan',    Validators.required),
+      'modelo':    new FormControl('Sentra',    Validators.required),
+      'anio':      new FormControl('2019',    Validators.required),
+      'matricula': new FormControl('212-24-TID',    Validators.required),
+      'capacidad': new FormControl('4',  Validators.required),
+      'modalidad': new FormControl('0',  Validators.required),
       'conRampa':  new FormControl(false, Validators.required),
       // 'choferes': this.choferesArray,
-      'propietario': new FormControl('', Validators.required)
     }));
   }
 

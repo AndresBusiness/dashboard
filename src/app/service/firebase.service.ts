@@ -55,8 +55,7 @@ export class FirebaseService {
   }
 
   obtenerInfoChoferes() {
-    return this.afs.collection('ciudades/cozumel/choferes',
-                              ref => ref.orderBy('concesion', 'asc')).snapshotChanges();
+    return this.afs.collection('choferes',).snapshotChanges();
   }
 
   agregarItem(uid: string, value: any) {
