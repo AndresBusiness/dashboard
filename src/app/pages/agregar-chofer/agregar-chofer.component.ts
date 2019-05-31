@@ -57,6 +57,8 @@ export class AgregarChoferComponent implements OnInit {
   };
 
 
+
+
   constructor(private fb: FormBuilder, private _changeDetectionRef: ChangeDetectorRef,
     public servicioFecha: NgbDateCustomParserFormatter,
     private servicio: FunctionsService, private _storage: AngularFireStorage) {
@@ -74,7 +76,7 @@ export class AgregarChoferComponent implements OnInit {
       'folio':           new FormControl('sfb', Validators.required),
       'nombre':          new FormControl('andres', Validators.required),
       'apellidos':       new FormControl('perez alonso', Validators.required),
-      'correo':          new FormControl('andres@hotmail.com', [Validators.required, Validators.pattern(this.expRefEmail)]),
+      'correo':          new FormControl('andres93x1@gmail.com', [Validators.required, Validators.pattern(this.expRefEmail)]),
       'telefono':        new FormControl('4775673723', [Validators.required, Validators.minLength(10)]),
       'etiqueta':        new FormControl('', Validators.required),
       'genero':          new FormControl('1', Validators.required),
@@ -284,11 +286,27 @@ export class AgregarChoferComponent implements OnInit {
           this.uploadURL.subscribe(urlPath => {
             form.img = urlPath;
             this.servicio.registarChofer(form).subscribe(data => {
-             this.forma.reset();
+             this.forma.patchValue( {
+                'folio':          'sfb',
+                'nombre':         'andres',
+                'apellidos':      'perez alonso',
+                'correo':         'andres93x1@gmail.com',
+                'telefono':       '4775673723',
+                'etiqueta':       '',
+                'genero':         '1',
+                'fechaNacimiento': '',
+                'img':             '',
+                'propietarioVehiculo': false,
+                'activo':              false,
+                'autorizado':          false,
+                'uidUserSystem':       localStorage.getItem('uid'),
+                'concesiones_ayudantes': this.concesionesArray.reset(),
+                'vehiculos_ayudantes':   this.vehiculosArray.reset()
+              });
              this.respuesta = JSON.stringify(data);
            });
           });
-  
+
       })).subscribe();
   }
 
