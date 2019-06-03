@@ -3,6 +3,7 @@
         <div formArrayName="vehiculos_ayudantes">
             <fieldset class="scheduler-border"  [formGroupName]="i">
                     <legend class="scheduler-border"> Vehículo de otro socio con placa: <strong>{{ forma.value.vehiculos_ayudantes[i].concesion }}</strong></legend>
+                    <h3 *ngIf="forma.value.vehiculos_ayudantes[i].nombreChoferRegistro" >El Chofer <strong>{{ forma.value.vehiculos_ayudantes[i].nombreChoferRegistro }}</strong>  ya ha registrado un vehículo con esta concesión en {{ forma.value.vehiculos_ayudantes[i].fechaRegistro}}</h3>
                 <div class="col-12 d-flex mb-4" >
                     <div class="col-4">
                         <h5>Marca: <span class="text-danger">*</span></h5>
@@ -24,7 +25,7 @@
                       </div>
                       <div class="col-4">
                         <h5>Para 4 u 8 personas?: <span class="text-danger">*</span></h5>
-                        <select class="form-control custom-select" formControlName ="capacidad">
+                        <select class="form-control custom-select" formControlName ="capacidad" >
                             <option value="-1">Seleccionar Capacidad</option>
                             <option value="4">Hasta 4 personas</option>
                             <option value="8">Hasta 8 personas</option>
@@ -41,7 +42,7 @@
                   </div>
                   <div class="col-12 d-flex">
                       <div class="item" p-10>
-                        <input type="checkbox" [id]="i" formControlName ="conRampa"/>
+                        <input type="checkbox" [id]="i" formControlName ="conRampa" />
                         <label [for]="i">Con Rampa</label>
                       </div>
                   </div>

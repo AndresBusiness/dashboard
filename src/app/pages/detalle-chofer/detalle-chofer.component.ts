@@ -44,7 +44,7 @@ export class DetalleChoferComponent implements OnInit {
   }
 
   obtenerInfoChofer(uid: string) {
-    this.servicioFirebase.buscarChofer(uid)
+    this.servicioFirebase.buscarInfoChofer(uid)
         .then(data => {
           this.user.correo       = data.correo;
           this.user.nombre       = data.nombre;

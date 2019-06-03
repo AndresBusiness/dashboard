@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { AngularFireStorage } from 'angularfire2/storage';
 import { finalize } from 'rxjs/operators';
 import { NgbDateCustomParserFormatter } from 'src/app/service/dateformat.service';
+import { FirebaseService } from 'src/app/service/firebase.service';
 
 @Component({
   selector: 'app-agregar-chofer',
@@ -41,6 +42,8 @@ export class AgregarChoferComponent implements OnInit {
   @ViewChild('continuarStep2') continuarStep2: ElementRef;
   @ViewChild('continuarStep3') continuarStep3: ElementRef;
 
+  vehiculoRegistrado: any[] = [];
+
   VALIDATIONS_STEP1 = {
     'nombre':   false,
     'apellidos':   false,
@@ -56,11 +59,9 @@ export class AgregarChoferComponent implements OnInit {
     'concesion':   false,
   };
 
-
-
-
   constructor(private fb: FormBuilder, private _changeDetectionRef: ChangeDetectorRef,
     public servicioFecha: NgbDateCustomParserFormatter,
+    private firebaseService: FirebaseService,
     private servicio: FunctionsService, private _storage: AngularFireStorage) {
     this.minDate = {year: 1950, month: 1, day: 1};
     this.maxDate = {year: 2001, month: 1, day: 1};
@@ -120,12 +121,12 @@ export class AgregarChoferComponent implements OnInit {
         }
         this.forma.addControl('vehiculo_propio',new FormGroup({
           'concesion': new FormControl(revicion_Concesion),
-          'marca':     new FormControl('Nissan',    Validators.required),
-          'modelo':    new FormControl('Sentra',    Validators.required),
-          'anio':      new FormControl('2019',    Validators.required),
-          'matricula': new FormControl('212-24-TID',    Validators.required),
-          'capacidad': new FormControl('4',  Validators.required),
-          'modalidad': new FormControl('0',  Validators.required),
+          'marca':     new FormControl('',    Validators.required),
+          'modelo':    new FormControl('',    Validators.required),
+          'anio':      new FormControl('',    Validators.required),
+          'matricula': new FormControl('',    Validators.required),
+          'capacidad': new FormControl('-1',  Validators.required),
+          'modalidad': new FormControl('-1',  Validators.required),
           'conRampa':  new FormControl(false, Validators.required),
           // 'choferes': this.choferesArray,
         }));
@@ -193,45 +194,115 @@ export class AgregarChoferComponent implements OnInit {
          if (data === 'INVALID') {
            this.revisionStep2 = false;
          }
-       })
+       });
        if (countErrrors > 0 && index === fieldStep2.length -1) {
-         return
+         return;
        }
       }
     }
 
-      for (let index = 0; index < this.forma.value.concesiones_ayudantes.length; index++) {
+    for (let index = 0; index < this.forma.value.concesiones_ayudantes.length; index++) {
         const placa = (this.forma.controls['concesiones_ayudantes']['controls'][index]['controls']['placa'] as FormControl);
         if (placa.value === '***') {
-          placa.setErrors({required:true})
+          placa.setErrors({required: true});
         }
         if (placa.errors) {
-          if (placa.errors['required'] || placa.errors['max'] || placa.errors['min'] || placa.errors['maxLength'] || placa.errors['Mask error']) {
+          if (placa.errors['required'] || placa.errors['max'] || placa.errors['min']
+          || placa.errors['maxLength'] || placa.errors['Mask error']) {
             countErrrors ++;
           }
+        }  else {
+          // this.vehiculoRegistrado.push()
+          this.firebaseService.buscarInfoVehiculo(placa.value.toString())
+          .subscribe((vehiculo: any) => {
+            if (vehiculo[0]) {
+              if (vehiculo[0].propietario) {
+                  this.firebaseService.buscarInfoChofer(vehiculo[0].propietario)
+                  .then(chofer => {
+                     this.forma.controls['vehiculos_ayudantes']['controls'][index]['controls']['modelo'].setValue(vehiculo[0].modelo);
+                     this.forma.controls['vehiculos_ayudantes']['controls'][index]['controls']['marca'].setValue(vehiculo[0].marca);
+                     this.forma.controls['vehiculos_ayudantes']['controls'][index]['controls']['anio'].setValue(vehiculo[0].anio);
+                     this.forma.controls['vehiculos_ayudantes']['controls'][index]['controls']['matricula'].setValue(vehiculo[0].matricula);
+                     this.forma.controls['vehiculos_ayudantes']['controls'][index]['controls']['modalidad'].setValue(vehiculo[0].modalidad);
+                     this.forma.controls['vehiculos_ayudantes']['controls'][index]['controls']['capacidad'].setValue(vehiculo[0].capacidad);
+                     this.forma.controls['vehiculos_ayudantes']['controls'][index]['controls']['conRampa'].setValue(vehiculo[0].conRampa);
+                     this.forma.controls['vehiculos_ayudantes']['controls'][index]['controls']
+                     ['nombreChoferRegistro'].setValue(chofer.nombre + ' ' + chofer.apellidos);
+                     this.forma.controls['vehiculos_ayudantes']['controls'][index]['controls']
+                     ['fechaRegistro'].setValue('5 de marzo del 2018');
+                     this.forma.controls['vehiculos_ayudantes']['controls'][index]['controls']['modelo'].disable();
+                     this.forma.controls['vehiculos_ayudantes']['controls'][index]['controls']['marca'].disable();
+                     this.forma.controls['vehiculos_ayudantes']['controls'][index]['controls']['anio'].disable();
+                     this.forma.controls['vehiculos_ayudantes']['controls'][index]['controls']['matricula'].disable();
+                     this.forma.controls['vehiculos_ayudantes']['controls'][index]['controls']['modalidad'].disable();
+                     this.forma.controls['vehiculos_ayudantes']['controls'][index]['controls']['capacidad'].disable();
+                     this.forma.controls['vehiculos_ayudantes']['controls'][index]['controls']['conRampa'].disable();
+                  });
+              }
+              if (vehiculo[0].choferes) {
+                  this.firebaseService.buscarInfoChofer(vehiculo[0].choferes[0])
+                  .then(chofer => {
+                     this.forma.controls['vehiculos_ayudantes']['controls'][index]['controls']['modelo'].setValue(vehiculo[0].modelo);
+                     this.forma.controls['vehiculos_ayudantes']['controls'][index]['controls']['marca'].setValue(vehiculo[0].marca);
+                     this.forma.controls['vehiculos_ayudantes']['controls'][index]['controls']['anio'].setValue(vehiculo[0].anio);
+                     this.forma.controls['vehiculos_ayudantes']['controls'][index]['controls']['matricula'].setValue(vehiculo[0].matricula);
+                     this.forma.controls['vehiculos_ayudantes']['controls'][index]['controls']['modalidad'].setValue(vehiculo[0].modalidad);
+                     this.forma.controls['vehiculos_ayudantes']['controls'][index]['controls']['capacidad'].setValue(vehiculo[0].capacidad);
+                     this.forma.controls['vehiculos_ayudantes']['controls'][index]['controls']['conRampa'].setValue(vehiculo[0].conRampa);
+                     this.forma.controls['vehiculos_ayudantes']['controls'][index]['controls']
+                     ['nombreChoferRegistro'].setValue(chofer.nombre + ' ' + chofer.apellidos);
+                     this.forma.controls['vehiculos_ayudantes']['controls'][index]['controls']
+                     ['fechaRegistro'].setValue('5 de marzo del 2018');
+                     this.forma.controls['vehiculos_ayudantes']['controls'][index]['controls']['modelo'].disable();
+                     this.forma.controls['vehiculos_ayudantes']['controls'][index]['controls']['marca'].disable();
+                     this.forma.controls['vehiculos_ayudantes']['controls'][index]['controls']['anio'].disable();
+                     this.forma.controls['vehiculos_ayudantes']['controls'][index]['controls']['matricula'].disable();
+                     this.forma.controls['vehiculos_ayudantes']['controls'][index]['controls']['modalidad'].disable();
+                     this.forma.controls['vehiculos_ayudantes']['controls'][index]['controls']['capacidad'].disable();
+                     this.forma.controls['vehiculos_ayudantes']['controls'][index]['controls']['conRampa'].disable();
+                    console.log('el chofer ayudante: ', chofer.nombre + ' Ya registro un vehiculo con esa concesion: ' + vehiculo[0]);
+                  });
+              }
+            } else {
+              this.forma.controls['vehiculos_ayudantes']['controls'][index]['controls']['modelo'].setValue(null);
+              this.forma.controls['vehiculos_ayudantes']['controls'][index]['controls']['marca'].setValue(null);
+              this.forma.controls['vehiculos_ayudantes']['controls'][index]['controls']['anio'].setValue(null);
+              this.forma.controls['vehiculos_ayudantes']['controls'][index]['controls']['matricula'].setValue(null);
+              this.forma.controls['vehiculos_ayudantes']['controls'][index]['controls']['modalidad'].setValue('-1');
+              this.forma.controls['vehiculos_ayudantes']['controls'][index]['controls']['capacidad'].setValue('-1');
+              this.forma.controls['vehiculos_ayudantes']['controls'][index]['controls']['conRampa'].setValue(null);
+              this.forma.controls['vehiculos_ayudantes']['controls'][index]['controls']
+              ['nombreChoferRegistro'].setValue(null);
+              this.forma.controls['vehiculos_ayudantes']['controls'][index]['controls']
+              ['fechaRegistro'].setValue(null);
+              this.forma.controls['vehiculos_ayudantes']['controls'][index]['controls']['modelo'].enable();
+              this.forma.controls['vehiculos_ayudantes']['controls'][index]['controls']['marca'].enable();
+              this.forma.controls['vehiculos_ayudantes']['controls'][index]['controls']['anio'].enable();
+              this.forma.controls['vehiculos_ayudantes']['controls'][index]['controls']['matricula'].enable();
+              this.forma.controls['vehiculos_ayudantes']['controls'][index]['controls']['modalidad'].enable();
+              this.forma.controls['vehiculos_ayudantes']['controls'][index]['controls']['capacidad'].enable();
+              this.forma.controls['vehiculos_ayudantes']['controls'][index]['controls']['conRampa'].enable();
+            }
+          });
+        }
+    }
+
+    if (this.forma.controls['concesion_socio']) {
+      const placa = (this.forma.controls['concesion_socio'] as FormControl)
+      if (placa.value === '***') {
+        placa.setErrors({required: true});
+      }
+      if (placa.errors) {
+        if (placa.errors['required'] || placa.errors['max'] || placa.errors['min']
+        || placa.errors['maxLength'] || placa.errors['Mask error']) {
+          countErrrors ++;
         }
       }
-
-      if (this.forma.controls['concesion_socio']) {
-        const placa = (this.forma.controls['concesion_socio'] as FormControl)
-        if (placa.value === '***') {
-          placa.setErrors({required:true})
-        }
-        if (placa.errors) {
-          if (placa.errors['required'] || placa.errors['max'] || placa.errors['min'] || placa.errors['maxLength'] || placa.errors['Mask error']) {
-            countErrrors ++;
-          }
-        }
-
-      }
-
-
-      this.revisionStep2 = countErrrors > 0 ? false : true;
-      if (this.revisionStep2) {
-        this.continuarStep3.nativeElement.click();
-      }
-
-
+    }
+    this.revisionStep2 = countErrrors > 0 ? false : true;
+    if (this.revisionStep2) {
+      this.continuarStep3.nativeElement.click();
+    }
   }
 
   capitalizaCamelCase(value: string , control) {
@@ -342,14 +413,15 @@ export class AgregarChoferComponent implements OnInit {
   _pushVehiculos(concesion: any) {
     this.vehiculosArray.push(new FormGroup({
       'concesion': new FormControl(concesion),
-      'marca':     new FormControl('Nissan',    Validators.required),
-      'modelo':    new FormControl('Sentra',    Validators.required),
-      'anio':      new FormControl('2019',    Validators.required),
-      'matricula': new FormControl('212-24-TID',    Validators.required),
-      'capacidad': new FormControl('4',  Validators.required),
-      'modalidad': new FormControl('0',  Validators.required),
+      'marca':     new FormControl('',    Validators.required),
+      'modelo':    new FormControl('',    Validators.required),
+      'anio':      new FormControl('',    Validators.required),
+      'matricula': new FormControl('',    Validators.required),
+      'capacidad': new FormControl('-1',  Validators.required),
+      'modalidad': new FormControl('-1',  Validators.required),
       'conRampa':  new FormControl(false, Validators.required),
-      // 'choferes': this.choferesArray,
+      'nombreChoferRegistro': new FormControl(''),
+      'fechaRegistro': new FormControl(''),
     }));
   }
 

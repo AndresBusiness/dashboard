@@ -90,7 +90,7 @@ export class MonitoreoComponent implements OnInit {
 
   obtenerInfoChofer(info: any) {
     const chofer = info;
-    this.servicioFirebase.buscarChofer(info.chofer)
+    this.servicioFirebase.buscarInfoChofer(info.chofer)
         .then(data => {
           chofer.correo = data.correo;
           chofer.nombre = data.nombre;

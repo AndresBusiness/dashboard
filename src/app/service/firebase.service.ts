@@ -26,9 +26,26 @@ export class FirebaseService {
             .valueChanges();
   }
 
-  buscarChofer(id: string) {
+
+  buscarInfoUnidad(chofer: string) {
+    return this.afs.collection('ciudades/cozumel/concesiones',
+    ref => ref.where('chofer', '==', chofer)).valueChanges();
+  }
+
+  buscarComentariosChoferes(id: string) {
+    return this.afs.collection('ciudades/cozumel/rating',
+                              ref => ref.where('uidChofer', '==', id)
+                              .orderBy('fecha', 'asc').limit(10)).valueChanges();
+  }
+
+  buscarInfoVehiculo(concesion: string) {
+    return this.afs.collection('vehiculos',
+    ref => ref.where('concesion', '==', concesion)).valueChanges();
+  }
+
+  buscarInfoChofer(id: string) {
     return new Promise<any>((resolve, reject) => {
-      this.afs.doc(`ciudades/cozumel/choferes/${id}`)
+      this.afs.doc(`choferes/${id}`)
       .valueChanges()
       .subscribe((data: any) => {
         if (data) {
@@ -40,22 +57,8 @@ export class FirebaseService {
       );
     });
   }
-
-
-  buscarInfoUnidad(chofer: string) {
-    return this.afs.collection('ciudades/cozumel/concesiones',
-    ref => ref.where('chofer', '==', chofer)).valueChanges();
-
-  }
-
-  buscarComentariosChoferes(id: string) {
-    return this.afs.collection('ciudades/cozumel/rating',
-                              ref => ref.where('uidChofer', '==', id)
-                              .orderBy('fecha', 'asc').limit(10)).valueChanges();
-  }
-
   obtenerInfoChoferes() {
-    return this.afs.collection('choferes',).snapshotChanges();
+    return this.afs.collection('choferes').snapshotChanges();
   }
 
   agregarItem(uid: string, value: any) {
@@ -92,9 +95,9 @@ export class FirebaseService {
     var metadata = {
       contentType: 'image/jpeg'
     };
-    
+
     var uploadTask = storageRef.child('images/' + nombre).put(file, metadata).then(data=>{
-      
+
     })
   }
 
