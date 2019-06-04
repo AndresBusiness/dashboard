@@ -207,25 +207,35 @@
                               <div class="col-12 d-flex mb-4" >
                                   <div class="col-4">
                                       <h5>Marca: <span class="text-danger">*</span></h5>
-                                      <input type="text" name="text" placeholder="Ejemplo: Chevrolet" class="form-control" required formControlName ="marca">
+                                      <p *ngIf="forma.value.vehiculo_propio.nombreChoferRegistro">{{forma.value.vehiculo_propio.marca}}</p>
+                                      <input type="text" name="text" *ngIf="!forma.value.vehiculo_propio.nombreChoferRegistro" 
+                                      placeholder="Ejemplo: Chevrolet" class="form-control" required formControlName ="marca">
                                   </div>
                                   <div class="col-4">
                                       <h5>Modelo de vehículo: <span class="text-danger">*</span></h5>
-                                      <input type="text" name="text" placeholder="Ejemplo: Aveo, Spark .." class="form-control" required formControlName ="modelo">
+                                      <p *ngIf="forma.value.vehiculo_propio.nombreChoferRegistro">{{forma.value.vehiculo_propio.modelo}}</p>
+                                      <input type="text" name="text" *ngIf="!forma.value.vehiculo_propio.nombreChoferRegistro" 
+                                      placeholder="Ejemplo: Aveo, Spark .." class="form-control" required formControlName ="modelo">
                                   </div>
                                   <div class="col-4">
                                       <h5>Año: <span class="text-danger">*</span></h5>
-                                      <input type="text" name="text" placeholder="Ejemplo: 2010" class="form-control" required formControlName ="anio">
+                                      <p *ngIf="forma.value.vehiculo_propio.nombreChoferRegistro">{{forma.value.vehiculo_propio.anio}}</p>
+                                      <input type="text" name="text" *ngIf="!forma.value.vehiculo_propio.nombreChoferRegistro" 
+                                      placeholder="Ejemplo: 2010" class="form-control" required formControlName ="anio">
                                   </div>
                                 </div>
                                 <div class="col-12 d-flex mb-4">
                                     <div class="col-4">
                                       <h5>Matricula: <span class="text-danger">*</span></h5>
-                                      <input type="text" name="text" placeholder="Ejemplo: 15-48-TRG" class="form-control" required formControlName ="matricula">
+                                      <p *ngIf="forma.value.vehiculo_propio.nombreChoferRegistro">{{forma.value.vehiculo_propio.matricula}}</p>
+                                      <input type="text" name="text" *ngIf="!forma.value.vehiculo_propio.nombreChoferRegistro" 
+                                      placeholder="Ejemplo: 15-48-TRG" class="form-control" required formControlName ="matricula">
                                     </div>
                                     <div class="col-4">
                                       <h5>Para 4 u 8 personas?: <span class="text-danger">*</span></h5>
-                                      <select class="form-control custom-select" formControlName ="capacidad">
+                                      <p *ngIf="forma.value.vehiculo_propio.nombreChoferRegistro">Hasta{{forma.value.vehiculo_propio.capacidad}} personas</p>
+                                      <select class="form-control custom-select" formControlName ="capacidad"
+                                      *ngIf="!forma.value.vehiculo_propio.nombreChoferRegistro">
                                           <option value="-1">Seleccionar Capacidad</option>
                                           <option value="4">Hasta 4 personas</option>
                                           <option value="8">Hasta 8 personas</option>
@@ -233,7 +243,12 @@
                                     </div>
                                     <div class="col-4">
                                         <h5>Fijo o Posturero?: <span class="text-danger">*</span></h5>
-                                        <select class="form-control custom-select" formControlName ="modalidad">
+                                        <p *ngIf="forma.value.vehiculo_propio.nombreChoferRegistro 
+                                        && forma.value.vehiculo_propio.modalidad == '1'">Fijo</p>
+                                        <p *ngIf="forma.value.vehiculo_propio.nombreChoferRegistro 
+                                        && forma.value.vehiculo_propio.modalidad == '0'">Posturero</p>
+                                        <select class="form-control custom-select" formControlName ="modalidad"
+                                        *ngIf="!forma.value.vehiculo_propio.nombreChoferRegistro">
                                             <option value="-1">Seleccionar modalidad</option>
                                             <option value="1">Fijo</option>
                                             <option value="0">Posturero</option>
@@ -241,9 +256,20 @@
                                       </div>
                                 </div>
                                 <div class="col-12 d-flex">
-                                    <div class="item" p-10>
-                                      <input type="checkbox" id="con_rampa" formControlName ="conRampa"/>
-                                      <label for="con_rampa">Con Rampa</label>
+                                    <div class="col-4">
+                                      <input type="checkbox" id="con_rampa" formControlName ="conRampa"
+                                      *ngIf="!forma.value.vehiculo_propio.nombreChoferRegistro"/>
+                                      <label for="con_rampa">Tiene Rampa?</label>
+                                      <p *ngIf="forma.value.vehiculo_propio.nombreChoferRegistro
+                                      && forma.value.vehiculo_propio.conRampa">SI</p>
+                                      <p *ngIf="forma.value.vehiculo_propio.nombreChoferRegistro
+                                      && !forma.value.vehiculo_propio.conRampa">NO</p>
+                                    </div>
+                                    <div class="col-8" *ngIf="forma.value.vehiculo_propio">
+                                      <div *ngIf="forma.value.vehiculo_propio.nombreChoferRegistro">
+                                          <input  *ngIf="forma.value.vehiculo_propio.nombreChoferRegistro" type="checkbox" id="vinculacion" formControlName ="vincularVehiculo" />
+                                          <label for="vinculacion">Vincular este vehículo con {{forma.value.nombre}} {{forma.value.apellidos}} ? </label>
+                                      </div>
                                     </div>
                                 </div>
                           </fieldset>

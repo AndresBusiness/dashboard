@@ -236,14 +236,14 @@ export class AgregarChoferComponent implements OnInit {
             this.firebaseService.buscarInfoChofer(vehiculo[0].propietario)
             .then(chofer => {
                this._asignarDatosVehiculo(control, vehiculo[0], chofer.nombre + ' ' + chofer.apellidos);
-               this._deshabilitarControlesVehiculoRegistrado(control);
+               // this._deshabilitarControlesVehiculoRegistrado(control);
             });
         }
         if (vehiculo[0].choferes) {
             this.firebaseService.buscarInfoChofer(vehiculo[0].choferes[0])
             .then(chofer => {
               this._asignarDatosVehiculo(control, vehiculo[0], chofer.nombre + ' ' + chofer.apellidos);
-              this._deshabilitarControlesVehiculoRegistrado(control);
+              // this._deshabilitarControlesVehiculoRegistrado(control);
             });
         }
       } else {
@@ -268,7 +268,6 @@ export class AgregarChoferComponent implements OnInit {
   }
 
   _asignarDatosVehiculo(control: any, datos: any, nombreChofer:string){
-    console.log(control);
     control['modelo'].setValue(datos.modelo);
     control['marca'].setValue(datos.marca);
     control['anio'].setValue(datos.anio);
@@ -411,6 +410,7 @@ export class AgregarChoferComponent implements OnInit {
       'conRampa':  new FormControl(false, Validators.required),
       'nombreChoferRegistro': new FormControl(null),
       'fechaRegistro': new FormControl(null),
+      'vincularVehiculo': new FormControl(false),
     })
   }
 
