@@ -119,17 +119,7 @@ export class AgregarChoferComponent implements OnInit {
         if (this.forma.value.concesion_socio) {
           revicion_Concesion = this.forma.value.concesion_socio;
         }
-        this.forma.addControl('vehiculo_propio',new FormGroup({
-          'concesion': new FormControl(revicion_Concesion),
-          'marca':     new FormControl('',    Validators.required),
-          'modelo':    new FormControl('',    Validators.required),
-          'anio':      new FormControl('',    Validators.required),
-          'matricula': new FormControl('',    Validators.required),
-          'capacidad': new FormControl('-1',  Validators.required),
-          'modalidad': new FormControl('-1',  Validators.required),
-          'conRampa':  new FormControl(false, Validators.required),
-          // 'choferes': this.choferesArray,
-        }));
+        this.forma.addControl('vehiculo_propio',this.createControlVehiculo(revicion_Concesion));
         this.tieneVehiculo = true;
       } else {
         this.tieneVehiculo = false;
@@ -212,78 +202,7 @@ export class AgregarChoferComponent implements OnInit {
             countErrrors ++;
           }
         }  else {
-          // this.vehiculoRegistrado.push()
-          this.firebaseService.buscarInfoVehiculo(placa.value.toString())
-          .subscribe((vehiculo: any) => {
-            if (vehiculo[0]) {
-              if (vehiculo[0].propietario) {
-                  this.firebaseService.buscarInfoChofer(vehiculo[0].propietario)
-                  .then(chofer => {
-                     this.forma.controls['vehiculos_ayudantes']['controls'][index]['controls']['modelo'].setValue(vehiculo[0].modelo);
-                     this.forma.controls['vehiculos_ayudantes']['controls'][index]['controls']['marca'].setValue(vehiculo[0].marca);
-                     this.forma.controls['vehiculos_ayudantes']['controls'][index]['controls']['anio'].setValue(vehiculo[0].anio);
-                     this.forma.controls['vehiculos_ayudantes']['controls'][index]['controls']['matricula'].setValue(vehiculo[0].matricula);
-                     this.forma.controls['vehiculos_ayudantes']['controls'][index]['controls']['modalidad'].setValue(vehiculo[0].modalidad);
-                     this.forma.controls['vehiculos_ayudantes']['controls'][index]['controls']['capacidad'].setValue(vehiculo[0].capacidad);
-                     this.forma.controls['vehiculos_ayudantes']['controls'][index]['controls']['conRampa'].setValue(vehiculo[0].conRampa);
-                     this.forma.controls['vehiculos_ayudantes']['controls'][index]['controls']
-                     ['nombreChoferRegistro'].setValue(chofer.nombre + ' ' + chofer.apellidos);
-                     this.forma.controls['vehiculos_ayudantes']['controls'][index]['controls']
-                     ['fechaRegistro'].setValue('5 de marzo del 2018');
-                     this.forma.controls['vehiculos_ayudantes']['controls'][index]['controls']['modelo'].disable();
-                     this.forma.controls['vehiculos_ayudantes']['controls'][index]['controls']['marca'].disable();
-                     this.forma.controls['vehiculos_ayudantes']['controls'][index]['controls']['anio'].disable();
-                     this.forma.controls['vehiculos_ayudantes']['controls'][index]['controls']['matricula'].disable();
-                     this.forma.controls['vehiculos_ayudantes']['controls'][index]['controls']['modalidad'].disable();
-                     this.forma.controls['vehiculos_ayudantes']['controls'][index]['controls']['capacidad'].disable();
-                     this.forma.controls['vehiculos_ayudantes']['controls'][index]['controls']['conRampa'].disable();
-                  });
-              }
-              if (vehiculo[0].choferes) {
-                  this.firebaseService.buscarInfoChofer(vehiculo[0].choferes[0])
-                  .then(chofer => {
-                     this.forma.controls['vehiculos_ayudantes']['controls'][index]['controls']['modelo'].setValue(vehiculo[0].modelo);
-                     this.forma.controls['vehiculos_ayudantes']['controls'][index]['controls']['marca'].setValue(vehiculo[0].marca);
-                     this.forma.controls['vehiculos_ayudantes']['controls'][index]['controls']['anio'].setValue(vehiculo[0].anio);
-                     this.forma.controls['vehiculos_ayudantes']['controls'][index]['controls']['matricula'].setValue(vehiculo[0].matricula);
-                     this.forma.controls['vehiculos_ayudantes']['controls'][index]['controls']['modalidad'].setValue(vehiculo[0].modalidad);
-                     this.forma.controls['vehiculos_ayudantes']['controls'][index]['controls']['capacidad'].setValue(vehiculo[0].capacidad);
-                     this.forma.controls['vehiculos_ayudantes']['controls'][index]['controls']['conRampa'].setValue(vehiculo[0].conRampa);
-                     this.forma.controls['vehiculos_ayudantes']['controls'][index]['controls']
-                     ['nombreChoferRegistro'].setValue(chofer.nombre + ' ' + chofer.apellidos);
-                     this.forma.controls['vehiculos_ayudantes']['controls'][index]['controls']
-                     ['fechaRegistro'].setValue('5 de marzo del 2018');
-                     this.forma.controls['vehiculos_ayudantes']['controls'][index]['controls']['modelo'].disable();
-                     this.forma.controls['vehiculos_ayudantes']['controls'][index]['controls']['marca'].disable();
-                     this.forma.controls['vehiculos_ayudantes']['controls'][index]['controls']['anio'].disable();
-                     this.forma.controls['vehiculos_ayudantes']['controls'][index]['controls']['matricula'].disable();
-                     this.forma.controls['vehiculos_ayudantes']['controls'][index]['controls']['modalidad'].disable();
-                     this.forma.controls['vehiculos_ayudantes']['controls'][index]['controls']['capacidad'].disable();
-                     this.forma.controls['vehiculos_ayudantes']['controls'][index]['controls']['conRampa'].disable();
-                    console.log('el chofer ayudante: ', chofer.nombre + ' Ya registro un vehiculo con esa concesion: ' + vehiculo[0]);
-                  });
-              }
-            } else {
-              this.forma.controls['vehiculos_ayudantes']['controls'][index]['controls']['modelo'].setValue(null);
-              this.forma.controls['vehiculos_ayudantes']['controls'][index]['controls']['marca'].setValue(null);
-              this.forma.controls['vehiculos_ayudantes']['controls'][index]['controls']['anio'].setValue(null);
-              this.forma.controls['vehiculos_ayudantes']['controls'][index]['controls']['matricula'].setValue(null);
-              this.forma.controls['vehiculos_ayudantes']['controls'][index]['controls']['modalidad'].setValue('-1');
-              this.forma.controls['vehiculos_ayudantes']['controls'][index]['controls']['capacidad'].setValue('-1');
-              this.forma.controls['vehiculos_ayudantes']['controls'][index]['controls']['conRampa'].setValue(null);
-              this.forma.controls['vehiculos_ayudantes']['controls'][index]['controls']
-              ['nombreChoferRegistro'].setValue(null);
-              this.forma.controls['vehiculos_ayudantes']['controls'][index]['controls']
-              ['fechaRegistro'].setValue(null);
-              this.forma.controls['vehiculos_ayudantes']['controls'][index]['controls']['modelo'].enable();
-              this.forma.controls['vehiculos_ayudantes']['controls'][index]['controls']['marca'].enable();
-              this.forma.controls['vehiculos_ayudantes']['controls'][index]['controls']['anio'].enable();
-              this.forma.controls['vehiculos_ayudantes']['controls'][index]['controls']['matricula'].enable();
-              this.forma.controls['vehiculos_ayudantes']['controls'][index]['controls']['modalidad'].enable();
-              this.forma.controls['vehiculos_ayudantes']['controls'][index]['controls']['capacidad'].enable();
-              this.forma.controls['vehiculos_ayudantes']['controls'][index]['controls']['conRampa'].enable();
-            }
-          });
+          this._consultarVehiculo(placa.value.toString(), this.forma.controls['vehiculos_ayudantes']['controls'][index]['controls']);
         }
     }
 
@@ -297,12 +216,78 @@ export class AgregarChoferComponent implements OnInit {
         || placa.errors['maxLength'] || placa.errors['Mask error']) {
           countErrrors ++;
         }
+      } else {
+        if(this.tieneVehiculo){
+          this._consultarVehiculo(placa.value.toString(), this.forma.controls['vehiculo_propio']['controls']);
+        }
       }
     }
     this.revisionStep2 = countErrrors > 0 ? false : true;
     if (this.revisionStep2) {
       this.continuarStep3.nativeElement.click();
     }
+  }
+
+  _consultarVehiculo(placa: string, control: any){
+    this.firebaseService.buscarInfoVehiculo(placa)
+    .subscribe((vehiculo: any) => {
+      if (vehiculo[0]) {
+        if (vehiculo[0].propietario) {
+            this.firebaseService.buscarInfoChofer(vehiculo[0].propietario)
+            .then(chofer => {
+               this._asignarDatosVehiculo(control, vehiculo[0], chofer.nombre + ' ' + chofer.apellidos);
+               this._deshabilitarControlesVehiculoRegistrado(control);
+            });
+        }
+        if (vehiculo[0].choferes) {
+            this.firebaseService.buscarInfoChofer(vehiculo[0].choferes[0])
+            .then(chofer => {
+              this._asignarDatosVehiculo(control, vehiculo[0], chofer.nombre + ' ' + chofer.apellidos);
+              this._deshabilitarControlesVehiculoRegistrado(control);
+            });
+        }
+      } else {
+        control['modelo'].setValue(null);
+        control['marca'].setValue(null);
+        control['anio'].setValue(null);
+        control['matricula'].setValue(null);
+        control['modalidad'].setValue('-1');
+        control['capacidad'].setValue('-1');
+        control['conRampa'].setValue(null);
+        control['nombreChoferRegistro'].setValue(null);
+        control['fechaRegistro'].setValue(null);
+        control['modelo'].enable();
+        control['marca'].enable();
+        control['anio'].enable();
+        control['matricula'].enable();
+        control['modalidad'].enable();
+        control['capacidad'].enable();
+        control['conRampa'].enable();
+      }
+    });
+  }
+
+  _asignarDatosVehiculo(control: any, datos: any, nombreChofer:string){
+    console.log(control);
+    control['modelo'].setValue(datos.modelo);
+    control['marca'].setValue(datos.marca);
+    control['anio'].setValue(datos.anio);
+    control['matricula'].setValue(datos.matricula);
+    control['modalidad'].setValue(datos.modalidad);
+    control['capacidad'].setValue(datos.capacidad);
+    control['conRampa'].setValue(datos.conRampa);
+    control['fechaRegistro'].setValue('5 de marzo del 2018');
+    control['nombreChoferRegistro'].setValue(nombreChofer);
+  }
+
+  _deshabilitarControlesVehiculoRegistrado(control: any){
+    control['modelo'].disable();
+    control['marca'].disable();
+    control['anio'].disable();
+    control['matricula'].disable();
+    control['modalidad'].disable();
+    control['capacidad'].disable();
+    control['conRampa'].disable();
   }
 
   capitalizaCamelCase(value: string , control) {
@@ -411,18 +396,22 @@ export class AgregarChoferComponent implements OnInit {
   }
 
   _pushVehiculos(concesion: any) {
-    this.vehiculosArray.push(new FormGroup({
+    this.vehiculosArray.push(this.createControlVehiculo(concesion));
+  }
+
+  createControlVehiculo(concesion: any){
+    return new FormGroup({
       'concesion': new FormControl(concesion),
-      'marca':     new FormControl('',    Validators.required),
-      'modelo':    new FormControl('',    Validators.required),
-      'anio':      new FormControl('',    Validators.required),
-      'matricula': new FormControl('',    Validators.required),
+      'marca':     new FormControl(null,    Validators.required),
+      'modelo':    new FormControl(null,    Validators.required),
+      'anio':      new FormControl(null,    Validators.required),
+      'matricula': new FormControl(null,    Validators.required),
       'capacidad': new FormControl('-1',  Validators.required),
       'modalidad': new FormControl('-1',  Validators.required),
       'conRampa':  new FormControl(false, Validators.required),
-      'nombreChoferRegistro': new FormControl(''),
-      'fechaRegistro': new FormControl(''),
-    }));
+      'nombreChoferRegistro': new FormControl(null),
+      'fechaRegistro': new FormControl(null),
+    })
   }
 
    _pushConcesion() {

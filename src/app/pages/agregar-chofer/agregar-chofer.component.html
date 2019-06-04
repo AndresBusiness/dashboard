@@ -203,6 +203,7 @@
                           <fieldset class="scheduler-border" formGroupName="vehiculo_propio">
                               <legend class="scheduler-border" *ngIf="forma.value.etiqueta === '1'" > Concesión de Socio: <strong>{{ forma.value.vehiculo_propio.concesion }}</strong> <span class="text-danger" > *</span></legend>
                               <legend class="scheduler-border" *ngIf="forma.value.etiqueta === '0'" > Vehículo de Ayudante, sin concesión</legend>
+                              <h3 *ngIf="forma.value.vehiculo_propio.nombreChoferRegistro" >El Chofer <strong>{{ forma.value.vehiculo_propio.nombreChoferRegistro }}</strong>  ya ha registrado un vehículo con esta concesión en {{ forma.value.vehiculo_propio.fechaRegistro}}</h3>
                               <div class="col-12 d-flex mb-4" >
                                   <div class="col-4">
                                       <h5>Marca: <span class="text-danger">*</span></h5>
