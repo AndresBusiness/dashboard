@@ -1,6 +1,6 @@
-
+<ngx-loading [show]="loading" ></ngx-loading>
 <div class="row">
-     <div class="col-md-3">
+     <!-- <div class="col-md-3">
         <div class="card animated fadeIn">
             <div class="p-20">
                 <fieldset class="scheduler-border">
@@ -11,8 +11,8 @@
                 </fieldset>
             </div>
       </div>
-    </div> 
-    <div class="col-md-9">
+    </div> -->
+    <div class="col-md-12">
         <div class="card animated fadeIn">
             <form [formGroup]="forma" (ngSubmit)="guardarUsuario()" >
                 <aw-wizard #wizard [navBarLayout]="'large-empty-symbols'">
@@ -57,6 +57,9 @@
                         <div class="item item-form-6">
                             <h5>Fecha de nacimiento: <span class="text-danger">*</span></h5>
                             <div class="col-12 d-flex p-0">
+                                <div class="col-1">
+                                    <button class="btn btn-secondary" (click)="d.toggle()" type="button"><i class="far fa-calendar-alt"></i></button>
+                                </div>
                               <div class="col-11" >
                                   <input class="form-control" placeholder="Día Mes, Año"
                                   [minDate]="minDate"
@@ -65,9 +68,7 @@
                                   name="dp" formControlName="fechaNacimiento" #fechaNacimiento
                                   ngbDatepicker #d="ngbDatepicker">
                               </div>
-                              <div>
-                                  <button class="btn btn-secondary" (click)="d.toggle()" type="button"><i class="far fa-calendar-alt"></i></button>
-                              </div>
+                            
                             </div>
                             <p class="field-requiered"
                             *ngIf="forma.controls['fechaNacimiento'].errors?.ngbDate && forma.controls['fechaNacimiento'].value">Formato de fecha incorrecto*</p>
@@ -208,19 +209,19 @@
                                   <div class="col-4">
                                       <h5>Marca: <span class="text-danger">*</span></h5>
                                       <p *ngIf="forma.value.vehiculo_propio.nombreChoferRegistro">{{forma.value.vehiculo_propio.marca}}</p>
-                                      <input type="text" name="text" *ngIf="!forma.value.vehiculo_propio.nombreChoferRegistro" 
+                                      <input type="text" name="text" *ngIf="!forma.value.vehiculo_propio.nombreChoferRegistro"
                                       placeholder="Ejemplo: Chevrolet" class="form-control" required formControlName ="marca">
                                   </div>
                                   <div class="col-4">
                                       <h5>Modelo de vehículo: <span class="text-danger">*</span></h5>
                                       <p *ngIf="forma.value.vehiculo_propio.nombreChoferRegistro">{{forma.value.vehiculo_propio.modelo}}</p>
-                                      <input type="text" name="text" *ngIf="!forma.value.vehiculo_propio.nombreChoferRegistro" 
+                                      <input type="text" name="text" *ngIf="!forma.value.vehiculo_propio.nombreChoferRegistro"
                                       placeholder="Ejemplo: Aveo, Spark .." class="form-control" required formControlName ="modelo">
                                   </div>
                                   <div class="col-4">
                                       <h5>Año: <span class="text-danger">*</span></h5>
                                       <p *ngIf="forma.value.vehiculo_propio.nombreChoferRegistro">{{forma.value.vehiculo_propio.anio}}</p>
-                                      <input type="text" name="text" *ngIf="!forma.value.vehiculo_propio.nombreChoferRegistro" 
+                                      <input type="text" name="text" *ngIf="!forma.value.vehiculo_propio.nombreChoferRegistro"
                                       placeholder="Ejemplo: 2010" class="form-control" required formControlName ="anio">
                                   </div>
                                 </div>
@@ -228,7 +229,7 @@
                                     <div class="col-4">
                                       <h5>Matricula: <span class="text-danger">*</span></h5>
                                       <p *ngIf="forma.value.vehiculo_propio.nombreChoferRegistro">{{forma.value.vehiculo_propio.matricula}}</p>
-                                      <input type="text" name="text" *ngIf="!forma.value.vehiculo_propio.nombreChoferRegistro" 
+                                      <input type="text" name="text" *ngIf="!forma.value.vehiculo_propio.nombreChoferRegistro"
                                       placeholder="Ejemplo: 15-48-TRG" class="form-control" required formControlName ="matricula">
                                     </div>
                                     <div class="col-4">
@@ -243,9 +244,9 @@
                                     </div>
                                     <div class="col-4">
                                         <h5>Fijo o Posturero?: <span class="text-danger">*</span></h5>
-                                        <p *ngIf="forma.value.vehiculo_propio.nombreChoferRegistro 
+                                        <p *ngIf="forma.value.vehiculo_propio.nombreChoferRegistro
                                         && forma.value.vehiculo_propio.modalidad == '1'">Fijo</p>
-                                        <p *ngIf="forma.value.vehiculo_propio.nombreChoferRegistro 
+                                        <p *ngIf="forma.value.vehiculo_propio.nombreChoferRegistro
                                         && forma.value.vehiculo_propio.modalidad == '0'">Posturero</p>
                                         <select class="form-control custom-select" formControlName ="modalidad"
                                         *ngIf="!forma.value.vehiculo_propio.nombreChoferRegistro">
@@ -390,11 +391,11 @@
                                           <div *ngIf="!forma.value.vehiculos_ayudantes[i].conRampa">
                                             <label for="conRampa">Con Rampa: No</label>
                                           </div>
-      
+
                                         </div>
                                   </div>
                                 </fieldset>
-                               
+
                               </div>
                             </fieldset>
                       </div>
@@ -406,8 +407,10 @@
                         <button type="button" class="btn btn-warning btn-regresar"
                         awPreviousStep>Regresar</button>
                        <button type="submit" class="btn btn-success">Registrar</button>
+                       <button type="button" (finalize)="finalizeReset()"
+                        style="display: none;"  awResetWizard  #finishReset>Reset</button>
                     </div>
-                    
+
                   </aw-wizard-step>
                 </aw-wizard>
                 </form>

@@ -49,6 +49,8 @@ import { FormularioVehiculosComponent } from './components/formulario-vehiculos/
 import { FormularioConcesionesComponent } from './components/formulario-concesiones/formulario-concesiones.component';
 
 import { OrderModule } from 'ngx-order-pipe';
+import { NgxLoadingModule, ngxLoadingAnimationTypes } from 'ngx-loading';
+
 
 // registrar los locales con el nombre que quieras utilizar a la hora de proveer
 registerLocaleData(localeMX, 'es');
@@ -76,6 +78,11 @@ registerLocaleData(localeMX, 'es');
     HttpClientModule,
     NgxMaskModule.forRoot(),
     ReactiveFormsModule,
+    NgxLoadingModule.forRoot({
+      backdropBackgroundColour:'rgba(255,0,0,0.2)',
+      fullScreenBackdrop:true,
+      animationType: ngxLoadingAnimationTypes.cubeGrid,
+    }),
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule, // imports firebase/firestore, only needed for database features
     AngularFireAuthModule, // imports firebase/auth, only needed for auth features

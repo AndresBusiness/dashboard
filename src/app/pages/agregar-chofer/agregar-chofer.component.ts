@@ -7,7 +7,8 @@ import { AngularFireStorage } from 'angularfire2/storage';
 import { finalize } from 'rxjs/operators';
 import { NgbDateCustomParserFormatter } from 'src/app/service/dateformat.service';
 import { FirebaseService } from 'src/app/service/firebase.service';
-
+import swal from 'sweetalert';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-agregar-chofer',
   templateUrl: './agregar-chofer.component.html',
@@ -38,11 +39,14 @@ export class AgregarChoferComponent implements OnInit {
   revisionStep2: boolean = false;
   tieneConcesion: boolean = false;
   tieneVehiculo: boolean = false;
+  public loading = false;
 
   @ViewChild('continuarStep2') continuarStep2: ElementRef;
   @ViewChild('continuarStep3') continuarStep3: ElementRef;
+  @ViewChild('finishReset') finishReset: ElementRef;
 
   vehiculoRegistrado: any[] = [];
+  public resetCount = 0;
 
   VALIDATIONS_STEP1 = {
     'nombre':   false,
@@ -62,6 +66,7 @@ export class AgregarChoferComponent implements OnInit {
   constructor(private fb: FormBuilder, private _changeDetectionRef: ChangeDetectorRef,
     public servicioFecha: NgbDateCustomParserFormatter,
     private firebaseService: FirebaseService,
+    public router: Router,
     private servicio: FunctionsService, private _storage: AngularFireStorage) {
     this.minDate = {year: 1950, month: 1, day: 1};
     this.maxDate = {year: 2001, month: 1, day: 1};
@@ -236,14 +241,12 @@ export class AgregarChoferComponent implements OnInit {
             this.firebaseService.buscarInfoChofer(vehiculo[0].propietario)
             .then(chofer => {
                this._asignarDatosVehiculo(control, vehiculo[0], chofer.nombre + ' ' + chofer.apellidos);
-               // this._deshabilitarControlesVehiculoRegistrado(control);
             });
         }
         if (vehiculo[0].choferes) {
             this.firebaseService.buscarInfoChofer(vehiculo[0].choferes[0])
             .then(chofer => {
               this._asignarDatosVehiculo(control, vehiculo[0], chofer.nombre + ' ' + chofer.apellidos);
-              // this._deshabilitarControlesVehiculoRegistrado(control);
             });
         }
       } else {
@@ -253,16 +256,12 @@ export class AgregarChoferComponent implements OnInit {
         control['matricula'].setValue(null);
         control['modalidad'].setValue('-1');
         control['capacidad'].setValue('-1');
-        control['conRampa'].setValue(null);
+        control['conRampa'].setValue(false);
         control['nombreChoferRegistro'].setValue(null);
         control['fechaRegistro'].setValue(null);
-        control['modelo'].enable();
-        control['marca'].enable();
-        control['anio'].enable();
-        control['matricula'].enable();
-        control['modalidad'].enable();
-        control['capacidad'].enable();
-        control['conRampa'].enable();
+        control['choferes'].setValue(null);
+        control['idVehiculo'].setValue(null);
+
       }
     });
   }
@@ -275,18 +274,10 @@ export class AgregarChoferComponent implements OnInit {
     control['modalidad'].setValue(datos.modalidad);
     control['capacidad'].setValue(datos.capacidad);
     control['conRampa'].setValue(datos.conRampa);
-    control['fechaRegistro'].setValue('5 de marzo del 2018');
+    control['fechaRegistro'].setValue(datos.fechaRegistro);
+    control['idVehiculo'].setValue(datos.idVehiculo);
+    control['choferes'].setValue(datos.choferes);
     control['nombreChoferRegistro'].setValue(nombreChofer);
-  }
-
-  _deshabilitarControlesVehiculoRegistrado(control: any){
-    control['modelo'].disable();
-    control['marca'].disable();
-    control['anio'].disable();
-    control['matricula'].disable();
-    control['modalidad'].disable();
-    control['capacidad'].disable();
-    control['conRampa'].disable();
   }
 
   capitalizaCamelCase(value: string , control) {
@@ -322,10 +313,10 @@ export class AgregarChoferComponent implements OnInit {
   }
 
   guardarUsuario() {
+    this.loading = true;
     this.respuesta = 'guardando';
     const form = this.forma.value;
-    form.propietarioVehiculo = form.propietarioVehiculo ? '1':'-1';
-    form.telefono = '+52' + form.telefono;
+    form.telefono = form.telefono;
     form.fechaNacimiento = this.fecha;
 
     const filepath = `choferes/${ form.folio}`;
@@ -341,28 +332,27 @@ export class AgregarChoferComponent implements OnInit {
           this.uploadURL.subscribe(urlPath => {
             form.img = urlPath;
             this.servicio.registarChofer(form).subscribe(data => {
-             this.forma.patchValue( {
-                'folio':          'sfb',
-                'nombre':         'andres',
-                'apellidos':      'perez alonso',
-                'correo':         'andres93x1@gmail.com',
-                'telefono':       '4775673723',
-                'etiqueta':       '',
-                'genero':         '1',
-                'fechaNacimiento': '',
-                'img':             '',
-                'propietarioVehiculo': false,
-                'activo':              false,
-                'autorizado':          false,
-                'uidUserSystem':       localStorage.getItem('uid'),
-                'concesiones_ayudantes': this.concesionesArray.reset(),
-                'vehiculos_ayudantes':   this.vehiculosArray.reset()
-              });
+              this.loading = false;
              this.respuesta = JSON.stringify(data);
+             swal('Chofer registrado!', 'Continuar', 'success').then(()=>{
+              //location.reload();
+              this.finishReset.nativeElement.click();
+             })
+
+           }, err=>{
+            this.loading = false;
+             if(JSON.parse(err._body).message === 'Error creating new user:  Error: The email address is already in use by another account.'){
+              swal('Tenemos un problema', 'No es posible crear una cuenta con este correo por que ya existe en el sistema', 'error')
+             } else {
+              swal('Tenemos un problema', JSON.parse(err._body).message, 'error')
+             }
            });
           });
 
       })).subscribe();
+  }
+  public finalizeReset(): void {
+    this.resetCount += 1;
   }
 
   _pushConcesion_Vehiculos() {
@@ -401,16 +391,19 @@ export class AgregarChoferComponent implements OnInit {
   createControlVehiculo(concesion: any){
     return new FormGroup({
       'concesion': new FormControl(concesion),
-      'marca':     new FormControl(null,    Validators.required),
-      'modelo':    new FormControl(null,    Validators.required),
-      'anio':      new FormControl(null,    Validators.required),
-      'matricula': new FormControl(null,    Validators.required),
+      'marca':     new FormControl(null,  Validators.required),
+      'modelo':    new FormControl(null,  Validators.required),
+      'anio':      new FormControl(null,  Validators.required),
+      'matricula': new FormControl(null,  Validators.required),
       'capacidad': new FormControl('-1',  Validators.required),
       'modalidad': new FormControl('-1',  Validators.required),
       'conRampa':  new FormControl(false, Validators.required),
       'nombreChoferRegistro': new FormControl(null),
       'fechaRegistro': new FormControl(null),
+      'idVehiculo': new FormControl(null),
+      'choferes': new FormControl(null),
       'vincularVehiculo': new FormControl(false),
+      
     })
   }
 
