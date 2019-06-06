@@ -1,6 +1,6 @@
 <ngx-loading [show]="loading" ></ngx-loading>
 <div class="row">
-      <!-- <div class="col-md-3">
+      <div class="col-md-3">
         <div class="card animated fadeIn">
             <div class="p-20">
                 <fieldset class="scheduler-border">
@@ -11,8 +11,8 @@
                 </fieldset>
             </div>
       </div>
-    </div>  -->
-    <div class="col-md-12">
+    </div>  
+    <div class="col-md-9">
         <div class="card animated fadeIn">
             <form [formGroup]="forma" (ngSubmit)="guardarUsuario()" >
                 <aw-wizard #wizard [navBarLayout]="'large-empty-symbols'">
