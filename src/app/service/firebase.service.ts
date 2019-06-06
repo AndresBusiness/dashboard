@@ -43,6 +43,11 @@ export class FirebaseService {
     ref => ref.where('concesion', '==', concesion)).valueChanges();
   }
 
+  buscarInfoVehiculoRegistroChofer(nombre: string) {
+    return this.afs.collection('vehiculos',
+    ref => ref.where('nombreChoferRegistro', '==', nombre)).valueChanges();
+  }
+
   buscarInfoChofer(id: string) {
     return new Promise<any>((resolve, reject) => {
       this.afs.doc(`choferes/${id}`)

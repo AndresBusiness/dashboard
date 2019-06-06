@@ -1,27 +1,42 @@
 <div class="row">
     <!-- Column -->
     <div class="col-lg-4 col-xlg-3 col-md-5">
-        <div class="card">
+        <div class="card animated fadeIn"  *ngIf="user.img">
             <div class="card-body">
                 <div class="m-t-30" *ngIf="user" >
                     <div class="center-image-profile">
-                        <img [src]="user.img" class="img-circle" width="150" />
-                        <h4 class="card-title m-t-10">{{user.nombre}}</h4>
+                        <img  [src]="user.img" class="rounded-circle img-profile-chofer"  />
+                        <h4 class="card-title m-t-10">{{user.nombre}} {{user.apellidos}}</h4>
+                        <p>{{user.correo}}</p>
                     </div>
                     <hr />
                     <div class="card-body">
-                        <small class="text-muted">Correo Electrónico </small>
-                        <h6>{{user.correo}}</h6>
-                        <small class="text-muted p-t-30 db">Teléfono: </small>
-                        <h6>{{user.telefono}}</h6>
-                        <hr/>
-                        <span class="label label-success">Dueño</span><br />
-                        <small class="text-muted">Unidad <strong>{{ user.unidad }}</strong> </small><br />
-                        <small class="text-muted">Matrícula <strong>UXC-212-S</strong> </small> <br />
-                        <hr/>
-                        <span class="label label-warning">Posturero</span><br />
-                        <small class="text-muted">Unidad <strong>586</strong> </small><br />
-                        <small class="text-muted">Matrícula <strong>UXC-586-E</strong> </small>
+                        <small class="text-label">Folio: </small> <strong>{{user.folio}}</strong> <br />
+                        <small class="text-label">Teléfono: </small> <strong> {{user.telefono}} </strong> <br />
+                        <small *ngIf="user.etiqueta == '1'"  class="text-label">Etiqueta: <span class="custom-badge label label-success mt-2">DUEÑO DE PLACA</span></small>
+                        <small *ngIf="user.etiqueta == '0'"  class="text-label">Etiqueta:  <span class="custom-badge label label-warning mt-2">AYUDANTE</span></small>
+                        <span *ngIf="user.etiqueta == '1'" class="custom-badge label label-success mt-2">{{ user.concesion }}</span>
+                        <hr  *ngIf="user.concesiones_ayudantes.length > 0"/>
+                        <div *ngIf="user.concesiones_ayudantes.length > 0">
+                                <h5 class="card-title m-t-10">{{user.nombre}} {{user.apellidos}} es <br /><strong>chofer ayudante </strong> de las siguientes placas</h5>
+                                <div  class="d-flex">
+                                    <small *ngFor="let item of user.concesiones_ayudantes" class="text-label m-1">
+                                        <span class="label label-warning custom-badge">{{ item }}</span></small>
+                                </div>
+                        </div>
+                        <hr />
+                        <div class="m-1">
+                                <small *ngIf="!user.activo"  class="text-label">Conectado: <span 
+                                    class="custom-badge label label-danger">OFFLINE</span></small>
+                                <small *ngIf="user.activo"  class="text-label">Conectado: <span 
+                                    class="custom-badge label label-success">ONLINE</span></small>
+                        </div>
+                        <div class="m-1">
+                                <small *ngIf="!user.autorizado"  class="text-label">Habilitado:   <span 
+                                    class="custom-badge label label-danger">OFFLINE</span></small>
+                                <small *ngIf="user.autorizado"  class="text-label">Habilitado:   <span 
+                                    class="custom-badge label label-success">ONLINE</span></small>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -39,108 +54,151 @@
             </ul>
             <!-- Tab panes -->
             <div class="tab-content">
-                <div class="tab-pane active" id="comentarios-calificaciones" role="tabpanel">
-                    <div class="card-body">
-                        <h4 class="font-medium m-t-30">Nivel de satisfacción en la calidad de su servicio</h4>
-                        <hr>
-
-                        <div class="container-progress">
-                            <font class="icon-margin text-muted display-5"><i style="color:#27AE60" class="mdi mdi-emoticon-cool"></i></font>
-                            <div class="container-calificacion">
-                              <h5>Excelente</h5>
-                              <p class="p-nomargin">2,304 reviews <span class="pull-right">65%</span></p>
-                              <div class="progress">
-                                  <div class="progress-bar excelente" role="progressbar" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100" style="width:65%; height:4px;"> <span class="sr-only">65% Complete</span> </div>
-                              </div>
-                            </div>
-                          </div>
-                  
-                        <div class="container-progress">
-                          <font class="icon-margin text-muted display-5"><i style="color:#F1C40F" class="mdi mdi-emoticon"></i></font>
-                          <div class="container-calificacion">
-                            <h5>Muy bueno</h5>
-                            <p class="p-nomargin">2,304 reviews <span class="pull-right">65%</span></p>
-                            <div class="progress">
-                                <div class="progress-bar muybueno" role="progressbar" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100" style="width:65%; height:4px;"> <span class="sr-only">65% Complete</span> </div>
-                            </div>
-                          </div>
-                        </div>
-                  
-                        <div class="container-progress">
-                          <font class="icon-margin text-muted display-5"><i style="color:#398bf7" class="mdi mdi-emoticon-happy"></i></font>
-                          <div class="container-calificacion">
-                            <h5>Normal</h5>
-                            <p class="p-nomargin">1,004 reviews <span class="pull-right">20%</span></p>
-                            <div class="progress">
-                                <div class="progress-bar normal" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width:20%; height:4px;"> <span class="sr-only">20% Complete</span> </div>
-                            </div>
-                          </div>
-                        </div>
-                  
-                        <div class="container-progress">
-                          <font class="icon-margin text-muted display-5"><i style="color:#DC7633" class="mdi mdi-emoticon-neutral"></i></font>
-                          <div class="container-calificacion">
-                            <h5>Malo</h5>
-                            <p class="p-nomargin">504 reviews <span class="pull-right">10%</span></p>
-                            <div class="progress">
-                                <div class="progress-bar malo" role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100" style="width:10%; height:4px;"> <span class="sr-only">10% Complete</span> </div>
-                            </div>
-                          </div>
-                        </div>
-                  
-                        <div class="container-progress">
-                          <font class="icon-margin text-muted display-5"><i style="color:#ef5350" class="mdi mdi-emoticon-sad"></i></font>
-                          <div class="container-calificacion">
-                            <h5>Pésimo</h5>
-                            <p class="p-nomargin">204 reviews <span class="pull-right">5%</span></p>
-                            <div class="progress">
-                                <div class="progress-bar pesimo" role="progressbar"aria-valuenow="5" aria-valuemin="0" aria-valuemax="100" style="width:5%; height:4px;"> <span class="sr-only">5% Complete</span> </div>
-                            </div>
-                          </div>
-                        </div>
-                  
-
-                        <h4 class="font-medium m-t-30">Comentarios</h4>
-                        <hr>
-                        <h4 *ngIf="listComentarios.length == 0" >Este Chofer aún no tiene ningún comentario</h4>
-
-                        <div class="profiletimeline" *ngIf="listComentarios.length !== 0" >
-                            <div  class="sl-item" *ngFor="let item of listComentarios" >
-                                <div class="sl-left"> <img [src]="item.imgPasajero" alt="user" class="img-circle" /> </div>
-                                <div class="sl-right">
-                                    <div><a href="#" class="link nombre-pasajero">{{ item.nombrePasajero }}</a> <span class="sl-date fecha-comentario">{{item.fecha}}</span>
-                                        <div class="like-comm">
-                                                <font class="icon-margin text-muted display-6 comentario">
-                                                    <i [ngStyle]="{'color': item.emoji.class}"  [class]="item.emoji.icon"></i>
-                                                </font> {{ item.comentario}} </div>
+                <div class="tab-pane active m-b-20" id="comentarios-calificaciones" role="tabpanel">
+                    <div class="col-12 d-flex">
+                        <div class="col-6">
+                            <h4 class="font-medium m-t-30">Nivel de satisfacción en la calidad de su servicio</h4>
+                            <hr>
+    
+                            <div class="container-progress">
+                                <font class="icon-margin text-muted display-5"><i style="color:#27AE60" class="mdi mdi-emoticon-cool"></i></font>
+                                <div class="container-calificacion">
+                                    <h5>Excelente</h5>
+                                    <p class="p-nomargin">2,304 reviews <span class="pull-right">65%</span></p>
+                                    <div class="progress">
+                                        <div class="progress-bar excelente" role="progressbar" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100" style="width:65%; height:4px;"> <span class="sr-only">65% Complete</span> </div>
                                     </div>
-                                
                                 </div>
-                                <hr>
                             </div>
-
+                        
+                            <div class="container-progress">
+                                <font class="icon-margin text-muted display-5"><i style="color:#F1C40F" class="mdi mdi-emoticon"></i></font>
+                                <div class="container-calificacion">
+                                <h5>Muy bueno</h5>
+                                <p class="p-nomargin">2,304 reviews <span class="pull-right">65%</span></p>
+                                <div class="progress">
+                                    <div class="progress-bar muybueno" role="progressbar" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100" style="width:65%; height:4px;"> <span class="sr-only">65% Complete</span> </div>
+                                </div>
+                                </div>
+                            </div>
+                        
+                            <div class="container-progress">
+                                <font class="icon-margin text-muted display-5"><i style="color:#398bf7" class="mdi mdi-emoticon-happy"></i></font>
+                                <div class="container-calificacion">
+                                <h5>Normal</h5>
+                                <p class="p-nomargin">1,004 reviews <span class="pull-right">20%</span></p>
+                                <div class="progress">
+                                    <div class="progress-bar normal" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width:20%; height:4px;"> <span class="sr-only">20% Complete</span> </div>
+                                </div>
+                                </div>
+                            </div>
+                        
+                            <div class="container-progress">
+                                <font class="icon-margin text-muted display-5"><i style="color:#DC7633" class="mdi mdi-emoticon-neutral"></i></font>
+                                <div class="container-calificacion">
+                                <h5>Malo</h5>
+                                <p class="p-nomargin">504 reviews <span class="pull-right">10%</span></p>
+                                <div class="progress">
+                                    <div class="progress-bar malo" role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100" style="width:10%; height:4px;"> <span class="sr-only">10% Complete</span> </div>
+                                </div>
+                                </div>
+                            </div>
+                        
+                            <div class="container-progress">
+                                <font class="icon-margin text-muted display-5"><i style="color:#ef5350" class="mdi mdi-emoticon-sad"></i></font>
+                                <div class="container-calificacion">
+                                <h5>Pésimo</h5>
+                                <p class="p-nomargin">204 reviews <span class="pull-right">5%</span></p>
+                                <div class="progress">
+                                    <div class="progress-bar pesimo" role="progressbar"aria-valuenow="5" aria-valuemin="0" aria-valuemax="100" style="width:5%; height:4px;"> <span class="sr-only">5% Complete</span> </div>
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                                <h4 class="font-medium m-t-30">Comentarios</h4>
+                                <hr>
+                                <h4 *ngIf="listComentarios.length == 0" >Este Chofer aún no tiene ningún comentario</h4>
+            
+                                <div class="profiletimeline" *ngIf="listComentarios.length !== 0" >
+                                    <div  class="sl-item" *ngFor="let item of listComentarios" >
+                                        <div class="sl-left"> <img [src]="item.imgPasajero" alt="user" class="rounded-circle img-profile-chofer" /> </div>
+                                        <div class="sl-right">
+                                            <div><a href="#" class="link nombre-pasajero">{{ item.nombrePasajero }}</a> <span class="sl-date fecha-comentario">{{item.fecha}}</span>
+                                                <div class="like-comm">
+                                                        <font class="icon-margin text-muted display-6 comentario">
+                                                            <i [ngStyle]="{'color': item.emoji.class}"  [class]="item.emoji.icon"></i>
+                                                        </font> {{ item.comentario}} </div>
+                                            </div>
+                                        
+                                        </div>
+                                        <hr>
+                                    </div>
+                                </div>
                         </div>
                     </div>
+                   
                 </div>
-                <div class="tab-pane" id="historial" role="tabpanel">
-                    <div class="card-body">
-                        historial
+                <div class="tab-pane m-b-20" id="historial" role="tabpanel">
+                    <div class="col-12 d-flex">
+                            <div class="col-6">
+                                    <h4 class="font-medium  m-t-30">Porcentaje de servicios recibidos</h4>
+                                    <hr>
+                                    <div>
+                                        <div style="display: block">
+                                        <canvas baseChart
+                                            [data]="doughnutChartData"
+                                            [labels]="doughnutChartLabels"
+                                            [chartType]="doughnutChartType">
+                                        </canvas>
+                                        </div>
+                                    </div>
+                            </div>
+                            <div>
+                                <h4 class="font-medium m-t-30">Historial de Servicios</h4>
+                                <hr>
+                                <h4>Este Chofer aún no ha comenzado a dar servicios</h4>
+                            </div>
 
                     </div>
                 </div>
-                <div class="tab-pane" id="vehiculos" role="tabpanel">
+                <div class="tab-pane m-b-20" id="vehiculos" role="tabpanel">
                     <div class="card-body">
-                      <div class="sl-right">
-                          <div><a href="#" class="link">John Doe</a> <span class="sl-date">5 minutes ago</span>
-                              <p>assign a new task <a href="#"> Design weblayout</a></p>
-                              <div class="row">
-                                  <div class="col-lg-3 col-md-6 m-b-20"><img src="https://i2.wp.com/noticaribe.com.mx/wp/wp-content/uploads/2018/06/cozumel-taxi-tours-e1529705350585.jpg?resize=900%2C602" class="img-responsive radius" /></div>
-                                  <div class="col-lg-3 col-md-6 m-b-20"><img src="https://32uvct2xtube5ssox1li70zh-wpengine.netdna-ssl.com/wp-content/uploads/2018/09/WhatsApp-Image-2018-09-25-at-11.22.06.jpeg" class="img-responsive radius" /></div>
-                                  <div class="col-lg-3 col-md-6 m-b-20"><img src="http://www.toursbytaxicozumel.com/images/assets/staff/staff-01.jpg" class="img-responsive radius" /></div>
-                                  <div class="col-lg-3 col-md-6 m-b-20"><img src="https://noticiasqroo.files.wordpress.com/2016/05/cozumel1.jpg" class="img-responsive radius" /></div>
-                              </div>
-                          </div>
-                      </div>
+                        <h4>Vehículos registrados</h4>
+                        <div *ngIf="vehiculosRegistrados.length > 0">
+                            <div *ngFor="let item of vehiculosRegistrados" >
+
+                               <fieldset class="scheduler-border">
+                                    <legend class="scheduler-border">{{item.vehiculo.marca}}, {{item.vehiculo.modelo}}, {{item.vehiculo.anio}}</legend>
+                                        <div>
+                                            <small  class="text-label">Concesión:</small>
+                                            <label *ngIf="item.vehiculo.concesion !== '-1'"  for="concesion">{{item.vehiculo.concesion}}</label>
+                                            <label *ngIf="item.vehiculo.concesion === '-1'"  for="concesion">Sin concesión</label>
+                                        </div>
+                                        <div>
+                                            <small  class="text-label">Modalidad:</small>
+                                            <label *ngIf="item.vehiculo.modalidad === '1'"  for="modalidad">Fijo</label>
+                                            <label *ngIf="item.vehiculo.modalidad === '0'"  for="modalidad">Posturero</label>
+                                        </div>
+                                        <div>
+                                            <small  class="text-label">Con Rampa:</small>
+                                            <label *ngIf="item.vehiculo.conRampa"  for="conRampa">SI</label>
+                                            <label *ngIf="!item.vehiculo.conRampa"  for="conRampa">NO</label>
+                                        </div>
+                                        <small  class="text-label">Capacidad:</small>
+                                        <label>Hasta para {{ item.vehiculo.capacidad}} personas</label><br>
+                                        <small  class="text-label">Fecha de Registro:</small>
+                                        <label>{{ item.vehiculo.fechaRegistro}}</label><br>
+                                        <small  class="text-label">Registrado por:</small>
+                                        <label>{{ item.vehiculo.nombreChoferRegistro}}</label><br>
+                                        <small  class="text-label">Propietario del vehículo :</small>
+                                        <label>{{ item.chofer.nombre }} {{ item.chofer.apellidos}}</label><br>
+                                </fieldset>
+                            </div>
+                        </div>
+                        <div *ngIf="vehiculosRegistrados.length === 0">No ha registrado ningún vehículo</div>
+
+                     
                     </div>
                 </div>
             </div>

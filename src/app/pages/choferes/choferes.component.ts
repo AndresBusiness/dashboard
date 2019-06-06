@@ -62,12 +62,12 @@ export class ChoferesComponent implements OnInit {
           filter: false
         },
         activo: {
-          title: 'Estatus',
+          title: 'Conectado',
           filter: false,
           type: 'html',
           valuePrepareFunction: (activo: string) => {
-            const activado = '<span class="label label-success">Activado</span>';
-            const desactivado = '<span class="label label-danger">Desactivado</span>';
+            const activado = '<span class="custom-badge label label-success">ONLINE</span>';
+            const desactivado = '<span class="custom-badge label label-danger">OFFLINE</span>';
             return activo ? activado : desactivado;
         },
       }

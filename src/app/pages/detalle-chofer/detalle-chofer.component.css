@@ -45,3 +45,16 @@
    vertical-align: middle;
    
  }
+
+.img-profile-chofer {
+  margin: 10px;
+  width: 150px;
+  height: 150px;
+}
+.bar-progress{
+  background:#b72b28;
+}
+.text-label {
+  color: #4B4A4A;
+  font-size: 17px;
+}

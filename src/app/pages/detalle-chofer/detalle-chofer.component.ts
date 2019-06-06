@@ -1,6 +1,8 @@
 import { FirebaseService } from './../../service/firebase.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { ChartType } from 'chart.js';
+
 
 @Component({
   selector: 'app-detalle-chofer',
@@ -9,16 +11,30 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class DetalleChoferComponent implements OnInit {
 
+  public doughnutChartLabels: any[] = ['Aceptados', 'Rechazados', 'Perdidos'];
+  public doughnutChartData: any = [350, 450, 100];
+  public doughnutChartType: ChartType = 'doughnut';
+
   user = {
-    'uid': '',
-    'correo': '',
-    'nombre': '',
-    'img': '',
-    'telefono': '',
-    'registrado': '',
-    'choferActivo': '',
-    'unidad': null,
+    "activo": false,
+    "apellidos": "",
+    "autorizado": false,
+    "concesion": "",
+    "concesiones_ayudantes": [],
+    "correo": "",
+    "etiqueta": "",
+    "fechaNacimiento": "",
+    "fechaRegistro": "",
+    "folio": "",
+    "genero": "",
+    "img": "",
+    "nombre": "",
+    "propietarioVehiculo": "",
+    "telefono": "",
+    "uid": "",
+    "uidUserSystem": "",
   };
+  vehiculosRegistrados: any [] = [];
 
   imgDefault: string;
   listComentarios: any[] = [];
@@ -46,15 +62,23 @@ export class DetalleChoferComponent implements OnInit {
   obtenerInfoChofer(uid: string) {
     this.servicioFirebase.buscarInfoChofer(uid)
         .then(data => {
-          this.user.correo       = data.correo;
-          this.user.nombre       = data.nombre;
-          this.user.img          = data.img;
-          this.user.telefono     = data.telefono;
-          this.user.registrado   = data.fechaRegistro;
-          this.user.choferActivo = data.activo;
-          this.user.unidad       = data.concesion;
-          this.servicioFirebase.buscarInfoUnidad(this.user.correo)
-          .subscribe((data: any) => {
+          this.user = data;
+          this.servicioFirebase.buscarInfoVehiculoRegistroChofer(this.user.nombre + ' ' + this.user.apellidos)
+          .subscribe((data: any)=>{
+            
+            for (let index = 0; index < data.length; index++) {
+              const element = data[index];
+              let vehiculares = {
+                'vehiculo': element,
+                'chofer': null,
+              }
+              this.servicioFirebase.buscarInfoChofer(element.propietario)
+              .then(chofer=>{
+                vehiculares.chofer = chofer;
+                this.vehiculosRegistrados.push(vehiculares)
+                console.log(vehiculares);
+              });
+            }
           })
         });
 

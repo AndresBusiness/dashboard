@@ -34,7 +34,7 @@
         "ajv": "^6.0.0",
         "angular-archwizard": "^3.0.0",
         "angularfire2": "^5.1.1",
-        "chart.js": "^2.7.3",
+        "chart.js": "^2.8.0",
         "core-js": "^2.5.4",
         "firebase": "^5.8.2",
         "ng-loading-bar": "0.0.10",
