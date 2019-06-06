@@ -20,6 +20,7 @@ export class AgregarChoferComponent implements OnInit {
   public concesionesArray: FormArray;
   public vehiculosArray: FormArray;
   public choferesArray: FormArray;
+  horalocal: string =  moment().locale('es').format('MMMM Do YYYY, h:mm:ss a');
 
   public respuesta: any;
   fecha:string;
@@ -79,11 +80,11 @@ export class AgregarChoferComponent implements OnInit {
 
 
     this.forma = new FormGroup({
-      'folio':           new FormControl('sfb', Validators.required),
-      'nombre':          new FormControl('andres', Validators.required),
-      'apellidos':       new FormControl('perez alonso', Validators.required),
-      'correo':          new FormControl('andres93x1@gmail.com', [Validators.required, Validators.pattern(this.expRefEmail)]),
-      'telefono':        new FormControl('4775673723', [Validators.required, Validators.minLength(10)]),
+      'folio':           new FormControl('', Validators.required),
+      'nombre':          new FormControl('', Validators.required),
+      'apellidos':       new FormControl('', Validators.required),
+      'correo':          new FormControl('', [Validators.required, Validators.pattern(this.expRefEmail)]),
+      'telefono':        new FormControl('', [Validators.required, Validators.minLength(10)]),
       'etiqueta':        new FormControl('', Validators.required),
       'genero':          new FormControl('1', Validators.required),
       'fechaNacimiento': new FormControl('', [Validators.required, this.validarFecha]),
@@ -243,7 +244,7 @@ export class AgregarChoferComponent implements OnInit {
                this._asignarDatosVehiculo(control, vehiculo[0], chofer.nombre + ' ' + chofer.apellidos);
             });
         }
-        if (vehiculo[0].choferes) {
+        else if (vehiculo[0].choferes) {
             this.firebaseService.buscarInfoChofer(vehiculo[0].choferes[0])
             .then(chofer => {
               this._asignarDatosVehiculo(control, vehiculo[0], chofer.nombre + ' ' + chofer.apellidos);
@@ -267,6 +268,7 @@ export class AgregarChoferComponent implements OnInit {
   }
 
   _asignarDatosVehiculo(control: any, datos: any, nombreChofer:string){
+    console.log(datos);
     control['modelo'].setValue(datos.modelo);
     control['marca'].setValue(datos.marca);
     control['anio'].setValue(datos.anio);
@@ -278,6 +280,7 @@ export class AgregarChoferComponent implements OnInit {
     control['idVehiculo'].setValue(datos.idVehiculo);
     control['choferes'].setValue(datos.choferes);
     control['nombreChoferRegistro'].setValue(nombreChofer);
+    console.log(control)
   }
 
   capitalizaCamelCase(value: string , control) {
@@ -335,8 +338,52 @@ export class AgregarChoferComponent implements OnInit {
               this.loading = false;
              this.respuesta = JSON.stringify(data);
              swal('Chofer registrado!', 'Continuar', 'success').then(()=>{
-              //location.reload();
+                this.counttimeUploading = 0;
+               if(this.forma.value.concesiones_ayudantes){
+                   for (let index = 0; index < this.forma.value.concesiones_ayudantes.length; index++) {
+                     this._removeConcesion_Vehiculos({indice: index});
+                   }
+                 }
+               
+
+               if(this.forma.value.concesion_socio){
+                  this.forma.removeControl('concesion_socio');
+                }
+               if(this.forma.value.vehiculo_propio){
+                 this.forma.removeControl('vehiculo_propio');
+               }
+
+               this.VALIDATIONS_STEP1 = {
+                'nombre':   false,
+                'apellidos':   false,
+                'correo':   false,
+                'telefono':   false,
+                'fechaNacimiento':   false,
+                'img':   false,
+              };
+            
+              this.VALIDATIONS_STEP2 = {
+                'folio':   false,
+                'etiqueta':   false,
+                'concesion':   false,
+              };
+              this.imageSrc = null;
+
+              this.forma.controls['folio'].setValue('');           
+              this.forma.controls['nombre'].setValue('');          
+              this.forma.controls['apellidos'].setValue('');       
+              this.forma.controls['correo'].setValue('');          
+              this.forma.controls['telefono'].setValue('');        
+              this.forma.controls['etiqueta'].setValue('');        
+              this.forma.controls['genero'].setValue('1');          
+              this.forma.controls['fechaNacimiento'].setValue(''); 
+              this.forma.controls['img'].setValue('');             
+              this.forma.controls['propietarioVehiculo'].setValue(false);
+              this.forma.controls['activo'].setValue(false);
+              this.forma.controls['autorizado'].setValue(false);
+              this.forma.controls['uidUserSystem'].setValue(localStorage.getItem('uid'));     
               this.finishReset.nativeElement.click();
+              this.respuesta = '';
              })
 
            }, err=>{
@@ -373,7 +420,6 @@ export class AgregarChoferComponent implements OnInit {
       this.error = 'Solo se puede asociar a un máximo de 3 concesiones';
     }
   }
-
   _removeConcesion_Vehiculos(event: any) {
     this.concesionesArray.removeAt(event.indice);
     this.vehiculosArray.removeAt(event.indice);

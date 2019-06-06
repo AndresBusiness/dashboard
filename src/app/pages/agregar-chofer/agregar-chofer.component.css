@@ -35,7 +35,7 @@ li.done.navigable{
   height: 150px;
 }
 .bar-progress{
-  margin:20px;
+  background:#b72b28;
 }
 .position-absolute{
   position: absolute;

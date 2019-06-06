@@ -1,17 +1,17 @@
 <ngx-loading [show]="loading" ></ngx-loading>
 <div class="row">
-     <!-- <div class="col-md-3">
+      <!-- <div class="col-md-3">
         <div class="card animated fadeIn">
             <div class="p-20">
                 <fieldset class="scheduler-border">
-                    <legend class="scheduler-border">Formulariio</legend>
+                    <legend class="scheduler-border">{{horalocal}}</legend>
                     <pre>
                       {{ forma.value | json }}
                     </pre>
                 </fieldset>
             </div>
       </div>
-    </div> -->
+    </div>  -->
     <div class="col-md-12">
         <div class="card animated fadeIn">
             <form [formGroup]="forma" (ngSubmit)="guardarUsuario()" >
@@ -415,9 +415,9 @@
                 </aw-wizard>
                 </form>
             <div class="p-20">
-
               <div class="progress-bar bar-progress" role="progressbar"  aria-valuemin="0" [attr.ariaValuenow]="counttimeUploading"aria-valuemax="100"
-              [style.width]="counttimeUploading + '%'"> <span class="sr-only">65% Complete</span> </div>
+              [style.width]="counttimeUploading + '%'"> </div>
+              
             </div>
         </div>
     </div>
