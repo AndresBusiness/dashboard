@@ -1,6 +1,6 @@
 <ngx-loading [show]="loading" ></ngx-loading>
 <div class="row">
-      <!-- <div class="col-md-3">
+  <div class="col-md-3">
         <div class="card animated fadeIn">
             <div class="p-20">
                 <fieldset class="scheduler-border">
@@ -11,8 +11,8 @@
                 </fieldset>
             </div>
       </div>
-    </div>   -->
-    <div class="col-md-12">
+    </div>  
+    <div class="col-md-9">
         <div class="card animated fadeIn">
             <form [formGroup]="forma" (ngSubmit)="guardarUsuario()" >
                 <aw-wizard #wizard [navBarLayout]="'large-empty-symbols'">
@@ -111,15 +111,21 @@
                         <div class="col-6">
                             <h2 class="p-10" >REGISTRO DE CONCESIONES</h2>
                         </div>
-                        <div class="col-6">
-                            <button type="button" class="btn btn-block btn-info waves-effect waves-light"
-                            (click)="_pushConcesion_Vehiculos()">
-                            <i class="fa fa-car"></i>
-                            Agregar concesión de ayudante
+                        <div class="col-3">
+                            <button type="button" class="btn btn-block btn-outline-info waves-effect waves-light"
+                            (click)="_pushConcesion_Vehiculos('1')">
+                            <i class="fa fab-plus"></i>
+                            Trabajar concesión
                           </button>
                         </div>
+                        <div class="col-3">
+                          <button type="button" class="btn btn-block btn-outline-warning waves-effect waves-light"
+                          (click)="_pushVehiculosPosturero('***', '0')">
+                          <i class="fa fa-car"></i>
+                           Agregar posturero
+                        </button>
                       </div>
-
+                      </div>
                       <div class="col-12 d-flex" >
                         <div class="col-6">
                             <div class="container-form">
@@ -163,7 +169,7 @@
                                       *ngIf="forma.controls['concesion_socio'].errors?.maxLength">Máximo 3 digitos*</p>
                                 </div>
                             </div>
-                            <div class="container-form" *ngIf="forma.value.concesiones_ayudantes" >
+                            <div class="container-form" *ngIf="forma.value.placas_fijas" >
                                 <div class="item item-form-3">
                                     <input type="checkbox" id="propietario" formControlName="propietarioVehiculo"/>
                                     <label for="propietario">Soy propietario de un vehículo </label>
@@ -173,7 +179,7 @@
                         <div class="col-6">
                             <div class="item">
                                 <div>
-                                    <div *ngFor="let item of forma.controls['concesiones_ayudantes']['controls']; let i = index;"  >
+                                    <div *ngFor="let item of forma.controls['placas_fijas']['controls']; let i = index;"  >
                                         <app-formulario-concesiones
                                         [forma]="forma" [i]="i"
                                         (borrar)="_removeConcesion_Vehiculos($event)"
@@ -184,6 +190,35 @@
                                     <p>  {{ error }}</p>
                                 </div>
                             </div>
+                        </div>
+                      </div>
+
+                      <div class="col-12 d-flex">
+                        <div *ngIf="this.forma.value.vehiculos_fijos.length > 0 
+                          || this.forma.value.vehiculos_postureros.length > 0
+                          || this.forma.value.propietarioVehiculo">
+                              <h5 class="card-title m-t-10">Vehículos: </h5>
+                              <div  class="d-flex">
+                                  <small *ngFor="let item of this.forma.value.vehiculos_fijos; let i = index;"  class="text-label m-1">
+                                      <span class="label label-info custom-badge">{{ item.concesion }}
+                                         <span aria-hidden="true" class="close-badge" (click)="_removeConcesion_Vehiculos(i)">&times;</span>
+                                      </span>
+                                  </small>
+                              </div>
+                              <div  class="d-flex">
+                                  <small *ngFor="let item of this.forma.value.vehiculos_postureros; let i = index;"  class="text-label m-1">
+                                      <span class="label label-warning custom-badge">Posturero
+                                          <span aria-hidden="true" class="close-badge" (click)="_removeVehiculosPostureros(i)">&times;</span>
+                                       </span>
+                                  </small>
+                              </div>
+                              <div class="d-flex" *ngIf="this.forma.value.propietarioVehiculo" >
+                                  <small class="text-label m-1">
+                                      <span class="label label-success custom-badge">Vehículo propio
+                                          <span aria-hidden="true" class="close-badge">&times;</span>
+                                       </span>
+                                  </small>
+                              </div>
                         </div>
                       </div>
 
@@ -202,7 +237,10 @@
                       <ng-template awWizardStepSymbol><i class="fas fa-car"></i></ng-template>
                       <div *ngIf="tieneVehiculo" class="m-3">
                           <fieldset class="scheduler-border" formGroupName="vehiculo_propio">
-                              <legend class="scheduler-border" *ngIf="forma.value.etiqueta === '1'" > Concesión de Socio: <strong>{{ forma.value.vehiculo_propio.concesion }}</strong> <span class="text-danger" > *</span></legend>
+                              <legend *ngIf="forma.value.etiqueta === '1'" class="scheduler-border"> Vehículo  
+                                  <span class="label label-info custom-badge"> Fijo  <strong>{{ forma.value.vehiculo_propio.concesion }}</strong></span>
+                              </legend>
+
                               <legend class="scheduler-border" *ngIf="forma.value.etiqueta === '0'" > Vehículo de Ayudante, sin concesión</legend>
                               <h3 *ngIf="forma.value.vehiculo_propio.nombreChoferRegistro" >El Chofer <strong>{{ forma.value.vehiculo_propio.nombreChoferRegistro }}</strong>  ya ha registrado un vehículo con esta concesión en {{ forma.value.vehiculo_propio.fechaRegistro}}</h3>
                               <div class="col-12 d-flex mb-4" >
@@ -275,13 +313,20 @@
                                 </div>
                           </fieldset>
                       </div>
-                     <div class="form-group p-10" *ngIf="forma.value.vehiculos_ayudantes" >
-                        <div *ngIf="forma.value.vehiculos_ayudantes.length > 0"  >
-                            <div *ngFor="let item of forma.controls['vehiculos_ayudantes']['controls']; let i = index;"  >
+                     <div class="form-group p-10">
+                        <div *ngIf="forma.value.vehiculos_fijos.length > 0"  >
+                            <div *ngFor="let item of forma.controls['vehiculos_fijos']['controls']; let i = index;"  >
                               <app-formulario-vehiculos
-                              [forma]="forma"  [i]="i"></app-formulario-vehiculos>
+                              [forma]="forma" type="vehiculos_fijos" [i]="i"></app-formulario-vehiculos>
                             </div>
                         </div>
+                        <div *ngIf="forma.value.vehiculos_postureros.length > 0"  >
+                            <div *ngFor="let item of forma.controls['vehiculos_postureros']['controls']; let i = index;"  >
+                              <app-formulario-vehiculos
+                              [forma]="forma" type="vehiculos_postureros"  [i]="i"></app-formulario-vehiculos>
+                            </div>
+                        </div>
+
 
                         <div class="btn-wizard-btn-next-step">
                           <button type="button" class="btn btn-warning btn-regresar"
@@ -330,8 +375,8 @@
                                             <div *ngIf="forma.value.concesion_socio">
                                               <label for="concesion_socio">Dueño de la concesión: </label> {{forma.value.concesion_socio}}
                                             </div>
-                                            <div *ngFor="let item of forma.controls['concesiones_ayudantes']['controls']; let i = index;" >
-                                              <label for="concesion_ayudantes">Ayudante de la concesión: {{ forma.value.vehiculos_ayudantes[i].concesion }}</label>
+                                            <div *ngFor="let item of forma.controls['placas_fijas']['controls']; let i = index;" >
+                                              <label for="concesion_ayudantes">Ayudante de la concesión: {{ forma.value.vehiculos_fijos[i].concesion }}</label>
                                             </div>
                                             <div>
                                               <label for="propietarioVehiculo"
@@ -342,7 +387,7 @@
                                     </div>
                                 </div>
                               </div>
-                              <div *ngIf="forma.controls['vehiculos_ayudantes'] || tieneVehiculo" >
+                              <div *ngIf="forma.controls['vehiculos_fijos'] || tieneVehiculo" >
                                 <fieldset class="scheduler-border d-flex" *ngIf="tieneVehiculo" >
                                     <legend class="scheduler-border">Vehículo Propio</legend>
                                   <div class="m-4">
@@ -371,24 +416,24 @@
                                   </div>
                                 </fieldset>
 
-                                <fieldset class="scheduler-border" *ngIf="forma.controls['vehiculos_ayudantes']" >
+                                <fieldset class="scheduler-border" *ngIf="forma.controls['vehiculos_fijos']" >
                                   <legend class="scheduler-border">Vehículos de otros socios con placa</legend>
                                   <div class="d-flex">
-                                      <div *ngFor="let item of forma.controls['vehiculos_ayudantes']['controls']; let i = index;" class="m-4">
-                                          <div><label for="vehiculos_ayudantes">Ayudante de la concesión: {{ forma.value.vehiculos_ayudantes[i].concesion }}</label></div>
-                                          <div><label for="auto"> {{forma.value.vehiculos_ayudantes[i].marca}}, {{forma.value.vehiculos_ayudantes[i].modelo}}, {{forma.value.vehiculos_ayudantes[i].anio}}</label></div>
-                                          <div><label for="matricula">Matrícula: </label> {{forma.value.vehiculos_ayudantes[i].matricula}}</div>
-                                          <div><label for="capacidad">Capacidad: </label> Hasta {{forma.value.vehiculos_ayudantes[i].capacidad}} personas</div>
-                                          <div *ngIf="forma.value.vehiculos_ayudantes[i].modalidad === '1'">
+                                      <div *ngFor="let item of forma.controls['vehiculos_fijos']['controls']; let i = index;" class="m-4">
+                                          <div><label for="vehiculos_fijos">Ayudante de la concesión: {{ forma.value.vehiculos_fijos[i].concesion }}</label></div>
+                                          <div><label for="auto"> {{forma.value.vehiculos_fijos[i].marca}}, {{forma.value.vehiculos_fijos[i].modelo}}, {{forma.value.vehiculos_fijos[i].anio}}</label></div>
+                                          <div><label for="matricula">Matrícula: </label> {{forma.value.vehiculos_fijos[i].matricula}}</div>
+                                          <div><label for="capacidad">Capacidad: </label> Hasta {{forma.value.vehiculos_fijos[i].capacidad}} personas</div>
+                                          <div *ngIf="forma.value.vehiculos_fijos[i].modalidad === '1'">
                                             <label for="modalidad">Modalidad: Fijo</label>
                                           </div>
-                                          <div *ngIf="forma.value.vehiculos_ayudantes[i].modalidad === '0'">
+                                          <div *ngIf="forma.value.vehiculos_fijos[i].modalidad === '0'">
                                             <label for="modalidad">Modalidad: Posturero</label>
                                           </div>
-                                          <div *ngIf="forma.value.vehiculos_ayudantes[i].conRampa">
+                                          <div *ngIf="forma.value.vehiculos_fijos[i].conRampa">
                                             <label for="conRampa">Con Rampa: Si </label>
                                           </div>
-                                          <div *ngIf="!forma.value.vehiculos_ayudantes[i].conRampa">
+                                          <div *ngIf="!forma.value.vehiculos_fijos[i].conRampa">
                                             <label for="conRampa">Con Rampa: No</label>
                                           </div>
 

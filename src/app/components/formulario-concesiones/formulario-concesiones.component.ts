@@ -26,12 +26,12 @@ export class FormularioConcesionesComponent implements OnInit {
   }
 
   _observarControles(){
-    const arrayControl = this.forma.get('concesiones_ayudantes') as FormArray;
+    const arrayControl = this.forma.get('placas_fijas') as FormArray;
     for (let index = 0; index < arrayControl.length; index++) {
       const element = arrayControl.at(index);
       this.observablePrimerPlano =  element.valueChanges.subscribe(data=>{
-        if(this.forma.value.vehiculos_ayudantes[index] && data.placa !== '***'){
-          this.forma.controls['vehiculos_ayudantes']['controls'][index]['controls']['concesion'].setValue(data.placa);
+        if(this.forma.value.vehiculos_fijos[index] && data.placa !== '***'){
+          this.forma.controls['vehiculos_fijos']['controls'][index]['controls']['concesion'].setValue(data.placa);
         }
       });
     }

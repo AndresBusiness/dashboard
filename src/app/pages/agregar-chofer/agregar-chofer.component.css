@@ -46,3 +46,7 @@ li.done.navigable{
  font-weight: 600;
 }
 
+.close-badge{
+    font-size: 25px;
+    cursor: pointer;
+}

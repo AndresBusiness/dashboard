@@ -17,8 +17,9 @@ import { Router } from '@angular/router';
 export class AgregarChoferComponent implements OnInit {
 
   public forma:FormGroup;
-  public concesionesArray: FormArray;
-  public vehiculosArray: FormArray;
+  public placas_fijasArray: FormArray;
+  public vehiculos_fijosArray: FormArray;
+  public vehiculos_posturerosArray: FormArray;
   public choferesArray: FormArray;
   horalocal: string =  moment().locale('es').format('MMMM Do YYYY, h:mm:ss a');
 
@@ -75,8 +76,9 @@ export class AgregarChoferComponent implements OnInit {
 
     const uid = localStorage.getItem('uid');
 
-    this.concesionesArray = this.fb.array([]);
-    this.vehiculosArray = this.fb.array([]);
+    this.placas_fijasArray = this.fb.array([]);
+    this.vehiculos_fijosArray = this.fb.array([]);
+    this.vehiculos_posturerosArray = this.fb.array([]);
 
 
     this.forma = new FormGroup({
@@ -93,8 +95,9 @@ export class AgregarChoferComponent implements OnInit {
       'activo':               new FormControl(false, Validators.required),
       'autorizado':           new FormControl(false, Validators.required),
       'uidUserSystem':        new FormControl(uid, Validators.required),
-      'concesiones_ayudantes': this.concesionesArray,
-      'vehiculos_ayudantes':   this.vehiculosArray
+      'placas_fijas':         this.placas_fijasArray,
+      'vehiculos_fijos':      this.vehiculos_fijosArray,
+      'vehiculos_postureros': this.vehiculos_posturerosArray
     });
 
     this.forma.controls['etiqueta'].valueChanges
@@ -125,7 +128,7 @@ export class AgregarChoferComponent implements OnInit {
         if (this.forma.value.concesion_socio) {
           revicion_Concesion = this.forma.value.concesion_socio;
         }
-        this.forma.addControl('vehiculo_propio',this.createControlVehiculo(revicion_Concesion));
+        this.forma.addControl('vehiculo_propio',this.createControlVehiculo(revicion_Concesion, '1'));
         this.tieneVehiculo = true;
       } else {
         this.tieneVehiculo = false;
@@ -197,8 +200,8 @@ export class AgregarChoferComponent implements OnInit {
       }
     }
 
-    for (let index = 0; index < this.forma.value.concesiones_ayudantes.length; index++) {
-        const placa = (this.forma.controls['concesiones_ayudantes']['controls'][index]['controls']['placa'] as FormControl);
+    for (let index = 0; index < this.forma.value.placas_fijas.length; index++) {
+        const placa = (this.forma.controls['placas_fijas']['controls'][index]['controls']['placa'] as FormControl);
         if (placa.value === '***') {
           placa.setErrors({required: true});
         }
@@ -208,7 +211,7 @@ export class AgregarChoferComponent implements OnInit {
             countErrrors ++;
           }
         }  else {
-          this._consultarVehiculo(placa.value.toString(), this.forma.controls['vehiculos_ayudantes']['controls'][index]['controls']);
+          this._consultarVehiculo(placa.value.toString(), this.forma.controls['vehiculos_fijos']['controls'][index]['controls']);
         }
     }
 
@@ -250,20 +253,21 @@ export class AgregarChoferComponent implements OnInit {
               this._asignarDatosVehiculo(control, vehiculo[0], chofer.nombre + ' ' + chofer.apellidos);
             });
         }
-      } else {
-        control['modelo'].setValue(null);
-        control['marca'].setValue(null);
-        control['anio'].setValue(null);
-        control['matricula'].setValue(null);
-        control['modalidad'].setValue('-1');
-        control['capacidad'].setValue('-1');
-        control['conRampa'].setValue(false);
-        control['nombreChoferRegistro'].setValue(null);
-        control['fechaRegistro'].setValue(null);
-        control['choferes'].setValue(null);
-        control['idVehiculo'].setValue(null);
-
       }
+      //  else {
+      //   control['modelo'].setValue(null);
+      //   control['marca'].setValue(null);
+      //   control['anio'].setValue(null);
+      //   control['matricula'].setValue(null);
+      //   control['modalidad'].setValue('-1');
+      //   control['capacidad'].setValue('-1');
+      //   control['conRampa'].setValue(false);
+      //   control['nombreChoferRegistro'].setValue(null);
+      //   control['fechaRegistro'].setValue(null);
+      //   control['choferes'].setValue(null);
+      //   control['idVehiculo'].setValue(null);
+
+      // }
     });
   }
 
@@ -339,8 +343,8 @@ export class AgregarChoferComponent implements OnInit {
              this.respuesta = JSON.stringify(data);
              swal('Chofer registrado!', 'Continuar', 'success').then(()=>{
                 this.counttimeUploading = 0;
-               if(this.forma.value.concesiones_ayudantes){
-                   for (let index = 0; index < this.forma.value.concesiones_ayudantes.length; index++) {
+               if(this.forma.value.placas_fijas){
+                   for (let index = 0; index < this.forma.value.placas_fijas.length; index++) {
                      this._removeConcesion_Vehiculos({indice: index});
                    }
                  }
@@ -402,14 +406,14 @@ export class AgregarChoferComponent implements OnInit {
     this.resetCount += 1;
   }
 
-  _pushConcesion_Vehiculos() {
-    const arrayControl = this.forma.get('concesiones_ayudantes') as FormArray;
+  _pushConcesion_Vehiculos(modalidad:string) {
+    const arrayControl = this.forma.get('placas_fijas') as FormArray;
     if (arrayControl.length < 3) {
         this._pushConcesion();
-        this._pushVehiculos('***');
+        this._pushVehiculosFijo('***', modalidad);
         this.revisionStep2 = false;
-        for (let index = 0; index < this.forma.value.concesiones_ayudantes.length; index++) {
-          const element = (this.forma.controls['concesiones_ayudantes']['controls'][index]['controls']['placa'] as FormControl);
+        for (let index = 0; index < this.forma.value.placas_fijas.length; index++) {
+          const element = (this.forma.controls['placas_fijas']['controls'][index]['controls']['placa'] as FormControl);
           element.statusChanges.subscribe(data => {
             if (data === 'INVALID') {
               this.revisionStep2 = false;
@@ -420,21 +424,30 @@ export class AgregarChoferComponent implements OnInit {
       this.error = 'Solo se puede asociar a un máximo de 3 concesiones';
     }
   }
-  _removeConcesion_Vehiculos(event: any) {
-    this.concesionesArray.removeAt(event.indice);
-    this.vehiculosArray.removeAt(event.indice);
-    if (this.forma.value.concesiones_ayudantes.length < 3) this.error = '';
+  _removeConcesion_Vehiculos(indice: any) {
+    this.placas_fijasArray.removeAt(indice.indice);
+    this.vehiculos_fijosArray.removeAt(indice.indice);
+    if (this.forma.value.placas_fijas.length < 3) this.error = '';
   }
 
-  _removeVehiculos(indice) {
-    this.vehiculosArray.removeAt(indice);
+  _removeVehiculosFijos(indice) {
+    this.vehiculos_fijosArray.removeAt(indice);
   }
 
-  _pushVehiculos(concesion: any) {
-    this.vehiculosArray.push(this.createControlVehiculo(concesion));
+  _removeVehiculosPostureros(indice) {
+    this.vehiculos_posturerosArray.removeAt(indice);
   }
 
-  createControlVehiculo(concesion: any){
+  _pushVehiculosFijo(concesion: any, modalidad:string) {
+    this.vehiculos_fijosArray.push(this.createControlVehiculo(concesion, modalidad));
+  }
+  _pushVehiculosPosturero(concesion: any, modalidad:string) {
+    this.vehiculos_posturerosArray.push(this.createControlVehiculo(concesion, modalidad));
+  }
+
+
+
+  createControlVehiculo(concesion: any, modalidad:string){
     return new FormGroup({
       'concesion': new FormControl(concesion),
       'marca':     new FormControl(null,  Validators.required),
@@ -442,14 +455,13 @@ export class AgregarChoferComponent implements OnInit {
       'anio':      new FormControl(null,  Validators.required),
       'matricula': new FormControl(null,  Validators.required),
       'capacidad': new FormControl('-1',  Validators.required),
-      'modalidad': new FormControl('-1',  Validators.required),
+      'modalidad': new FormControl(modalidad,  Validators.required),
       'conRampa':  new FormControl(false, Validators.required),
       'nombreChoferRegistro': new FormControl(null),
       'fechaRegistro': new FormControl(null),
       'idVehiculo': new FormControl(null),
       'choferes': new FormControl(null),
       'vincularVehiculo': new FormControl(false),
-      
     })
   }
 
@@ -457,7 +469,7 @@ export class AgregarChoferComponent implements OnInit {
     const control = new FormGroup({
       'placa': new FormControl('***', [Validators.required, Validators.maxLength(3), Validators.max(765), Validators.min(1)])
     })
-    this.concesionesArray.push(control);
+    this.placas_fijasArray.push(control);
 
   }
 

@@ -20,7 +20,7 @@ export class DetalleChoferComponent implements OnInit {
     "apellidos": "",
     "autorizado": false,
     "concesion": "",
-    "concesiones_ayudantes": [],
+    "placas_fijas": [],
     "correo": "",
     "etiqueta": "",
     "fechaNacimiento": "",
