@@ -26,7 +26,7 @@ export class FormularioConcesionesComponent implements OnInit {
   }
 
   _observarControles(){
-    const arrayControl = this.forma.get('placas_fijas') as FormArray;
+    const arrayControl = this.forma.get('concesiones_de_ayudante') as FormArray;
     for (let index = 0; index < arrayControl.length; index++) {
       const element = arrayControl.at(index);
       this.observablePrimerPlano =  element.valueChanges.subscribe(data=>{

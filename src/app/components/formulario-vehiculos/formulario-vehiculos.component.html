@@ -30,7 +30,7 @@
                   </div>
                   <div class="col-12 d-flex mb-4">
                       <div class="col-4">
-                        <h5>Matricula: <span class="text-danger">*</span></h5>
+                        <h5>Matrícula: <span class="text-danger">*</span></h5>
                         <p *ngIf="forma.value[type][i].nombreChoferRegistro">{{forma.value[type][i].matricula}}</p>
                         <input *ngIf="!forma.value[type][i].nombreChoferRegistro" type="text" name="text" placeholder="Ejemplo: 15-48-TRG" class="form-control" required formControlName ="matricula">
                       </div>
@@ -58,16 +58,16 @@
                   </div>
                   <div class="col-12 d-flex">
                       <div class="col-4">
-                        <input *ngIf="!forma.value[type][i].nombreChoferRegistro" type="checkbox" [id]="i" formControlName ="conRampa" />
-                        <label [for]="i">Tiene Rampa? </label>
+                        <input *ngIf="!forma.value[type][i].nombreChoferRegistro" type="checkbox" id="conRampa{{type}}{{i}}" formControlName ="conRampa" />
+                        <label for="conRampa{{type}}{{i}}">¿Tiene Rampa? </label>
                         <p *ngIf="forma.value[type][i].nombreChoferRegistro
                         && forma.value[type][i].conRampa">SI</p>
                         <p *ngIf="forma.value[type][i].nombreChoferRegistro
                         && !forma.value[type][i].conRampa">NO</p>
                       </div>
                       <div class="col-8" *ngIf="forma.value[type][i].nombreChoferRegistro">
-                        <input type="checkbox" [id]="i" formControlName ="vincularVehiculo" />
-                        <label [for]="i">Vincular este vehículo con {{forma.value.nombre}} {{forma.value.apellidos}} ? </label>
+                        <input type="checkbox" id="vincularVehiculo{{type}}{{i}}" formControlName ="vincularVehiculo" />
+                        <label for="vincularVehiculo{{type}}{{i}}">Vincular este vehículo con {{forma.value.nombre}} {{forma.value.apellidos}} ? </label>
                       </div>
                   </div>
             </fieldset>

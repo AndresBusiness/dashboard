@@ -16,11 +16,11 @@
                         <small *ngIf="user.etiqueta == '1'"  class="text-label">Etiqueta: <span class="custom-badge label label-success mt-2">DUEÑO DE PLACA</span></small>
                         <small *ngIf="user.etiqueta == '0'"  class="text-label">Etiqueta:  <span class="custom-badge label label-warning mt-2">AYUDANTE</span></small>
                         <span *ngIf="user.etiqueta == '1'" class="custom-badge label label-success mt-2">{{ user.concesion }}</span>
-                        <hr  *ngIf="user.placas_fijas.length > 0"/>
-                        <div *ngIf="user.placas_fijas.length > 0">
+                        <hr  *ngIf="user.concesiones_de_ayudante.length > 0"/>
+                        <div *ngIf="user.concesiones_de_ayudante.length > 0">
                                 <h5 class="card-title m-t-10">{{user.nombre}} {{user.apellidos}} es <br /><strong>chofer ayudante </strong> de las siguientes placas</h5>
                                 <div  class="d-flex">
-                                    <small *ngFor="let item of user.placas_fijas" class="text-label m-1">
+                                    <small *ngFor="let item of user.concesiones_de_ayudante" class="text-label m-1">
                                         <span class="label label-warning custom-badge">{{ item.placa }}</span></small>
                                 </div>
                         </div>
