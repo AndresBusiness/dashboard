@@ -114,6 +114,7 @@ export class AgregarChoferComponent implements OnInit {
         this.forma.addControl('vehiculo_propio',this.createControlVehiculo('***', '1'));
 
         this.forma.controls['concesion_socio'].valueChanges.subscribe(dataConcesionSocio => {
+          this.validarConcesion(dataConcesionSocio)
           if(this.forma.value.vehiculo_propio){
             this.forma.controls['vehiculo_propio']['controls']['concesion'].setValue(dataConcesionSocio);
           }
@@ -161,7 +162,19 @@ export class AgregarChoferComponent implements OnInit {
   ngAfterViewInit(): void {
     // Force another change detection in order to fix an occuring ExpressionChangedAfterItHasBeenCheckedError
     this._changeDetectionRef.detectChanges();
+  }
 
+  validarConcesion(placa: string) {
+    if (placa !== '***' && placa !== "") {
+        const controlConcesion = (this.forma.controls['concesion_socio'] as FormControl)
+        this.firebaseService.buscarInfoConcesion(placa).then(result=>{
+        if(result){
+          controlConcesion.setErrors({existe: true});
+        } else {
+          controlConcesion.setErrors(null);
+        }
+      });
+    }
   }
 
   paso1() {
@@ -228,7 +241,7 @@ export class AgregarChoferComponent implements OnInit {
       }
       if (placa.errors) {
         if (placa.errors['required'] || placa.errors['max'] || placa.errors['min']
-        || placa.errors['maxLength'] || placa.errors['Mask error']) {
+        || placa.errors['maxLength'] || placa.errors['Mask error'] ||  placa.errors['existe'] ) {
           countErrrors ++;
         }
       } else {

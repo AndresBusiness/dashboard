@@ -62,6 +62,23 @@ export class FirebaseService {
       );
     });
   }
+
+  buscarInfoConcesion(id: string) {
+    return new Promise<any>((resolve, reject) => {
+      this.afs.doc(`concesiones/${id}`)
+      .valueChanges()
+      .subscribe((data: any) => {
+        if (data) {
+          resolve(true);
+        } else {
+          resolve(false);
+        }
+      }, err => reject(err)
+      );
+    });
+  }
+
+
   obtenerInfoChoferes() {
     return this.afs.collection('choferes').snapshotChanges();
   }

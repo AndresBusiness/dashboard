@@ -167,6 +167,9 @@
                                       *ngIf="forma.controls['concesion_socio'].errors?.min">Minimo 001*</p>
                                       <p class="field-requiered"
                                       *ngIf="forma.controls['concesion_socio'].errors?.maxLength">Máximo 3 digitos*</p>
+                                      <p class="field-requiered"
+                                      *ngIf="forma.controls['concesion_socio'].errors?.existe">Ya registraron esta concesión*</p>
+                                     
                                 </div>
                             </div>
                         </div>
