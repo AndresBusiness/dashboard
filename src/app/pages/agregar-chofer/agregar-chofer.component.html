@@ -384,8 +384,8 @@
                                     </div>
                                 </div>
                               </div>
-                              <div *ngIf="forma.controls['vehiculos_fijos'].length > 0 
-                                  || forma.controls['vehiculos_postureros'].length > 0
+                              <div *ngIf="forma.value.vehiculos_fijos.length > 0 
+                                  || forma.value.vehiculos_postureros.length > 0
                                   || esPropietarioDePlaca" >
                                 <fieldset class="scheduler-border d-flex" *ngIf="esPropietarioDePlaca" >
                                     <legend class="scheduler-border"><span class="label label-success custom-badge">Socio de {{forma.value.concesion_socio}}</span> </legend>
@@ -410,7 +410,7 @@
                                       </div>
                                   </div>
                                 </fieldset>
-                                <fieldset class="scheduler-border" *ngIf="forma.controls['vehiculos_fijos'].length > 0 " >
+                                <fieldset class="scheduler-border" *ngIf="forma.value.vehiculos_fijos.length > 0 " >
                                   <legend class="scheduler-border"><span class="label label-info custom-badge"> Trabajas con estos vehículos</span></legend>
                                   <div class="d-flex">
                                       <div *ngFor="let item of forma.controls['vehiculos_fijos']['controls']; let i = index;" class="m-4">
@@ -434,7 +434,7 @@
                                         </div>
                                   </div>
                                 </fieldset>
-                                <fieldset class="scheduler-border" *ngIf="forma.controls['vehiculos_postureros'].length > 0" >
+                                <fieldset class="scheduler-border" *ngIf="forma.value.vehiculos_postureros.length > 0" >
                                   <legend class="scheduler-border"><span class="label label-warning custom-badge">Vehículos Postureros</span></legend>
                                   <div class="d-flex">
                                       <div *ngFor="let item of forma.controls['vehiculos_postureros']['controls']; let i = index;" class="m-4">
