@@ -26,7 +26,7 @@ export class FormularioConcesionesComponent implements OnInit {
   }
 
   _observarControles(){
-    const arrayControl = this.forma.get('concesiones_de_ayudante') as FormArray;
+    const arrayControl = this.forma.get('concesiones_que_trabaja') as FormArray;
     for (let index = 0; index < arrayControl.length; index++) {
       const element = arrayControl.at(index);
       this.observablePrimerPlano =  element.valueChanges.subscribe(data=>{
@@ -41,6 +41,10 @@ export class FormularioConcesionesComponent implements OnInit {
     this.observablePrimerPlano.unsubscribe();
     this.borrar.emit({indice: indice});
     this._observarControles();
+  }
+
+  _addConcesion_Vehiculo(){
+    this.crear.emit();
   }
 
 

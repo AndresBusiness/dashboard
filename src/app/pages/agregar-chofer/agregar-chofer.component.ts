@@ -17,7 +17,7 @@ import { Router } from '@angular/router';
 export class AgregarChoferComponent implements OnInit {
 
   public forma:FormGroup;
-  public concesiones_de_ayudanteArray: FormArray;
+  public concesiones_que_trabajaArray: FormArray;
   public vehiculos_fijosArray: FormArray;
   public vehiculos_posturerosArray: FormArray;
   public choferesArray: FormArray;
@@ -80,17 +80,17 @@ export class AgregarChoferComponent implements OnInit {
 
     const uid = localStorage.getItem('uid');
 
-    this.concesiones_de_ayudanteArray = this.fb.array([]);
+    this.concesiones_que_trabajaArray = this.fb.array([]);
     this.vehiculos_fijosArray = this.fb.array([]);
     this.vehiculos_posturerosArray = this.fb.array([]);
 
 
     this.forma = new FormGroup({
-      'folio':           new FormControl('', Validators.required),
-      'nombre':          new FormControl('', Validators.required),
-      'apellidos':       new FormControl('', Validators.required),
-      'correo':          new FormControl('', [Validators.required, Validators.pattern(this.expRefEmail)]),
-      'telefono':        new FormControl('', [Validators.required, Validators.minLength(10)]),
+      'folio':           new FormControl('thert', Validators.required),
+      'nombre':          new FormControl('sdrtht', Validators.required),
+      'apellidos':       new FormControl('ertjtr', Validators.required),
+      'correo':          new FormControl('andres-eee@gerserger.com', [Validators.required, Validators.pattern(this.expRefEmail)]),
+      'telefono':        new FormControl('4775642132', [Validators.required, Validators.minLength(10)]),
       'etiqueta':        new FormControl('', Validators.required),
       'genero':          new FormControl('1', Validators.required),
       'fechaNacimiento': new FormControl('', [Validators.required, this.validarFecha]),
@@ -98,7 +98,7 @@ export class AgregarChoferComponent implements OnInit {
       'activo':               new FormControl(false, Validators.required),
       'autorizado':           new FormControl(true, Validators.required),
       'uidUserSystem':        new FormControl(uid, Validators.required),
-      'concesiones_de_ayudante': this.concesiones_de_ayudanteArray,
+      'concesiones_que_trabaja': this.concesiones_que_trabajaArray,
       'vehiculos_fijos':         this.vehiculos_fijosArray,
       'vehiculos_postureros':    this.vehiculos_posturerosArray
     });
@@ -127,21 +127,7 @@ export class AgregarChoferComponent implements OnInit {
       }
     });
 
-
-    // this.forma.controls['propietarioVehiculo'].valueChanges
-    // .subscribe(data => {
-    //   if (data === 1 || data === true) {
-    //     let revicion_Concesion = '***';
-    //     if (this.forma.value.concesion_socio) {
-    //       revicion_Concesion = this.forma.value.concesion_socio;
-    //     }
-    //     this.forma.addControl('vehiculo_propio',this.createControlVehiculo(revicion_Concesion, '1'));
-    //     this.esPropietarioDePlaca = true;
-    //   } else {
-    //     this.esPropietarioDePlaca = false;
-    //     this.forma.removeControl('vehiculo_propio');
-    //   }
-    // });
+   
 
     this.forma.controls['fechaNacimiento'].valueChanges
     .subscribe(data => {
@@ -154,6 +140,8 @@ export class AgregarChoferComponent implements OnInit {
         if (data === 'VALID') {this.VALIDATIONS_STEP1[fieldStep1[index]] = true; }
       });
     }
+
+    this._pushConcesion_Vehiculos('1');
   }
 
   ngOnInit() {
@@ -219,8 +207,8 @@ export class AgregarChoferComponent implements OnInit {
       }
     }
 
-    for (let index = 0; index < this.forma.value.concesiones_de_ayudante.length; index++) {
-        const placa = (this.forma.controls['concesiones_de_ayudante']['controls'][index]['controls']['placa'] as FormControl);
+    for (let index = 0; index < this.forma.value.concesiones_que_trabaja.length; index++) {
+        const placa = (this.forma.controls['concesiones_que_trabaja']['controls'][index]['controls']['placa'] as FormControl);
         if (placa.value === '***') {
           placa.setErrors({required: true});
         }
@@ -384,9 +372,9 @@ export class AgregarChoferComponent implements OnInit {
              this.respuesta = JSON.stringify(data);
              swal('Chofer registrado!', 'Continuar', 'success').then(()=>{
                 this.counttimeUploading = 0;
-               if(this.forma.value.concesiones_de_ayudante){
-                 while(this.forma.value.concesiones_de_ayudante.length > 0){
-                  for (let index = 0; index < this.forma.value.concesiones_de_ayudante.length; index++) {
+               if(this.forma.value.concesiones_que_trabaja){
+                 while(this.forma.value.concesiones_que_trabaja.length > 0){
+                  for (let index = 0; index < this.forma.value.concesiones_que_trabaja.length; index++) {
                     this._removeConcesion_Vehiculos({indice: index});
                   }
                  }
@@ -456,13 +444,13 @@ export class AgregarChoferComponent implements OnInit {
   }
 
   _pushConcesion_Vehiculos(modalidad:string) {
-    const arrayControl = this.forma.get('concesiones_de_ayudante') as FormArray;
-    if (arrayControl.length < 3) {
+    const arrayControl = this.forma.get('concesiones_que_trabaja') as FormArray;
+    if (arrayControl.length < 5) {
         this._pushConcesion();
         this._pushVehiculosFijo('***', modalidad);
         this.revisionStep2 = false;
-        for (let index = 0; index < this.forma.value.concesiones_de_ayudante.length; index++) {
-          const element = (this.forma.controls['concesiones_de_ayudante']['controls'][index]['controls']['placa'] as FormControl);
+        for (let index = 0; index < this.forma.value.concesiones_que_trabaja.length; index++) {
+          const element = (this.forma.controls['concesiones_que_trabaja']['controls'][index]['controls']['placa'] as FormControl);
           element.statusChanges.subscribe(data => {
             if (data === 'INVALID') {
               this.revisionStep2 = false;
@@ -474,9 +462,9 @@ export class AgregarChoferComponent implements OnInit {
     }
   }
   _removeConcesion_Vehiculos(indice: any) {
-    this.concesiones_de_ayudanteArray.removeAt(indice.indice);
+    this.concesiones_que_trabajaArray.removeAt(indice.indice);
     this.vehiculos_fijosArray.removeAt(indice.indice);
-    if (this.forma.value.concesiones_de_ayudante.length < 3) this.error = '';
+    if (this.forma.value.concesiones_que_trabaja.length < 5) this.error = '';
   }
 
   _removePostureros(indice: any){
@@ -522,7 +510,7 @@ export class AgregarChoferComponent implements OnInit {
     const control = new FormGroup({
       'placa': new FormControl('***', [Validators.required, Validators.maxLength(3), Validators.max(765), Validators.min(1)])
     })
-    this.concesiones_de_ayudanteArray.push(control);
+    this.concesiones_que_trabajaArray.push(control);
 
   }
 

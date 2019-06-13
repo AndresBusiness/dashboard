@@ -17,3 +17,12 @@ fieldset.scheduler-border {
     padding:0 10px; /* To give a bit of padding on the left and right */
     border-bottom:none;
   }
+
+  body {
+    color: #424b4f;
+    font-weight: 600;
+  }
+  h1,h2,h3,h4, h5{  
+    color: #567382;
+    font-weight: 500;
+  }

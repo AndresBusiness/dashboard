@@ -1,29 +1,35 @@
 <div *ngIf="forma !== undefined"  >
     <form [formGroup]="forma">
-        <div formArrayName="concesiones_de_ayudante" class="mb-4" >
+        <div formArrayName="concesiones_que_trabaja" class="mb-4" >
             <div class="col-12 d-flex pl-0" [formGroupName]="i">
-                <div class="col-10 pl-0" >
-                    <h5>No. de concesión <strong>Ayudante</strong> :<span class="text-danger" >*</span></h5>
+                <div class="col-9 pl-0" >
+                    <h5>No. de concesión :<span class="text-danger" >*</span></h5>
                     <input type="text" mask="000"  [showMaskTyped] = "true" name="text" class="form-control"
                       required formControlName ="placa">
                       <span class="font-13 text-muted">del 001 al 765 (tres digitos)</span>
                       <p class="field-requiered"
-                         *ngIf="forma.controls['concesiones_de_ayudante']['controls'][i]['controls']['placa'].errors?.required">Campo requerido*</p>
-                      <div *ngIf="forma.controls['concesiones_de_ayudante']['controls'][i]['controls']['placa'].errors" >
+                         *ngIf="forma.controls['concesiones_que_trabaja']['controls'][i]['controls']['placa'].errors?.required">Campo requerido*</p>
+                      <div *ngIf="forma.controls['concesiones_que_trabaja']['controls'][i]['controls']['placa'].errors" >
                         <p class="field-requiered"
-                        *ngIf="forma.controls['concesiones_de_ayudante']['controls'][i]['controls']['placa'].errors['Mask error']">Se requieren 3 digitos*</p>
+                        *ngIf="forma.controls['concesiones_que_trabaja']['controls'][i]['controls']['placa'].errors['Mask error']">Se requieren 3 digitos*</p>
                       </div>
                       <p class="field-requiered"
-                      *ngIf="forma.controls['concesiones_de_ayudante']['controls'][i]['controls']['placa'].errors?.max">Máximo 765 concesiones*</p>
+                      *ngIf="forma.controls['concesiones_que_trabaja']['controls'][i]['controls']['placa'].errors?.max">Máximo 765 concesiones*</p>
                       <p class="field-requiered"
-                      *ngIf="forma.controls['concesiones_de_ayudante']['controls'][i]['controls']['placa'].errors?.min">Minimo 001*</p>
+                      *ngIf="forma.controls['concesiones_que_trabaja']['controls'][i]['controls']['placa'].errors?.min">Minimo 001*</p>
                       <p class="field-requiered"
-                      *ngIf="forma.controls['concesiones_de_ayudante']['controls'][i]['controls']['placa'].errors?.maxLength">Máximo 3 digitos*</p>
+                      *ngIf="forma.controls['concesiones_que_trabaja']['controls'][i]['controls']['placa'].errors?.maxLength">Máximo 3 digitos*</p>
 
                 </div>
-                <div class="col-2 pl-0 position-relative d-flex" >
-                    <button  type="button" (click)="_removeConcesion_Vehiculos(i)"
+                <div class="col-3 pl-0 position-relative d-flex" >
+                    <button  type="button" (click)="_removeConcesion_Vehiculos(i)" *ngIf="i>0" 
+                    style="margin-left:60px;"
                     class="btn-ayudante position-absolute btn btn-danger" ><i class="far fa-trash-alt"></i></button>
+
+                    <button  type="button" (click)="_addConcesion_Vehiculo()" 
+                    class="btn-ayudante position-absolute btn btn-info"><i class="fas fa-plus-circle"></i></button>
+                    
+                    
                 </div> 
             </div>
 

@@ -104,30 +104,14 @@
                       <button type="button" style="display: none;" class="btn btn-info btn-wizard-btn-next-step" #continuarStep2  awNextStep>awNextStep</button>
                       </div>
                   </aw-wizard-step>
-                  <aw-wizard-step [stepTitle]="'Relación de concesiones'" >
-                      <ng-template awWizardStepSymbol><i class="fas fa-briefcase"></i></ng-template>
+                  <aw-wizard-step [stepTitle]="'Concesiones que trabaja'" >
+                    <ng-template awWizardStepSymbol><i class="fas fa-briefcase"></i></ng-template>
                     <div class="form-group p-10">
-                      <div class="col-12 d-flex">
-                        <div class="col-6">
-                            <h2 class="p-10" >REGISTRO DE CONCESIONES</h2>
-                        </div>
-                        <div class="col-3">
-                            <button type="button" class="btn btn-block btn-outline-info waves-effect waves-light"
-                            (click)="_pushConcesion_Vehiculos('1')">
-                            <i class="fa fa-car"></i>
-                            Trabajar concesión
-                          </button>
-                        </div>
-                        <div class="col-3">
-                          <button type="button" class="btn btn-block btn-outline-warning waves-effect waves-light"
-                          (click)="_pushVehiculosPosturero('***', '0')">
-                          <i class="fa fa-car"></i>
-                           Agregar posturero
-                        </button>
-                      </div>
+                      <div class="col-12">
+                        <h2 class="p-10" >INFORMACIÓN LABORAL</h2>
                       </div>
                       <div class="col-12 d-flex" >
-                        <div class="col-6">
+                        <div class="col-4">
                             <div class="container-form">
                               <div class="item item-form-3 col-12 pl-0">
                                 <h5>Folio de Chofer: <span class="text-danger">*</span></h5>
@@ -136,87 +120,93 @@
                                 *ngIf="forma.controls['folio'].errors?.required && VALIDATIONS_STEP2.folio">Campo requerido*</p>
                               </div>
                             </div>
-                            <div class="container-form">
-                                <div class="item item-form-3 col-12 pl-0">
-                                    <h5>Socio o Ayudante?: <span class="text-danger">*</span></h5>
-                                    <select class="form-control custom-select"
-                                     formControlName="etiqueta">
-                                        <option value="">Seleccione tipo de chofer</option>
-                                        <option value="1">Socio</option>
-                                        <option value="0">Ayudante</option>
-                                    </select>
-                                    <p class="field-requiered"
-                                    *ngIf="forma.controls['etiqueta'].errors?.required && VALIDATIONS_STEP2.etiqueta">Campo requerido*</p>
-                                </div>
-                            </div>
-                            <div class="container-form" *ngIf="esPropietarioDePlaca" >
-                                <div class="item item-form-3 col-12 pl-0">
-                                    <h5>No. de concesión <strong>Socio</strong> :<span class="text-danger" >*</span></h5>
-                                    <input type="text" mask="000"  [showMaskTyped] = "true" name="text" class="form-control"
-                                      required formControlName ="concesion_socio">
-                                      <span class="font-13 text-muted">del 001 al 765 (tres digitos)</span>
-                                      <p class="field-requiered"
-                                          *ngIf="forma.controls['concesion_socio'].errors?.required">Campo requerido*</p>
-                                      <div *ngIf="forma.controls['concesion_socio'].errors" >
-                                        <p class="field-requiered"
-                                        *ngIf="forma.controls['concesion_socio'].errors['Mask error']">Se requieren 3 digitos*</p>
-                                      </div>
-                                      <p class="field-requiered"
-                                      *ngIf="forma.controls['concesion_socio'].errors?.max">Máximo 765 concesiones*</p>
-                                      <p class="field-requiered"
-                                      *ngIf="forma.controls['concesion_socio'].errors?.min">Minimo 001*</p>
-                                      <p class="field-requiered"
-                                      *ngIf="forma.controls['concesion_socio'].errors?.maxLength">Máximo 3 digitos*</p>
-                                      <p class="field-requiered"
-                                      *ngIf="forma.controls['concesion_socio'].errors?.existe">Ya registraron esta concesión*</p>
-                                     
-                                </div>
+                        </div>
+                        <div class="col-4">
+                          <div class="container-form">
+                            <div class="item item-form-3 col-12 pl-0">
+                                <h5>Tipo de Chofer: <span class="text-danger">*</span></h5>
+                                <select class="form-control custom-select"
+                                 formControlName="etiqueta">
+                                    <option value="">Seleccione tipo de chofer</option>
+                                    <option value="1">Chofer Socio</option>
+                                    <option value="0">Chofer Ayudante</option>
+                                </select>
+                                <p class="field-requiered"
+                                *ngIf="forma.controls['etiqueta'].errors?.required && VALIDATIONS_STEP2.etiqueta">Campo requerido*</p>
                             </div>
                         </div>
-                        <div class="col-6">
-                            <div class="item">
-                                <div>
-                                    <div *ngFor="let item of forma.controls['concesiones_de_ayudante']['controls']; let i = index;"  >
-                                        <app-formulario-concesiones
-                                        [forma]="forma" [i]="i"
-                                        (borrar)="_removeConcesion_Vehiculos($event)"
-                                        > </app-formulario-concesiones>
+                        </div>
+                        <div class="col-4"> 
+                          <div class="container-form" *ngIf="esPropietarioDePlaca" >
+                            <div class="item item-form-3 col-12 pl-0">
+                                <h5>No. de concesión <strong>Socio</strong> :<span class="text-danger" >*</span></h5>
+                                <input type="text" mask="000"  [showMaskTyped] = "true" name="text" class="form-control"
+                                  required formControlName ="concesion_socio">
+                                  <span class="font-13 text-muted">del 001 al 765 (tres digitos)</span>
+                                  <p class="field-requiered"
+                                      *ngIf="forma.controls['concesion_socio'].errors?.required">Campo requerido*</p>
+                                  <div *ngIf="forma.controls['concesion_socio'].errors" >
+                                    <p class="field-requiered"
+                                    *ngIf="forma.controls['concesion_socio'].errors['Mask error']">Se requieren 3 digitos*</p>
+                                  </div>
+                                  <p class="field-requiered"
+                                  *ngIf="forma.controls['concesion_socio'].errors?.max">Máximo 765 concesiones*</p>
+                                  <p class="field-requiered"
+                                  *ngIf="forma.controls['concesion_socio'].errors?.min">Minimo 001*</p>
+                                  <p class="field-requiered"
+                                  *ngIf="forma.controls['concesion_socio'].errors?.maxLength">Máximo 3 digitos*</p>
+                                  <p class="field-requiered"
+                                  *ngIf="forma.controls['concesion_socio'].errors?.existe">Ya registraron esta concesión*</p>
+                                 
+                            </div>
+                        </div>
+                        </div>
+                      </div>
+
+                      <div class="col-12">
+                        <h2 class="p-10">ENLISTAR LAS CONCESIONES QUE TRABAJA</h2>
+                      </div>
+                      <div class="col-12 d-flex">
+                          <div class="col-6">
+                              <div class="item">
+                                  <div>
+                                      <div *ngFor="let item of forma.controls['concesiones_que_trabaja']['controls']; let i = index;"  >
+                                          <app-formulario-concesiones
+                                          [forma]="forma" [i]="i"
+                                          (crear) ="_pushConcesion_Vehiculos('1')"
+                                          (borrar)="_removeConcesion_Vehiculos($event)"
+                                          > </app-formulario-concesiones>
+                                    </div>
+                                  </div>
+                                  <div class="message-max-concesiones">
+                                      <p>  {{ error }}</p>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="col-6">
+                              <!-- <div class="alert alert-info" role="alert">
+                                  <strong class="font-weight-bold"> Nota:</strong> Si es chofer socio y manejas su propia concesión, agregar nuevamente el número de concesión
+                              </div> -->
+                              <button type="button" class="btn btn-outline-info waves-effect waves-light col-12 mt-4"
+                              (click)="_pushVehiculosPosturero('***', '0')">
+                              <i class="fa fa-car"></i>
+                              Agregar Posturero
+                            </button>
+                              
+                              <div class="col-12 mt-4 d-grid">
+                                  <div *ngIf="this.forma.value.vehiculos_postureros.length > 0">
+                                        <!-- <h5 class="card-title m-t-10">Vehículos: </h5> -->
+                                        <div  class="d-flex" >
+                                              <small *ngFor="let item of this.forma.value.vehiculos_postureros; let i = index;"  class="text-label m-1">
+                                                  <span class="label label-info custom-badge">Posturero
+                                                      <span aria-hidden="true" class="close-badge" (click)="_removeVehiculosPostureros(i)">&times;</span>
+                                                  </span>
+                                              </small>
+                                        </div>
                                   </div>
                                 </div>
-                                <div class="message-max-concesiones">
-                                    <p>  {{ error }}</p>
-                                </div>
-                            </div>
-                        </div>
+                          </div>
                       </div>
-
-                      <div class="col-12 m-4">
-                        <div *ngIf="this.forma.value.vehiculos_fijos.length > 0 
-                          || this.forma.value.vehiculos_postureros.length > 0
-                          || this.forma.value.concesion_socio">
-                              <h5 class="card-title m-t-10">Vehículos: </h5>
-                              <div class="d-flex" *ngIf="this.forma.value.concesion_socio" >
-                                  <small class="text-label m-1">
-                                      <span class="label label-success custom-badge">{{this.forma.value.concesion_socio}} </span>
-                                  </small>
-                              </div>
-                              <div  class="d-flex">
-                                    <small *ngFor="let item of this.forma.value.vehiculos_fijos; let i = index;"  class="text-label m-1">
-                                        <span class="label label-info custom-badge">{{ item.concesion }}
-                                          <span aria-hidden="true" class="close-badge" (click)="_removeConcesion_Vehiculos(i)">&times;</span>
-                                        </span>
-                                    </small>
-                              </div>
-                              <div  class="d-flex" >
-                                    <small *ngFor="let item of this.forma.value.vehiculos_postureros; let i = index;"  class="text-label m-1">
-                                        <span class="label label-warning custom-badge">Posturero
-                                            <span aria-hidden="true" class="close-badge" (click)="_removeVehiculosPostureros(i)">&times;</span>
-                                        </span>
-                                    </small>
-                              </div>
-                        </div>
-                      </div>
-
 
                       <div class="btn-wizard-btn-next-step">
                         <button type="button" class="btn btn-warning btn-regresar"
@@ -230,7 +220,7 @@
                   </aw-wizard-step>
                   <aw-wizard-step [stepTitle]="'Relación con vehículos'" >
                       <ng-template awWizardStepSymbol><i class="fas fa-car"></i></ng-template>
-                      <div *ngIf="esPropietarioDePlaca" class="m-3">
+                      <!-- <div *ngIf="esPropietarioDePlaca" class="m-3">
                           <fieldset class="scheduler-border">
                               <legend class="scheduler-border"> Vehículo  
                                   <span class="label label-success custom-badge"> Fijo  <strong>{{ forma.value.concesion_socio }}</strong></span>
@@ -318,7 +308,7 @@
                               </div>
                             
                           </fieldset>
-                      </div>
+                      </div> -->
                      <div class="form-group p-10">
                         <div *ngIf="forma.value.vehiculos_fijos.length > 0"  >
                             <div *ngFor="let item of forma.controls['vehiculos_fijos']['controls']; let i = index;"  >
@@ -347,9 +337,9 @@
                       <ng-template awWizardStepSymbol><i class="far fa-check-circle"></i></ng-template>
                       <div class="p-4">
                           <fieldset class="scheduler-border">
-                              <legend class="scheduler-border">RESUMEN PREVIO</legend>
+                              <legend class="scheduler-border">RESUMEN DE REGISTRO</legend>
                               <div  class="d-flex">
-                                <div>
+                                <div class="col-6">
                                   <h2>Datos Personales</h2>
                                   <div class="d-flex">
                                        <img [src]="imageSrc || '../../../assets/images/user.png'"
@@ -364,118 +354,126 @@
                                       </div>
                                   </div>
                                 </div>
-                                <div>
-                                    <h2>Relación de concesiones</h2>
+                                <div class="col-3">
+                                    <h2>Datos laborables</h2>
                                     <div class="m-4 d-grid">
                                             <div><label for="folio">Folio: </label> {{forma.value.folio}}</div>
-                                            <div>
+                                            <div *ngIf="forma.value.etiqueta === '1'"> 
                                               <label
-                                              *ngIf="forma.value.etiqueta === '1'"
-                                              for="etiqueta">Etiqueta: Socio</label></div>
-                                            <div>
+                                              for="etiqueta">Etiqueta: </label>Socio
+                                            </div>
+                                            <div *ngIf="forma.value.etiqueta === '0'">
                                               <label
-                                              *ngIf="forma.value.etiqueta === '0'"
-                                              for="etiqueta">Etiqueta: Ayudante</label>
+                                              for="etiqueta">Etiqueta: </label>Ayudante
                                             </div>
 
                                             <div *ngIf="forma.value.concesion_socio">
                                               <label for="concesion_socio">Dueño de la concesión: </label> {{forma.value.concesion_socio}}
                                             </div>
-                                            <div *ngFor="let item of forma.controls['concesiones_de_ayudante']['controls']; let i = index;" >
-                                              <label for="concesion_ayudantes">Ayudante de la concesión: {{ forma.value.vehiculos_fijos[i].concesion }}</label>
-                                            </div>
                                     </div>
+                                </div>
+                                <div class="col-3">
+                                  <h2>Concesiones que trabaja</h2>
+                                  <div class="d-flex">
+                                      <div *ngFor="let item of forma.controls['concesiones_que_trabaja']['controls']; let i = index;" 
+                                      class="m-2">
+                                          <span class="label label-info custom-badge">{{ forma.value.vehiculos_fijos[i].concesion }}
+                                          </span>
+                                      </div>
+                                  </div>
+                                  
+                                  <h5 *ngIf="forma.value.vehiculos_postureros.length === 1" class="mt-2" >
+                                      Registró {{forma.value.vehiculos_postureros.length}} vehículo posturero
+                                  </h5>
+                                  <h5  *ngIf="forma.value.vehiculos_postureros.length > 1" class="mt-2">
+                                      Registró {{forma.value.vehiculos_postureros.length}} vehículos postureros
+                                  </h5>
                                 </div>
                               </div>
                               <div *ngIf="forma.value.vehiculos_fijos.length > 0 
-                                  || forma.value.vehiculos_postureros.length > 0
-                                  || esPropietarioDePlaca" >
-                                <fieldset class="scheduler-border d-flex" *ngIf="esPropietarioDePlaca" >
-                                    <legend class="scheduler-border"><span class="label label-success custom-badge">Socio de {{forma.value.concesion_socio}}</span> </legend>
-                                  <div class="m-4" *ngIf="forma.value.vehiculo_propio" >
-                                      <div >
-                                        <label for="concesion_vehiculo">Socio de la concesión: {{ forma.value.vehiculo_propio.concesion }}</label>
-                                      </div>
-                                      <div><label for="auto">{{forma.value.vehiculo_propio.marca}}, {{forma.value.vehiculo_propio.modelo}}, {{forma.value.vehiculo_propio.anio}}</label></div>
-                                      <div><label for="matricula">Matrícula: </label> {{forma.value.vehiculo_propio.matricula}}</div>
-                                      <div><label for="capacidad">Capacidad: </label> Hasta {{forma.value.vehiculo_propio.capacidad}} personas</div>
-                                      <div *ngIf="forma.value.vehiculo_propio.modalidad === '1'">
-                                        <label for="modalidad">Modalidad: Fijo</label>
-                                      </div>
-                                      <div *ngIf="forma.value.vehiculo_propio.modalidad === '0'">
-                                        <label for="modalidad">Modalidad: Posturero</label>
-                                      </div>
-                                      <div *ngIf="forma.value.vehiculo_propio.conRampa">
-                                        <label for="conRampa">Con Rampa: Si </label>
-                                      </div>
-                                      <div *ngIf="!forma.value.vehiculo_propio.conRampa">
-                                        <label for="conRampa">Con Rampa: No</label>
-                                      </div>
-                                  </div>
-                                </fieldset>
-                                <fieldset class="scheduler-border" *ngIf="forma.value.vehiculos_fijos.length > 0 " >
-                                  <legend class="scheduler-border"><span class="label label-info custom-badge"> Trabajas con estos vehículos</span></legend>
-                                  <div class="d-flex">
-                                      <div *ngFor="let item of forma.controls['vehiculos_fijos']['controls']; let i = index;" class="m-4">
-                                          <div><label for="vehiculos_fijos">Ayudante de la concesión: {{ forma.value.vehiculos_fijos[i].concesion }}</label></div>
-                                          <div><label for="auto"> {{forma.value.vehiculos_fijos[i].marca}}, {{forma.value.vehiculos_fijos[i].modelo}}, {{forma.value.vehiculos_fijos[i].anio}}</label></div>
-                                          <div><label for="matricula">Matrícula: </label> {{forma.value.vehiculos_fijos[i].matricula}}</div>
-                                          <div><label for="capacidad">Capacidad: </label> Hasta {{forma.value.vehiculos_fijos[i].capacidad}} personas</div>
-                                          <div *ngIf="forma.value.vehiculos_fijos[i].modalidad === '1'">
-                                            <label for="modalidad">Modalidad: Fijo</label>
-                                          </div>
-                                          <div *ngIf="forma.value.vehiculos_fijos[i].modalidad === '0'">
-                                            <label for="modalidad">Modalidad: Posturero</label>
-                                          </div>
-                                          <div *ngIf="forma.value.vehiculos_fijos[i].conRampa">
-                                            <label for="conRampa">Con Rampa: Si </label>
-                                          </div>
-                                          <div *ngIf="!forma.value.vehiculos_fijos[i].conRampa">
-                                            <label for="conRampa">Con Rampa: No</label>
-                                          </div>
+                                  || forma.value.vehiculos_postureros.length > 0" >
+                                <h2>Datos de Vehículos</h2>
+                                <div class="d-flex">
+                                    <div *ngIf="forma.value.vehiculos_fijos.length > 0 " >
+                                        <div class="d-flex">
+                                            <div *ngFor="let item of forma.controls['vehiculos_fijos']['controls']; let i = index;" class="m-4">
+                                                <div class="card">
+                                                    <div class="card-header">
+                                                        Concesión: {{ forma.value.vehiculos_fijos[i].concesion }}
+                                                    </div>
+                                                    <div class="card-body p-0" >
+                                                      <blockquote class="blockquote mb-0">
+                                                        <p>{{forma.value.vehiculos_fijos[i].marca}}, {{forma.value.vehiculos_fijos[i].modelo}}, {{forma.value.vehiculos_fijos[i].anio}}</p>
+                                                        <div class="blockquote-footer">
+                                                          <label for="matricula">Matrícula: </label><cite title="Source Title"> {{forma.value.vehiculos_fijos[i].matricula}}</cite> 
+                                                        </div>
+                                                        <div class="blockquote-footer">
+                                                          <label for="capacidad">Capacidad: </label> <cite title="Source Title"> Hasta {{forma.value.vehiculos_fijos[i].capacidad}} personas</cite> 
+                                                        </div>
+                                                        <div class="blockquote-footer"  *ngIf="forma.value.vehiculos_fijos[i].conRampa">
+                                                          <label for="rampa"> Con Rampa:</label><cite title="Source Title"> Si</cite>
+                                                        </div>
+                                                        <div class="blockquote-footer"  *ngIf="!forma.value.vehiculos_fijos[i].conRampa">
+                                                            <label for="rampa"> Con Rampa:</label> <cite title="Source Title"> No</cite>
+                                                        </div>
+                                                        <footer class="blockquote-footer" >
+                                                          <label for="modalidad">Modalidad: </label>  <cite title="Source Title"> Fijo</cite>
+                                                        </footer>
 
+                                                      </blockquote>
+                                                    </div>
+                                                  </div>
+                                             </div>
                                         </div>
-                                  </div>
-                                </fieldset>
-                                <fieldset class="scheduler-border" *ngIf="forma.value.vehiculos_postureros.length > 0" >
-                                  <legend class="scheduler-border"><span class="label label-warning custom-badge">Vehículos Postureros</span></legend>
-                                  <div class="d-flex">
-                                      <div *ngFor="let item of forma.controls['vehiculos_postureros']['controls']; let i = index;" class="m-4">
-                                          <div><label for="auto"> {{forma.value.vehiculos_postureros[i].marca}}, {{forma.value.vehiculos_postureros[i].modelo}}, {{forma.value.vehiculos_postureros[i].anio}}</label></div>
-                                          <div><label for="matricula">Matrícula: </label> {{forma.value.vehiculos_postureros[i].matricula}}</div>
-                                          <div><label for="capacidad">Capacidad: </label> Hasta {{forma.value.vehiculos_postureros[i].capacidad}} personas</div>
-                                          <div *ngIf="forma.value.vehiculos_postureros[i].modalidad === '1'">
-                                            <label for="modalidad">Modalidad: Fijo</label>
-                                          </div>
-                                          <div *ngIf="forma.value.vehiculos_postureros[i].modalidad === '0'">
-                                            <label for="modalidad">Modalidad: Posturero</label>
-                                          </div>
-                                          <div *ngIf="forma.value.vehiculos_postureros[i].conRampa">
-                                            <label for="conRampa">Con Rampa: Si </label>
-                                          </div>
-                                          <div *ngIf="!forma.value.vehiculos_postureros[i].conRampa">
-                                            <label for="conRampa">Con Rampa: No</label>
-                                          </div>
+                                    </div>
+                                    <div *ngIf="forma.value.vehiculos_postureros.length > 0" >
+                                        <div class="d-flex">
+                                            <div *ngFor="let item of forma.controls['vehiculos_postureros']['controls']; let i = index;" class="m-4">
 
+                                                <div class="card">
+                                                    <div class="card-header">
+                                                        Posturero
+                                                    </div>
+                                                    <div class="card-body  p-0">
+                                                      <blockquote class="blockquote mb-0">
+                                                        <p>{{forma.value.vehiculos_postureros[i].marca}}, {{forma.value.vehiculos_postureros[i].modelo}}, {{forma.value.vehiculos_postureros[i].anio}}</p>
+
+                                                        <div class="blockquote-footer" >
+                                                          <label for="matricula">Matrícula: </label> <cite title="Source Title"> {{forma.value.vehiculos_postureros[i].matricula}}</cite>
+                                                        </div>
+                                                        <div class="blockquote-footer" >
+                                                          <label for="capacidad">Capacidad: </label> <cite title="Source Title"> Hasta {{forma.value.vehiculos_postureros[i].capacidad}} personas</cite> 
+                                                        </div>
+                                                        <div class="blockquote-footer"  *ngIf="forma.value.vehiculos_postureros[i].conRampa">
+                                                          <label for="conRampa">Con Rampa: </label> <cite title="Source Title"> Si</cite>
+                                                        </div>
+                                                        <div class="blockquote-footer" *ngIf="!forma.value.vehiculos_postureros[i].conRampa">
+                                                          <label for="conRampa">Con Rampa: </label> <cite title="Source Title"> No</cite>
+                                                        </div>
+
+                                                        <footer class="blockquote-footer" >
+                                                            <label for="modalidad">Modalidad: </label>  <cite title="Source Title"> Posturero</cite>
+                                                         </footer>
+                                                      </blockquote>
+                                                    </div>
+                                                  </div>    
+                                              </div>
                                         </div>
-                                  </div>
-                                </fieldset>
+                                    </div>
+                                </div>
+                                
 
+                              </div>
+                              {{ respuesta }}
+                              <div class="m-5 float-right">
+                                  <button type="button" class="btn btn-warning btn-regresar"
+                                  awPreviousStep>Regresar</button>
+                                 <button type="submit" class="btn btn-success">Registrar</button>
+                                 <button type="button" (finalize)="finalizeReset()"
+                                  style="display: none;"  awResetWizard  #finishReset>Reset</button>
                               </div>
                             </fieldset>
                       </div>
-
-
-                    <!-- <li>imprimir usuario administrador que dio de alta el chofer</li> -->
-                    {{ respuesta }}
-                    <div class="m-5 float-right">
-                        <button type="button" class="btn btn-warning btn-regresar"
-                        awPreviousStep>Regresar</button>
-                       <button type="submit" class="btn btn-success">Registrar</button>
-                       <button type="button" (finalize)="finalizeReset()"
-                        style="display: none;"  awResetWizard  #finishReset>Reset</button>
-                    </div>
-
                   </aw-wizard-step>
                 </aw-wizard>
                 </form>
