@@ -63,12 +63,13 @@ export class FirebaseService {
     });
   }
 
-  buscarInfoConcesion(id: string) {
+  buscarInfoConcesion(concesion: string) {
     return new Promise<any>((resolve, reject) => {
-      this.afs.doc(`concesiones/${id}`)
-      .valueChanges()
+      this.afs.collection('choferes',
+      ref => ref.where('concesion', '==', concesion)).valueChanges()
       .subscribe((data: any) => {
-        if (data) {
+        console.log(data)
+        if (data.length > 0) {
           resolve(true);
         } else {
           resolve(false);

@@ -21,7 +21,7 @@ export class AgregarChoferComponent implements OnInit {
   public vehiculos_fijosArray: FormArray;
   public vehiculos_posturerosArray: FormArray;
   public choferesArray: FormArray;
-  horalocal: string =  moment().locale('es').format('MMMM Do YYYY, h:mm:ss a');
+  horalocal: string =  (Math.round(Math.random()*999999)).toString();
 
   public respuesta: any;
   fecha:string;
@@ -107,27 +107,16 @@ export class AgregarChoferComponent implements OnInit {
     .subscribe(dataEtiqueta => {
       if (dataEtiqueta === '1' || dataEtiqueta ===  true) {
         this.esPropietarioDePlaca = true;
-
         this.forma.addControl('concesion_socio',
         new FormControl('***', [Validators.required, Validators.maxLength(3), Validators.max(765), Validators.min(1)]));
-
-        this.forma.addControl('vehiculo_propio',this.createControlVehiculo('***', '1'));
-
         this.forma.controls['concesion_socio'].valueChanges.subscribe(dataConcesionSocio => {
           this.validarConcesion(dataConcesionSocio)
-          if(this.forma.value.vehiculo_propio){
-            this.forma.controls['vehiculo_propio']['controls']['concesion'].setValue(dataConcesionSocio);
-          }
         });
       } else {
         this.esPropietarioDePlaca = false;
-        // this.forma.controls['vehiculo_propio']['controls']['concesion'].setValue('***');
-        this.forma.removeControl('vehiculo_propio');
         this.forma.removeControl('concesion_socio');
       }
     });
-
-   
 
     this.forma.controls['fechaNacimiento'].valueChanges
     .subscribe(data => {
@@ -148,7 +137,6 @@ export class AgregarChoferComponent implements OnInit {
 
   }
   ngAfterViewInit(): void {
-    // Force another change detection in order to fix an occuring ExpressionChangedAfterItHasBeenCheckedError
     this._changeDetectionRef.detectChanges();
   }
 
@@ -232,10 +220,6 @@ export class AgregarChoferComponent implements OnInit {
         || placa.errors['maxLength'] || placa.errors['Mask error'] ||  placa.errors['existe'] ) {
           countErrrors ++;
         }
-      } else {
-        if(this.esPropietarioDePlaca && this.forma.value.vehiculo_propio){
-          this._consultarVehiculo(placa.value.toString(), this.forma.controls['vehiculo_propio']['controls']);
-        }
       }
     }
     this.revisionStep2 = countErrrors > 0 ? false : true;
@@ -251,17 +235,6 @@ export class AgregarChoferComponent implements OnInit {
         this.continuarStep3.nativeElement.click();
       }
     }
-  }
-
-  removerVehiculo(){
-   this.placaSinVehiculo = !this.placaSinVehiculo;
-   if (!this.placaSinVehiculo) {
-     this.forma.addControl('vehiculo_propio',
-     this.createControlVehiculo(this.forma.value.concesion_socio, '1'));
-   } else {
-     this.forma.removeControl('vehiculo_propio');
-   }
-
   }
 
   _consultarVehiculo(placa: string, control: any){
@@ -391,9 +364,6 @@ export class AgregarChoferComponent implements OnInit {
                if(this.forma.value.concesion_socio){
                   this.forma.removeControl('concesion_socio');
                 }
-               if(this.forma.value.vehiculo_propio){
-                 this.forma.removeControl('vehiculo_propio');
-               }
 
                this.VALIDATIONS_STEP1 = {
                 'nombre':   false,
@@ -422,7 +392,8 @@ export class AgregarChoferComponent implements OnInit {
               this.forma.controls['img'].setValue('');             
               this.forma.controls['activo'].setValue(false);
               this.forma.controls['autorizado'].setValue(true);
-              this.forma.controls['uidUserSystem'].setValue(localStorage.getItem('uid'));     
+              this.forma.controls['uidUserSystem'].setValue(localStorage.getItem('uid'));   
+              this._pushConcesion_Vehiculos('1');  
               this.finishReset.nativeElement.click();
               this.respuesta = '';
              })

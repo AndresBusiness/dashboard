@@ -1,6 +1,6 @@
 <ngx-loading [show]="loading" ></ngx-loading>
 <div class="row">
-  <!-- <div class="col-md-3">
+    <div class="col-md-3">
         <div class="card animated fadeIn">
             <div class="p-20">
                 <fieldset class="scheduler-border">
@@ -11,8 +11,8 @@
                 </fieldset>
             </div>
       </div>
-    </div>   -->
-    <div class="col-md-12">
+    </div>
+    <div class="col-md-9">
         <div class="card animated fadeIn">
             <form [formGroup]="forma" (ngSubmit)="guardarUsuario()" >
                 <aw-wizard #wizard [navBarLayout]="'large-empty-symbols'">
@@ -111,7 +111,7 @@
                         <h2 class="p-10" >INFORMACIÓN LABORAL</h2>
                       </div>
                       <div class="col-12 d-flex" >
-                        <div class="col-4">
+                        <div class="col-6">
                             <div class="container-form">
                               <div class="item item-form-3 col-12 pl-0">
                                 <h5>Folio de Chofer: <span class="text-danger">*</span></h5>
@@ -121,13 +121,16 @@
                               </div>
                             </div>
                         </div>
-                        <div class="col-4">
+                      
+                      </div>
+                      <div class="col-12 d-flex" >
+                        <div class="col-6">
                           <div class="container-form">
                             <div class="item item-form-3 col-12 pl-0">
                                 <h5>Tipo de Chofer: <span class="text-danger">*</span></h5>
                                 <select class="form-control custom-select"
                                  formControlName="etiqueta">
-                                    <option value="">Seleccione tipo de chofer</option>
+                                    <option value="">Seleccione tipo</option>
                                     <option value="1">Chofer Socio</option>
                                     <option value="0">Chofer Ayudante</option>
                                 </select>
@@ -136,7 +139,7 @@
                             </div>
                         </div>
                         </div>
-                        <div class="col-4"> 
+                        <div class="col-6"> 
                           <div class="container-form" *ngIf="esPropietarioDePlaca" >
                             <div class="item item-form-3 col-12 pl-0">
                                 <h5>No. de concesión <strong>Socio</strong> :<span class="text-danger" >*</span></h5>
@@ -163,11 +166,11 @@
                         </div>
                       </div>
 
-                      <div class="col-12">
-                        <h2 class="p-10">ENLISTAR LAS CONCESIONES QUE TRABAJA</h2>
-                      </div>
+                     
                       <div class="col-12 d-flex">
+
                           <div class="col-6">
+                              <h2 class="p-10">ENLISTAR LAS CONCESIONES QUE TRABAJA</h2>
                               <div class="item">
                                   <div>
                                       <div *ngFor="let item of forma.controls['concesiones_que_trabaja']['controls']; let i = index;"  >
@@ -184,6 +187,7 @@
                               </div>
                           </div>
                           <div class="col-6">
+                              <h2 class="p-10">AGREGA LOS POSTUREROS QUE REQUIERA</h2>
                               <!-- <div class="alert alert-info" role="alert">
                                   <strong class="font-weight-bold"> Nota:</strong> Si es chofer socio y manejas su propia concesión, agregar nuevamente el número de concesión
                               </div> -->
@@ -220,96 +224,7 @@
                   </aw-wizard-step>
                   <aw-wizard-step [stepTitle]="'Relación con vehículos'" >
                       <ng-template awWizardStepSymbol><i class="fas fa-car"></i></ng-template>
-                      <!-- <div *ngIf="esPropietarioDePlaca" class="m-3">
-                          <fieldset class="scheduler-border">
-                              <legend class="scheduler-border"> Vehículo  
-                                  <span class="label label-success custom-badge"> Fijo  <strong>{{ forma.value.concesion_socio }}</strong></span>
-                              </legend>
-
-                              <div class="container-form" >
-                                  <div class="item item-form-3" >
-                                      <input type="checkbox" id="sinvehiculo" (change)="removerVehiculo()"/>
-                                      <label  for="sinvehiculo">No hay vehículo para esta unidad, y/o estoy rentando la placa</label>
-                                  </div>
-                              </div>
-                              <div *ngIf="forma.value.vehiculo_propio" >
-                                <div formGroupName="vehiculo_propio">
-                                    <h3 *ngIf="forma.value.vehiculo_propio.nombreChoferRegistro" >El Chofer <strong>{{ forma.value.vehiculo_propio.nombreChoferRegistro }}</strong>  ya ha registrado un vehículo con esta concesión en {{ forma.value.vehiculo_propio.fechaRegistro}}</h3>
-                                    <div class="col-12 d-flex mb-4" >
-                                        <div class="col-4">
-                                            <h5>Marca: <span class="text-danger">*</span></h5>
-                                            <p *ngIf="forma.value.vehiculo_propio.nombreChoferRegistro">{{forma.value.vehiculo_propio.marca}}</p>
-                                            <input type="text" name="text" *ngIf="!forma.value.vehiculo_propio.nombreChoferRegistro"
-                                            placeholder="Ejemplo: Chevrolet" class="form-control" required formControlName ="marca">
-                                        </div>
-                                        <div class="col-4">
-                                            <h5>Modelo de vehículo: <span class="text-danger">*</span></h5>
-                                            <p *ngIf="forma.value.vehiculo_propio.nombreChoferRegistro">{{forma.value.vehiculo_propio.modelo}}</p>
-                                            <input type="text" name="text" *ngIf="!forma.value.vehiculo_propio.nombreChoferRegistro"
-                                            placeholder="Ejemplo: Aveo, Spark .." class="form-control" required formControlName ="modelo">
-                                        </div>
-                                        <div class="col-4">
-                                            <h5>Año: <span class="text-danger">*</span></h5>
-                                            <p *ngIf="forma.value.vehiculo_propio.nombreChoferRegistro">{{forma.value.vehiculo_propio.anio}}</p>
-                                            <input type="text" name="text" *ngIf="!forma.value.vehiculo_propio.nombreChoferRegistro"
-                                            placeholder="Ejemplo: 2010" class="form-control" required formControlName ="anio">
-                                        </div>
-                                    </div>
-                                    <div class="col-12 d-flex mb-4">
-                                        <div class="col-4">
-                                          <h5>Matrícula: <span class="text-danger">*</span></h5>
-                                          <p *ngIf="forma.value.vehiculo_propio.nombreChoferRegistro">{{forma.value.vehiculo_propio.matricula}}</p>
-                                          <input type="text" name="text" *ngIf="!forma.value.vehiculo_propio.nombreChoferRegistro"
-                                          placeholder="Ejemplo: 15-48-TRG" class="form-control" required formControlName ="matricula">
-                                        </div>
-                                        <div class="col-4">
-                                          <h5>Para 4 u 8 personas?: <span class="text-danger">*</span></h5>
-                                          <p *ngIf="forma.value.vehiculo_propio.nombreChoferRegistro">Hasta{{forma.value.vehiculo_propio.capacidad}} personas</p>
-                                          <select class="form-control custom-select" formControlName ="capacidad"
-                                          *ngIf="!forma.value.vehiculo_propio.nombreChoferRegistro">
-                                              <option value="-1">Seleccionar Capacidad</option>
-                                              <option value="4">Hasta 4 personas</option>
-                                              <option value="8">Hasta 8 personas</option>
-                                          </select>
-                                        </div>
-                                        <div class="col-4">
-                                            <h5>Fijo o Posturero?: <span class="text-danger">*</span></h5>
-                                            <p *ngIf="forma.value.vehiculo_propio.nombreChoferRegistro
-                                            && forma.value.vehiculo_propio.modalidad == '1'">Fijo</p>
-                                            <p *ngIf="forma.value.vehiculo_propio.nombreChoferRegistro
-                                            && forma.value.vehiculo_propio.modalidad == '0'">Posturero</p>
-                                            <select class="form-control custom-select" formControlName ="modalidad"
-                                            *ngIf="!forma.value.vehiculo_propio.nombreChoferRegistro">
-                                                <option value="-1">Seleccionar modalidad</option>
-                                                <option value="1">Fijo</option>
-                                                <option value="0">Posturero</option>
-                                            </select>
-                                          </div>
-                                    </div>
-                                    <div class="col-12 d-flex">
-                                        <div class="col-4">
-                                          <input type="checkbox" id="con_rampa" formControlName ="conRampa"
-                                          *ngIf="!forma.value.vehiculo_propio.nombreChoferRegistro"/>
-                                          <label for="con_rampa">¿Tiene Rampa?</label>
-                                          <p *ngIf="forma.value.vehiculo_propio.nombreChoferRegistro
-                                          && forma.value.vehiculo_propio.conRampa">SI</p>
-                                          <p *ngIf="forma.value.vehiculo_propio.nombreChoferRegistro
-                                          && !forma.value.vehiculo_propio.conRampa">NO</p>
-                                        </div>
-                                        <div class="col-8" *ngIf="forma.value.vehiculo_propio">
-                                          <div *ngIf="forma.value.vehiculo_propio.nombreChoferRegistro">
-                                              <input  *ngIf="forma.value.vehiculo_propio.nombreChoferRegistro" type="checkbox" id="vinculacion" formControlName ="vincularVehiculo" />
-                                              <label for="vinculacion">Vincular este vehículo con {{forma.value.nombre}} {{forma.value.apellidos}} ? </label>
-                                          </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                  
-                              </div>
-                            
-                          </fieldset>
-                      </div> -->
-                     <div class="form-group p-10">
+                      <div class="form-group p-10">
                         <div *ngIf="forma.value.vehiculos_fijos.length > 0"  >
                             <div *ngFor="let item of forma.controls['vehiculos_fijos']['controls']; let i = index;"  >
                               <app-formulario-vehiculos
@@ -390,7 +305,7 @@
                                   </h5>
                                 </div>
                               </div>
-                              <div *ngIf="forma.value.vehiculos_fijos.length > 0 
+                              <div class="col-12" *ngIf="forma.value.vehiculos_fijos.length > 0 
                                   || forma.value.vehiculos_postureros.length > 0" >
                                 <h2>Datos de Vehículos</h2>
                                 <div class="d-flex">
