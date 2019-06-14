@@ -141,7 +141,7 @@
                         </div>
                         <div class="col-6"> 
                           <div class="container-form" *ngIf="esPropietarioDePlaca" >
-                            <div class="item item-form-3 col-12 pl-0">
+                            <div class="item item-form-3 col-12 pl-0 mytooltip">
                                 <h5>No. de concesión <strong>Socio</strong> :<span class="text-danger" >*</span></h5>
                                 <input type="text" mask="000"  [showMaskTyped] = "true" name="text" class="form-control"
                                   required formControlName ="concesion_socio">
@@ -160,8 +160,17 @@
                                   *ngIf="forma.controls['concesion_socio'].errors?.maxLength">Máximo 3 digitos*</p>
                                   <p class="field-requiered"
                                   *ngIf="forma.controls['concesion_socio'].errors?.existe">Ya registraron esta concesión*</p>
-                                 
+                                  <span class="tooltip-content5">
+                                      <span class="tooltip-text3">
+                                        <span class="tooltip-inner2">
+                                         Si es chofer socio<br /> 
+                                         y manejas su propia concesión, <br /> 
+                                         agregar nuevamente el número de concesión.
+                                      </span>
+                                    </span>
+                                  </span>
                             </div>
+                            
                         </div>
                         </div>
                       </div>
