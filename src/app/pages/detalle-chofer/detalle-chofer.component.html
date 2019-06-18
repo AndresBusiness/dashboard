@@ -27,15 +27,15 @@
                         </div>
                         <hr />
                         <div class="m-1">
-                                <small *ngIf="!user.activo"  class="text-label">Conectado: <span 
+                                <small *ngIf="!user.activo"  class="text-label">Conectado: <span
                                     class="custom-badge label label-danger">OFFLINE</span></small>
-                                <small *ngIf="user.activo"  class="text-label">Conectado: <span 
+                                <small *ngIf="user.activo"  class="text-label">Conectado: <span
                                     class="custom-badge label label-success">ONLINE</span></small>
                         </div>
                         <div class="m-1">
-                                <small *ngIf="!user.autorizado"  class="text-label">Habilitado:   <span 
+                                <small *ngIf="!user.autorizado"  class="text-label">Habilitado:   <span
                                     class="custom-badge label label-danger">OFFLINE</span></small>
-                                <small *ngIf="user.autorizado"  class="text-label">Habilitado:   <span 
+                                <small *ngIf="user.autorizado"  class="text-label">Habilitado:   <span
                                     class="custom-badge label label-success">ONLINE</span></small>
                         </div>
                     </div>
@@ -52,6 +52,7 @@
                 <li class="nav-item"> <a class="nav-link active" data-toggle="tab" href="#comentarios-calificaciones" role="tab">Reviews</a> </li>
                 <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#historial" role="tab">Servicios Realizados</a> </li>
                 <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#vehiculos" role="tab">Vehículos</a> </li>
+                <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#config" role="tab">Configuraciones</a> </li>
             </ul>
             <!-- Tab panes -->
             <div class="tab-content">
@@ -60,7 +61,7 @@
                         <div class="col-6">
                             <h4 class="font-medium m-t-30">Nivel de satisfacción en la calidad de su servicio</h4>
                             <hr>
-    
+
                             <div class="container-progress">
                                 <font class="icon-margin text-muted display-5"><i style="color:#27AE60" class="mdi mdi-emoticon-cool"></i></font>
                                 <div class="container-calificacion">
@@ -71,7 +72,7 @@
                                     </div>
                                 </div>
                             </div>
-                        
+
                             <div class="container-progress">
                                 <font class="icon-margin text-muted display-5"><i style="color:#F1C40F" class="mdi mdi-emoticon"></i></font>
                                 <div class="container-calificacion">
@@ -82,7 +83,7 @@
                                 </div>
                                 </div>
                             </div>
-                        
+
                             <div class="container-progress">
                                 <font class="icon-margin text-muted display-5"><i style="color:#398bf7" class="mdi mdi-emoticon-happy"></i></font>
                                 <div class="container-calificacion">
@@ -93,7 +94,7 @@
                                 </div>
                                 </div>
                             </div>
-                        
+
                             <div class="container-progress">
                                 <font class="icon-margin text-muted display-5"><i style="color:#DC7633" class="mdi mdi-emoticon-neutral"></i></font>
                                 <div class="container-calificacion">
@@ -104,7 +105,7 @@
                                 </div>
                                 </div>
                             </div>
-                        
+
                             <div class="container-progress">
                                 <font class="icon-margin text-muted display-5"><i style="color:#ef5350" class="mdi mdi-emoticon-sad"></i></font>
                                 <div class="container-calificacion">
@@ -120,7 +121,7 @@
                                 <h4 class="font-medium m-t-30">Comentarios</h4>
                                 <hr>
                                 <h4 *ngIf="listComentarios.length == 0" >Este Chofer aún no tiene ningún comentario</h4>
-            
+
                                 <div class="profiletimeline" *ngIf="listComentarios.length !== 0" >
                                     <div  class="sl-item" *ngFor="let item of listComentarios" >
                                         <div class="sl-left"> <img [src]="item.imgPasajero" alt="user" class="rounded-circle img-profile-chofer" /> </div>
@@ -131,14 +132,14 @@
                                                             <i [ngStyle]="{'color': item.emoji.class}"  [class]="item.emoji.icon"></i>
                                                         </font> {{ item.comentario}} </div>
                                             </div>
-                                        
+
                                         </div>
                                         <hr>
                                     </div>
                                 </div>
                         </div>
                     </div>
-                   
+
                 </div>
                 <div class="tab-pane m-b-20" id="historial" role="tabpanel">
                     <div class="col-12 d-flex">
@@ -194,8 +195,31 @@
                             </div>
                         </div>
                         <div *ngIf="vehiculosRegistrados.length === 0">No ha registrado ningún vehículo</div>
-
-                     
+                    </div>
+                </div>
+                <div class="tab-pane m-b-20" id="config" role="tabpanel">
+                    <div class="card-body">
+                        <h4>Reestablecer contraseña</h4>
+                            <div class="container-form mt-5 d-flex">
+                                <div class="item item-form-6 col-6">
+                                    <h5>Correo eléctronico: <span class="text-danger">*</span></h5>
+                                    <input type="text" name="text" [(ngModel)]="correo" placeholder="Ejemplo: juan-39@gmail.com" class="form-control" required>
+                                    {{correo}}
+                                    <!-- <p class="field-requiered"
+                                    *ngIf="forma.controls['correo'].errors?.required && VALIDATIONS_STEP1.correo">Campo requerido*</p>
+                                    <p class="field-requiered"
+                                    *ngIf="forma.controls['correo'].errors?.pattern && forma.controls['correo'].value">Formato de correo incorrecto*</p> -->
+                                </div>
+                                <div class="col-6" style="margin-top:27px;">
+                                        <button  class="btn btn-success">Enviar</button>
+                                </div>
+                            </div>
+                        <hr>
+                        <h4>Desactivar usuario</h4>
+                        <div class="text-center mt-5">
+                            <button *ngIf="habilitado" (click)="cambiarStatusChofer()" class="btn btn-danger">Deshabilitar Chofer</button>
+                            <button *ngIf="!habilitado" (click)="cambiarStatusChofer()" class="btn btn-success">Habilitar Chofer</button>
+                        </div>
                     </div>
                 </div>
             </div>

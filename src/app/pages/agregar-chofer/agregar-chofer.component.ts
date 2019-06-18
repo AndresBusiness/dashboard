@@ -86,11 +86,11 @@ export class AgregarChoferComponent implements OnInit {
 
 
     this.forma = new FormGroup({
-      'folio':           new FormControl('thert', Validators.required),
-      'nombre':          new FormControl('sdrtht', Validators.required),
-      'apellidos':       new FormControl('ertjtr', Validators.required),
-      'correo':          new FormControl('andres-eee@gerserger.com', [Validators.required, Validators.pattern(this.expRefEmail)]),
-      'telefono':        new FormControl('4775642132', [Validators.required, Validators.minLength(10)]),
+      'folio':           new FormControl('', Validators.required),
+      'nombre':          new FormControl('', Validators.required),
+      'apellidos':       new FormControl('', Validators.required),
+      'correo':          new FormControl('', [Validators.required, Validators.pattern(this.expRefEmail)]),
+      'telefono':        new FormControl('', [Validators.required, Validators.minLength(10)]),
       'etiqueta':        new FormControl('', Validators.required),
       'genero':          new FormControl('1', Validators.required),
       'fechaNacimiento': new FormControl('', [Validators.required, this.validarFecha]),

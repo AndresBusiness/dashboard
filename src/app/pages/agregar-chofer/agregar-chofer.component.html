@@ -1,6 +1,6 @@
 <ngx-loading [show]="loading" ></ngx-loading>
 <div class="row">
-    <div class="col-md-3">
+    <!-- <div class="col-md-3">
         <div class="card animated fadeIn">
             <div class="p-20">
                 <fieldset class="scheduler-border">
@@ -11,8 +11,8 @@
                 </fieldset>
             </div>
       </div>
-    </div>
-    <div class="col-md-9">
+    </div> -->
+    <div class="col-md-12">
         <div class="card animated fadeIn">
             <form [formGroup]="forma" (ngSubmit)="guardarUsuario()" >
                 <aw-wizard #wizard [navBarLayout]="'large-empty-symbols'">
@@ -68,7 +68,7 @@
                                   name="dp" formControlName="fechaNacimiento" #fechaNacimiento
                                   ngbDatepicker #d="ngbDatepicker">
                               </div>
-                            
+
                             </div>
                             <p class="field-requiered"
                             *ngIf="forma.controls['fechaNacimiento'].errors?.ngbDate && forma.controls['fechaNacimiento'].value">Formato de fecha incorrecto*</p>
@@ -121,7 +121,7 @@
                               </div>
                             </div>
                         </div>
-                      
+
                       </div>
                       <div class="col-12 d-flex" >
                         <div class="col-6">
@@ -139,7 +139,7 @@
                             </div>
                         </div>
                         </div>
-                        <div class="col-6"> 
+                        <div class="col-6">
                           <div class="container-form" *ngIf="esPropietarioDePlaca" >
                             <div class="item item-form-3 col-12 pl-0 mytooltip">
                                 <h5>No. de concesión <strong>Socio</strong> :<span class="text-danger" >*</span></h5>
@@ -163,19 +163,19 @@
                                   <span class="tooltip-content5">
                                       <span class="tooltip-text3">
                                         <span class="tooltip-inner2">
-                                         Si maneja su propia concesión, <br /> 
+                                         Si maneja su propia concesión, <br />
                                          agregar nuevamente en el listado de <br >
                                          concesiones que trabaja.
                                       </span>
                                     </span>
                                   </span>
                             </div>
-                            
+
                         </div>
                         </div>
                       </div>
 
-                     
+
                       <div class="col-12 d-flex">
 
                           <div class="col-6">
@@ -205,7 +205,7 @@
                               <i class="fa fa-car"></i>
                               Agregar Posturero
                             </button>
-                              
+
                               <div class="col-12 mt-4 d-grid">
                                   <div *ngIf="this.forma.value.vehiculos_postureros.length > 0">
                                         <!-- <h5 class="card-title m-t-10">Vehículos: </h5> -->
@@ -282,7 +282,7 @@
                                     <h2>Datos laborables</h2>
                                     <div class="m-4 d-grid">
                                             <div><label for="folio">Folio: </label> {{forma.value.folio}}</div>
-                                            <div *ngIf="forma.value.etiqueta === '1'"> 
+                                            <div *ngIf="forma.value.etiqueta === '1'">
                                               <label
                                               for="etiqueta">Etiqueta: </label>Socio
                                             </div>
@@ -299,13 +299,13 @@
                                 <div class="col-3">
                                   <h2>Concesiones que trabaja</h2>
                                   <div class="d-flex">
-                                      <div *ngFor="let item of forma.controls['concesiones_que_trabaja']['controls']; let i = index;" 
+                                      <div *ngFor="let item of forma.controls['concesiones_que_trabaja']['controls']; let i = index;"
                                       class="m-2">
                                           <span class="label label-info custom-badge">{{ forma.value.vehiculos_fijos[i].concesion }}
                                           </span>
                                       </div>
                                   </div>
-                                  
+
                                   <h5 *ngIf="forma.value.vehiculos_postureros.length === 1" class="mt-2" >
                                       Registró {{forma.value.vehiculos_postureros.length}} vehículo posturero
                                   </h5>
@@ -314,7 +314,7 @@
                                   </h5>
                                 </div>
                               </div>
-                              <div class="col-12" *ngIf="forma.value.vehiculos_fijos.length > 0 
+                              <div class="col-12" *ngIf="forma.value.vehiculos_fijos.length > 0
                                   || forma.value.vehiculos_postureros.length > 0" >
                                 <h2>Datos de Vehículos</h2>
                                 <div class="d-flex">
@@ -329,10 +329,10 @@
                                                       <blockquote class="blockquote mb-0">
                                                         <p>{{forma.value.vehiculos_fijos[i].marca}}, {{forma.value.vehiculos_fijos[i].modelo}}, {{forma.value.vehiculos_fijos[i].anio}}</p>
                                                         <div class="blockquote-footer">
-                                                          <label for="matricula">Matrícula: </label><cite title="Source Title"> {{forma.value.vehiculos_fijos[i].matricula}}</cite> 
+                                                          <label for="matricula">Matrícula: </label><cite title="Source Title"> {{forma.value.vehiculos_fijos[i].matricula}}</cite>
                                                         </div>
                                                         <div class="blockquote-footer">
-                                                          <label for="capacidad">Capacidad: </label> <cite title="Source Title"> Hasta {{forma.value.vehiculos_fijos[i].capacidad}} personas</cite> 
+                                                          <label for="capacidad">Capacidad: </label> <cite title="Source Title"> Hasta {{forma.value.vehiculos_fijos[i].capacidad}} personas</cite>
                                                         </div>
                                                         <div class="blockquote-footer"  *ngIf="forma.value.vehiculos_fijos[i].conRampa">
                                                           <label for="rampa"> Con Rampa:</label><cite title="Source Title"> Si</cite>
@@ -366,7 +366,7 @@
                                                           <label for="matricula">Matrícula: </label> <cite title="Source Title"> {{forma.value.vehiculos_postureros[i].matricula}}</cite>
                                                         </div>
                                                         <div class="blockquote-footer" >
-                                                          <label for="capacidad">Capacidad: </label> <cite title="Source Title"> Hasta {{forma.value.vehiculos_postureros[i].capacidad}} personas</cite> 
+                                                          <label for="capacidad">Capacidad: </label> <cite title="Source Title"> Hasta {{forma.value.vehiculos_postureros[i].capacidad}} personas</cite>
                                                         </div>
                                                         <div class="blockquote-footer"  *ngIf="forma.value.vehiculos_postureros[i].conRampa">
                                                           <label for="conRampa">Con Rampa: </label> <cite title="Source Title"> Si</cite>
@@ -380,12 +380,12 @@
                                                          </footer>
                                                       </blockquote>
                                                     </div>
-                                                  </div>    
+                                                  </div>
                                               </div>
                                         </div>
                                     </div>
                                 </div>
-                                
+
 
                               </div>
                               {{ respuesta }}
@@ -404,7 +404,7 @@
             <div class="p-20">
               <div class="progress-bar bar-progress" role="progressbar"  aria-valuemin="0" [attr.ariaValuenow]="counttimeUploading"aria-valuemax="100"
               [style.width]="counttimeUploading + '%'"> </div>
-              
+
             </div>
         </div>
     </div>

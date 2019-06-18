@@ -35,6 +35,8 @@ export class DetalleChoferComponent implements OnInit {
     "uidUserSystem": "",
   };
   vehiculosRegistrados: any [] = [];
+  correo: string;
+  habilitado: boolean ;
 
   imgDefault: string;
   listComentarios: any[] = [];
@@ -63,6 +65,7 @@ export class DetalleChoferComponent implements OnInit {
     this.servicioFirebase.buscarInfoChofer(uid)
         .then(data => {
           this.user = data;
+          this.habilitado = this.user.autorizado;
           this.servicioFirebase.buscarInfoVehiculoRegistroChofer(this.user.nombre + ' ' + this.user.apellidos)
           .subscribe((data: any)=>{
             for (let index = 0; index < data.length; index++) {
@@ -90,6 +93,10 @@ export class DetalleChoferComponent implements OnInit {
             }
           }
         });
+  }
+
+  cambiarStatusChofer(){
+    this.habilitado = !this.habilitado;
   }
 
 }
