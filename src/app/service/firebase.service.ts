@@ -79,6 +79,21 @@ export class FirebaseService {
     });
   }
 
+  verificarConcesion(concesion: string) {
+    return new Promise<any>((resolve, reject) => {
+      this.afs.doc(`concesiones/${concesion}`)
+      .valueChanges()
+      .subscribe((data: any) => {
+        if (data) {
+          resolve(true);
+        } else {
+          resolve(false);
+        }
+      }, err => reject(err)
+      );
+    });
+  }
+
 
   obtenerInfoChoferes() {
     return this.afs.collection('choferes').snapshotChanges();

@@ -1,5 +1,5 @@
 import { FirebaseService } from './../../service/firebase.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ɵConsole } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ChartType } from 'chart.js';
 
@@ -65,19 +65,12 @@ export class DetalleChoferComponent implements OnInit {
           this.user = data;
           this.servicioFirebase.buscarInfoVehiculoRegistroChofer(this.user.nombre + ' ' + this.user.apellidos)
           .subscribe((data: any)=>{
-            
             for (let index = 0; index < data.length; index++) {
               const element = data[index];
               let vehiculares = {
-                'vehiculo': element,
-                'chofer': null,
+                'vehiculo': element
               }
-              this.servicioFirebase.buscarInfoChofer(element.propietario)
-              .then(chofer=>{
-                vehiculares.chofer = chofer;
-                this.vehiculosRegistrados.push(vehiculares)
-                console.log(vehiculares);
-              });
+              this.vehiculosRegistrados.push(vehiculares)
             }
           })
         });

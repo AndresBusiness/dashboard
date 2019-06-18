@@ -21,7 +21,7 @@ export class AgregarChoferComponent implements OnInit {
   public vehiculos_fijosArray: FormArray;
   public vehiculos_posturerosArray: FormArray;
   public choferesArray: FormArray;
-  horalocal: string =  (Math.round(Math.random()*999999)).toString();
+  horalocal: string =  (Math.round(Math.random()*9)).toString() + (Math.round(Math.random()*9)).toString()+ (Math.round(Math.random()*9)).toString()+ (Math.round(Math.random()*9)).toString()+ (Math.round(Math.random()*9)).toString()+ (Math.round(Math.random()*9)).toString();
 
   public respuesta: any;
   fecha:string;
@@ -457,8 +457,6 @@ export class AgregarChoferComponent implements OnInit {
     this.vehiculos_posturerosArray.push(this.createControlVehiculo(concesion, modalidad));
   }
 
-
-
   createControlVehiculo(concesion: any, modalidad:string){
     return new FormGroup({
       'concesion': new FormControl(concesion),
@@ -474,7 +472,7 @@ export class AgregarChoferComponent implements OnInit {
       'idVehiculo': new FormControl(null),
       'choferes': new FormControl(null),
       'vincularVehiculo': new FormControl(false)
-    })
+    });
   }
 
    _pushConcesion() {
