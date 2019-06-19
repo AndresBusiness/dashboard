@@ -11,7 +11,7 @@
                 </fieldset>
             </div>
       </div>
-    </div> -->
+    </div>  -->
     <div class="col-md-12">
         <div class="card animated fadeIn">
             <form [formGroup]="forma" (ngSubmit)="guardarUsuario()" >
@@ -323,11 +323,13 @@
                                             <div *ngFor="let item of forma.controls['vehiculos_fijos']['controls']; let i = index;" class="m-4">
                                                 <div class="card">
                                                     <div class="card-header">
-                                                        Concesión: {{ forma.value.vehiculos_fijos[i].concesion }}
+                                                        {{forma.value.vehiculos_fijos[i].marca}}, {{forma.value.vehiculos_fijos[i].modelo}}, {{forma.value.vehiculos_fijos[i].anio}}
                                                     </div>
                                                     <div class="card-body p-0" >
                                                       <blockquote class="blockquote mb-0">
-                                                        <p>{{forma.value.vehiculos_fijos[i].marca}}, {{forma.value.vehiculos_fijos[i].modelo}}, {{forma.value.vehiculos_fijos[i].anio}}</p>
+                                                        <div class="blockquote-footer">
+                                                            <label for="concesion">Concesión: </label><cite title="Source Title"> {{ forma.value.vehiculos_fijos[i].concesion }}</cite>
+                                                          </div>
                                                         <div class="blockquote-footer">
                                                           <label for="matricula">Matrícula: </label><cite title="Source Title"> {{forma.value.vehiculos_fijos[i].matricula}}</cite>
                                                         </div>
@@ -356,11 +358,13 @@
 
                                                 <div class="card">
                                                     <div class="card-header">
-                                                        Posturero
+                                                        {{forma.value.vehiculos_postureros[i].marca}}, {{forma.value.vehiculos_postureros[i].modelo}}, {{forma.value.vehiculos_postureros[i].anio}}
                                                     </div>
                                                     <div class="card-body  p-0">
                                                       <blockquote class="blockquote mb-0">
-                                                        <p>{{forma.value.vehiculos_postureros[i].marca}}, {{forma.value.vehiculos_postureros[i].modelo}}, {{forma.value.vehiculos_postureros[i].anio}}</p>
+                                                          <div class="blockquote-footer" >
+                                                              <label for="matricula"><i>Posturero</i></label>
+                                                            </div>
 
                                                         <div class="blockquote-footer" >
                                                           <label for="matricula">Matrícula: </label> <cite title="Source Title"> {{forma.value.vehiculos_postureros[i].matricula}}</cite>

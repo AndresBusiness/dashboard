@@ -33,6 +33,7 @@ export class AgregarChoferComponent implements OnInit {
   public minDate: any;
   public maxDate: any;
   public startDate: any;
+  user: any;
 
   uploadProgress: Observable<number>;
   uploadURL: Observable<string>;
@@ -79,11 +80,11 @@ export class AgregarChoferComponent implements OnInit {
     this.startDate = {year: 1973, month: 6, day: 15};
 
     const uid = localStorage.getItem('uid');
+    this.user=  JSON.parse(localStorage.getItem('user'));
 
     this.concesiones_que_trabajaArray = this.fb.array([]);
     this.vehiculos_fijosArray = this.fb.array([]);
     this.vehiculos_posturerosArray = this.fb.array([]);
-
 
     this.forma = new FormGroup({
       'folio':           new FormControl('', Validators.required),
@@ -100,7 +101,9 @@ export class AgregarChoferComponent implements OnInit {
       'uidUserSystem':        new FormControl(uid, Validators.required),
       'concesiones_que_trabaja': this.concesiones_que_trabajaArray,
       'vehiculos_fijos':         this.vehiculos_fijosArray,
-      'vehiculos_postureros':    this.vehiculos_posturerosArray
+      'vehiculos_postureros':    this.vehiculos_posturerosArray,
+      'nombreUserSystem' :  new FormControl(this.user.nombre),
+      'imgUserSystem' :     new FormControl(this.user.img)
     });
 
     this.forma.controls['etiqueta'].valueChanges
@@ -325,6 +328,8 @@ export class AgregarChoferComponent implements OnInit {
     this.respuesta = 'guardando';
     const form = this.forma.value;
     form.telefono = form.telefono;
+    form.nombreUserSystem = this.user.nombre;
+    form.imgUserSystem = this.user.img;
     form.fechaNacimiento = this.fecha;
     console.log(JSON.stringify(form));
 
