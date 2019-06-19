@@ -66,6 +66,7 @@ export class DetalleChoferComponent implements OnInit {
         .then(data => {
           this.user = data;
           this.habilitado = this.user.autorizado;
+          this.correo = this.user.correo;
           this.servicioFirebase.buscarInfoVehiculoRegistroChofer(this.user.nombre + ' ' + this.user.apellidos)
           .subscribe((data: any)=>{
             for (let index = 0; index < data.length; index++) {
