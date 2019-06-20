@@ -40,7 +40,7 @@ import { GridModule } from 'ng2-jsgrid';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { NgbModule, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { MonitoreoComponent } from './monitoreo/monitoreo.component';
-
+import { Ng2OdometerModule } from 'ng2-odometer';
 
 @NgModule({
   declarations: [
@@ -81,6 +81,7 @@ import { MonitoreoComponent } from './monitoreo/monitoreo.component';
     BrowserModule,
     NgbModule.forRoot(),
     GridModule.forRoot(),
+    Ng2OdometerModule.forRoot(),
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyDCSZP6QgfBgbUa3jsq5rnVAtdYHuZxTgM'
      }),

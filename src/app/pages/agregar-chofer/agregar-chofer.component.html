@@ -1,15 +1,10 @@
 <ngx-loading [show]="loading" ></ngx-loading>
 <div class="row">
   <div class="col-12 d-flex">
-      <div class="col-md-3">
+      <!-- <div class="col-md-3">
           <div class="card animated fadeIn">
               <div class="p-20 aside-left" >
-                  <!-- <fieldset class="scheduler-border">
-                      <legend class="scheduler-border">{{horalocal}}</legend>
-                      <pre>
-                        {{ forma.value | json }}
-                      </pre>
-                  </fieldset> -->
+                  
                   <h2 class="aside-title"> Información Personal</h2>
                   <hr style="background: white">
                   Nombre: {{ forma.value.nombre}} {{ forma.value.apellidos}} <br>
@@ -60,20 +55,17 @@
                         - {{item.marca}}, {{item.modelo}},  {{item.anio}}
                       </div>
                   </div>
-  
-  
               </div>
         </div>
-      </div>  
-      <div class="col-md-9">
+      </div>   -->
+      <div class="col-md-12">
           <div class="card animated fadeIn">
-            <div class="wizard d-flex col-12 pt-4 pb-4">
+            <div class="wizard d-flex col-12 pt-2 pb-2">
               <div class="step1">
                   <div class="pelota text-center p-2" [ngStyle]="{'background': state_actual_pelota1 }">
                       <i class="icon-steps far fa-address-card"></i>
                       <div class="title-step text-center">Datos Personales</div>
                   </div>
-                  
               </div>
               <div class="progress_pelota" [ngStyle]="{'background': state_actual_barra1 }"></div>
               <div class="step2">
@@ -81,7 +73,6 @@
                       <i class="icon-steps fas fa-file-signature"></i>
                       <div class="title-step text-center">Concesiones</div>
                   </div>
-                  
               </div>
               <div class="progress_pelota" [ngStyle]="{'background': state_actual_barra2 }"></div>
               <div class="step3">
@@ -89,7 +80,6 @@
                       <i class="icon-steps fas fa-taxi"></i>
                       <div class="title-step text-center">Vehículos</div>
                   </div>
-                  
               </div>
               <div class="progress_pelota" [ngStyle]="{'background': state_actual_barra3 }"></div>
               <div class="step4">
@@ -97,7 +87,6 @@
                       <i class="icon-steps fas fa-clipboard-check"></i>
                       <div class="title-step text-center">Finalizar</div>
                   </div>
-                  
               </div>
             </div>
           
@@ -106,7 +95,7 @@
                     <aw-wizard-step [stepTitle]="'Datos Personales'" >
                         <ng-template awWizardStepSymbol><i class="fas fa-id-card"></i></ng-template>
                         <div class="form-group p-10">
-                        <h2 class="p-10" >LLENAR TODOS LOS DATOS DEL CHOFER</h2>
+                        <h3>Llenar todos los datos del chofer</h3>
                         <div class="container-form">
                           <div class="item item-form-6">
                             <h5>Nombre (s): <span class="text-danger">*</span></h5>
@@ -199,11 +188,9 @@
                     <aw-wizard-step [stepTitle]="'Concesiones que trabaja'" >
                       <ng-template awWizardStepSymbol><i class="fas fa-briefcase"></i></ng-template>
                       <div class="form-group p-10">
-                        <div class="col-12">
-                          <h2 class="p-10" >INFORMACIÓN LABORAL</h2>
-                        </div>
                         <div class="col-12 d-flex" >
                           <div class="col-6">
+                              <h3 >Información laboral</h3>
                               <div class="container-form">
                                 <div class="item item-form-3 col-12 pl-0">
                                   <h5>Folio de Chofer: <span class="text-danger">*</span></h5>
@@ -213,7 +200,6 @@
                                 </div>
                               </div>
                           </div>
-  
                         </div>
                         <div class="col-12 d-flex" >
                           <div class="col-6">
@@ -266,12 +252,9 @@
                           </div>
                           </div>
                         </div>
-  
-  
                         <div class="col-12 d-flex">
-  
                             <div class="col-6">
-                                <h2 class="p-10">ENLISTAR LAS CONCESIONES QUE TRABAJA</h2>
+                                <h3>Enlista las conceciones que trabaja</h3>
                                 <div class="item">
                                     <div>
                                         <div *ngFor="let item of forma.controls['concesiones_que_trabaja']['controls']; let i = index;"  >
@@ -288,7 +271,7 @@
                                 </div>
                             </div>
                             <div class="col-6">
-                                <h2 class="p-10">AGREGA LOS POSTUREROS QUE REQUIERA</h2>
+                                <h3>Agrega los postureros que requiera</h3>
                                 <!-- <div class="alert alert-info" role="alert">
                                     <strong class="font-weight-bold"> Nota:</strong> Si es chofer socio y manejas su propia concesión, agregar nuevamente el número de concesión
                                 </div> -->
@@ -415,7 +398,7 @@
                                 <div class="col-12" *ngIf="forma.value.vehiculos_fijos.length > 0
                                     || forma.value.vehiculos_postureros.length > 0" >
                                   <h2>Datos de Vehículos</h2>
-                                  <div class="d-flex">
+                                  <div >
                                       <div *ngIf="forma.value.vehiculos_fijos.length > 0 " >
                                           <div class="d-flex">
                                               <div *ngFor="let item of forma.controls['vehiculos_fijos']['controls']; let i = index;" class="m-4">

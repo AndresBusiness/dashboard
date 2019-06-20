@@ -239,6 +239,7 @@ export class AgregarChoferComponent implements OnInit {
       this.state_actual_pelota1 = this.state_finish;
       this.state_actual_barra1 = this.state_finish;
       this.state_actual_pelota2 = this.state_active;
+      window.scroll(0,0);
       this.continuarStep2.nativeElement.click();
     }
   }
@@ -296,6 +297,7 @@ export class AgregarChoferComponent implements OnInit {
       this.state_actual_pelota2 = this.state_finish;
       this.state_actual_barra2 = this.state_finish;
       this.state_actual_pelota3 = this.state_active;
+      window.scroll(0,0);
       this.continuarStep3.nativeElement.click();
     }
   }
@@ -315,7 +317,9 @@ export class AgregarChoferComponent implements OnInit {
       this.state_actual_barra3 = this.state_finish;
       this.state_actual_pelota4 = this.state_active;
       this.continuarStep4.nativeElement.click();
-    }
+    } 
+    window.scroll(0,0);
+
   }
 
   regresarpaso1(){
@@ -540,6 +544,7 @@ export class AgregarChoferComponent implements OnInit {
               this._pushConcesion_Vehiculos('1');  
               this.finishReset.nativeElement.click();
               this.respuesta = '';
+              window.scroll(0,0);
              })
 
            }, err=>{
