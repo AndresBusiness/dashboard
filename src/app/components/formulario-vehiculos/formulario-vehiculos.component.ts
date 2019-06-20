@@ -10,6 +10,8 @@ export class FormularioVehiculosComponent implements OnInit {
   @Input() forma: any;
   @Input() i: any;
   @Input() type: any;
+  @Input() revisionVehiculos: any;
+  
 
   constructor() { }
 

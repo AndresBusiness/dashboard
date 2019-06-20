@@ -26,3 +26,19 @@ fieldset.scheduler-border {
     color: #567382;
     font-weight: 500;
   }
+
+  input[type="text"],
+  .custom-select,
+  input[type="file"]{
+    border-color:#adaaaa;
+  }
+
+  .field-requiered{
+    color: #b72b28;
+    font-weight: 600;
+   }
+   
+
+  .steps-indicator {
+     display: none !important; 
+  }

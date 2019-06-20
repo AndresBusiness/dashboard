@@ -96,21 +96,16 @@ export class ChoferesComponent implements OnInit {
   }
 
   public _observarInfoTaxistas() {
-    const s = this.servicioFirebase.obtenerInfoChoferes()
-                .subscribe((infoSnapshot) => {
-                  this.infoChoferes = [];
-                  this.loading = false;
-                  infoSnapshot.forEach((taxistaData: any) => {
-                    const info = taxistaData.payload.doc.data();
-                    info.uid = taxistaData.payload.doc.id;
-                    this.infoChoferes.push(info);
-                  });
-                  this.source = new LocalDataSource(this.infoChoferes);
-                });
-    setTimeout(() => {
-      s.unsubscribe();
-    }, 2000);
-    // this._observableSubscriptions.push(s);
+     this.servicioFirebase.obtenerInfoChoferes()
+            .subscribe((infoSnapshot) => {
+              console.log('estoy leyendo cam')
+              this.infoChoferes = [];
+              this.loading = false;
+              infoSnapshot.forEach((taxistaData: any) => {
+                this.infoChoferes.push(taxistaData);
+              });
+              this.source = new LocalDataSource(this.infoChoferes);
+            });
   }
 
   abrirAgregarChofer() {

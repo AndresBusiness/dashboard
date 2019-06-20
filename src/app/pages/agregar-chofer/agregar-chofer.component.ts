@@ -35,6 +35,19 @@ export class AgregarChoferComponent implements OnInit {
   public startDate: any;
   user: any;
 
+  state_pending: string ="#B8B8B8";
+  state_active: string ="#0CCBF5";
+  state_finish: string = "#4CDD5B";
+  state_actual_pelota1: string;
+  state_actual_barra1: string;
+  state_actual_pelota2: string;
+  state_actual_barra2: string;
+  state_actual_pelota3: string;
+  state_actual_barra3: string;
+  state_actual_pelota4: string;
+
+
+
   uploadProgress: Observable<number>;
   uploadURL: Observable<string>;
   public expRefEmail    = /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$/;
@@ -42,13 +55,15 @@ export class AgregarChoferComponent implements OnInit {
   revisionStep2: boolean = false;
   esPropietarioDePlaca: boolean = false;
   placaSinVehiculo : boolean = false;
+  revisionVehiculos : boolean = false;
 
   public loading = false;
 
   @ViewChild('continuarStep2') continuarStep2: ElementRef;
   @ViewChild('continuarStep3') continuarStep3: ElementRef;
+  @ViewChild('continuarStep4') continuarStep4: ElementRef;
   @ViewChild('finishReset') finishReset: ElementRef;
-  @ViewChild('sinVehiculos') sinVehiculos: ElementRef;
+  //@ViewChild('sinVehiculos') sinVehiculos: ElementRef;
 
   
 
@@ -62,6 +77,7 @@ export class AgregarChoferComponent implements OnInit {
     'telefono':   false,
     'fechaNacimiento':   false,
     'img':   false,
+    'genero': false
   };
 
   VALIDATIONS_STEP2 = {
@@ -79,6 +95,16 @@ export class AgregarChoferComponent implements OnInit {
     this.maxDate = {year: 2001, month: 1, day: 1};
     this.startDate = {year: 1973, month: 6, day: 15};
 
+    this.state_actual_pelota1 = this.state_active;
+    this.state_actual_barra1 = this.state_pending;
+    this.state_actual_pelota2 = this.state_pending;
+    this.state_actual_barra2 = this.state_pending;
+    this.state_actual_pelota3 = this.state_pending;
+    this.state_actual_barra3 = this.state_pending;
+    this.state_actual_pelota4 = this.state_pending;
+
+
+
     const uid = localStorage.getItem('uid');
     this.user=  JSON.parse(localStorage.getItem('user'));
 
@@ -93,7 +119,7 @@ export class AgregarChoferComponent implements OnInit {
       'correo':          new FormControl('', [Validators.required, Validators.pattern(this.expRefEmail)]),
       'telefono':        new FormControl('', [Validators.required, Validators.minLength(10)]),
       'etiqueta':        new FormControl('', Validators.required),
-      'genero':          new FormControl('1', Validators.required),
+      'genero':          new FormControl('', Validators.required),
       'fechaNacimiento': new FormControl('', [Validators.required, this.validarFecha]),
       'img':             new FormControl('', Validators.required),
       'activo':               new FormControl(false, Validators.required),
@@ -108,6 +134,7 @@ export class AgregarChoferComponent implements OnInit {
 
     this.forma.controls['etiqueta'].valueChanges
     .subscribe(dataEtiqueta => {
+      console.log(this.forma)
       if (dataEtiqueta === '1' || dataEtiqueta ===  true) {
         this.esPropietarioDePlaca = true;
         this.forma.addControl('concesion_socio',
@@ -126,7 +153,34 @@ export class AgregarChoferComponent implements OnInit {
       this.fecha = this.servicioFecha.format(data);
     });
 
-    const fieldStep1 = ['nombre', 'apellidos', 'correo', 'telefono', 'fechaNacimiento', 'img']
+    this.forma.controls['correo'].valueChanges
+    .subscribe(data => {
+      if(data !== ''){
+        if(data.length > 5 ){
+          this.firebaseService.buscarInfoConcesion(data, 'correo').then(result=>{
+            if(result){
+              this.forma.controls['correo'].setErrors({existe: true});
+            } else {
+              let countErrors = 0
+              if (this.forma.controls['correo'].errors) {
+                if (this.forma.controls['correo'].errors['required'] ||  this.forma.controls['correo'].errors['pattern'] ) {
+                  countErrors ++;
+                }
+              }
+              if(countErrors === 0 ){
+                this.forma.controls['correo'].setErrors(null);
+              }
+            }
+          });  
+        }
+      }
+           
+    });
+
+
+
+
+    const fieldStep1 = ['nombre', 'apellidos', 'correo', 'telefono', 'fechaNacimiento', 'img', 'genero']
     for (let index = 0; index < fieldStep1.length; index++) {
       this.forma.controls[fieldStep1[index]].statusChanges.subscribe(data => {
         if (data === 'VALID') {this.VALIDATIONS_STEP1[fieldStep1[index]] = true; }
@@ -146,11 +200,20 @@ export class AgregarChoferComponent implements OnInit {
   validarConcesion(placa: string) {
     if (placa !== '***' && placa !== "") {
         const controlConcesion = (this.forma.controls['concesion_socio'] as FormControl)
-        this.firebaseService.buscarInfoConcesion(placa).then(result=>{
+        this.firebaseService.buscarInfoConcesion(placa, 'concesion').then(result=>{
         if(result){
-          controlConcesion.setErrors({existe: true});
+          controlConcesion.setErrors({existe:true});
         } else {
-          controlConcesion.setErrors(null);
+          let countErrors = 0
+          if (controlConcesion.errors) {
+            if (controlConcesion.errors['required'] || controlConcesion.errors['max'] || controlConcesion.errors['min']
+            || controlConcesion.errors['maxLength'] || controlConcesion.errors['Mask error'] ) {
+              countErrors ++;
+            }
+          }
+          if(countErrors === 0 ){
+            controlConcesion.setErrors(null);
+          }
         }
       });
     }
@@ -158,7 +221,7 @@ export class AgregarChoferComponent implements OnInit {
 
   paso1() {
     let countErrrors = 0;
-    const fieldStep1 = ['nombre', 'apellidos', 'correo', 'telefono', 'fechaNacimiento', 'img']
+    const fieldStep1 = ['nombre', 'apellidos', 'correo', 'telefono', 'fechaNacimiento', 'img', 'genero']
     for (let index = 0; index < fieldStep1.length; index++) {
       const element = fieldStep1[index];
      if (this.forma.controls[element].errors) {
@@ -173,6 +236,9 @@ export class AgregarChoferComponent implements OnInit {
     }
     this.revisionStep1 = countErrrors > 0 ? false : true;
     if (this.revisionStep1) {
+      this.state_actual_pelota1 = this.state_finish;
+      this.state_actual_barra1 = this.state_finish;
+      this.state_actual_pelota2 = this.state_active;
       this.continuarStep2.nativeElement.click();
     }
   }
@@ -205,7 +271,7 @@ export class AgregarChoferComponent implements OnInit {
         }
         if (placa.errors) {
           if (placa.errors['required'] || placa.errors['max'] || placa.errors['min']
-          || placa.errors['maxLength'] || placa.errors['Mask error']) {
+          || placa.errors['maxLength'] || placa.errors['Mask error']  || placa.errors['yaEscrito'] ) {
             countErrrors ++;
           }
         }  else {
@@ -227,17 +293,80 @@ export class AgregarChoferComponent implements OnInit {
     }
     this.revisionStep2 = countErrrors > 0 ? false : true;
     if (this.revisionStep2) {
-      if(this.forma.value.etiqueta === '0' 
-       && this.forma.value.vehiculos_postureros.length === 0
-       && this.forma.value.vehiculos_fijos.length === 0){
-        this.continuarStep3.nativeElement.click();
-        setTimeout(() => {
-          this.sinVehiculos.nativeElement.click();          
-        }, 200);
-      } else {
-        this.continuarStep3.nativeElement.click();
-      }
+      this.state_actual_pelota2 = this.state_finish;
+      this.state_actual_barra2 = this.state_finish;
+      this.state_actual_pelota3 = this.state_active;
+      this.continuarStep3.nativeElement.click();
     }
+  }
+
+  paso3(){
+    let countErrrors: number = 0;
+    this.revisionVehiculos = true;
+
+    countErrrors = this.revisarCamposVehiculos('vehiculos_fijos', this.forma.value.vehiculos_fijos.length, countErrrors);
+    console.log('vehiculos_fijos', countErrrors)
+    countErrrors = this.revisarCamposVehiculos('vehiculos_postureros', this.forma.value.vehiculos_postureros.length, countErrrors);
+    console.log('vehiculos_postureros', countErrrors)
+
+    console.log(this.forma)
+    if(countErrrors === 0){
+      this.state_actual_pelota3 = this.state_finish;
+      this.state_actual_barra3 = this.state_finish;
+      this.state_actual_pelota4 = this.state_active;
+      this.continuarStep4.nativeElement.click();
+    }
+  }
+
+  regresarpaso1(){
+      this.state_actual_pelota1 = this.state_active;
+      this.state_actual_barra1 = this.state_pending;
+      this.state_actual_pelota2 = this.state_pending;
+  }
+  regresarpaso2(){
+    this.state_actual_pelota2 = this.state_active;
+    this.state_actual_barra2 = this.state_pending;
+    this.state_actual_pelota3 = this.state_pending;
+  }
+  regresarpaso3(){
+    this.state_actual_pelota3 = this.state_active;
+    this.state_actual_barra3 = this.state_pending;
+    this.state_actual_pelota4 = this.state_pending;
+    }
+
+  revisarCamposVehiculos(type: any, length: number, countErrors: number): number{
+    for (let index = 0; index < length; index++) {
+        const anio = (this.forma.controls[type]['controls'][index]['controls']['anio'] as FormControl);
+        const marca = (this.forma.controls[type]['controls'][index]['controls']['marca'] as FormControl);
+        const modelo = (this.forma.controls[type]['controls'][index]['controls']['modelo'] as FormControl);
+        const matricula = (this.forma.controls[type]['controls'][index]['controls']['matricula'] as FormControl);
+        const capacidad = (this.forma.controls[type]['controls'][index]['controls']['capacidad'] as FormControl);
+       
+        if (anio.errors) {
+          if (anio.errors['required'] ) {
+            countErrors ++;
+          }
+        }
+        if (marca.errors) {
+         if (marca.errors['required'] ) {
+           countErrors ++;
+         }
+       } 
+       if (modelo.errors) {
+         if (modelo.errors['required'] ) {
+           countErrors ++;
+         }
+       } 
+       if (matricula.errors) {
+         if (matricula.errors['required'] ) {
+           countErrors ++;
+         }
+       } 
+       if (capacidad.value === '-1') {
+           countErrors ++;
+       } 
+   }
+   return countErrors;
   }
 
   _consultarVehiculo(placa: string, control: any){
@@ -377,6 +506,7 @@ export class AgregarChoferComponent implements OnInit {
                 'telefono':   false,
                 'fechaNacimiento':   false,
                 'img':   false,
+                'genero': false
               };
             
               this.VALIDATIONS_STEP2 = {
@@ -386,13 +516,22 @@ export class AgregarChoferComponent implements OnInit {
               };
               this.imageSrc = null;
 
+              this.state_actual_pelota1 = this.state_active;
+              this.state_actual_barra1 = this.state_pending;
+              this.state_actual_pelota2 = this.state_pending;
+              this.state_actual_barra2 = this.state_pending;
+              this.state_actual_pelota3 = this.state_pending;
+              this.state_actual_barra3 = this.state_pending;
+              this.state_actual_pelota4 = this.state_pending;
+
+
               this.forma.controls['folio'].setValue('');           
               this.forma.controls['nombre'].setValue('');          
               this.forma.controls['apellidos'].setValue('');       
               this.forma.controls['correo'].setValue('');          
               this.forma.controls['telefono'].setValue('');        
               this.forma.controls['etiqueta'].setValue('');        
-              this.forma.controls['genero'].setValue('1');          
+              this.forma.controls['genero'].setValue('');          
               this.forma.controls['fechaNacimiento'].setValue(''); 
               this.forma.controls['img'].setValue('');             
               this.forma.controls['activo'].setValue(false);
@@ -434,7 +573,7 @@ export class AgregarChoferComponent implements OnInit {
           });
         }
     } else {
-      this.error = 'Solo se puede asociar a un máximo de 3 concesiones';
+      this.error = 'Solo se puede asociar a un máximo de 5 concesiones';
     }
   }
   _removeConcesion_Vehiculos(indice: any) {
@@ -483,7 +622,37 @@ export class AgregarChoferComponent implements OnInit {
    _pushConcesion() {
     const control = new FormGroup({
       'placa': new FormControl('***', [Validators.required, Validators.maxLength(3), Validators.max(765), Validators.min(1)])
-    })
+    });
+    control.valueChanges.subscribe(data=>{
+      console.log(data.placa);
+      let countError = 0;
+      let placa;
+      for (let index = 0; index < this.forma.value.concesiones_que_trabaja.length; index++) {
+        placa = (this.forma.controls['concesiones_que_trabaja']['controls'][index]['controls']['placa'] as FormControl);
+        if(placa.value !== '' && this.forma.value.concesiones_que_trabaja.length > 1){
+         if(placa.value.length === 3){
+          if (placa.value === data.placa) {
+            countError ++;
+          } 
+         }
+        }
+    }
+    if(countError > 1){
+      placa.setErrors({yaEscrito: true});
+    } else {
+      let countErrors = 0
+      if (placa.errors) {
+        if (placa.errors['required'] || placa.errors['max'] || placa.errors['min']
+        || placa.errors['maxLength'] || placa.errors['Mask error'] ) {
+          countErrors ++;
+        }
+      }
+      if(countErrors === 0 ){
+        placa.setErrors(null);
+      }
+    }
+
+    });
     this.concesiones_que_trabajaArray.push(control);
 
   }

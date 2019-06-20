@@ -63,12 +63,11 @@ export class FirebaseService {
     });
   }
 
-  buscarInfoConcesion(concesion: string) {
+  buscarInfoConcesion(data: string, field:string) {
     return new Promise<any>((resolve, reject) => {
       this.afs.collection('choferes',
-      ref => ref.where('concesion', '==', concesion)).valueChanges()
+      ref => ref.where(field, '==', data)).valueChanges()
       .subscribe((data: any) => {
-        console.log(data)
         if (data.length > 0) {
           resolve(true);
         } else {
@@ -96,7 +95,7 @@ export class FirebaseService {
 
 
   obtenerInfoChoferes() {
-    return this.afs.collection('choferes').snapshotChanges();
+    return this.afs.collection('choferes').valueChanges()
   }
 
   agregarItem(uid: string, value: any) {

@@ -12,3 +12,8 @@ fieldset.scheduler-border {
     padding:0 10px; /* To give a bit of padding on the left and right */
     border-bottom:none;
   }
+
+  .tienerampa{
+    margin-top: 33px;
+    text-align: center;
+  }

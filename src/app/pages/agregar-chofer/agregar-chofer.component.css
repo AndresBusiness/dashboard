@@ -41,12 +41,66 @@ li.done.navigable{
   position: absolute;
   bottom:24px;
 }
-.field-requiered{
- color: #b72b28;
- font-weight: 600;
-}
 
 .close-badge{
     font-size: 25px;
     cursor: pointer;
+}
+.pelota{
+  width: 170px;
+  height: 80px;
+  vertical-align: middle !important;
+  border-radius: 50px;
+}
+.progress_pelota{
+  width: 33%;
+  height: 10px;
+  margin-top: 35px;
+}
+
+
+.wizard{
+  padding-left: 50px !important;
+  padding-right: 50px !important;
+  -webkit-box-shadow: -4px 39px 12px -38px rgba(0,0,0,0.2);
+  -moz-box-shadow: -4px 39px 12px -38px rgba(0,0,0,0.2);
+  box-shadow: -4px 39px 12px -38px rgba(0,0,0,0.2);
+
+}
+.title-step{
+  color: white;
+}
+
+.icon-steps {
+  font-size: 35px;
+  color: white;
+}
+
+.aside-left, .aside-title{
+  background: #b72b28;
+  color: white;
+}
+@media only screen and (max-width: 1050px) {
+  .pelota{
+    width: 50px;
+    height: 50px;
+  }
+  .progress_pelota{
+    width: 25%;
+    height: 7px;
+    margin-top: 22px;
+  }
+
+  .wizard{
+    display: flex !important;
+    padding-left: 50px !important;
+    padding-right: 50px !important;
+  }
+  .icon-steps {
+    font-size: 25px;
+    margin-top: 5px;
+  }
+  .title-step{
+    display: none;
+  }
 }

@@ -12,6 +12,8 @@
                       <div *ngIf="forma.controls['concesiones_que_trabaja']['controls'][i]['controls']['placa'].errors" >
                         <p class="field-requiered"
                         *ngIf="forma.controls['concesiones_que_trabaja']['controls'][i]['controls']['placa'].errors['Mask error']">Se requieren 3 digitos*</p>
+                        <p class="field-requiered"
+                        *ngIf="forma.controls['concesiones_que_trabaja']['controls'][i]['controls']['placa'].errors['yaEscrito']">Ya escribiste esta concesión*</p>
                       </div>
                       <p class="field-requiered"
                       *ngIf="forma.controls['concesiones_que_trabaja']['controls'][i]['controls']['placa'].errors?.max">Máximo 765 concesiones*</p>
@@ -19,6 +21,7 @@
                       *ngIf="forma.controls['concesiones_que_trabaja']['controls'][i]['controls']['placa'].errors?.min">Minimo 001*</p>
                       <p class="field-requiered"
                       *ngIf="forma.controls['concesiones_que_trabaja']['controls'][i]['controls']['placa'].errors?.maxLength">Máximo 3 digitos*</p>
+                    
 
                 </div>
                 <div class="col-3 pl-0 position-relative d-flex" >
