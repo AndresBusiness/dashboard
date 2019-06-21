@@ -1,41 +1,42 @@
 <div class="row">
+    <ngx-loading [show]="loading" ></ngx-loading>
     <!-- Column -->
     <div class="col-lg-4 col-xlg-3 col-md-5">
-        <div class="card animated fadeIn"  *ngIf="user.img">
+        <div class="card animated fadeIn"  *ngIf="chofer.img">
             <div class="card-body">
-                <div class="m-t-30" *ngIf="user" >
+                <div class="m-t-30" *ngIf="chofer" >
                     <div class="center-image-profile">
-                        <img  [src]="user.img" class="rounded-circle img-profile-chofer"  />
-                        <h4 class="card-title m-t-10">{{user.nombre}} {{user.apellidos}}</h4>
-                        <p>{{user.correo}}</p>
+                        <img  [src]="chofer.img" class="rounded-circle img-profile-chofer"  />
+                        <h4 class="card-title m-t-10">{{chofer.nombre}} {{chofer.apellidos}}</h4>
+                        <p>{{chofer.correo}}</p>
                     </div>
                     <hr />
                     <div class="card-body">
-                        <small class="text-label">Folio: </small> <strong>{{user.folio}}</strong> <br />
-                        <small class="text-label">Teléfono: </small> <strong> {{user.telefono}} </strong> <br />
-                        <small *ngIf="user.etiqueta == '1'"  class="text-label">Etiqueta: <span class="custom-badge label label-success mt-2">CHOFER SOCIO</span></small>
-                        <small *ngIf="user.etiqueta == '0'"  class="text-label">Etiqueta:  <span class="custom-badge label label-warning mt-2">CHOFER AYUDANTE</span></small>
+                        <small class="text-label">Folio: </small> <strong>{{chofer.folio}}</strong> <br />
+                        <small class="text-label">Teléfono: </small> <strong> {{chofer.telefono}} </strong> <br />
+                        <small *ngIf="chofer.etiqueta == '1'"  class="text-label">Etiqueta: <span class="custom-badge label label-success mt-2">CHOFER SOCIO</span></small>
+                        <small *ngIf="chofer.etiqueta == '0'"  class="text-label">Etiqueta:  <span class="custom-badge label label-warning mt-2">CHOFER AYUDANTE</span></small>
                         <br>
-                        <span *ngIf="user.etiqueta == '1'" class="custom-badge label label-success mt-2">{{ user.concesion }}</span>
-                        <hr  *ngIf="user.concesiones_que_trabaja.length > 0"/>
-                        <div *ngIf="user.concesiones_que_trabaja.length > 0">
-                                <h5 class="card-title m-t-10">{{user.nombre}} {{user.apellidos}} trabaja con <br />las siguientes concesiones</h5>
+                        <span *ngIf="chofer.etiqueta == '1'" class="custom-badge label label-success mt-2">{{ chofer.concesion }}</span>
+                        <hr  *ngIf="chofer.concesiones_que_trabaja.length > 0"/>
+                        <div *ngIf="chofer.concesiones_que_trabaja.length > 0">
+                                <h5 class="card-title m-t-10">{{chofer.nombre}} {{chofer.apellidos}} trabaja con <br />las siguientes concesiones</h5>
                                 <div  class="d-flex">
-                                    <small *ngFor="let item of user.concesiones_que_trabaja" class="text-label m-1">
+                                    <small *ngFor="let item of chofer.concesiones_que_trabaja" class="text-label m-1">
                                         <span class="label label-warning custom-badge">{{ item.placa }}</span></small>
                                 </div>
                         </div>
                         <hr />
                         <div class="m-1">
-                                <small *ngIf="!user.activo"  class="text-label">Conectado: <span
+                                <small *ngIf="!chofer.activo"  class="text-label">Conectado: <span
                                     class="custom-badge label label-danger">OFFLINE</span></small>
-                                <small *ngIf="user.activo"  class="text-label">Conectado: <span
+                                <small *ngIf="chofer.activo"  class="text-label">Conectado: <span
                                     class="custom-badge label label-success">ONLINE</span></small>
                         </div>
                         <div class="m-1">
-                                <small *ngIf="!user.autorizado"  class="text-label">Habilitado:   <span
+                                <small *ngIf="!chofer.autorizado"  class="text-label">Habilitado:   <span
                                     class="custom-badge label label-danger">OFFLINE</span></small>
-                                <small *ngIf="user.autorizado"  class="text-label">Habilitado:   <span
+                                <small *ngIf="chofer.autorizado"  class="text-label">Habilitado:   <span
                                     class="custom-badge label label-success">ONLINE</span></small>
                         </div>
                     </div>
@@ -124,7 +125,7 @@
 
                                 <div class="profiletimeline" *ngIf="listComentarios.length !== 0" >
                                     <div  class="sl-item" *ngFor="let item of listComentarios" >
-                                        <div class="sl-left"> <img [src]="item.imgPasajero" alt="user" class="rounded-circle img-profile-chofer" /> </div>
+                                        <div class="sl-left"> <img [src]="item.imgPasajero" alt="chofer" class="rounded-circle img-profile-chofer" /> </div>
                                         <div class="sl-right">
                                             <div><a href="#" class="link nombre-pasajero">{{ item.nombrePasajero }}</a> <span class="sl-date fecha-comentario">{{item.fecha}}</span>
                                                 <div class="like-comm">
@@ -210,14 +211,14 @@
                                     *ngIf="forma.controls['correo'].errors?.pattern && forma.controls['correo'].value">Formato de correo incorrecto*</p> -->
                                 </div>
                                 <div class="col-6" style="margin-top:27px;">
-                                        <button  class="btn btn-success">Enviar</button>
+                                        <button (click)="reestablecerPassword()" class="btn btn-success">Enviar</button>
                                 </div>
                             </div>
                         <hr>
                         <h4>Desactivar usuario</h4>
                         <div class="text-center mt-5">
-                            <button *ngIf="habilitado" (click)="cambiarStatusChofer()" class="btn btn-danger">Deshabilitar Chofer</button>
-                            <button *ngIf="!habilitado" (click)="cambiarStatusChofer()" class="btn btn-success">Habilitar Chofer</button>
+                            <button *ngIf="chofer.autorizado" (click)="cambiarStatusChofer()" class="btn btn-danger">Deshabilitar Chofer</button>
+                            <button *ngIf="!chofer.autorizado" (click)="cambiarStatusChofer()" class="btn btn-success">Habilitar Chofer</button>
                         </div>
                     </div>
                 </div>

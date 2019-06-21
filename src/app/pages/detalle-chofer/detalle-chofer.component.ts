@@ -2,7 +2,8 @@ import { FirebaseService } from './../../service/firebase.service';
 import { Component, OnInit, ɵConsole } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ChartType } from 'chart.js';
-
+import { FunctionsService } from 'src/app/service/functions.service';
+import swal from 'sweetalert';
 
 @Component({
   selector: 'app-detalle-chofer',
@@ -15,7 +16,7 @@ export class DetalleChoferComponent implements OnInit {
   public doughnutChartData: any = [350, 450, 100];
   public doughnutChartType: ChartType = 'doughnut';
 
-  user = {
+  chofer = {
     "activo": false,
     "apellidos": "",
     "autorizado": false,
@@ -34,9 +35,12 @@ export class DetalleChoferComponent implements OnInit {
     "uid": "",
     "uidUserSystem": "",
   };
+  user: any;
+  uid:string;
   vehiculosRegistrados: any [] = [];
   correo: string;
   habilitado: boolean ;
+  public loading = false;
 
   imgDefault: string;
   listComentarios: any[] = [];
@@ -51,11 +55,14 @@ export class DetalleChoferComponent implements OnInit {
 
   rating: string[] = ['Pésimo', 'Malo', 'Normal', 'Muy bueno', 'Excelente'];
   constructor(private route: ActivatedRoute,
+    private servicioNode: FunctionsService,
     private servicioFirebase: FirebaseService) {
     this.imgDefault = 'https://firebasestorage.googleapis.com/v0/b/directtaxi-prod.appspot.com/' +
     'o/imgDefault.png?alt=media&token=e65da24c-3355-4327-8e4f-d9c177564f47';
-    this.user.uid = this.route.snapshot.paramMap.get('uid');
-    this.obtenerInfoChofer(this.user.uid);
+    this.chofer.uid = this.route.snapshot.paramMap.get('uid');
+    this.user=  JSON.parse(localStorage.getItem('user'));
+    this.uid = localStorage.getItem('uid');
+    this.obtenerInfoChofer(this.chofer.uid);
   }
 
   ngOnInit() {
@@ -64,10 +71,10 @@ export class DetalleChoferComponent implements OnInit {
   obtenerInfoChofer(uid: string) {
     this.servicioFirebase.buscarInfoChofer(uid)
         .then(data => {
-          this.user = data;
-          this.habilitado = this.user.autorizado;
-          this.correo = this.user.correo;
-          this.servicioFirebase.buscarInfoVehiculoRegistroChofer(this.user.nombre + ' ' + this.user.apellidos)
+          this.chofer = data;
+          this.habilitado = this.chofer.autorizado;
+          this.correo = this.chofer.correo;
+          this.servicioFirebase.buscarInfoVehiculoRegistroChofer(this.chofer.nombre + ' ' + this.chofer.apellidos)
           .subscribe((data: any)=>{
             for (let index = 0; index < data.length; index++) {
               const element = data[index];
@@ -98,6 +105,46 @@ export class DetalleChoferComponent implements OnInit {
 
   cambiarStatusChofer(){
     this.habilitado = !this.habilitado;
+    this.loading = true;
+    const obj = {
+      'uid': this.chofer.uid,
+      'disabled': this.chofer.autorizado,
+      'correo': this.chofer.correo,
+      "uidUserSystem":this.user.nombre ,
+      "nombreUserSystem": this.user.nombre,
+      "imgUserSystem": this.user.img
+    }
+
+    this.servicioNode.cambiarEstatusChofer(obj).subscribe(data=>{
+      this.loading = false;
+      if(data){
+        const mensaje =  this.chofer.autorizado? 'deshabilitado': 'habilitado';
+        swal('Correcto!', 'Se ha ' +mensaje+  ' el chofer correctamente', 'success')
+        .then(()=>{
+          this.chofer.autorizado = this.habilitado;
+          if(!this.habilitado){
+            this.chofer.activo = false;
+          }
+        })
+      }
+    });
+  }
+
+  reestablecerPassword(){
+    this.loading = true;
+    const obj = {
+      'uidChofer': this.chofer.uid,
+      'uidUserSystem': this.uid,
+      'nombre':this.user.nombre ,
+      'img': this.user.img,
+      'correo': this.correo,
+    }
+    this.servicioNode.reestablecerPassword(obj).subscribe(data=>{
+      this.loading = false;
+      if(data){
+        swal('Correcto!', 'Se ha reestablecido la contraseña correctamente', 'success')
+      }
+    });
   }
 
 }

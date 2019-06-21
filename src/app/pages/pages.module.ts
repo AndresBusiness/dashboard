@@ -50,7 +50,6 @@ import { Ng2OdometerModule } from 'ng2-odometer';
     TabuladorComponent,
     SolicitudesComponent,
     ChoferesComponent,
-    DetalleChoferComponent,
     HeaderComponent,
     AdminConfiguracionComponent,
     AdminMensajesComponent,
@@ -76,7 +75,6 @@ import { Ng2OdometerModule } from 'ng2-odometer';
   imports: [
     SharedModule,
     FormsModule,
-    ChartsModule,
     Ng2SmartTableModule,
     BrowserModule,
     NgbModule.forRoot(),

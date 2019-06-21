@@ -27,8 +27,16 @@ export class FunctionsService  {
     }
 
     registarChofer(obj:any) {
-        return this.launchPetitionServerNode("registrarUsuario", obj);
-      }
+     return this.launchPetitionServerNode("registrarUsuario", obj);
+    }
+
+    reestablecerPassword(obj: any){
+      return this.launchPetitionServerNode("reestablecerPassword", obj);
+    }
+
+    cambiarEstatusChofer(obj: any){
+      return this.launchPetitionServerNode("deshabilitarUsuario", obj);
+    }
       
 
 }

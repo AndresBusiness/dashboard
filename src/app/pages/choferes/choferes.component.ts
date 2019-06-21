@@ -98,7 +98,6 @@ export class ChoferesComponent implements OnInit {
   public _observarInfoTaxistas() {
      this.servicioFirebase.obtenerInfoChoferes()
             .subscribe((infoSnapshot) => {
-              console.log('estoy leyendo cam')
               this.infoChoferes = [];
               this.loading = false;
               infoSnapshot.forEach((taxistaData: any) => {

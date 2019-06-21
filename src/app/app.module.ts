@@ -50,6 +50,8 @@ import { FormularioConcesionesComponent } from './components/formulario-concesio
 
 import { OrderModule } from 'ngx-order-pipe';
 import { NgxLoadingModule, ngxLoadingAnimationTypes } from 'ngx-loading';
+import { DetalleChoferComponent } from './pages/detalle-chofer/detalle-chofer.component';
+import { ChartsModule } from 'ng2-charts';
 
 
 // registrar los locales con el nombre que quieras utilizar a la hora de proveer
@@ -60,6 +62,7 @@ registerLocaleData(localeMX, 'es');
     AppComponent,
     LoginComponent,
     AgregarChoferComponent,
+    DetalleChoferComponent,
     SanitizeUrlPipe,
     FormularioVehiculosComponent,
     FormularioConcesionesComponent,
@@ -74,6 +77,7 @@ registerLocaleData(localeMX, 'es');
     HttpClientModule,
     FormsModule,
     NgbModule,
+    ChartsModule,
     HttpModule,
     HttpClientModule,
     NgxMaskModule.forRoot(),
@@ -81,7 +85,7 @@ registerLocaleData(localeMX, 'es');
     NgxLoadingModule.forRoot({
       backdropBackgroundColour:'rgba(255,0,0,0.2)',
       fullScreenBackdrop:true,
-      animationType: ngxLoadingAnimationTypes.cubeGrid,
+      animationType: ngxLoadingAnimationTypes.chasingDots,
     }),
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule, // imports firebase/firestore, only needed for database features
