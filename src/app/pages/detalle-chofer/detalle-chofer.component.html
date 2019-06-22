@@ -2,43 +2,56 @@
     <ngx-loading [show]="loading" ></ngx-loading>
     <!-- Column -->
     <div class="col-lg-4 col-xlg-3 col-md-5">
-        <div class="card animated fadeIn"  *ngIf="chofer.img">
+        <div class="card animated fadeIn"  >
             <div class="card-body">
                 <div class="m-t-30" *ngIf="chofer" >
                     <div class="center-image-profile">
-                        <img  [src]="chofer.img" class="rounded-circle img-profile-chofer"  />
+                        <img *ngIf="chofer.img" [src]="chofer.img" class="animated fadeIn rounded-circle img-profile-chofer"  />
                         <h4 class="card-title m-t-10">{{chofer.nombre}} {{chofer.apellidos}}</h4>
                         <p>{{chofer.correo}}</p>
                     </div>
                     <hr />
                     <div class="card-body">
                         <small class="text-label">Folio: </small> <strong>{{chofer.folio}}</strong> <br />
-                        <small class="text-label">Teléfono: </small> <strong> {{chofer.telefono}} </strong> <br />
-                        <small *ngIf="chofer.etiqueta == '1'"  class="text-label">Etiqueta: <span class="custom-badge label label-success mt-2">CHOFER SOCIO</span></small>
-                        <small *ngIf="chofer.etiqueta == '0'"  class="text-label">Etiqueta:  <span class="custom-badge label label-warning mt-2">CHOFER AYUDANTE</span></small>
-                        <br>
-                        <span *ngIf="chofer.etiqueta == '1'" class="custom-badge label label-success mt-2">{{ chofer.concesion }}</span>
-                        <hr  *ngIf="chofer.concesiones_que_trabaja.length > 0"/>
-                        <div *ngIf="chofer.concesiones_que_trabaja.length > 0">
-                                <h5 class="card-title m-t-10">{{chofer.nombre}} {{chofer.apellidos}} trabaja con <br />las siguientes concesiones</h5>
-                                <div  class="d-flex">
-                                    <small *ngFor="let item of chofer.concesiones_que_trabaja" class="text-label m-1">
-                                        <span class="label label-warning custom-badge">{{ item.placa }}</span></small>
-                                </div>
+                        <small class="text-label">Teléfono: </small> <strong> +(52) {{chofer.telefono}} </strong> <br />
+                        <div *ngIf="chofer.etiqueta == '1'"  class="mt-2 d-flex">
+                                <small  class="text-label"><span class="custom-badge label label-success ">Chofer Socio</span></small>
+                                <span class="custom-badge label label-success ml-1">{{ chofer.concesion }}</span>
+                        </div>
+                        <small *ngIf="chofer.etiqueta == '0'"  class="text-label"><span class="custom-badge label label-warning mt-2">Chofer Ayudante</span></small>
+                        <hr>
+                        <div>
+                            <h5 class="card-title m-t-10">Concesiones que trabaja: </h5>
+                            <div  class="d-flex">
+                                <small *ngFor="let item of chofer.concesiones_que_trabaja" class="text-label m-1">
+                                    <span class="label label-warning custom-badge">{{ item.placa }}</span></small>
+                            </div>
                         </div>
                         <hr />
-                        <div class="m-1">
-                                <small *ngIf="!chofer.activo"  class="text-label">Conectado: <span
-                                    class="custom-badge label label-danger">OFFLINE</span></small>
-                                <small *ngIf="chofer.activo"  class="text-label">Conectado: <span
-                                    class="custom-badge label label-success">ONLINE</span></small>
-                        </div>
-                        <div class="m-1">
-                                <small *ngIf="!chofer.autorizado"  class="text-label">Habilitado:   <span
-                                    class="custom-badge label label-danger">OFFLINE</span></small>
-                                <small *ngIf="chofer.autorizado"  class="text-label">Habilitado:   <span
-                                    class="custom-badge label label-success">ONLINE</span></small>
-                        </div>
+                        <table style="width:100%">
+                            <tbody>
+                                <tr>
+                                    <td class="text-left">Conectado:</td>
+                                    <td style="float: right !important;">
+                                        <small *ngIf="!chofer.activo"  class="text-label">
+                                        <span style="width: 115px;" class="custom-badge label label-danger">Offline</span></small>
+                                        <small *ngIf="chofer.activo"  class="text-label">
+                                        <span style="width: 115px;" class="custom-badge label label-success">Online</span></small>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-left">Habilitado:</td>
+                                    <td style="float: right !important;">
+                                        <small *ngIf="!chofer.autorizado"  class="text-label">
+                                        <span  style="width: 115px;" class="custom-badge label label-danger">Offline</span></small>
+                                        <small *ngIf="chofer.autorizado"  class="text-label">
+                                        <span  style="width: 115px;" class="custom-badge label label-success">Online</span></small>
+                                    </td>
+                                </tr>
+                              
+                            </tbody>
+                        </table>
+                       
                     </div>
                 </div>
             </div>
@@ -47,7 +60,7 @@
     <!-- Column -->
     <!-- Column -->
     <div class="col-lg-8 col-xlg-9 col-md-7">
-        <div class="card">
+        <div class="card animated fadeIn">
             <!-- Nav tabs -->
             <ul class="nav nav-tabs profile-tab" role="tablist">
                 <li class="nav-item"> <a class="nav-link active" data-toggle="tab" href="#comentarios-calificaciones" role="tab">Reviews</a> </li>
@@ -63,8 +76,8 @@
                             <h4 class="font-medium m-t-30">Nivel de satisfacción en la calidad de su servicio</h4>
                             <hr>
 
-                            <div class="container-progress">
-                                <font class="icon-margin text-muted display-5"><i style="color:#27AE60" class="mdi mdi-emoticon-cool"></i></font>
+                            <div class="container-progress mb-4">
+                                <!-- <font class="icon-margin text-muted display-5"><i style="color:#27AE60" class="mdi mdi-emoticon-cool"></i></font> -->
                                 <div class="container-calificacion">
                                     <h5>Excelente</h5>
                                     <p class="p-nomargin">2,304 reviews <span class="pull-right">65%</span></p>
@@ -74,8 +87,8 @@
                                 </div>
                             </div>
 
-                            <div class="container-progress">
-                                <font class="icon-margin text-muted display-5"><i style="color:#F1C40F" class="mdi mdi-emoticon"></i></font>
+                            <div class="container-progress mb-4">
+                                <!-- <font class="icon-margin text-muted display-5"><i style="color:#F1C40F" class="mdi mdi-emoticon"></i></font> -->
                                 <div class="container-calificacion">
                                 <h5>Muy bueno</h5>
                                 <p class="p-nomargin">2,304 reviews <span class="pull-right">65%</span></p>
@@ -85,8 +98,8 @@
                                 </div>
                             </div>
 
-                            <div class="container-progress">
-                                <font class="icon-margin text-muted display-5"><i style="color:#398bf7" class="mdi mdi-emoticon-happy"></i></font>
+                            <div class="container-progress mb-4">
+                                <!-- <font class="icon-margin text-muted display-5"><i style="color:#398bf7" class="mdi mdi-emoticon-happy"></i></font> -->
                                 <div class="container-calificacion">
                                 <h5>Normal</h5>
                                 <p class="p-nomargin">1,004 reviews <span class="pull-right">20%</span></p>
@@ -96,8 +109,8 @@
                                 </div>
                             </div>
 
-                            <div class="container-progress">
-                                <font class="icon-margin text-muted display-5"><i style="color:#DC7633" class="mdi mdi-emoticon-neutral"></i></font>
+                            <div class="container-progress mb-4">
+                                <!-- <font class="icon-margin text-muted display-5"><i style="color:#DC7633" class="mdi mdi-emoticon-neutral"></i></font> -->
                                 <div class="container-calificacion">
                                 <h5>Malo</h5>
                                 <p class="p-nomargin">504 reviews <span class="pull-right">10%</span></p>
@@ -107,8 +120,8 @@
                                 </div>
                             </div>
 
-                            <div class="container-progress">
-                                <font class="icon-margin text-muted display-5"><i style="color:#ef5350" class="mdi mdi-emoticon-sad"></i></font>
+                            <div class="container-progress mb-4">
+                                <!-- <font class="icon-margin text-muted display-5"><i style="color:#ef5350" class="mdi mdi-emoticon-sad"></i></font> -->
                                 <div class="container-calificacion">
                                 <h5>Pésimo</h5>
                                 <p class="p-nomargin">204 reviews <span class="pull-right">5%</span></p>
@@ -210,13 +223,13 @@
                                     <p class="field-requiered"
                                     *ngIf="forma.controls['correo'].errors?.pattern && forma.controls['correo'].value">Formato de correo incorrecto*</p> -->
                                 </div>
-                                <div class="col-6" style="margin-top:27px;">
+                                <div class="col-6" style="margin-top:27px">
                                         <button (click)="reestablecerPassword()" class="btn btn-success">Enviar</button>
                                 </div>
                             </div>
                         <hr>
-                        <h4>Desactivar usuario</h4>
-                        <div class="text-center mt-5">
+                        <h4>Desactivar chofer</h4>
+                        <div class="text-center mt-4">
                             <button *ngIf="chofer.autorizado" (click)="cambiarStatusChofer()" class="btn btn-danger">Deshabilitar Chofer</button>
                             <button *ngIf="!chofer.autorizado" (click)="cambiarStatusChofer()" class="btn btn-success">Habilitar Chofer</button>
                         </div>

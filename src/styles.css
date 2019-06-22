@@ -42,3 +42,7 @@ fieldset.scheduler-border {
   .steps-indicator {
      display: none !important; 
   }
+.concesiones_que_trabaja, .activo{
+  text-align: center;
+  width: 220px;
+}

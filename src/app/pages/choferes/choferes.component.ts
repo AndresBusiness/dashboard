@@ -15,6 +15,13 @@ export class ChoferesComponent implements OnInit {
   settings: any;
   loading: boolean;
   infoChoferes: any [];
+  countAyudantes: number = 0;
+  countSocios: number = 0;
+  countConectados: number = 0;
+  countTotal: number= 0;
+  parametroBusqueda: string;
+
+
   private _observableSubscriptions: Subscription[] = [];
   constructor(private servicioFirebase: FirebaseService,
     public router: Router) {
@@ -53,24 +60,43 @@ export class ChoferesComponent implements OnInit {
           title: 'Nombre',
           filter: false,
         },
-        correo: {
-          title: 'Correo',
-          filter: false
+        apellidos: {
+          title: 'Apellidos',
+          filter: false,
         },
-        telefono: {
-          title: 'Teléfono',
-          filter: false
-        },
-        activo: {
-          title: 'Conectado',
+        etiqueta: {
+          title: 'Tipo',
           filter: false,
           type: 'html',
-          valuePrepareFunction: (activo: string) => {
-            const activado = '<span class="custom-badge label label-success">ONLINE</span>';
-            const desactivado = '<span class="custom-badge label label-danger">OFFLINE</span>';
-            return activo ? activado : desactivado;
+            valuePrepareFunction: (activo: string) => {
+              const socio = '<span class="custom-badge label label-success" style="width: 115px;">Socio</span>';
+              const ayudante = '<span class="custom-badge label label-warning" style="width: 115px;">Ayudante</span>';
+              return activo === '1'? socio : ayudante;
+          },
         },
-      }
+        activo: {
+            title: 'Conectado',
+            filter: false,
+            type: 'html',
+            valuePrepareFunction: (activo: string) => {
+              const activado = '<span class="custom-badge label label-success" style="width: 115px;">Online</span>';
+              const desactivado = '<span class="custom-badge label label-danger" style="width: 115px;">Offline</span>';
+              return activo ? activado : desactivado;
+          },
+        },
+        concesiones_que_trabaja: {
+            title: 'Trabaja con',
+            filter: false,
+            type: 'html',
+            valuePrepareFunction: (arreglo: any) => {
+              let data = '';
+              arreglo.forEach(element => {
+                data+= '<span class="custom-badge label label-warning m-1">'+ element.placa +'</span>';
+              });
+              return data;
+          },
+       }
+
       }
     };
   }
@@ -81,21 +107,71 @@ export class ChoferesComponent implements OnInit {
     this.router.navigate([path]);
   }
 
-  onSearch(query: string = '') {
-    this.source.setFilter([
-      // fields we want to include in the search
-      {
-        field: 'nombre',
-        search: query
-      },
-      {
-        field: 'concesion',
-        search: query
+  onSearch() {
+    console.log(this.parametroBusqueda);
+    if(this.parametroBusqueda){
+      if(this.isNumber(this.parametroBusqueda)){
+        let list = [];
+        this.infoChoferes.forEach(element => {
+          if(this.parametroBusqueda === element.concesion ){
+            list.push(element);
+          }
+          element.concesiones_que_trabaja.forEach(concesion => {
+            if(this.parametroBusqueda === concesion.placa){
+              let existe = false;
+              list.forEach(buscar => {
+                if(concesion.placa === buscar.concesion){
+                  existe = true;
+                }
+              });
+              if(!existe){
+               list.push(element);                
+              }
+            }
+          });
+        });
+        this.source = new LocalDataSource(list);
+      } else{
+          if(this.parametroBusqueda === 'socio' || this.parametroBusqueda === 'ayudante'){
+            let list = [];
+            let etiqueta = this.parametroBusqueda === 'socio' ? '1':'0';
+            this.infoChoferes.forEach(element => {
+              if(etiqueta === element.etiqueta ){
+                list.push(element);
+              }
+            });
+            this.source = new LocalDataSource(list);
+          } else {
+            this.source.setFilter([
+            {
+              field: 'nombre',
+              search: this.parametroBusqueda
+            },
+            {
+              field: 'folio',
+              search: this.parametroBusqueda
+            }
+          ], false);
+          }
+          
       }
-    ], false);
+       
+    } else {
+      this._observarInfoTaxistas();
+    }
+ 
   }
+  isNumber(value: any): value is number {
+    return !isNaN(this.toInteger(value));
+   }
+
+  toInteger(value: any): number {
+    return parseInt(`${value}`, 10);
+   }
+
 
   public _observarInfoTaxistas() {
+
      this.servicioFirebase.obtenerInfoChoferes()
             .subscribe((infoSnapshot) => {
               this.infoChoferes = [];
@@ -103,6 +179,25 @@ export class ChoferesComponent implements OnInit {
               infoSnapshot.forEach((taxistaData: any) => {
                 this.infoChoferes.push(taxistaData);
               });
+
+              this.countAyudantes = 0;
+              this.countSocios = 0;
+              this.countConectados = 0;
+              this.countTotal = 0;
+
+              this.infoChoferes.forEach(element => {
+                console.log(element);
+                
+                if(element.etiqueta === '1'){
+                  this.countSocios ++;
+                } else {
+                  this.countAyudantes ++;
+                }
+                if(element.activo){
+                  this.countConectados ++;
+                }
+              });
+              this.countTotal = this.infoChoferes.length;
               this.source = new LocalDataSource(this.infoChoferes);
             });
   }
