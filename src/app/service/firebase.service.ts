@@ -43,9 +43,15 @@ export class FirebaseService {
     ref => ref.where('concesion', '==', concesion)).valueChanges();
   }
 
-  buscarInfoVehiculoRegistroChofer(nombre: string) {
+  buscarInfoVehiculoFijosChofer(uid) {
     return this.afs.collection('vehiculos',
-    ref => ref.where('nombreChoferRegistro', '==', nombre)).valueChanges();
+    ref => ref.where('modalidad', '==', '1')
+              .where('choferes', 'array-contains', uid)).valueChanges();
+  }
+  buscarInfoVehiculoPostureroChofer(uid: string) {
+    return this.afs.collection('vehiculos',
+    ref => ref.where('uidChoferRegistro', '==', uid)
+              .where('modalidad', '==', '0')).valueChanges();
   }
 
   buscarInfoChofer(id: string) {

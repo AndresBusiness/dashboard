@@ -15,14 +15,16 @@
                     <div class="col-4">
                         <h5>Marca: <span class="text-danger">*</span></h5>
                         <p *ngIf="forma.value[type][i].nombreChoferRegistro">{{forma.value[type][i].marca}}</p>
-                        <input *ngIf="!forma.value[type][i].nombreChoferRegistro" type="text" name="text" placeholder="Ejemplo: Chevrolet" class="form-control" required formControlName ="marca">
+                        <input *ngIf="!forma.value[type][i].nombreChoferRegistro" type="text" name="text" placeholder="Ejemplo: Chevrolet" 
+                        (input)="capitalizaCamelCase($event.target.value, 'marca', i , type)" class="form-control" required formControlName ="marca">
                         <p class="field-requiered"
                         *ngIf="forma.controls[type]['controls'][i]['controls']['marca'].errors?.required && revisionVehiculos">Campo requerido*</p>
                     </div>
                     <div class="col-4">
                         <h5>Modelo de vehículo: <span class="text-danger">*</span></h5>
                         <p *ngIf="forma.value[type][i].nombreChoferRegistro">{{forma.value[type][i].modelo}}</p>
-                        <input *ngIf="!forma.value[type][i].nombreChoferRegistro" type="text" name="text" placeholder="Ejemplo: Aveo, Spark .." class="form-control" required formControlName ="modelo">
+                        <input *ngIf="!forma.value[type][i].nombreChoferRegistro" type="text" name="text" placeholder="Ejemplo: Aveo, Spark .."
+                        (input)="capitalizaCamelCase($event.target.value, 'modelo', i , type)"  class="form-control" required formControlName ="modelo">
                         <p class="field-requiered"
                         *ngIf="forma.controls[type]['controls'][i]['controls']['modelo'].errors?.required && revisionVehiculos">Campo requerido*</p>
                     </div>
@@ -39,7 +41,8 @@
                       <div class="col-4">
                         <h5>Matrícula: <span class="text-danger">*</span></h5>
                         <p *ngIf="forma.value[type][i].nombreChoferRegistro">{{forma.value[type][i].matricula}}</p>
-                        <input *ngIf="!forma.value[type][i].nombreChoferRegistro" type="text" name="text" placeholder="Ejemplo: 15-48-TRG" class="form-control" required formControlName ="matricula">
+                        <input *ngIf="!forma.value[type][i].nombreChoferRegistro" type="text" name="text" placeholder="Ejemplo: 15-48-TRG" 
+                        onkeyup="this.value=this.value.toUpperCase()" class="form-control" required formControlName ="matricula">
                         <p class="field-requiered"
                         *ngIf="forma.controls[type]['controls'][i]['controls']['matricula'].errors?.required && revisionVehiculos">Campo requerido*</p>
                       </div>

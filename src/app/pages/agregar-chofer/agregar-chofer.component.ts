@@ -36,8 +36,8 @@ export class AgregarChoferComponent implements OnInit {
   user: any;
 
   state_pending: string ="#B8B8B8";
-  state_active: string ="#0CCBF5";
-  state_finish: string = "#4CDD5B";
+  state_active: string ="#398bf7";
+  state_finish: string = "#06d79c";
   state_actual_pelota1: string;
   state_actual_barra1: string;
   state_actual_pelota2: string;
@@ -174,11 +174,7 @@ export class AgregarChoferComponent implements OnInit {
           });  
         }
       }
-           
     });
-
-
-
 
     const fieldStep1 = ['nombre', 'apellidos', 'correo', 'telefono', 'fechaNacimiento', 'img', 'genero']
     for (let index = 0; index < fieldStep1.length; index++) {
@@ -247,6 +243,7 @@ export class AgregarChoferComponent implements OnInit {
   paso2() {
     let countErrrors = 0;
     const fieldStep2 = ['folio', 'etiqueta']
+    this.forma.controls['folio'].setValue(this.forma.controls['folio'].value.toUpperCase());
     for (let index = 0; index < fieldStep2.length; index++) {
       const element = fieldStep2[index];
       if (this.forma.controls[element]) {
@@ -345,6 +342,7 @@ export class AgregarChoferComponent implements OnInit {
         const modelo = (this.forma.controls[type]['controls'][index]['controls']['modelo'] as FormControl);
         const matricula = (this.forma.controls[type]['controls'][index]['controls']['matricula'] as FormControl);
         const capacidad = (this.forma.controls[type]['controls'][index]['controls']['capacidad'] as FormControl);
+        this.forma.controls[type]['controls'][index]['controls']['matricula'].setValue(matricula.value.toUpperCase());
        
         if (anio.errors) {
           if (anio.errors['required'] ) {

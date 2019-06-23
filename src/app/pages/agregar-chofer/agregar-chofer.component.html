@@ -194,7 +194,8 @@
                               <div class="container-form">
                                 <div class="item item-form-3 col-12 pl-0">
                                   <h5>Folio de Chofer: <span class="text-danger">*</span></h5>
-                                  <input type="text" name="text" formControlName="folio" placeholder="Ejemplo: 210283" class="form-control" required>
+                                  <input type="text" name="text" formControlName="folio" placeholder="Ejemplo: F-234"
+                                  onkeyup="this.value=this.value.toUpperCase()" class="form-control" required>
                                   <p class="field-requiered"
                                   *ngIf="forma.controls['folio'].errors?.required && VALIDATIONS_STEP2.folio">Campo requerido*</p>
                                 </div>
@@ -396,11 +397,55 @@
                                   </div>
                                 </div>
                                 <div class="col-12" *ngIf="forma.value.vehiculos_fijos.length > 0
-                                    || forma.value.vehiculos_postureros.length > 0" >
+                                                        || forma.value.vehiculos_postureros.length > 0" >
                                   <h2>Datos de Vehículos</h2>
                                   <div >
-                                      <div *ngIf="forma.value.vehiculos_fijos.length > 0 " >
-                                          <div class="d-flex">
+                                      <div *ngIf="forma.value.vehiculos_fijos.length > 0 ||
+                                          forma.value.vehiculos_fijos.length > 0 " >
+
+                                          <table class="table table-striped">
+                                              <thead>
+                                                  <tr>
+                                                      <th style="font-weight: 600;">#</th>
+                                                      <th style="font-weight: 600;">Marca</th>
+                                                      <th style="font-weight: 600;">Modelo</th>
+                                                      <th style="font-weight: 600;">Año</th>
+                                                      <th style="font-weight: 600;text-align:center;">Matrícula</th>
+                                                      <th style="font-weight: 600;text-align:center;">Capacidad</th>
+                                                      <th style="font-weight: 600;text-align:center;">Con rampa</th>
+                                                      <th style="font-weight: 600;">Modalidad</th>
+                                                  </tr>
+                                              </thead>
+                                              <tbody>
+                                                  <tr *ngFor="let item of forma.controls['vehiculos_fijos']['controls']; let i = index;" 
+                                                      style="font-weight:400;">
+                                                      <td  style="font-weight: 600;" scope="col" >{{forma.value.vehiculos_fijos[i].concesion}}</td>
+                                                      <td style="text-align: left;">{{forma.value.vehiculos_fijos[i].marca}}</td>
+                                                      <td>{{ forma.value.vehiculos_fijos[i].modelo }}</td>
+                                                      <td>{{ forma.value.vehiculos_fijos[i].anio }}</td>
+                                                      <td>{{ forma.value.vehiculos_fijos[i].matricula }}</td>
+                                                      <td style="text-align:center;">{{ forma.value.vehiculos_fijos[i].capacidad }}</td>
+                                                      <td style="text-align:center;" *ngIf="forma.value.vehiculos_fijos[i].conRampa" >Si</td>
+                                                      <td style="text-align:center;" *ngIf="!forma.value.vehiculos_fijos[i].conRampa" >No</td>
+                                                      <td>Fijo</td>
+                                                  </tr>
+                                                  <tr *ngFor="let item of forma.controls['vehiculos_postureros']['controls']; let i = index;" 
+                                                    style="font-weight:400;">
+                                                      <td  style="font-weight: 600;" scope="col" >{{forma.value.vehiculos_postureros[i].concesion}}</td>
+                                                      <td style="text-align: left;">{{forma.value.vehiculos_postureros[i].marca}}</td>
+                                                      <td>{{ forma.value.vehiculos_postureros[i].modelo }}</td>
+                                                      <td>{{ forma.value.vehiculos_postureros[i].anio }}</td>
+                                                      <td>{{ forma.value.vehiculos_postureros[i].matricula }}</td>
+                                                      <td style="text-align:center;">{{ forma.value.vehiculos_postureros[i].capacidad }}</td>
+                                                      <td style="text-align:center;" *ngIf="forma.value.vehiculos_postureros[i].conRampa" >Si</td>
+                                                      <td style="text-align:center;" *ngIf="!forma.value.vehiculos_postureros[i].conRampa" >No</td>
+                                                      <td>Posturero</td>
+                                                  </tr>
+                                              </tbody>
+                                          </table>
+
+
+                                          <!-- <div class="d-flex">
                                               <div *ngFor="let item of forma.controls['vehiculos_fijos']['controls']; let i = index;" class="m-4">
                                                   <div class="card">
                                                       <div class="card-header">
@@ -431,9 +476,9 @@
                                                       </div>
                                                     </div>
                                                </div>
-                                          </div>
+                                          </div> -->
                                       </div>
-                                      <div *ngIf="forma.value.vehiculos_postureros.length > 0" >
+                                      <!-- <div *ngIf="forma.value.vehiculos_postureros.length > 0" >
                                           <div class="d-flex">
                                               <div *ngFor="let item of forma.controls['vehiculos_postureros']['controls']; let i = index;" class="m-4">
   
@@ -464,7 +509,7 @@
                                                     </div>
                                                 </div>
                                           </div>
-                                      </div>
+                                      </div> -->
                                   </div>
   
   
@@ -483,7 +528,7 @@
                   </aw-wizard>
                   </form>
               <div class="p-20">
-                <div class="progress-bar bar-progress" role="progressbar"  aria-valuemin="0" [attr.ariaValuenow]="counttimeUploading"aria-valuemax="100"
+                <div class="progress-bar bar-progress" role="progressbar"  aria-valuemin="0" [attr.ariaValuenow]="counttimeUploading" aria-valuemax="100"
                 [style.width]="counttimeUploading + '%'"> </div>
   
               </div>

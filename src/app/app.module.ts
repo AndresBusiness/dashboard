@@ -52,6 +52,7 @@ import { OrderModule } from 'ngx-order-pipe';
 import { NgxLoadingModule, ngxLoadingAnimationTypes } from 'ngx-loading';
 import { DetalleChoferComponent } from './pages/detalle-chofer/detalle-chofer.component';
 import { ChartsModule } from 'ng2-charts';
+import { GraficaBarrasComponent } from './components/grafica-barras/grafica-barras.component';
 
 
 // registrar los locales con el nombre que quieras utilizar a la hora de proveer

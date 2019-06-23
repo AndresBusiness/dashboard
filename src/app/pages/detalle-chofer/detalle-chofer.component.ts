@@ -12,9 +12,14 @@ import swal from 'sweetalert';
 })
 export class DetalleChoferComponent implements OnInit {
 
-  public doughnutChartLabels: any[] = ['Aceptados', 'Rechazados', 'Perdidos'];
-  public doughnutChartData: any = [350, 450, 100];
+  public doughnutChartLabels: any[] = ['Aceptados', 'Rechazados', 'Perdidos', 'Cancelado por el pasajero', 'Cancelado por el chofer'];
+  public doughnutChartData: any = [550, 150, 100, 10, 12];
   public doughnutChartType: ChartType = 'doughnut';
+  public barChartOptions = {
+    scaleShowVerticalLines: false,
+    responsive: true,
+  };
+  cargandoimagen: boolean = true; 
 
   chofer = {
     "activo": false,
@@ -41,6 +46,13 @@ export class DetalleChoferComponent implements OnInit {
   correo: string;
   habilitado: boolean ;
   public loading = false;
+  calificaciones = {
+    'excelente': 3713,
+    'muybueno': 742,
+    'bueno': 247,
+    'malo': 148,
+    'pesimo':99
+  }
 
   imgDefault: string;
   listComentarios: any[] = [];
@@ -72,17 +84,22 @@ export class DetalleChoferComponent implements OnInit {
     this.servicioFirebase.buscarInfoChofer(uid)
         .then(data => {
           this.chofer = data;
+          setTimeout(() => {
+            this.cargandoimagen = false;            
+          }, 500);
           this.habilitado = this.chofer.autorizado;
           this.correo = this.chofer.correo;
-          this.servicioFirebase.buscarInfoVehiculoRegistroChofer(this.chofer.nombre + ' ' + this.chofer.apellidos)
-          .subscribe((data: any)=>{
-            for (let index = 0; index < data.length; index++) {
-              const element = data[index];
-              let vehiculares = {
-                'vehiculo': element
-              }
-              this.vehiculosRegistrados.push(vehiculares)
-            }
+          this.servicioFirebase.buscarInfoVehiculoFijosChofer(this.chofer.uid)
+          .subscribe((vehiculos: any)=>{
+            vehiculos.forEach(vehiculo => {
+              this.vehiculosRegistrados.push(vehiculo);
+            });
+          });
+          this.servicioFirebase.buscarInfoVehiculoPostureroChofer(this.chofer.uid)
+          .subscribe(vehiculos=>{
+            vehiculos.forEach(vehiculo => {
+              this.vehiculosRegistrados.push(vehiculo)
+            });
           })
         });
 

@@ -2,11 +2,12 @@
     <ngx-loading [show]="loading" ></ngx-loading>
     <!-- Column -->
     <div class="col-lg-4 col-xlg-3 col-md-5">
-        <div class="card animated fadeIn"  >
+        <div class="card">
             <div class="card-body">
                 <div class="m-t-30" *ngIf="chofer" >
                     <div class="center-image-profile">
-                        <img *ngIf="chofer.img" [src]="chofer.img" class="animated fadeIn rounded-circle img-profile-chofer"  />
+                        <app-loading *ngIf="cargandoimagen" margin></app-loading>
+                        <img *ngIf="!cargandoimagen" [src]="chofer.img" class="animated fadeIn rounded-circle img-profile-chofer"  />
                         <h4 class="card-title m-t-10">{{chofer.nombre}} {{chofer.apellidos}}</h4>
                         <p>{{chofer.correo}}</p>
                     </div>
@@ -60,11 +61,11 @@
     <!-- Column -->
     <!-- Column -->
     <div class="col-lg-8 col-xlg-9 col-md-7">
-        <div class="card animated fadeIn">
+        <div class="card">
             <!-- Nav tabs -->
             <ul class="nav nav-tabs profile-tab" role="tablist">
-                <li class="nav-item"> <a class="nav-link active" data-toggle="tab" href="#comentarios-calificaciones" role="tab">Reviews</a> </li>
-                <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#historial" role="tab">Servicios Realizados</a> </li>
+                <li class="nav-item"> <a class="nav-link active" data-toggle="tab" href="#comentarios-calificaciones" role="tab">Calificaciones</a> </li>
+                <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#historial" role="tab">Viajes Realizados</a> </li>
                 <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#vehiculos" role="tab">Vehículos</a> </li>
                 <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#config" role="tab">Configuraciones</a> </li>
             </ul>
@@ -72,67 +73,13 @@
             <div class="tab-content">
                 <div class="tab-pane active m-b-20" id="comentarios-calificaciones" role="tabpanel">
                     <div class="col-12 d-flex">
-                        <div class="col-6">
-                            <h4 class="font-medium m-t-30">Nivel de satisfacción en la calidad de su servicio</h4>
+                        <div class="col-5">
+                            <h3 class="font-medium m-t-30">Reviews de Servicios</h3>
                             <hr>
-
-                            <div class="container-progress mb-4">
-                                <!-- <font class="icon-margin text-muted display-5"><i style="color:#27AE60" class="mdi mdi-emoticon-cool"></i></font> -->
-                                <div class="container-calificacion">
-                                    <h5>Excelente</h5>
-                                    <p class="p-nomargin">2,304 reviews <span class="pull-right">65%</span></p>
-                                    <div class="progress">
-                                        <div class="progress-bar excelente" role="progressbar" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100" style="width:65%; height:4px;"> <span class="sr-only">65% Complete</span> </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="container-progress mb-4">
-                                <!-- <font class="icon-margin text-muted display-5"><i style="color:#F1C40F" class="mdi mdi-emoticon"></i></font> -->
-                                <div class="container-calificacion">
-                                <h5>Muy bueno</h5>
-                                <p class="p-nomargin">2,304 reviews <span class="pull-right">65%</span></p>
-                                <div class="progress">
-                                    <div class="progress-bar muybueno" role="progressbar" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100" style="width:65%; height:4px;"> <span class="sr-only">65% Complete</span> </div>
-                                </div>
-                                </div>
-                            </div>
-
-                            <div class="container-progress mb-4">
-                                <!-- <font class="icon-margin text-muted display-5"><i style="color:#398bf7" class="mdi mdi-emoticon-happy"></i></font> -->
-                                <div class="container-calificacion">
-                                <h5>Normal</h5>
-                                <p class="p-nomargin">1,004 reviews <span class="pull-right">20%</span></p>
-                                <div class="progress">
-                                    <div class="progress-bar normal" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width:20%; height:4px;"> <span class="sr-only">20% Complete</span> </div>
-                                </div>
-                                </div>
-                            </div>
-
-                            <div class="container-progress mb-4">
-                                <!-- <font class="icon-margin text-muted display-5"><i style="color:#DC7633" class="mdi mdi-emoticon-neutral"></i></font> -->
-                                <div class="container-calificacion">
-                                <h5>Malo</h5>
-                                <p class="p-nomargin">504 reviews <span class="pull-right">10%</span></p>
-                                <div class="progress">
-                                    <div class="progress-bar malo" role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100" style="width:10%; height:4px;"> <span class="sr-only">10% Complete</span> </div>
-                                </div>
-                                </div>
-                            </div>
-
-                            <div class="container-progress mb-4">
-                                <!-- <font class="icon-margin text-muted display-5"><i style="color:#ef5350" class="mdi mdi-emoticon-sad"></i></font> -->
-                                <div class="container-calificacion">
-                                <h5>Pésimo</h5>
-                                <p class="p-nomargin">204 reviews <span class="pull-right">5%</span></p>
-                                <div class="progress">
-                                    <div class="progress-bar pesimo" role="progressbar"aria-valuenow="5" aria-valuemin="0" aria-valuemax="100" style="width:5%; height:4px;"> <span class="sr-only">5% Complete</span> </div>
-                                </div>
-                                </div>
-                            </div>
+                            <app-grafica-barras [data]="calificaciones"></app-grafica-barras>
                         </div>
-                        <div class="col-6">
-                                <h4 class="font-medium m-t-30">Comentarios</h4>
+                        <div class="col-7">
+                                <h3 class="font-medium m-t-30">Comentarios</h3>
                                 <hr>
                                 <h4 *ngIf="listComentarios.length == 0" >Este Chofer aún no tiene ningún comentario</h4>
 
@@ -157,65 +104,99 @@
                 </div>
                 <div class="tab-pane m-b-20" id="historial" role="tabpanel">
                     <div class="col-12 d-flex">
-                            <div class="col-6">
-                                    <h4 class="font-medium  m-t-30">Porcentaje de servicios recibidos</h4>
+                            <div class="col-5">
+                                    <h3 class="font-medium m-t-30">Historial de Viajes</h3>
+                                    <hr>
+                                    <h4>Este Chofer aún no ha comenzado a dar viajes</h4>
+                                </div>
+                            <div class="col-7">
+                                    <h3 class="font-medium  m-t-30">Porcentaje de viajes recibidos</h3>
                                     <hr>
                                     <div>
                                         <div style="display: block">
                                         <canvas baseChart
                                             [data]="doughnutChartData"
+                                            [options]="barChartOptions"
                                             [labels]="doughnutChartLabels"
                                             [chartType]="doughnutChartType">
                                         </canvas>
                                         </div>
                                     </div>
                             </div>
-                            <div>
-                                <h4 class="font-medium m-t-30">Historial de Servicios</h4>
-                                <hr>
-                                <h4>Este Chofer aún no ha comenzado a dar servicios</h4>
-                            </div>
-
                     </div>
                 </div>
                 <div class="tab-pane m-b-20" id="vehiculos" role="tabpanel">
                     <div class="card-body">
-                        <h4>Vehículos registrados</h4>
+                        <h3>Vehículos registrados</h3>
                         <div *ngIf="vehiculosRegistrados.length > 0">
-                            <div *ngFor="let item of vehiculosRegistrados" >
-
-                               <fieldset class="scheduler-border">
-                                    <legend class="scheduler-border">{{item.vehiculo.marca}}, {{item.vehiculo.modelo}}, {{item.vehiculo.anio}}</legend>
-                                        <div>
-                                            <small  class="text-label">Concesión:</small>
-                                            <label *ngIf="item.vehiculo.concesion !== '-1'"  for="concesion">{{item.vehiculo.concesion}}</label>
-                                            <label *ngIf="item.vehiculo.concesion === '-1'"  for="concesion">Sin concesión</label>
-                                        </div>
-                                        <div>
-                                            <small  class="text-label">Modalidad:</small>
-                                            <label *ngIf="item.vehiculo.modalidad === '1'"  for="modalidad">Fijo</label>
-                                            <label *ngIf="item.vehiculo.modalidad === '0'"  for="modalidad">Posturero</label>
-                                        </div>
-                                        <div>
-                                            <small  class="text-label">Con Rampa:</small>
-                                            <label *ngIf="item.vehiculo.conRampa"  for="conRampa">SI</label>
-                                            <label *ngIf="!item.vehiculo.conRampa"  for="conRampa">NO</label>
-                                        </div>
-                                        <small  class="text-label">Capacidad:</small>
-                                        <label>Hasta para {{ item.vehiculo.capacidad}} personas</label><br>
-                                        <small  class="text-label">Fecha de Registro:</small>
-                                        <label>{{ item.vehiculo.fechaRegistro}}</label><br>
-                                </fieldset>
-                            </div>
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr style="height: 50px;">
+                                        <th style="font-weight: 600;">#</th>
+                                        <th style="font-weight: 600;">Marca</th>
+                                        <th style="font-weight: 600;">Modelo</th>
+                                        <th style="font-weight: 600;">Año</th>
+                                        <th style="font-weight: 600;text-align:center;">Matrícula</th>
+                                        <th style="font-weight: 600;text-align:center;">Capacidad</th>
+                                        <th style="font-weight: 600;text-align:center;">Con rampa</th>
+                                        <th style="font-weight: 600;">Modalidad</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of vehiculosRegistrados" style="font-weight:400; height: 50px;">
+                                        <td  style="font-weight: 600;" scope="col" >{{item.concesion}}</td>
+                                        <td style="text-align: left;">{{item.marca}}</td>
+                                        <td>{{ item.modelo }}</td>
+                                        <td>{{ item.anio }}</td>
+                                        <td>{{ item.matricula }}</td>
+                                        <td style="text-align:center;">{{ item.capacidad }}</td>
+                                        <td style="text-align:center;" *ngIf="item.conRampa" >Si</td>
+                                        <td style="text-align:center;" *ngIf="!item.conRampa" >No</td>
+                                        <td *ngIf="item.modalidad === '1'">Fijo</td>
+                                        <td *ngIf="item.modalidad === '0'">Posturero</td>
+                                        <td><i style="font-size: 30px;" class="fas fa-edit"></i></td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                         <div *ngIf="vehiculosRegistrados.length === 0">No ha registrado ningún vehículo</div>
                     </div>
                 </div>
                 <div class="tab-pane m-b-20" id="config" role="tabpanel">
                     <div class="card-body">
-                        <h4>Reestablecer contraseña</h4>
-                            <div class="container-form mt-5 d-flex">
-                                <div class="item item-form-6 col-6">
+                        <h3>Editar datos personales del chofer </h3>
+                        <h4>Código de identificación en la base de datos: <strong>{{chofer.uid}}</strong></h4>
+                        <div class="container-form mt-3">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr style="height: 50px;">
+                                        <th  style="font-weight: 600;" scope="col" >Folio</th>
+                                        <th  style="font-weight: 600;" scope="col" >Nombre</th>
+                                        <th  style="font-weight: 600;" scope="col" >Apellidos</th>
+                                        <th  style="font-weight: 600;" scope="col" >Correo</th>
+                                        <th  style="font-weight: 600;" scope="col" >Teléfono</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr style="font-weight:400; height: 50px;">
+                                        <td  style="font-weight: 600;" scope="col" >{{ chofer.folio }}</td>
+                                        <td class="text-left">{{ chofer.nombre }}</td>
+                                        <td>{{ chofer.apellidos }}</td>
+                                        <td>{{ chofer.correo }}</td>
+                                        <td class="text-left">+(52) {{ chofer.telefono }}</td>
+                                        <td><i style="font-size: 30px;" class="fas fa-edit"></i></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+                        <hr>
+
+                        <h3>Reestablecer contraseña</h3>
+                            <div class="container-form mt-3 d-flex">
+                                <div class="item item-form-6 col-6 pl-0">
                                     <h5>Correo eléctronico: <span class="text-danger">*</span></h5>
                                     <input type="text" name="text" [(ngModel)]="correo" placeholder="Ejemplo: juan-39@gmail.com" class="form-control" required>
                                     <!-- <p class="field-requiered"
@@ -228,7 +209,7 @@
                                 </div>
                             </div>
                         <hr>
-                        <h4>Desactivar chofer</h4>
+                        <h3>Desactivar chofer</h3>
                         <div class="text-center mt-4">
                             <button *ngIf="chofer.autorizado" (click)="cambiarStatusChofer()" class="btn btn-danger">Deshabilitar Chofer</button>
                             <button *ngIf="!chofer.autorizado" (click)="cambiarStatusChofer()" class="btn btn-success">Habilitar Chofer</button>

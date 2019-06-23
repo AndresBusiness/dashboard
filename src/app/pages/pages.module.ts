@@ -41,6 +41,7 @@ import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { NgbModule, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { MonitoreoComponent } from './monitoreo/monitoreo.component';
 import { Ng2OdometerModule } from 'ng2-odometer';
+import { GraficaBarrasComponent } from '../components/grafica-barras/grafica-barras.component';
 
 @NgModule({
   declarations: [
@@ -58,6 +59,7 @@ import { Ng2OdometerModule } from 'ng2-odometer';
     KeysPipe,
     UsuariosComponent,
     ModalChoferComponent,
+    GraficaBarrasComponent,
     MonitoreoComponent
   ],
   exports: [
@@ -65,12 +67,14 @@ import { Ng2OdometerModule } from 'ng2-odometer';
     ReportesComponent,
     PasajerosComponent,
     TabuladorComponent,
+    GraficaBarrasComponent,
     HeaderComponent,
     SolicitudesComponent,
     AdminConfiguracionComponent,
     AdminMensajesComponent,
     AdminPerfilComponent,
-    ModalChoferComponent
+    ModalChoferComponent,
+    GraficaBarrasComponent
   ],
   imports: [
     SharedModule,
