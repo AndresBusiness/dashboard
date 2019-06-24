@@ -55,7 +55,7 @@
                     <input class="form-control search col-6"
                     type="text" placeholder="Buscar por nombre, concesión, folio o por tipo de chofer ..."
                     [(ngModel)]="parametroBusqueda" (ngModelChange)="onSearch($event)"
-                    (keydown.enter)="onSearch()">
+                    (keydown.enter)="onSearch($event)">
                     <button (click)="abrirAgregarChofer()" class="btn btn-success"
                     style="float: right;"><i class="fas fa-user-plus"></i>   Agregar chofer</button>
                 </div>

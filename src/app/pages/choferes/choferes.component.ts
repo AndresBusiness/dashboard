@@ -107,7 +107,7 @@ export class ChoferesComponent implements OnInit {
     this.router.navigate([path]);
   }
 
-  onSearch() {
+  onSearch(event: any) {
     console.log(this.parametroBusqueda);
     if(this.parametroBusqueda){
       if(this.isNumber(this.parametroBusqueda)){
