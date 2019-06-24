@@ -30,6 +30,10 @@ export class FunctionsService  {
      return this.launchPetitionServerNode("registrarUsuario", obj);
     }
 
+    registarAdmin(obj:any) {
+      return this.launchPetitionServerNode("registrarAdministrativo", obj);
+    }
+
     reestablecerPassword(obj: any){
       return this.launchPetitionServerNode("reestablecerPassword", obj);
     }

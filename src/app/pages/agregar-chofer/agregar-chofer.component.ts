@@ -9,6 +9,7 @@ import { NgbDateCustomParserFormatter } from 'src/app/service/dateformat.service
 import { FirebaseService } from 'src/app/service/firebase.service';
 import swal from 'sweetalert';
 import { Router } from '@angular/router';
+import * as firebase from 'firebase/app';
 @Component({
   selector: 'app-agregar-chofer',
   templateUrl: './agregar-chofer.component.html',
@@ -21,7 +22,7 @@ export class AgregarChoferComponent implements OnInit {
   public vehiculos_fijosArray: FormArray;
   public vehiculos_posturerosArray: FormArray;
   public choferesArray: FormArray;
-  horalocal: string =  (Math.round(Math.random()*9)).toString() + (Math.round(Math.random()*9)).toString()+ (Math.round(Math.random()*9)).toString()+ (Math.round(Math.random()*9)).toString()+ (Math.round(Math.random()*9)).toString()+ (Math.round(Math.random()*9)).toString();
+  horalocal: any = Math.round(Math.random()*199)
 
   public respuesta: any;
   fecha:string;
@@ -665,6 +666,5 @@ export class AgregarChoferComponent implements OnInit {
     const reader = new FileReader();
     reader.onload = e => this.imageSrc = reader.result;
     reader.readAsDataURL(this.fileImg);
-
   }
 }

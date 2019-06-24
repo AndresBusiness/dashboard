@@ -2,7 +2,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { PagesComponent } from './pages.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ReportesComponent } from './reportes/reportes.component';
-import { SolicitudesComponent } from './solicitudes/solicitudes.component';
 import { TabuladorComponent } from './tabulador/tabulador.component';
 import { PasajerosComponent } from './pasajeros/pasajeros.component';
 import { AuthGuardService } from '../service/guard.service';
@@ -28,7 +27,6 @@ const pageRoutes: Routes = [
       {path: 'choferes', component: ChoferesComponent, data : { titulo: 'Listado de Choferes'} },
       {path: 'agregar-chofer', component: AgregarChoferComponent, data : { titulo: 'Alta de Choferes'} },
       {path: 'detalle-choferes/:uid', component: DetalleChoferComponent, data : { titulo: 'Detalle del Chofer'} },
-      {path: 'solicitudes', component: SolicitudesComponent, data : { titulo: 'Solicitudes a nuevos taxistas'}},
       {path: 'tabulador', component: TabuladorComponent, data : { titulo: 'Tabulador de Tarifas'}},
       {path: 'pasajeros', component: PasajerosComponent, data : { titulo: 'Listado de pasajeros y comentarios'}},
       {path: 'perfil', component: AdminPerfilComponent, data : { titulo: 'Mi Perfil'}},

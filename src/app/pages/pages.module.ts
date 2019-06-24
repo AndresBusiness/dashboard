@@ -6,7 +6,6 @@ import { PagesComponent } from './pages.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ReportesComponent } from './reportes/reportes.component';
 import { PasajerosComponent } from './pasajeros/pasajeros.component';
-import { SolicitudesComponent } from './solicitudes/solicitudes.component';
 import { TabuladorComponent } from './tabulador/tabulador.component';
 import { DetalleChoferComponent } from './detalle-chofer/detalle-chofer.component';
 import { ChoferesComponent } from './choferes/choferes.component';
@@ -14,7 +13,6 @@ import { HeaderComponent } from '../shared/header/header.component';
 import { AdminConfiguracionComponent } from '../admin-configuracion/admin-configuracion.component';
 import { AdminMensajesComponent } from '../admin-mensajes/admin-mensajes.component';
 import { AdminPerfilComponent } from '../admin-perfil/admin-perfil.component';
-import { UsuariosComponent } from './usuarios/usuarios.component';
 
 // MODULOS
 import { SharedModule } from '../shared/shared.module';
@@ -23,10 +21,8 @@ import { SharedModule } from '../shared/shared.module';
 import { PAGES_ROUTES } from './pages.routes';
 
 // FORMULARIO
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-// ng2-chart
-import { ChartsModule } from 'ng2-charts';
 
 // PIPES
 import { KeysPipe } from '../pipes/keys.pipe';
@@ -49,7 +45,6 @@ import { GraficaBarrasComponent } from '../components/grafica-barras/grafica-bar
     ReportesComponent,
     PasajerosComponent,
     TabuladorComponent,
-    SolicitudesComponent,
     ChoferesComponent,
     HeaderComponent,
     AdminConfiguracionComponent,
@@ -57,7 +52,6 @@ import { GraficaBarrasComponent } from '../components/grafica-barras/grafica-bar
     AdminPerfilComponent,
     PagesComponent,
     KeysPipe,
-    UsuariosComponent,
     ModalChoferComponent,
     GraficaBarrasComponent,
     MonitoreoComponent
@@ -69,7 +63,6 @@ import { GraficaBarrasComponent } from '../components/grafica-barras/grafica-bar
     TabuladorComponent,
     GraficaBarrasComponent,
     HeaderComponent,
-    SolicitudesComponent,
     AdminConfiguracionComponent,
     AdminMensajesComponent,
     AdminPerfilComponent,
@@ -77,6 +70,7 @@ import { GraficaBarrasComponent } from '../components/grafica-barras/grafica-bar
     GraficaBarrasComponent
   ],
   imports: [
+    ReactiveFormsModule,
     SharedModule,
     FormsModule,
     Ng2SmartTableModule,

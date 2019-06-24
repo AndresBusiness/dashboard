@@ -1,10 +1,72 @@
+<ngx-loading [show]="loading" ></ngx-loading>
 <div class="row">
     <div class="col-md-12">
         <div class="card animated fadeIn">
             <div class="p-20">
-                <p>
-                    usuarios works!
-                </p>
+                <div>
+                    <form [formGroup]="forma" (ngSubmit)="guardarUsuario()" >
+                        <div class="col-12 d-flex">
+                            <div class="col-6">
+                                <div class="container-form mb-2">
+                                    <h2 class="mb-4">Agregar usuario</h2>
+                                    <h5>Nombre (s): <span class="text-danger">*</span></h5>
+                                    <input type="text" name="text" formControlName="nombre" (input)="capitalizaCamelCase($event.target.value, 'nombre')" placeholder="Ejemplo: Juan" class="form-control" required>
+                                    <p class="field-requiered"
+                                    *ngIf="forma.controls['nombre'].errors?.required">Campo requerido*</p>
+                                </div>
+                                <div class="container-form">
+                                    <h5>Correo eléctronico: <span class="text-danger">*</span></h5>
+                                    <input type="text" name="text" formControlName="correo" placeholder="Ejemplo: juan-39@gmail.com" class="form-control" required>
+                                    <p class="field-requiered"
+                                    *ngIf="forma.controls['correo'].errors?.required">Campo requerido*</p>
+                                    <p class="field-requiered"
+                                    *ngIf="forma.controls['correo'].errors?.pattern && forma.controls['correo'].value">Formato de correo incorrecto*</p>
+                                    <p class="field-requiered"
+                                    *ngIf="forma.controls['correo'].errors?.existe && forma.controls['correo'].value">Este correo ya fue registrado en el sistema*</p>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="item item-form-6">
+                                    <h5>Selecciona la foto del usuario: <span class="text-danger">*</span></h5>
+                                    <input type="file" accept="image/*" placeholder="" (change)="upload($event)"  class="form-control" formControlName="img" >
+                                    <img id="blah" [src]="imageSrc || '../../../assets/images/user.png'" width="150px" height="150px"
+                                    alt="your image" class="rounded-circle img-profile-chofer m-2"/>
+                                    <p class="field-requiered"
+                                    *ngIf="forma.controls['img'].errors?.required">Seleccione la foto del chofer*</p>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn btn-success" 
+                        style="float: right;"><i class="fas fa-user-plus"></i>   Agregar usuario</button>
+                        </form>
+                        <div class="p-20 mt-4">
+                            <div class="progress-bar bar-progress" role="progressbar"  aria-valuemin="0" [attr.ariaValuenow]="counttimeUploading" aria-valuemax="100"
+                            [style.width]="counttimeUploading + '%'"> </div>
+                        </div>
+                    
+                </div>
+
+                <table class="table table-striped">
+                    <thead>
+                        <tr style="height: 50px;">
+                            <th style="font-weight: 600;">Foto</th>
+                            <th style="font-weight: 600;text-align: left">Nombre</th>
+                            <th style="font-weight: 600;text-align: left">Correo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr  *ngIf="cargarUsuarios">
+                            <td colspan="3"> <app-loading margin></app-loading></td>
+                        </tr>
+                        <tr *ngFor="let item of listUser" style="font-weight:400; height: 50px;">
+                            <td scope="col" ><img [src]="item.img" alt="usuarios" width="100px" height="100px"></td>
+                            <td style="text-align: left">{{item.nombre}}</td>
+                            <td style="text-align: left">{{ item.email }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+               
             </div>
         </div>
     </div>

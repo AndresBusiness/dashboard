@@ -56,7 +56,7 @@ export class DetalleChoferComponent implements OnInit {
 
   imgDefault: string;
   listComentarios: any[] = [];
-  colorIcon: string[] = ['#ef5350', '#DC7633', '#398bf7', '#F1C40F', '#27AE60'];
+  colorIcon: string[] = ['#ef5350', '#DC7633', '#398bf7', '#ffb22b', '#06d79c'];
 
   icons: string[] =
   ['mdi mdi-emoticon-sad',

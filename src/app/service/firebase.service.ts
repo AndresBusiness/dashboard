@@ -12,8 +12,9 @@ export class FirebaseService {
    }
 
   obtenerConcesiones() {
-    return this.afs.collection('ciudades/cozumel/concesiones',
-                              ref => ref.where('activo', '==', true)).snapshotChanges();
+    // return this.afs.collection('ciudades/cozumel/concesiones',
+    //                           ref => ref.where('activo', '==', true)).snapshotChanges();
+    return this.afs.collection('ciudades/cozumel/concesiones').snapshotChanges();
   }
 
   filtrarConcesiones(criterio: string) {
@@ -24,6 +25,10 @@ export class FirebaseService {
   buscarConcesion(unidad: number) {
     return   this.afs.doc(`ciudades/cozumel/concesiones/${unidad.toString()}`)
             .valueChanges();
+  }
+
+  obtenerAdministradores() {
+    return this.afs.collection('ciudades/cozumel/admin').valueChanges();
   }
 
 
@@ -39,24 +44,24 @@ export class FirebaseService {
   }
 
   buscarInfoVehiculo(concesion: string) {
-    return this.afs.collection('vehiculos',
+    return this.afs.collection('ciudades/cozumel/vehiculos',
     ref => ref.where('concesion', '==', concesion)).valueChanges();
   }
 
   buscarInfoVehiculoFijosChofer(uid) {
-    return this.afs.collection('vehiculos',
+    return this.afs.collection('ciudades/cozumel/vehiculos',
     ref => ref.where('modalidad', '==', '1')
               .where('choferes', 'array-contains', uid)).valueChanges();
   }
   buscarInfoVehiculoPostureroChofer(uid: string) {
-    return this.afs.collection('vehiculos',
+    return this.afs.collection('ciudades/cozumel/vehiculos',
     ref => ref.where('uidChoferRegistro', '==', uid)
               .where('modalidad', '==', '0')).valueChanges();
   }
 
   buscarInfoChofer(id: string) {
     return new Promise<any>((resolve, reject) => {
-      this.afs.doc(`choferes/${id}`)
+      this.afs.doc(`ciudades/cozumel/choferes/${id}`)
       .valueChanges()
       .subscribe((data: any) => {
         if (data) {
@@ -71,7 +76,7 @@ export class FirebaseService {
 
   buscarInfoConcesion(data: string, field:string) {
     return new Promise<any>((resolve, reject) => {
-      this.afs.collection('choferes',
+      this.afs.collection('ciudades/cozumel/choferes',
       ref => ref.where(field, '==', data)).valueChanges()
       .subscribe((data: any) => {
         if (data.length > 0) {
@@ -86,7 +91,7 @@ export class FirebaseService {
 
   verificarConcesion(concesion: string) {
     return new Promise<any>((resolve, reject) => {
-      this.afs.doc(`concesiones/${concesion}`)
+      this.afs.doc(`ciudades/cozumel/concesiones/${concesion}`)
       .valueChanges()
       .subscribe((data: any) => {
         if (data) {
@@ -101,7 +106,7 @@ export class FirebaseService {
 
 
   obtenerInfoChoferes() {
-    return this.afs.collection('choferes').valueChanges()
+    return this.afs.collection('ciudades/cozumel/choferes').valueChanges()
   }
 
   agregarItem(uid: string, value: any) {

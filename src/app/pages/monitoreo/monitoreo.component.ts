@@ -42,7 +42,6 @@ export class MonitoreoComponent implements OnInit {
     this.servicejson.obtenerItemJsonConcesion()
     .subscribe(informacion => {
       for (let i = 0; i < 53; i++) {
-
         this.servicioFirebase.agregarItem(
           (informacion[i].unidad).toString(),
            informacion[i])
@@ -67,7 +66,6 @@ export class MonitoreoComponent implements OnInit {
                   });
                 });
     this._observableSubscriptions.push(s);
-
   }
 
   public obtenerRoles() {
@@ -94,6 +92,7 @@ export class MonitoreoComponent implements OnInit {
         .then(data => {
           chofer.correo = data.correo;
           chofer.nombre = data.nombre;
+          chofer.apellidos = data.apellidos;
           chofer.img = data.img;
           chofer.telefono = data.telefono;
           chofer.registrado = data.registrado;

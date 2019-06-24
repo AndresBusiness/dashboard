@@ -21,6 +21,7 @@ export class ModalChoferComponent implements OnInit {
   }
 
   abrirDetalle(uid) {
+    console.log(this.chofer);
     const path = `/detalle-choferes/${uid}`;
     this.router.navigate([path]);
     this.activeModal.close('Close click');
