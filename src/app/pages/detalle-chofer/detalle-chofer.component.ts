@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ChartType } from 'chart.js';
 import { FunctionsService } from 'src/app/service/functions.service';
 import swal from 'sweetalert';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-detalle-chofer',
@@ -20,6 +21,8 @@ export class DetalleChoferComponent implements OnInit {
     responsive: true,
   };
   cargandoimagen: boolean = true; 
+  public forma:FormGroup;
+  vehiculoSeleccionado: boolean = false;
 
   chofer = {
     "activo": false,
@@ -75,6 +78,19 @@ export class DetalleChoferComponent implements OnInit {
     this.user=  JSON.parse(localStorage.getItem('user'));
     this.uid = localStorage.getItem('uid');
     this.obtenerInfoChofer(this.chofer.uid);
+
+    this.forma = new FormGroup({
+      'idVehiculo':         new FormControl('', Validators.required),
+      'marca':           new FormControl('', Validators.required),
+      'modelo':          new FormControl('', Validators.required),
+      'matricula':          new FormControl('', Validators.required),
+      'anio':          new FormControl('', Validators.required),
+      'capacidad':          new FormControl('-1', Validators.required),
+      'conRampa':          new FormControl('', Validators.required),
+      // 'modalidad':          new FormControl('-1', Validators.required)
+      // 'concesion':          new FormControl('', Validators.required),
+    });
+    
   }
 
   ngOnInit() {
@@ -89,18 +105,7 @@ export class DetalleChoferComponent implements OnInit {
           }, 500);
           this.habilitado = this.chofer.autorizado;
           this.correo = this.chofer.correo;
-          this.servicioFirebase.buscarInfoVehiculoFijosChofer(this.chofer.uid)
-          .subscribe((vehiculos: any)=>{
-            vehiculos.forEach(vehiculo => {
-              this.vehiculosRegistrados.push(vehiculo);
-            });
-          });
-          this.servicioFirebase.buscarInfoVehiculoPostureroChofer(this.chofer.uid)
-          .subscribe(vehiculos=>{
-            vehiculos.forEach(vehiculo => {
-              this.vehiculosRegistrados.push(vehiculo)
-            });
-          })
+          this.obtenerVehiculos(this.chofer.uid);
         });
 
     this.servicioFirebase.buscarComentariosChoferes(uid)
@@ -118,6 +123,22 @@ export class DetalleChoferComponent implements OnInit {
             }
           }
         });
+  }
+
+  obtenerVehiculos(idChofer: string){
+    this.servicioFirebase.buscarInfoVehiculoFijosChofer(idChofer)
+    .subscribe((vehiculos: any)=>{
+      this.vehiculosRegistrados = [];
+      vehiculos.forEach(vehiculo => {
+        this.vehiculosRegistrados.push(vehiculo);
+      });
+    });
+    this.servicioFirebase.buscarInfoVehiculoPostureroChofer(idChofer)
+    .subscribe(vehiculos=>{
+      vehiculos.forEach(vehiculo => {
+        this.vehiculosRegistrados.push(vehiculo)
+      });
+    })
   }
 
   cambiarStatusChofer(){
@@ -155,13 +176,75 @@ export class DetalleChoferComponent implements OnInit {
       'nombre':this.user.nombre ,
       'img': this.user.img,
       'correo': this.correo,
+      'dataChofer': this.chofer, 
+      'dataVehiculos': this.vehiculosRegistrados
     }
     this.servicioNode.reestablecerPassword(obj).subscribe(data=>{
       this.loading = false;
       if(data){
-        swal('Correcto!', 'Se ha reestablecido la contraseña correctamente', 'success')
+        swal('Correcto!', 'Se ha reenviado la información de registro nuevamente', 'success')
       }
     });
+  }
+
+  editarChofer(){
+    this.loading = true;
+    const dataChofer = {
+      uid: this.chofer.uid,
+      nombre: this.chofer.nombre,
+      apellidos: this.chofer.apellidos,
+      telefono: this.chofer.telefono,
+      correo: this.chofer.correo,
+      folio: this.chofer.folio,
+      genero: this.chofer.genero,
+      'uidUserSystem': this.uid,
+      'nombreSystem':this.user.nombre ,
+      'imgSystem': this.user.img,
+    }
+    this.servicioNode.editarChofer(dataChofer).subscribe((data: any)=>{
+      this.loading = false;
+      if(data.commit){
+        swal('Correcto!', 'Información modificada correctamente', 'success')
+      }
+    });
+  }
+
+  seleccionVehiculo(item){
+    this.vehiculoSeleccionado = true;
+    this.forma.controls['idVehiculo'].setValue(item.idVehiculo);
+    this.forma.controls['marca'].setValue(item.marca);
+    this.forma.controls['modelo'].setValue(item.modelo);
+    this.forma.controls['anio'].setValue(item.anio);
+    this.forma.controls['capacidad'].setValue(item.capacidad);
+    // this.forma.controls['modalidad'].setValue(item.modalidad);
+    this.forma.controls['matricula'].setValue(item.matricula);
+    this.forma.controls['conRampa'].setValue(item.conRampa);
+  }
+  editarVehiculo(){
+    console.log(this.forma.value);
+    this.loading = true;
+    const dataVehiculo = {
+      idVehiculo: this.forma.value.idVehiculo,
+      marca: this.forma.value.marca,
+      modelo: this.forma.value.modelo,
+      anio: this.forma.value.anio,
+      capacidad: this.forma.value.capacidad,
+      matricula: this.forma.value.matricula,
+      conRampa: this.forma.value.conRampa,
+      'uidUserSystem': this.uid,
+      'nombreSystem':this.user.nombre ,
+      'imgSystem': this.user.img,
+    }
+
+    this.servicioNode.editarVehiculo(dataVehiculo).subscribe((data: any)=>{
+      this.loading = false;
+      this.forma.reset();
+      this.vehiculoSeleccionado = false;
+      if(data.commit){
+        swal('Correcto!', 'Información modificada correctamente', 'success')
+      }
+    });
+
   }
 
 }

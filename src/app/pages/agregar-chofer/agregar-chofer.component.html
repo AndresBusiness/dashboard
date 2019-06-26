@@ -154,7 +154,16 @@
                               <p class="field-requiered"
                               *ngIf="forma.controls['fechaNacimiento'].errors?.required  && VALIDATIONS_STEP1.fechaNacimiento">Campo requerido*</p>
   
-                            <div class="item mt-5">
+                           
+                          </div>
+                          <div class="item item-form-6">
+                              <h5>Selecciona la foto del chofer: <span class="text-danger">*</span></h5>
+                              <input type="file" accept="image/*" placeholder="" (change)="upload($event)"  class="form-control" formControlName="img" >
+                              <img id="blah" [src]="imageSrc || '../../../assets/images/user.png'  "
+                              alt="your image" class="rounded-circle img-profile-chofer"/>
+                              <p class="field-requiered"
+                              *ngIf="forma.controls['img'].errors?.required  && VALIDATIONS_STEP1.img">Seleccione la foto del chofer*</p>
+                              <div class="item" style="float: right; margin-top:80px;">
                                 <h5>Género: <span class="text-danger">*</span></h5>
                                 <div class="form-check">
                                     <label class="custom-control custom-radio">
@@ -171,14 +180,6 @@
                                 <p class="field-requiered"
                                 *ngIf="forma.controls['genero'].errors?.required  && VALIDATIONS_STEP1.genero">Campo requerido*</p>
                             </div>
-                          </div>
-                          <div class="item item-form-6">
-                              <h5>Selecciona la foto del chofer: <span class="text-danger">*</span></h5>
-                              <input type="file" accept="image/*" placeholder="" (change)="upload($event)"  class="form-control" formControlName="img" >
-                              <img id="blah" [src]="imageSrc || '../../../assets/images/user.png'  "
-                              alt="your image" class="rounded-circle img-profile-chofer"/>
-                              <p class="field-requiered"
-                              *ngIf="forma.controls['img'].errors?.required  && VALIDATIONS_STEP1.img">Seleccione la foto del chofer*</p>
                           </div>
                         </div>
                         <button type="button" class="btn btn-info btn-wizard-btn-next-step" (click)="paso1()">Continuar</button>

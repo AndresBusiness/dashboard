@@ -23,6 +23,7 @@ export class AgregarChoferComponent implements OnInit {
   public vehiculos_posturerosArray: FormArray;
   public choferesArray: FormArray;
   horalocal: any = Math.round(Math.random()*199)
+  hola: string = "hola ";
 
   public respuesta: any;
   fecha:string;
@@ -92,6 +93,7 @@ export class AgregarChoferComponent implements OnInit {
     private firebaseService: FirebaseService,
     public router: Router,
     private servicio: FunctionsService, private _storage: AngularFireStorage) {
+
     this.minDate = {year: 1950, month: 1, day: 1};
     this.maxDate = {year: 2001, month: 1, day: 1};
     this.startDate = {year: 1973, month: 6, day: 15};
@@ -343,7 +345,15 @@ export class AgregarChoferComponent implements OnInit {
         const modelo = (this.forma.controls[type]['controls'][index]['controls']['modelo'] as FormControl);
         const matricula = (this.forma.controls[type]['controls'][index]['controls']['matricula'] as FormControl);
         const capacidad = (this.forma.controls[type]['controls'][index]['controls']['capacidad'] as FormControl);
-        this.forma.controls[type]['controls'][index]['controls']['matricula'].setValue(matricula.value.toUpperCase());
+        if(matricula.value){
+          this.forma.controls[type]['controls'][index]['controls']['matricula'].setValue((matricula.value.toUpperCase().trim()));
+        }
+        if(marca.value){
+          this.forma.controls[type]['controls'][index]['controls']['marca'].setValue(marca.value.trim());
+        }
+        if(modelo.value){
+          this.forma.controls[type]['controls'][index]['controls']['modelo'].setValue(modelo.value.trim());
+        }
        
         if (anio.errors) {
           if (anio.errors['required'] ) {
@@ -459,7 +469,10 @@ export class AgregarChoferComponent implements OnInit {
     this.loading = true;
     this.respuesta = 'guardando';
     const form = this.forma.value;
-    form.telefono = form.telefono;
+    form.correo = form.correo.trim();
+    form.nombre = form.nombre.trim();
+    form.apellidos = form.apellidos.trim();
+    form.folio = form.folio.trim();
     form.nombreUserSystem = this.user.nombre;
     form.imgUserSystem = this.user.img;
     form.fechaNacimiento = this.fecha;

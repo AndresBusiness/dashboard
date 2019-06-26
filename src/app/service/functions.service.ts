@@ -38,6 +38,14 @@ export class FunctionsService  {
       return this.launchPetitionServerNode("reestablecerPassword", obj);
     }
 
+    editarChofer(obj: any){
+      return this.launchPetitionServerNode("actualizarUsuario", obj);
+    }
+
+    editarVehiculo(obj: any){
+      return this.launchPetitionServerNode("actualizarVehiculo", obj);
+    }
+
     cambiarEstatusChofer(obj: any){
       return this.launchPetitionServerNode("deshabilitarUsuario", obj);
     }
