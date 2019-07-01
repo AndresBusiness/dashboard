@@ -466,110 +466,116 @@ export class AgregarChoferComponent implements OnInit {
   }
 
   guardarUsuario() {
-    this.loading = true;
-    this.respuesta = 'guardando';
-    const form = this.forma.value;
-    form.correo = form.correo.trim();
-    form.nombre = form.nombre.trim();
-    form.apellidos = form.apellidos.trim();
-    form.folio = form.folio.trim();
-    form.nombreUserSystem = this.user.nombre;
-    form.imgUserSystem = this.user.img;
-    form.fechaNacimiento = this.fecha;
-    console.log(JSON.stringify(form));
 
-    const filepath = `choferes/${ form.folio}`;
-    const fileRef = this._storage.ref(filepath);
-    const task = this._storage.upload(filepath, this.fileImg);
-    this.uploadProgress = task.percentageChanges();
-    this.uploadProgress.subscribe(count => {
-      this.counttimeUploading = count;
-    });
-    task.snapshotChanges().pipe(
-      finalize(() => {
-          this.uploadURL = fileRef.getDownloadURL()
-          this.uploadURL.subscribe(urlPath => {
-            form.img = urlPath;
-            this.servicio.registarChofer(form).subscribe(data => {
+    if(this.forma.status === 'VALID'){
+      this.loading = true;
+      this.respuesta = 'guardando';
+      const form = this.forma.value;
+      form.correo = form.correo.trim();
+      form.nombre = form.nombre.trim();
+      form.apellidos = form.apellidos.trim();
+      form.folio = form.folio.trim();
+      form.nombreUserSystem = this.user.nombre;
+      form.imgUserSystem = this.user.img;
+      form.fechaNacimiento = this.fecha;
+      console.log(JSON.stringify(form));
+  
+      const filepath = `choferes/${ form.folio}`;
+      const fileRef = this._storage.ref(filepath);
+      const task = this._storage.upload(filepath, this.fileImg);
+      this.uploadProgress = task.percentageChanges();
+      this.uploadProgress.subscribe(count => {
+        this.counttimeUploading = count;
+      });
+      task.snapshotChanges().pipe(
+        finalize(() => {
+            this.uploadURL = fileRef.getDownloadURL()
+            this.uploadURL.subscribe(urlPath => {
+              form.img = urlPath;
+              this.servicio.registarChofer(form).subscribe(data => {
+                this.loading = false;
+               this.respuesta = JSON.stringify(data);
+               swal('Chofer registrado!', 'Continuar', 'success').then(()=>{
+                  this.counttimeUploading = 0;
+                 if(this.forma.value.concesiones_que_trabaja){
+                   while(this.forma.value.concesiones_que_trabaja.length > 0){
+                    for (let index = 0; index < this.forma.value.concesiones_que_trabaja.length; index++) {
+                      this._removeConcesion_Vehiculos({indice: index});
+                    }
+                   }
+                  }
+  
+                if(this.forma.value.vehiculos_postureros){
+                  while (this.forma.value.vehiculos_postureros.length > 0){
+                    for (let index = 0; index < this.forma.value.vehiculos_postureros.length; index++) {
+                      this._removePostureros({indice: index});
+                    }
+                  }
+                }
+  
+                 if(this.forma.value.concesion_socio){
+                    this.forma.removeControl('concesion_socio');
+                  }
+  
+                 this.VALIDATIONS_STEP1 = {
+                  'nombre':   false,
+                  'apellidos':   false,
+                  'correo':   false,
+                  'telefono':   false,
+                  'fechaNacimiento':   false,
+                  'img':   false,
+                  'genero': false
+                };
+              
+                this.VALIDATIONS_STEP2 = {
+                  'folio':   false,
+                  'etiqueta':   false,
+                  'concesion':   false,
+                };
+                this.imageSrc = null;
+  
+                this.state_actual_pelota1 = this.state_active;
+                this.state_actual_barra1 = this.state_pending;
+                this.state_actual_pelota2 = this.state_pending;
+                this.state_actual_barra2 = this.state_pending;
+                this.state_actual_pelota3 = this.state_pending;
+                this.state_actual_barra3 = this.state_pending;
+                this.state_actual_pelota4 = this.state_pending;
+  
+  
+                this.forma.controls['folio'].setValue('');           
+                this.forma.controls['nombre'].setValue('');          
+                this.forma.controls['apellidos'].setValue('');       
+                this.forma.controls['correo'].setValue('');          
+                this.forma.controls['telefono'].setValue('');        
+                this.forma.controls['etiqueta'].setValue('');        
+                this.forma.controls['genero'].setValue('');          
+                this.forma.controls['fechaNacimiento'].setValue(''); 
+                this.forma.controls['img'].setValue('');             
+                this.forma.controls['activo'].setValue(false);
+                this.forma.controls['autorizado'].setValue(true);
+                this.forma.controls['uidUserSystem'].setValue(localStorage.getItem('uid'));   
+                this._pushConcesion_Vehiculos('1');  
+                this.finishReset.nativeElement.click();
+                this.respuesta = '';
+                window.scroll(0,0);
+               })
+  
+             }, err=>{
               this.loading = false;
-             this.respuesta = JSON.stringify(data);
-             swal('Chofer registrado!', 'Continuar', 'success').then(()=>{
-                this.counttimeUploading = 0;
-               if(this.forma.value.concesiones_que_trabaja){
-                 while(this.forma.value.concesiones_que_trabaja.length > 0){
-                  for (let index = 0; index < this.forma.value.concesiones_que_trabaja.length; index++) {
-                    this._removeConcesion_Vehiculos({indice: index});
-                  }
-                 }
-                }
-
-              if(this.forma.value.vehiculos_postureros){
-                while (this.forma.value.vehiculos_postureros.length > 0){
-                  for (let index = 0; index < this.forma.value.vehiculos_postureros.length; index++) {
-                    this._removePostureros({indice: index});
-                  }
-                }
-              }
-
-               if(this.forma.value.concesion_socio){
-                  this.forma.removeControl('concesion_socio');
-                }
-
-               this.VALIDATIONS_STEP1 = {
-                'nombre':   false,
-                'apellidos':   false,
-                'correo':   false,
-                'telefono':   false,
-                'fechaNacimiento':   false,
-                'img':   false,
-                'genero': false
-              };
-            
-              this.VALIDATIONS_STEP2 = {
-                'folio':   false,
-                'etiqueta':   false,
-                'concesion':   false,
-              };
-              this.imageSrc = null;
-
-              this.state_actual_pelota1 = this.state_active;
-              this.state_actual_barra1 = this.state_pending;
-              this.state_actual_pelota2 = this.state_pending;
-              this.state_actual_barra2 = this.state_pending;
-              this.state_actual_pelota3 = this.state_pending;
-              this.state_actual_barra3 = this.state_pending;
-              this.state_actual_pelota4 = this.state_pending;
-
-
-              this.forma.controls['folio'].setValue('');           
-              this.forma.controls['nombre'].setValue('');          
-              this.forma.controls['apellidos'].setValue('');       
-              this.forma.controls['correo'].setValue('');          
-              this.forma.controls['telefono'].setValue('');        
-              this.forma.controls['etiqueta'].setValue('');        
-              this.forma.controls['genero'].setValue('');          
-              this.forma.controls['fechaNacimiento'].setValue(''); 
-              this.forma.controls['img'].setValue('');             
-              this.forma.controls['activo'].setValue(false);
-              this.forma.controls['autorizado'].setValue(true);
-              this.forma.controls['uidUserSystem'].setValue(localStorage.getItem('uid'));   
-              this._pushConcesion_Vehiculos('1');  
-              this.finishReset.nativeElement.click();
-              this.respuesta = '';
-              window.scroll(0,0);
-             })
-
-           }, err=>{
-            this.loading = false;
-             if(JSON.parse(err._body).message === 'Error creating new user:  Error: The email address is already in use by another account.'){
-              swal('Tenemos un problema', 'No es posible crear una cuenta con este correo por que ya existe en el sistema', 'error')
-             } else {
-              swal('Tenemos un problema', JSON.parse(err._body).message, 'error')
-             }
-           });
-          });
-
-      })).subscribe();
+               if(JSON.parse(err._body).message === 'Error creating new user:  Error: The email address is already in use by another account.'){
+                swal('Tenemos un problema', 'No es posible crear una cuenta con este correo por que ya existe en el sistema', 'error')
+               } else {
+                swal('Tenemos un problema', JSON.parse(err._body).message, 'error')
+               }
+             });
+            });
+  
+        })).subscribe();
+    } else {
+      console.log('formulario invalido')
+    }
+    
   }
   public finalizeReset(): void {
     this.resetCount += 1;

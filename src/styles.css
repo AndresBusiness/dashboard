@@ -46,3 +46,16 @@ fieldset.scheduler-border {
   text-align: center;
   width: 220px;
 }
+
+
+.autocomplete-container .suggestions-container ul {
+  background: white !important;
+  z-index: 9999999999999 !important;
+  position: absolute !important;
+  width: 100% !important;
+}
+
+.autocomplete-container .suggestions-container ul li a {
+  padding: 7px 15px;
+  border: 1px solid #adadad;
+}

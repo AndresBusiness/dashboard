@@ -79,6 +79,9 @@ li.done.navigable{
   background: #b72b28;
   color: white;
 }
+
+
+
 @media only screen and (max-width: 1050px) {
   .pelota{
     width: 50px;

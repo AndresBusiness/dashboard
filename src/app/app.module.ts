@@ -1,3 +1,4 @@
+import { AutocompleteLibModule } from 'angular-ng-autocomplete';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, LOCALE_ID } from '@angular/core';
 import { ReactiveFormsModule , FormsModule} from '@angular/forms';
@@ -76,6 +77,7 @@ registerLocaleData(localeMX, 'es');
     SharedModule,
     ArchwizardModule,
     FormsModule,
+    AutocompleteLibModule,
     OrderModule,
     HttpClientModule,
     FormsModule,
