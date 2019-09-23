@@ -5,6 +5,7 @@ import { AngularFireStorage } from 'angularfire2/storage';
 import { Observable } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { FunctionsService } from 'src/app/service/functions.service';
+import swal from 'sweetalert';
 
 @Component({
   selector: 'app-usuarios',

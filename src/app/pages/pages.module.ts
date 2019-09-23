@@ -75,7 +75,7 @@ import { GraficaBarrasComponent } from '../components/grafica-barras/grafica-bar
     FormsModule,
     Ng2SmartTableModule,
     BrowserModule,
-    NgbModule.forRoot(),
+    //NgbModule.forRoot(),
     GridModule.forRoot(),
     Ng2OdometerModule.forRoot(),
     AgmCoreModule.forRoot({

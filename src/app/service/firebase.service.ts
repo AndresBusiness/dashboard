@@ -144,9 +144,9 @@ export class FirebaseService {
       contentType: 'image/jpeg'
     };
 
-    var uploadTask = storageRef.child('images/' + nombre).put(file, metadata).then(data=>{
+    // var uploadTask = storageRef.child('images/' + nombre).put(file, metadata).then(data=>{
 
-    })
+    // })
   }
 
 }
