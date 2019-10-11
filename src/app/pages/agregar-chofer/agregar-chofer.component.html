@@ -207,12 +207,12 @@
                                             <div class="item item-form-3 col-12 pl-0 mytooltip">
                                                 <h5>No. de concesión <strong>Socio</strong> :<span class="text-danger">*</span></h5>
                                                 <input type="text" mask="000" [showMaskTyped]="true" name="text" class="form-control" required formControlName="concesion_socio">
-                                                <span class="font-13 text-muted">del 001 al 825 (tres digitos)</span>
+                                                <span class="font-13 text-muted">del 001 al 900 (tres digitos)</span>
                                                 <p class="field-requiered" *ngIf="forma.controls['concesion_socio'].errors?.required">Campo requerido*</p>
                                                 <div *ngIf="forma.controls['concesion_socio'].errors">
                                                     <p class="field-requiered" *ngIf="forma.controls['concesion_socio'].errors['Mask error']">Se requieren 3 digitos*</p>
                                                 </div>
-                                                <p class="field-requiered" *ngIf="forma.controls['concesion_socio'].errors?.max">Máximo 825 concesiones*</p>
+                                                <p class="field-requiered" *ngIf="forma.controls['concesion_socio'].errors?.max">Máximo 900 concesiones*</p>
                                                 <p class="field-requiered" *ngIf="forma.controls['concesion_socio'].errors?.min">Minimo 001*</p>
                                                 <p class="field-requiered" *ngIf="forma.controls['concesion_socio'].errors?.maxLength">Máximo 3 digitos*</p>
                                                 <p class="field-requiered" *ngIf="forma.controls['concesion_socio'].errors?.existe">Ya registraron esta concesión*</p>

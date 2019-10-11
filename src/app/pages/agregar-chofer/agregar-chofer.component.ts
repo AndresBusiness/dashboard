@@ -141,7 +141,7 @@ export class AgregarChoferComponent implements OnInit {
       if (dataEtiqueta === '1' || dataEtiqueta ===  true) {
         this.esPropietarioDePlaca = true;
         this.forma.addControl('concesion_socio',
-        new FormControl('***', [Validators.required, Validators.maxLength(3), Validators.max(825), Validators.min(1)]));
+        new FormControl('***', [Validators.required, Validators.maxLength(3), Validators.max(900), Validators.min(1)]));
         this.forma.controls['concesion_socio'].valueChanges.subscribe(dataConcesionSocio => {
           this.validarConcesion(dataConcesionSocio)
         });
@@ -644,7 +644,7 @@ export class AgregarChoferComponent implements OnInit {
 
    _pushConcesion() {
     const control = new FormGroup({
-      'placa': new FormControl('***', [Validators.required, Validators.maxLength(3), Validators.max(765), Validators.min(1)])
+      'placa': new FormControl('***', [Validators.required, Validators.maxLength(3), Validators.max(900), Validators.min(1)])
     });
     control.valueChanges.subscribe(data=>{
       console.log(data.placa);

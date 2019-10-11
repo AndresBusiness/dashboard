@@ -64,16 +64,7 @@ export class ChoferesComponent implements OnInit {
           title: 'Apellidos',
           filter: false,
         },
-        etiqueta: {
-          title: 'Tipo',
-          filter: false,
-          type: 'html',
-            valuePrepareFunction: (activo: string) => {
-              const socio = '<span class="custom-badge label label-success" style="width: 115px;">Socio</span>';
-              const ayudante = '<span class="custom-badge label label-warning" style="width: 115px;">Ayudante</span>';
-              return activo === '1'? socio : ayudante;
-          },
-        },
+         
         activo: {
             title: 'Conectado',
             filter: false,
