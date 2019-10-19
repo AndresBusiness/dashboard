@@ -94,8 +94,8 @@ export class AgregarChoferComponent implements OnInit {
     public router: Router,
     private servicio: FunctionsService, private _storage: AngularFireStorage) {
 
-    this.minDate = {year: 1950, month: 1, day: 1};
-    this.maxDate = {year: 2001, month: 1, day: 1};
+    this.minDate = {year: 1930, month: 1, day: 1};
+    this.maxDate = {year: 2010, month: 1, day: 1};
     this.startDate = {year: 1973, month: 6, day: 15};
 
     this.state_actual_pelota1 = this.state_active;
