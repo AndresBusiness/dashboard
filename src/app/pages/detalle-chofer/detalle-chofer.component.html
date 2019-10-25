@@ -1,13 +1,13 @@
 <div class="row">
-    <ngx-loading [show]="loading" ></ngx-loading>
+    <ngx-loading [show]="loading"></ngx-loading>
     <!-- Column -->
     <div class="col-lg-4 col-xlg-3 col-md-5">
         <div class="card">
             <div class="card-body">
-                <div class="m-t-30" *ngIf="chofer" >
+                <div class="m-t-30" *ngIf="chofer">
                     <div class="center-image-profile">
                         <app-loading *ngIf="cargandoimagen" margin></app-loading>
-                        <img *ngIf="!cargandoimagen" [src]="chofer.img" class="animated fadeIn rounded-circle img-profile-chofer"  />
+                        <img *ngIf="!cargandoimagen" [src]="chofer.img" class="animated fadeIn rounded-circle img-profile-chofer" />
                         <h4 class="card-title m-t-10">{{chofer.nombre}} {{chofer.apellidos}}</h4>
                         <p>{{chofer.correo}}</p>
                     </div>
@@ -15,44 +15,66 @@
                     <div class="card-body">
                         <small class="text-label">Folio: </small> <strong>{{chofer.folio}}</strong> <br />
                         <small class="text-label">Teléfono: </small> <strong> +(52) {{chofer.telefono}} </strong> <br />
-                        <div *ngIf="chofer.etiqueta == '1'"  class="mt-2 d-flex">
-                                <small  class="text-label"><span class="custom-badge label label-success ">Chofer Socio</span></small>
-                                <span class="custom-badge label label-success ml-1">{{ chofer.concesion }}</span>
+                        <div *ngIf="chofer.etiqueta == '1'" class="mt-2 d-flex">
+                            <small class="text-label w-100">
+                                <div class="custom-badge span-chofer span-socio tag-chofer" style="width: 100%; border-radius: 0px">Chofer Socio</div></small>
+                            <!-- <div class="custom-badge span-conseciones ml-1">{{ chofer.concesion }}</div> -->
                         </div>
-                        <small *ngIf="chofer.etiqueta == '0'"  class="text-label"><span class="custom-badge label label-warning mt-2">Chofer Ayudante</span></small>
+                        <small *ngIf="chofer.etiqueta == '0'" class="text-label w-100">
+                            <div class="custom-badge span-chofer span-ayudante tag-chofer mt-2" style="width: 100%; border-radius: 0px">Chofer Ayudante</div></small>
                         <hr>
-                        <div>
-                            <h5 class="card-title m-t-10">Concesiones que trabaja: </h5>
-                            <div  class="d-flex">
-                                <small *ngFor="let item of chofer.concesiones_que_trabaja" class="text-label m-1">
-                                    <span class="label label-warning custom-badge">{{ item.placa }}</span></small>
-                            </div>
-                        </div>
-                        <hr />
                         <table style="width:100%">
                             <tbody>
                                 <tr>
                                     <td class="text-left">Conectado:</td>
                                     <td style="float: right !important;">
-                                        <small *ngIf="!chofer.activo"  class="text-label">
-                                        <span style="width: 115px;" class="custom-badge label label-danger">Offline</span></small>
-                                        <small *ngIf="chofer.activo"  class="text-label">
-                                        <span style="width: 115px;" class="custom-badge label label-success">Online</span></small>
+                                        <small *ngIf="!chofer.activo" class="text-label text-center">
+                                            <span style="width: 115px;" class="custom-badge label label-danger" style="background: #b4b4b4; border-radius: 0">Offline</span></small>
+                                        <small *ngIf="chofer.activo" class="text-label text-center">
+                                            <span style="width: 115px;" class="custom-badge label label-success" style="background: #4aa558; border-radius: 0">Online</span></small>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="text-left">Habilitado:</td>
                                     <td style="float: right !important;">
-                                        <small *ngIf="!chofer.autorizado"  class="text-label">
-                                        <span  style="width: 115px;" class="custom-badge label label-danger">Offline</span></small>
-                                        <small *ngIf="chofer.autorizado"  class="text-label">
-                                        <span  style="width: 115px;" class="custom-badge label label-success">Online</span></small>
+                                        <small *ngIf="!chofer.autorizado" class="text-label text-center">
+                                            <span  style="width: 115px;" class="custom-badge label label-danger" style="background: #b4b4b4; border-radius: 0">Offline</span></small>
+                                        <small *ngIf="chofer.autorizado" class="text-label text-center">
+                                            <span  style="width: 115px;" class="custom-badge label label-success" style="background: #4aa558; border-radius: 0">Online</span></small>
                                     </td>
                                 </tr>
-                              
+
                             </tbody>
                         </table>
-                       
+                        <hr>
+
+                        <div style="padding: 4px">
+                            <div style="background: black; color:white; padding: 10px; margin:1px; height: 36px;line-height: 17px;">
+                                <div><strong>Concesiones</strong></div>
+                            </div>
+                            <div class="d-flex justify-content-around">
+                                <div *ngFor="let item of chofer.concesiones_que_trabaja" class="concesiones">
+                                    <strong>{{ item.placa}}</strong>
+                                </div>
+                            </div>
+
+                        </div>
+                        <hr />
+
+                        <div class="table-data" style="padding: 4px; padding-bottom: 65px">
+                            <div style="background: black; color:white; padding: 10px; margin:1px; height: 36px;line-height: 17px;">
+                                <div style="justify-content: space-between;">
+                                    <strong>Unidades</strong>
+                                </div>
+                            </div>
+                            <div style="background: white; margin:1px" *ngFor="let item of vehiculosRegistrados">
+                                <div class="vehiculos">
+                                    <strong>{{ item.marca}} {{item.modelo}}, {{ item.anio}}</strong>
+                                </div>
+                            </div>
+                        </div>
+
+
                     </div>
                 </div>
             </div>
@@ -67,7 +89,7 @@
                 <li class="nav-item"> <a class="nav-link active" data-toggle="tab" href="#comentarios-calificaciones" role="tab">Calificaciones</a> </li>
                 <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#historial" role="tab">Viajes Realizados</a> </li>
                 <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#vehiculos" role="tab">Vehículos</a> </li>
-                <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#config" role="tab">Configuraciones</a> </li>
+                <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#config" role="tab">Datos Personales</a> </li>
             </ul>
             <!-- Tab panes -->
             <div class="tab-content">
@@ -79,50 +101,46 @@
                             <app-grafica-barras [data]="calificaciones"></app-grafica-barras>
                         </div>
                         <div class="col-7">
-                                <h3 class="font-medium m-t-30">Comentarios</h3>
-                                <hr>
-                                <h4 *ngIf="listComentarios.length == 0" >Este Chofer aún no tiene ningún comentario</h4>
+                            <h3 class="font-medium m-t-30">Comentarios</h3>
+                            <hr>
+                            <h4 *ngIf="listComentarios.length == 0">Este Chofer aún no tiene ningún comentario</h4>
 
-                                <div class="profiletimeline" *ngIf="listComentarios.length !== 0" >
-                                    <div  class="sl-item" *ngFor="let item of listComentarios" >
-                                        <div class="sl-left"> <img [src]="item.imgPasajero" alt="chofer" class="rounded-circle img-profile-chofer" /> </div>
-                                        <div class="sl-right">
-                                            <div><a href="#" class="link nombre-pasajero">{{ item.nombrePasajero }}</a> <span class="sl-date fecha-comentario">{{item.fecha}}</span>
-                                                <div class="like-comm">
-                                                        <font class="icon-margin text-muted display-6 comentario">
-                                                            <i [ngStyle]="{'color': item.emoji.class}"  [class]="item.emoji.icon"></i>
-                                                        </font> {{ item.comentario}} </div>
-                                            </div>
-
+                            <div class="profiletimeline" *ngIf="listComentarios.length !== 0">
+                                <div class="sl-item" *ngFor="let item of listComentarios">
+                                    <div class="sl-left"> <img [src]="item.imgPasajero" alt="chofer" class="rounded-circle img-profile-chofer" /> </div>
+                                    <div class="sl-right">
+                                        <div><a href="#" class="link nombre-pasajero">{{ item.nombrePasajero }}</a> <span class="sl-date fecha-comentario">{{item.fecha}}</span>
+                                            <div class="like-comm">
+                                                <font class="icon-margin text-muted display-6 comentario">
+                                                    <i [ngStyle]="{'color': item.emoji.class}" [class]="item.emoji.icon"></i>
+                                                </font> {{ item.comentario}} </div>
                                         </div>
-                                        <hr>
+
                                     </div>
+                                    <hr>
                                 </div>
+                            </div>
                         </div>
                     </div>
 
                 </div>
                 <div class="tab-pane m-b-20" id="historial" role="tabpanel">
                     <div class="col-12 d-flex">
-                            <div class="col-5">
-                                    <h3 class="font-medium m-t-30">Historial de Viajes</h3>
-                                    <hr>
-                                    <h4>Este Chofer aún no ha comenzado a dar viajes</h4>
-                                </div>
-                            <div class="col-7">
-                                    <h3 class="font-medium  m-t-30">Porcentaje de viajes recibidos</h3>
-                                    <hr>
-                                    <div>
-                                        <div style="display: block">
-                                        <canvas baseChart
-                                            [data]="doughnutChartData"
-                                            [options]="barChartOptions"
-                                            [labels]="doughnutChartLabels"
-                                            [chartType]="doughnutChartType">
+                        <div class="col-5">
+                            <h3 class="font-medium m-t-30">Historial de Viajes</h3>
+                            <hr>
+                            <h4>Este Chofer aún no ha comenzado a dar viajes</h4>
+                        </div>
+                        <div class="col-7">
+                            <h3 class="font-medium  m-t-30">Porcentaje de viajes recibidos</h3>
+                            <hr>
+                            <div>
+                                <!-- <div style="display: block">
+                                    <canvas baseChart [data]="doughnutChartData" [options]="barChartOptions" [labels]="doughnutChartLabels" [chartType]="doughnutChartType">
                                         </canvas>
-                                        </div>
-                                    </div>
+                                </div> -->
                             </div>
+                        </div>
                     </div>
                 </div>
                 <div class="tab-pane m-b-20" id="vehiculos" role="tabpanel">
@@ -144,14 +162,14 @@
                                 </thead>
                                 <tbody>
                                     <tr *ngFor="let item of vehiculosRegistrados" style="font-weight:400; height: 50px;" (click)="seleccionVehiculo(item)" style="cursor:pointer">
-                                        <td  style="font-weight: 600;" scope="col" >{{item.concesion}}</td>
+                                        <td style="font-weight: 600;" scope="col">{{item.concesion}}</td>
                                         <td style="text-align: left;">{{item.marca}}</td>
                                         <td>{{ item.modelo }}</td>
                                         <td>{{ item.anio }}</td>
                                         <td>{{ item.matricula }}</td>
                                         <td style="text-align:center;">{{ item.capacidad }}</td>
-                                        <td style="text-align:center;" *ngIf="item.conRampa" >Si</td>
-                                        <td style="text-align:center;" *ngIf="!item.conRampa" >No</td>
+                                        <td style="text-align:center;" *ngIf="item.conRampa">Si</td>
+                                        <td style="text-align:center;" *ngIf="!item.conRampa">No</td>
                                         <td *ngIf="item.modalidad === '1'">Fijo</td>
                                         <td *ngIf="item.modalidad === '0'">Posturero</td>
                                     </tr>
@@ -163,27 +181,27 @@
                                     <h3>Editar Vehículo</h3>
                                     <h4>Código uid: <strong>{{forma.value.idVehiculo}}</strong></h4>
                                     <div class="d-flex mt-3">
-                                         <div class="col-3">
+                                        <div class="col-3">
                                             <h5>Marca <span class="text-danger">*</span></h5>
-                                            <input type="text" name="text" formControlName ="marca" class="form-control" required>
+                                            <input type="text" name="text" formControlName="marca" class="form-control" required>
                                         </div>
                                         <div class="col-3">
                                             <h5>Modelo: <span class="text-danger">*</span></h5>
-                                            <input type="text" name="text" formControlName ="modelo" class="form-control" required>
+                                            <input type="text" name="text" formControlName="modelo" class="form-control" required>
                                         </div>
                                         <div class="col-3">
                                             <h5>Año: <span class="text-danger">*</span></h5>
-                                            <input type="text" name="text" formControlName ="anio" class="form-control" required>
+                                            <input type="text" name="text" formControlName="anio" class="form-control" required>
                                         </div>
                                         <div class="col-3">
                                             <h5>Matricula: <span class="text-danger">*</span></h5>
-                                            <input type="text" name="text" formControlName ="matricula" class="form-control" required>
+                                            <input type="text" name="text" formControlName="matricula" class="form-control" required>
                                         </div>
                                     </div>
                                     <div class="d-flex mt-3">
                                         <div class="col-3">
                                             <h5>Capacidad: <span class="text-danger">*</span></h5>
-                                            <select class="form-control custom-select col-3" formControlName ="capacidad" >
+                                            <select class="form-control custom-select col-3" formControlName="capacidad">
                                                 <option value="-1">Seleccionar Capacidad</option>
                                                 <option value="4">Hasta 4 personas</option>
                                                 <option value="8">Hasta 8 personas</option>
@@ -214,7 +232,7 @@
                                         </div>
                                     </div>
                                     <div>
-                                      <button (click)="editarVehiculo()" [disabled]="!vehiculoSeleccionado" class="btn btn-success float-right m-4">Editar</button>
+                                        <button (click)="editarVehiculo()" [disabled]="!vehiculoSeleccionado" class="btn btn-success float-right m-4">Editar</button>
                                     </div>
                                 </form>
                             </div>
@@ -225,75 +243,89 @@
                 <div class="tab-pane m-b-20" id="config" role="tabpanel">
                     <div class="card-body">
                         <div>
-                             <h4>Código uid: <strong>{{chofer.uid}}</strong></h4>
+                            <h4>Código uid: <strong>{{chofer.uid}}</strong></h4>
                             <div class="mt-3">
-                             <h3>Editar datos del chofer</h3>
-                             <div class="col-12 d-flex">
-                                 <div class="col-6">
-                                    <h5>Nombre (s): <span class="text-danger">*</span></h5>
-                                    <input type="text" name="text" [(ngModel)]="chofer.nombre" class="form-control" required>
-                                 </div>
-                                 <div class="col-6">
-                                    <h5>Apellidos: <span class="text-danger">*</span></h5>
-                                    <input type="text" name="text" [(ngModel)]="chofer.apellidos" class="form-control" required>
-                                 </div>
-                             </div>
-                             <div class="col-12 d-flex mt-3">
-                                <div class="col-6">
-                                   <h5>Teléfono (s): <span class="text-danger">*</span></h5>
-                                   <input type="text" name="text" [(ngModel)]="chofer.telefono" class="form-control" required>
+                                <h3>Editar datos del chofer</h3>
+                                <div class="col-12 d-flex">
+                                    <div class="col-6">
+                                        <h5>Nombre (s): <span class="text-danger">*</span></h5>
+                                        <input type="text" name="text" [(ngModel)]="chofer.nombre" class="form-control" required>
+                                    </div>
+                                    <div class="col-6">
+                                        <h5>Apellidos: <span class="text-danger">*</span></h5>
+                                        <input type="text" name="text" [(ngModel)]="chofer.apellidos" class="form-control" required>
+                                    </div>
                                 </div>
-                                <div class="col-6">
-                                   <h5>Correo: <span class="text-danger">*</span></h5>
-                                   <input type="text" name="text" [(ngModel)]="chofer.correo" class="form-control" required>
+                                <div class="col-12 d-flex mt-3">
+                                    <div class="col-6">
+                                        <h5>Teléfono (s): <span class="text-danger">*</span></h5>
+                                        <input type="text" name="text" [(ngModel)]="chofer.telefono" class="form-control" required>
+                                    </div>
+                                    <div class="col-6">
+                                        <h5>Correo: <span class="text-danger">*</span></h5>
+                                        <input type="text" name="text" [(ngModel)]="chofer.correo" class="form-control" required>
+                                    </div>
                                 </div>
-                             </div>
-                             <div class="col-12 d-flex mt-3">
-                                <div class="col-6">
-                                   <h5>Folio (s): <span class="text-danger">*</span></h5>
-                                   <input type="text" name="text" [(ngModel)]="chofer.folio" class="form-control" required>
-                                </div>
-                                <div class="col-6">
-                                    <h5>Género: <span class="text-danger">*</span></h5>
-                                    <div class="form-check">
-                                        <label class="custom-control custom-radio">
+                                <div class="col-12 d-flex mt-3">
+                                    <div class="col-6">
+                                        <h5>Folio (s): <span class="text-danger">*</span></h5>
+                                        <input type="text" name="text" [(ngModel)]="chofer.folio" class="form-control" required>
+                                    </div>
+                                    <div class="col-6">
+                                        <h5>Género: <span class="text-danger">*</span></h5>
+                                        <div class="form-check">
+                                            <label class="custom-control custom-radio">
                                             <input id="radio1" name="genero" type="radio" class="custom-control-input"  value="1" [(ngModel)]="chofer.genero" >
                                             <span class="custom-control-indicator"></span>
                                             <span class="custom-control-description">Hombre</span>
                                         </label>
-                                        <label class="custom-control custom-radio">
+                                            <label class="custom-control custom-radio">
                                             <input id="radio2" name="genero" type="radio" class="custom-control-input"  value="0" [(ngModel)]="chofer.genero" >
                                             <span class="custom-control-indicator"></span>
                                             <span class="custom-control-description">Mujer</span>
                                         </label>
+                                        </div>
                                     </div>
                                 </div>
-                             </div>
-                              <button (click)="editarChofer()" class="btn btn-success float-right m-1">Editar</button>
+                                <!-- <div class="col-12 d-flex mt-3">
+                                    <div class="col-6">
+                                        <h5>Fecha de nacimiento: <span class="text-danger">*</span></h5>
+                                        <div class="col-12 d-flex p-0">
+                                            <div class="col-1">
+                                                <button class="btn btn-secondary" (click)="d.toggle()" type="button"><i class="far fa-calendar-alt"></i></button>
+                                            </div>
+                                            <div class="col-11">
+                                                <input class="form-control" placeholder="Día Mes, Año" [minDate]="minDate" [maxDate]="maxDate" [startDate]="startDate" type="text" name="dp" [(ngModel)]="chofer.fechaNacimiento" #fechaNacimiento ngbDatepicker #d="ngbDatepicker">
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div> -->
+                                <button (click)="editarChofer()" class="btn btn-success float-right m-1">Editar</button>
                             </div>
                             <br>
                             <br>
 
-                        <hr>
+                            <hr>
                         </div>
-                       
+
 
                         <h3>Reenviar correo</h3>
-                            <div class="container-form mt-3 d-flex">
-                                <div class="item item-form-6 col-6 pl-0">
-                                    <h5>Correo eléctronico: <span class="text-danger">*</span></h5>
-                                    <input type="text" name="text" [(ngModel)]="correo" placeholder="Ejemplo: juan-39@gmail.com" class="form-control" required>
-                                    <!-- <p class="field-requiered"
+                        <div class="container-form mt-3 d-flex">
+                            <div class="item item-form-6 col-6 pl-0">
+                                <h5>Correo eléctronico: <span class="text-danger">*</span></h5>
+                                <input type="text" name="text" [(ngModel)]="correo" placeholder="Ejemplo: juan-39@gmail.com" class="form-control" required>
+                                <!-- <p class="field-requiered"
                                     *ngIf="forma.controls['correo'].errors?.required && VALIDATIONS_STEP1.correo">Campo requerido*</p>
                                     <p class="field-requiered"
                                     *ngIf="forma.controls['correo'].errors?.pattern && forma.controls['correo'].value">Formato de correo incorrecto*</p> -->
-                                </div>
-                                <div class="col-6" style="margin-top:27px">
-                                        <button (click)="reestablecerPassword()" class="btn btn-success">Enviar</button>
-                                </div>
                             </div>
+                            <div class="col-6" style="margin-top:27px">
+                                <button (click)="reestablecerPassword()" class="btn btn-success">Enviar</button>
+                            </div>
+                        </div>
                         <hr>
-                        
+
                         <h3>Desactivar chofer</h3>
                         <div class="text-center mt-4">
                             <button *ngIf="chofer.autorizado" (click)="cambiarStatusChofer()" class="btn btn-danger">Deshabilitar Chofer</button>

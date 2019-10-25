@@ -1,55 +1,55 @@
-<div class="container-progress mb-5">
+<div class="container-progress mb-4">
     <div class="container-calificacion">
-      <h5>Excelente</h5>
-      <p class="m-0"><ng2-odometer [number]="data.excelente" [config]="{ }"></ng2-odometer> reviews 
-        <span class="pull-right"> <ng2-odometer [number]="p_excelente" [config]="{ }"></ng2-odometer> %</span></p>
-      <div class="progress">
-          <div class="progress-bar excelente" role="progressbar" [attr.aria-valuenow]="p_excelente" aria-valuemin="0" 
-          aria-valuemax="100" [style.width]="p_excelente + '%'" style="height:11px;"> <span class="sr-only">  <ng2-odometer [number]="p_excelente" [config]="{ }"></ng2-odometer> % Complete</span> </div>
-      </div>
+        <h5>Excelente</h5>
+        <p class="m-0">
+            <ng2-odometer [number]="data.excelente" [config]="{ }"></ng2-odometer> reviews
+            <span class="pull-right"> <ng2-odometer [number]="p_excelente" [config]="{ }"></ng2-odometer> %</span></p>
+        <div class="progress">
+            <div class="progress-bar excelente" role="progressbar" [attr.aria-valuenow]="p_excelente" aria-valuemin="0" aria-valuemax="100" [style.width]="p_excelente + '%'" style="height:11px;"> <span class="sr-only">  <ng2-odometer [number]="p_excelente" [config]="{ }"></ng2-odometer> % Complete</span> </div>
+        </div>
     </div>
-  </div>
-
-<div class="container-progress mb-5">
-  <div class="container-calificacion">
-    <h5>Muy bueno</h5>
-    <p class="m-0"><ng2-odometer [number]="data.muybueno" [config]="{ }"></ng2-odometer> reviews <span class="pull-right"><ng2-odometer [number]="p_muybueno" [config]="{ }"></ng2-odometer> % </span></p>
-    <div class="progress">
-        <div class="progress-bar muybueno" role="progressbar" [attr.aria-valuenow]="p_muybueno" aria-valuemin="0" 
-        aria-valuemax="100" [style.width]="p_muybueno + '%'" style="height:11px;"> <span class="sr-only"><ng2-odometer [number]="p_muybueno" [config]="{ }"></ng2-odometer> %  Complete</span> </div>
-    </div>
-  </div>
 </div>
 
-<div class="container-progress mb-5">
-  <div class="container-calificacion">
-    <h5>Bueno</h5>
-    <p class="m-0"><ng2-odometer [number]="data.bueno" [config]="{ }"></ng2-odometer> reviews <span class="pull-right"><ng2-odometer [number]="p_bueno" [config]="{ }"></ng2-odometer> %</span></p>
-    <div class="progress">
-        <div class="progress-bar normal" role="progressbar" [attr.aria-valuenow]="p_bueno" aria-valuemin="0" 
-        aria-valuemax="100" [style.width]="p_bueno + '%'" style="height:11px;"> <span class="sr-only"><ng2-odometer [number]="p_bueno" [config]="{ }"></ng2-odometer> % Complete</span> </div>
+<div class="container-progress mb-4">
+    <div class="container-calificacion">
+        <h5>Muy bueno</h5>
+        <p class="m-0">
+            <ng2-odometer [number]="data.muybueno" [config]="{ }"></ng2-odometer> reviews <span class="pull-right"><ng2-odometer [number]="p_muybueno" [config]="{ }"></ng2-odometer> % </span></p>
+        <div class="progress">
+            <div class="progress-bar muybueno" role="progressbar" [attr.aria-valuenow]="p_muybueno" aria-valuemin="0" aria-valuemax="100" [style.width]="p_muybueno + '%'" style="height:11px;"> <span class="sr-only"><ng2-odometer [number]="p_muybueno" [config]="{ }"></ng2-odometer> %  Complete</span> </div>
+        </div>
     </div>
-  </div>
 </div>
 
-<div class="container-progress mb-5">
-  <div class="container-calificacion">
-    <h5>Malo</h5>
-    <p class="m-0"><ng2-odometer [number]="data.malo" [config]="{ }"></ng2-odometer> reviews <span class="pull-right"><ng2-odometer [number]="p_malo" [config]="{ }"></ng2-odometer> %</span></p>
-    <div class="progress">
-        <div class="progress-bar malo" role="progressbar" [attr.aria-valuenow]="p_malo" aria-valuemin="0" 
-        aria-valuemax="100" [style.width]="p_malo + '%'" style="height:11px;"> <span class="sr-only"><ng2-odometer [number]="p_malo" [config]="{ }"></ng2-odometer> % Complete</span> </div>
+<div class="container-progress mb-4">
+    <div class="container-calificacion">
+        <h5>Bueno</h5>
+        <p class="m-0">
+            <ng2-odometer [number]="data.bueno" [config]="{ }"></ng2-odometer> reviews <span class="pull-right"><ng2-odometer [number]="p_bueno" [config]="{ }"></ng2-odometer> %</span></p>
+        <div class="progress">
+            <div class="progress-bar normal" role="progressbar" [attr.aria-valuenow]="p_bueno" aria-valuemin="0" aria-valuemax="100" [style.width]="p_bueno + '%'" style="height:11px;"> <span class="sr-only"><ng2-odometer [number]="p_bueno" [config]="{ }"></ng2-odometer> % Complete</span> </div>
+        </div>
     </div>
-  </div>
 </div>
 
-<div class="container-progress mb-5">
-  <div class="container-calificacion">
-    <h5>Pésimo</h5>
-    <p class="m-0"><ng2-odometer [number]="data.pesimo" [config]="{ }"></ng2-odometer> reviews <span class="pull-right"><ng2-odometer [number]="p_pesimo" [config]="{ }"></ng2-odometer> %</span></p>
-    <div class="progress">
-        <div class="progress-bar pesimo" role="progressbar"[attr.aria-valuenow]="p_pesimo" aria-valuemin="0" 
-        aria-valuemax="100" [style.width]="p_pesimo + '%'" style="height:11px;"> <span class="sr-only"><ng2-odometer [number]="p_pesimo" [config]="{ }"></ng2-odometer> % Complete</span> </div>
+<div class="container-progress mb-4">
+    <div class="container-calificacion">
+        <h5>Malo</h5>
+        <p class="m-0">
+            <ng2-odometer [number]="data.malo" [config]="{ }"></ng2-odometer> reviews <span class="pull-right"><ng2-odometer [number]="p_malo" [config]="{ }"></ng2-odometer> %</span></p>
+        <div class="progress">
+            <div class="progress-bar malo" role="progressbar" [attr.aria-valuenow]="p_malo" aria-valuemin="0" aria-valuemax="100" [style.width]="p_malo + '%'" style="height:11px;"> <span class="sr-only"><ng2-odometer [number]="p_malo" [config]="{ }"></ng2-odometer> % Complete</span> </div>
+        </div>
     </div>
-  </div>
+</div>
+
+<div class="container-progress mb-4">
+    <div class="container-calificacion">
+        <h5>Pésimo</h5>
+        <p class="m-0">
+            <ng2-odometer [number]="data.pesimo" [config]="{ }"></ng2-odometer> reviews <span class="pull-right"><ng2-odometer [number]="p_pesimo" [config]="{ }"></ng2-odometer> %</span></p>
+        <div class="progress">
+            <div class="progress-bar pesimo" role="progressbar" [attr.aria-valuenow]="p_pesimo" aria-valuemin="0" aria-valuemax="100" [style.width]="p_pesimo + '%'" style="height:11px;"> <span class="sr-only"><ng2-odometer [number]="p_pesimo" [config]="{ }"></ng2-odometer> % Complete</span> </div>
+        </div>
+    </div>
 </div>

@@ -1,15 +1,21 @@
-.excelente{
-    background:#06d79c;
+.excelente {
+    background: rgba(16, 87, 148, 1);
 }
-.muybueno{
-background:#ffb22b;
+
+.muybueno {
+    background: rgb(60, 81, 165);
 }
-.normal{
-background:#398bf7;
+
+.normal {
+    background: rgba(0, 171, 190, 1);
 }
-.malo{
-background:#DC7633;
+
+.malo {
+    background: rgb(84, 213, 245);
+    ;
 }
-.pesimo{
-background:#ef5350;
+
+.pesimo {
+    background: rgb(87, 244, 255);
+    ;
 }

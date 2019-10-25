@@ -13,6 +13,7 @@ import { ChoferesComponent } from './choferes/choferes.component';
 import { DetalleChoferComponent } from './detalle-chofer/detalle-chofer.component';
 import { AgregarChoferComponent } from './agregar-chofer/agregar-chofer.component';
 import { MonitoreoComponent } from './monitoreo/monitoreo.component';
+import { VehiculosComponent } from './vehiculos/vehiculos.component';
 
 
 const pageRoutes: Routes = [
@@ -25,6 +26,7 @@ const pageRoutes: Routes = [
       {path: 'monitoreo', component: MonitoreoComponent, data : { titulo: 'Monitoreo de Unidades'}},
       {path: 'reportes', component: ReportesComponent, data : { titulo: 'Reporte de incidencias'} },
       {path: 'choferes', component: ChoferesComponent, data : { titulo: 'Listado de Choferes'} },
+      {path: 'vehiculos', component: VehiculosComponent, data : { titulo: 'Listado de Vehículos'} },
       {path: 'agregar-chofer', component: AgregarChoferComponent, data : { titulo: 'Alta de Choferes'} },
       {path: 'detalle-choferes/:uid', component: DetalleChoferComponent, data : { titulo: 'Detalle del Chofer'} },
       {path: 'tabulador', component: TabuladorComponent, data : { titulo: 'Tabulador de Tarifas'}},

@@ -5,6 +5,7 @@ import { BreadcrumbsComponent } from './breadcrumbs/breadcrumbs.component';
 import { RouterModule } from '@angular/router';
 import { LoadingComponent } from './loading/loading.component';
 import { CommonModule } from '@angular/common';
+import { PaginadorComponent } from './paginador/paginador.component';
 
 @NgModule({
   imports : [
@@ -15,13 +16,16 @@ import { CommonModule } from '@angular/common';
     NopagefoundComponent,
     SidebarComponent,
     BreadcrumbsComponent,
-    LoadingComponent
+    LoadingComponent,
+    PaginadorComponent
   ],
   exports: [
     NopagefoundComponent,
     SidebarComponent,
     LoadingComponent,
-    BreadcrumbsComponent
-  ]
+    BreadcrumbsComponent,
+    PaginadorComponent
+  ],
+  entryComponents:[PaginadorComponent]
 })
 export class SharedModule { }

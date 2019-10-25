@@ -38,6 +38,13 @@ import { NgbModule, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { MonitoreoComponent } from './monitoreo/monitoreo.component';
 import { Ng2OdometerModule } from 'ng2-odometer';
 import { GraficaBarrasComponent } from '../components/grafica-barras/grafica-barras.component';
+import { CustomCellFotoComponent } from './choferes/custom-cell/custom-cell-foto/custom-cell-foto.component';
+import { CustomCellTipoComponent } from './choferes/custom-cell/custom-cell-tipo/custom-cell-tipo.component';
+import { VehiculosComponent } from './vehiculos/vehiculos.component';
+import { GraficaVerticalComponent } from '../components/grafica-vertical/grafica-vertical.component';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { ChartsModule } from 'ng2-charts';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -54,20 +61,24 @@ import { GraficaBarrasComponent } from '../components/grafica-barras/grafica-bar
     KeysPipe,
     ModalChoferComponent,
     GraficaBarrasComponent,
-    MonitoreoComponent
+    MonitoreoComponent,
+    CustomCellFotoComponent,
+    CustomCellTipoComponent,
+    VehiculosComponent,
+    GraficaVerticalComponent
   ],
   exports: [
     DashboardComponent,
     ReportesComponent,
     PasajerosComponent,
     TabuladorComponent,
-    GraficaBarrasComponent,
     HeaderComponent,
     AdminConfiguracionComponent,
     AdminMensajesComponent,
     AdminPerfilComponent,
     ModalChoferComponent,
-    GraficaBarrasComponent
+    GraficaBarrasComponent,
+    GraficaVerticalComponent
   ],
   imports: [
     ReactiveFormsModule,
@@ -75,7 +86,10 @@ import { GraficaBarrasComponent } from '../components/grafica-barras/grafica-bar
     FormsModule,
     Ng2SmartTableModule,
     BrowserModule,
+    BrowserAnimationsModule,
     //NgbModule.forRoot(),
+    ChartsModule,
+    NgxChartsModule,
     GridModule.forRoot(),
     Ng2OdometerModule.forRoot(),
     AgmCoreModule.forRoot({
@@ -87,7 +101,7 @@ import { GraficaBarrasComponent } from '../components/grafica-barras/grafica-bar
     NgbActiveModal
   ],
   entryComponents: [
-    ModalChoferComponent
+    ModalChoferComponent, CustomCellFotoComponent, CustomCellTipoComponent
   ]
 })
 export class PagesModule { }

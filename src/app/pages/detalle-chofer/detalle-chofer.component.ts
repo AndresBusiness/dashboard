@@ -5,7 +5,8 @@ import { ChartType } from 'chart.js';
 import { FunctionsService } from 'src/app/service/functions.service';
 import swal from 'sweetalert';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-
+import { NgbDateCustomParserFormatter } from 'src/app/service/dateformat.service';
+import * as moment from 'moment';
 @Component({
   selector: 'app-detalle-chofer',
   templateUrl: './detalle-chofer.component.html',
@@ -54,12 +55,16 @@ export class DetalleChoferComponent implements OnInit {
     'muybueno': 742,
     'bueno': 247,
     'malo': 148,
-    'pesimo':99
+    'pesimo':120
   }
 
   imgDefault: string;
   listComentarios: any[] = [];
-  colorIcon: string[] = ['#ef5350', '#DC7633', '#398bf7', '#ffb22b', '#06d79c'];
+
+  public minDate: any;
+  public maxDate: any;
+  public startDate: any;
+
 
   icons: string[] =
   ['mdi mdi-emoticon-sad',
@@ -71,6 +76,7 @@ export class DetalleChoferComponent implements OnInit {
   rating: string[] = ['Pésimo', 'Malo', 'Normal', 'Muy bueno', 'Excelente'];
   constructor(private route: ActivatedRoute,
     private servicioNode: FunctionsService,
+    private sFormat: NgbDateCustomParserFormatter,
     private servicioFirebase: FirebaseService) {
     this.imgDefault = 'https://firebasestorage.googleapis.com/v0/b/directtaxi-prod.appspot.com/' +
     'o/imgDefault.png?alt=media&token=e65da24c-3355-4327-8e4f-d9c177564f47';
@@ -100,6 +106,17 @@ export class DetalleChoferComponent implements OnInit {
     this.servicioFirebase.buscarInfoChofer(uid)
         .then(data => {
           this.chofer = data;
+          this.minDate = {year: 1930, month: 1, day: 1};
+          this.maxDate = {year: 2010, month: 1, day: 1};
+          this.startDate = {year: 1973, month: 6, day: 15};
+          console.log(moment(this.chofer.fechaNacimiento).format('Do MMMM, YYYY'))
+          
+          // this.forma.controls['fechaNacimiento'].valueChanges
+          // .subscribe(data => {
+          //   this.fecha = this.sFormat.format(data);
+          // });
+      
+
           setTimeout(() => {
             this.cargandoimagen = false;            
           }, 500);
@@ -115,7 +132,6 @@ export class DetalleChoferComponent implements OnInit {
             if (data[i].comentario !== '') {
               data[i].emoji = {
                 icon: this.icons[data[i].calificacion - 1 ],
-                class: this.colorIcon[data[i].calificacion - 1 ],
                 rating : this.rating[data[i].calificacion - 1 ],
               }
               data[i].imgPasajero =  data[i].imgPasajero === 'sin imagen' ? this.imgDefault : data[i].imgPasajero;

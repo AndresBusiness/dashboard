@@ -37,9 +37,9 @@ export class AgregarChoferComponent implements OnInit {
   public startDate: any;
   user: any;
 
-  state_pending: string ="#B8B8B8";
-  state_active: string ="#398bf7";
-  state_finish: string = "#06d79c";
+  state_pending: string ="linear-gradient(to right, rgb(161, 161, 162) 0%, rgb(136, 145, 152) 23%, rgb(119, 129, 130) 100%)";
+  state_active: string ="linear-gradient(to right, rgba(46, 61, 121, 1) 0%, rgba(16, 87, 148, 1) 23%, rgba(0, 171, 190, 1) 100%)";
+  state_finish: string = "linear-gradient(to right, rgb(88, 191, 84) 0%, rgb(34, 193, 65) 23%, rgb(111, 212, 129) 100%)";
   state_actual_pelota1: string;
   state_actual_barra1: string;
   state_actual_pelota2: string;
@@ -494,7 +494,9 @@ export class AgregarChoferComponent implements OnInit {
               form.img = urlPath;
               this.servicio.registarChofer(form).subscribe(data => {
                 this.loading = false;
-               this.respuesta = JSON.stringify(data);
+                this.respuesta = JSON.stringify(data);
+                console.log(this.respuesta)
+                this.firebaseService.addItemLocalStorage(data.user, 'choferes');
                swal('Chofer registrado!', 'Continuar', 'success').then(()=>{
                   this.counttimeUploading = 0;
                  if(this.forma.value.concesiones_que_trabaja){

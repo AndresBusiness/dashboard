@@ -1,0 +1,6 @@
+<div class="col-12">
+    <h2 class="subtitle-date subtitle-charts" style="font-weight: 300">{{title}}</h2>
+</div>
+<ngx-charts-bar-vertical *ngIf="bandera" [view]="view" [legend]="true" legendTitle="Marcas" legendPosition="right" [noBarWhenZero]="true" [schemeType]="schemeType" [results]="listdata" [animations]="true" [gradient]="false" [scheme]="colorScheme" [showXAxisLabel]="true"
+    [showYAxisLabel]="true" [showDataLabel]="true">
+</ngx-charts-bar-vertical>

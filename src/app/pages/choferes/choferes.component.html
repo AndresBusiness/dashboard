@@ -1,69 +1,93 @@
 <div class="row">
-        <div class="col-lg-3">
-            <div class="card animated fadeIn">
-                <div class="card-body">
-                    <div class="d-flex no-block">
-                        <div class="m-r-20 align-self-center"><span class="lstick m-r-20"></span><img src="../assets/images/icon-panel/assets.png" alt="Income" /></div>
-                        <div class="align-self-center">
-                            <h4 class="m-t-10 m-b-0">Socios</h4>
-                            <h2 class="m-t-0"><ng2-odometer [number]="countSocios" [config]="{ }"></ng2-odometer></h2></div>
+    <div class="col-lg-4">
+        <div class="card animated fadeIn sombra">
+            <div class="card-body">
+                <div class="d-flex no-block">
+                    <div class="m-r-20 align-self-center"><span class="lstick m-r-20"></span>
+                        <i class="fas fa-user-tie fa-3x" style="color:#097aa6"></i></div>
+                    <div class="align-self-center">
+                        <h4 class="m-t-10 m-b-0">Socios</h4>
+                        <h2 class="m-t-0">
+                            <ng2-odometer [number]="countSocios" [config]="{ }"></ng2-odometer>
+                        </h2>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-lg-3">
-            <div class="card animated fadeIn">
-                <div class="card-body">
-                    <div class="d-flex no-block">
-                        <div class="m-r-20 align-self-center"><span class="lstick m-r-20"></span><img src="../assets/images/icon-panel/assets.png" alt="Income" /></div>
-                        <div class="align-self-center">
-                            <h4 class="m-t-10 m-b-0">Ayudantes</h4>
-                            <h2 class="m-t-0"><ng2-odometer [number]="countAyudantes" [config]="{ }"></ng2-odometer></h2></div>
+    </div>
+    <div class="col-lg-4">
+        <div class="card animated fadeIn sombra">
+            <div class="card-body">
+                <div class="d-flex no-block">
+                    <div class="m-r-20 align-self-center"><span class="lstick m-r-20"></span>
+                        <i class="fas fa-user-friends fa-3x" style="color:#097aa6"></i></div>
+                    <div class="align-self-center">
+                        <h4 class="m-t-10 m-b-0">Ayudantes</h4>
+                        <h2 class="m-t-0">
+                            <ng2-odometer [number]="countAyudantes" [config]="{ }"></ng2-odometer>
+                        </h2>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-lg-3">
-            <div class="card animated fadeIn">
-                <div class="card-body">
-                    <div class="d-flex no-block">
-                        <div class="m-r-20 align-self-center"><span class="lstick m-r-20"></span><img src="../assets/images/icon-panel/assets.png" alt="Income" /></div>
-                        <div class="align-self-center">
-                            <h4 class="m-t-10 m-b-0">Conectados</h4>
-                            <h2 class="m-t-0"><ng2-odometer [number]="countConectados" [config]="{ }"></ng2-odometer></h2></div>
+    </div>
+    <!-- <div class="col-lg-4">
+        <div class="card animated fadeIn sombra">
+            <div class="card-body">
+                <div class="d-flex no-block">
+                    <div class="m-r-20 align-self-center"><span class="lstick m-r-20"></span><img src="../assets/images/icon-panel/assets.png" alt="Income" /></div>
+                    <div class="align-self-center">
+                        <h4 class="m-t-10 m-b-0">Conectados</h4>
+                        <h2 class="m-t-0">
+                            <ng2-odometer [number]="countConectados" [config]="{ }"></ng2-odometer>
+                        </h2>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-lg-3">
-                <div class="card animated fadeIn">
-                    <div class="card-body">
-                        <div class="d-flex no-block">
-                            <div class="m-r-20 align-self-center"><span class="lstick m-r-20"></span><img src="../assets/images/icon-panel/assets.png" alt="Income" /></div>
-                            <div class="align-self-center">
-                                <h4 class="m-t-10 m-b-0">Total</h4>
-                                <h2 class="m-t-0"><ng2-odometer [number]="countTotal" [config]="{ }"></ng2-odometer></h2></div>
-                        </div>
+    </div> -->
+    <div class="col-lg-4">
+        <div class="card animated fadeIn sombra">
+            <div class="card-body">
+                <div class="d-flex no-block">
+                    <div class="m-r-20 align-self-center"><span class="lstick m-r-20"></span>
+                        <i class="fas fa-users fa-3x" style="color:#097aa6"></i></div>
+                    <div class="align-self-center">
+                        <h4 class="m-t-10 m-b-0">Total</h4>
+                        <h2 class="m-t-0">
+                            <ng2-odometer [number]="countTotal" [config]="{ }"></ng2-odometer>
+                        </h2>
                     </div>
                 </div>
+            </div>
         </div>
+    </div>
+
+
 
     <div class="col-md-12">
-        <div class="card animated fadeIn">
+        <div class="card animated fadeIn sombra">
             <div class="p-20">
-                <div class="seccion-buscar-agregar">
-                    <input class="form-control search col-6"
-                    type="text" placeholder="Buscar por nombre, concesión, folio o por tipo de chofer ..."
-                    [(ngModel)]="parametroBusqueda" (ngModelChange)="onSearch($event)"
-                    (keydown.enter)="onSearch($event)">
-                    <button (click)="abrirAgregarChofer()" class="btn btn-success"
-                    style="float: right;"><i class="fas fa-user-plus"></i>   Agregar chofer</button>
+
+                <div class="d-flex float-right">
+
+                    <div class="mb-4">
+                        <div (click)="abrirAgregarChofer()" style="float: right;" class="btn-azul"><i class="fas fa-user-plus"></i> Agregar chofer</div>
+                    </div>
                 </div>
+
+
+                <div class="w-100 d-flex justify-content-between">
+                    <input class="form-control search col-3" type="text" placeholder="Buscar por concesión" [(ngModel)]="parametroBusqueda" (ngModelChange)="onSearch($event)" (keydown.enter)="onSearch($event)">
+                    <div class="float-right d-flex" *ngIf="source">
+                        <app-paginador [list]="source.data" (size)="onChangePager($event)"></app-paginador>
+                        <button (click)="refrescar()" class="ml-3" style="float: right;"><i class="fas fa-sync-alt"></i></button>
+                    </div>
+                </div>
+
                 <app-loading *ngIf="loading" margin></app-loading>
                 <div class="animated fadeIn normal" *ngIf="!loading">
-                    <ng2-smart-table [settings]="settings" [source]="source"
-                    (userRowSelect)="onUserRowSelect($event)"
-                    (custom)="onUserRowSelect($event)">
+                    <ng2-smart-table [settings]="settings" [source]="source" (userRowSelect)="onUserRowSelect($event)" (custom)="onUserRowSelect($event)">
                     </ng2-smart-table>
                 </div>
             </div>

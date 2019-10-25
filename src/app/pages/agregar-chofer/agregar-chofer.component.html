@@ -143,8 +143,6 @@
                                         </div>
                                         <p class="field-requiered" *ngIf="forma.controls['fechaNacimiento'].errors?.ngbDate && forma.controls['fechaNacimiento'].value">Formato de fecha incorrecto*</p>
                                         <p class="field-requiered" *ngIf="forma.controls['fechaNacimiento'].errors?.required  && VALIDATIONS_STEP1.fechaNacimiento">Campo requerido*</p>
-
-
                                     </div>
                                     <div class="item item-form-6">
                                         <h5>Selecciona la foto del chofer: <span class="text-danger">*</span></h5>
@@ -178,59 +176,58 @@
                             <div class="form-group p-10">
                                 <div class="col-12 d-flex">
                                     <div class="col-6">
-                                        <h3>Información laboral</h3>
-                                        <div class="container-form">
-                                            <div class="item item-form-3 col-12 pl-0">
-                                                <h5>Folio de Chofer: <span class="text-danger">*</span></h5>
-                                                <input type="text" name="text" formControlName="folio" placeholder="Ejemplo: F-234" onkeyup="this.value=this.value.toUpperCase()" class="form-control" required>
-                                                <p class="field-requiered" *ngIf="forma.controls['folio'].errors?.required && VALIDATIONS_STEP2.folio">Campo requerido*</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-12 d-flex">
-                                    <div class="col-6">
-                                        <div class="container-form">
-                                            <div class="item item-form-3 col-12 pl-0">
-                                                <h5>Tipo de Chofer: <span class="text-danger">*</span></h5>
-                                                <select class="form-control custom-select" formControlName="etiqueta">
-                                      <option value="">Seleccione tipo</option>
-                                      <option value="1">Chofer Socio</option>
-                                      <option value="0">Chofer Ayudante</option>
-                                  </select>
-                                                <p class="field-requiered" *ngIf="forma.controls['etiqueta'].errors?.required && VALIDATIONS_STEP2.etiqueta">Campo requerido*</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-6">
-                                        <div class="container-form" *ngIf="esPropietarioDePlaca">
-                                            <div class="item item-form-3 col-12 pl-0 mytooltip">
-                                                <h5>No. de concesión <strong>Socio</strong> :<span class="text-danger">*</span></h5>
-                                                <input type="text" mask="000" [showMaskTyped]="true" name="text" class="form-control" required formControlName="concesion_socio">
-                                                <span class="font-13 text-muted">del 001 al 900 (tres digitos)</span>
-                                                <p class="field-requiered" *ngIf="forma.controls['concesion_socio'].errors?.required">Campo requerido*</p>
-                                                <div *ngIf="forma.controls['concesion_socio'].errors">
-                                                    <p class="field-requiered" *ngIf="forma.controls['concesion_socio'].errors['Mask error']">Se requieren 3 digitos*</p>
+                                        <div class="col-12">
+                                            <h3>Información laboral</h3>
+                                            <div class="container-form">
+                                                <div class="item item-form-3 col-12 pl-0">
+                                                    <h5>Folio de Chofer: <span class="text-danger">*</span></h5>
+                                                    <input type="text" name="text" formControlName="folio" placeholder="Ejemplo: F-234" onkeyup="this.value=this.value.toUpperCase()" class="form-control" required>
+                                                    <p class="field-requiered" *ngIf="forma.controls['folio'].errors?.required && VALIDATIONS_STEP2.folio">Campo requerido*</p>
                                                 </div>
-                                                <p class="field-requiered" *ngIf="forma.controls['concesion_socio'].errors?.max">Máximo 900 concesiones*</p>
-                                                <p class="field-requiered" *ngIf="forma.controls['concesion_socio'].errors?.min">Minimo 001*</p>
-                                                <p class="field-requiered" *ngIf="forma.controls['concesion_socio'].errors?.maxLength">Máximo 3 digitos*</p>
-                                                <p class="field-requiered" *ngIf="forma.controls['concesion_socio'].errors?.existe">Ya registraron esta concesión*</p>
-                                                <span class="tooltip-content5">
-                                        <span class="tooltip-text3">
-                                          <span class="tooltip-inner2">
-                                           Si maneja su propia concesión, <br />
-                                           agregar nuevamente en el listado de <br >
-                                           concesiones que trabaja.
-                                        </span>
-                                                </span>
-                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="container-form">
+                                                <div class="item item-form-3 col-12 pl-0">
+                                                    <h5>Tipo de Chofer: <span class="text-danger">*</span></h5>
+                                                    <select class="form-control custom-select" formControlName="etiqueta">
+                                                    <option value="">Seleccione tipo</option>
+                                                    <option value="1">Chofer Socio</option>
+                                                    <option value="0">Chofer Ayudante</option>
+                                                </select>
+                                                    <p class="field-requiered" *ngIf="forma.controls['etiqueta'].errors?.required && VALIDATIONS_STEP2.etiqueta">Campo requerido*</p>
+                                                </div>
                                             </div>
 
                                         </div>
+                                        <div class="col-12">
+                                            <div class="container-form" *ngIf="esPropietarioDePlaca">
+                                                <div class="item item-form-3 col-12 pl-0 mytooltip">
+                                                    <h5>No. de concesión <strong>Socio</strong> :<span class="text-danger">*</span></h5>
+                                                    <input type="text" mask="000" [showMaskTyped]="true" name="text" class="form-control" required formControlName="concesion_socio">
+                                                    <span class="font-13 text-muted">del 001 al 900 (tres digitos)</span>
+                                                    <p class="field-requiered" *ngIf="forma.controls['concesion_socio'].errors?.required">Campo requerido*</p>
+                                                    <div *ngIf="forma.controls['concesion_socio'].errors">
+                                                        <p class="field-requiered" *ngIf="forma.controls['concesion_socio'].errors['Mask error']">Se requieren 3 digitos*</p>
+                                                    </div>
+                                                    <p class="field-requiered" *ngIf="forma.controls['concesion_socio'].errors?.max">Máximo 900 concesiones*</p>
+                                                    <p class="field-requiered" *ngIf="forma.controls['concesion_socio'].errors?.min">Minimo 001*</p>
+                                                    <p class="field-requiered" *ngIf="forma.controls['concesion_socio'].errors?.maxLength">Máximo 3 digitos*</p>
+                                                    <p class="field-requiered" *ngIf="forma.controls['concesion_socio'].errors?.existe">Ya registraron esta concesión*</p>
+                                                    <span class="tooltip-content5">
+                                                <span class="tooltip-text3">
+                                                    <span class="tooltip-inner2">
+                                                    Si maneja su propia concesión, <br />
+                                                    agregar nuevamente en el listado de <br >
+                                                    concesiones que trabaja.
+                                                </span>
+                                                    </span>
+                                                    </span>
+                                                </div>
+
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-12 d-flex">
                                     <div class="col-6">
                                         <h3>Enlista las conceciones que trabaja</h3>
                                         <div class="item">
@@ -244,30 +241,9 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-6">
-                                        <h3>Agrega los postureros que requiera</h3>
-                                        <!-- <div class="alert alert-info" role="alert">
-                                    <strong class="font-weight-bold"> Nota:</strong> Si es chofer socio y manejas su propia concesión, agregar nuevamente el número de concesión
-                                </div> -->
-                                        <button type="button" class="btn btn-outline-info waves-effect waves-light col-12 mt-4" (click)="_pushVehiculosPosturero('***', '0')">
-                                <i class="fa fa-car"></i>
-                                Agregar Posturero
-                              </button>
-
-                                        <div class="col-12 mt-4 d-grid">
-                                            <div *ngIf="this.forma.value.vehiculos_postureros.length > 0">
-                                                <!-- <h5 class="card-title m-t-10">Vehículos: </h5> -->
-                                                <div class="d-flex">
-                                                    <small *ngFor="let item of this.forma.value.vehiculos_postureros; let i = index;" class="text-label m-1">
-                                                    <span class="label label-info custom-badge">Posturero
-                                                        <span aria-hidden="true" class="close-badge" (click)="_removeVehiculosPostureros(i)">&times;</span>
-                                                    </span>
-                                                </small>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
                                 </div>
+
+
 
                                 <div class="btn-wizard-btn-next-step">
                                     <button type="button" class="btn btn-warning btn-regresar" (click)="regresarpaso1()" awPreviousStep>Regresar</button>

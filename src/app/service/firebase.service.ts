@@ -2,12 +2,15 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreDocument } from 'angularfire2/firestore';
 import * as firebase from 'firebase/app';
 import { filter, take } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FirebaseService {
 
+  private $_subscriptions: Subscription;
+  
   constructor(public afs: AngularFirestore) {
    }
 
@@ -105,9 +108,36 @@ export class FirebaseService {
   }
 
 
-  obtenerInfoChoferes() {
-    return this.afs.collection('choferes').valueChanges().pipe(take(1)) 
+  // obtenerInfoChoferes() {
+  //   return this.afs.collection('choferes').valueChanges().pipe(take(1)) 
+  // }
+
+  obtenerCollection(collection:string, field:string){
+    return new Promise((resolve, reject) => {
+       if (!JSON.parse(localStorage.getItem(collection))) {
+         this.$_subscriptions = this.afs.collection(collection,
+           x => x
+           .orderBy(field))
+           .valueChanges().pipe(take(1))
+           .subscribe(data => {
+             localStorage.setItem(collection, JSON.stringify(data));
+             resolve(data);
+             this.$_subscriptions.unsubscribe();
+           });
+       } else{
+          let list = JSON.parse(localStorage.getItem(collection));
+          resolve(list);
+       }
+    });
   }
+
+
+  addItemLocalStorage(objeto:any, collection:string){
+    let list = JSON.parse(localStorage.getItem(collection));
+    list.push(objeto);
+    localStorage.setItem(collection, JSON.stringify(list));
+  }
+
 
   agregarItem(uid: string, value: any) {
 
@@ -150,7 +180,3 @@ export class FirebaseService {
   }
 
 }
-
-
-
-

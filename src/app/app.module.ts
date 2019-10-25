@@ -52,8 +52,6 @@ import { FormularioConcesionesComponent } from './components/formulario-concesio
 import { OrderModule } from 'ngx-order-pipe';
 import { NgxLoadingModule, ngxLoadingAnimationTypes } from 'ngx-loading';
 import { DetalleChoferComponent } from './pages/detalle-chofer/detalle-chofer.component';
-import { ChartsModule } from 'ng2-charts';
-import { GraficaBarrasComponent } from './components/grafica-barras/grafica-barras.component';
 import { UsuariosComponent } from './pages/usuarios/usuarios.component';
 
 
@@ -69,7 +67,7 @@ registerLocaleData(localeMX, 'es');
     UsuariosComponent,
     SanitizeUrlPipe,
     FormularioVehiculosComponent,
-    FormularioConcesionesComponent,
+    FormularioConcesionesComponent
   ],
   imports: [
     BrowserModule,
@@ -82,13 +80,12 @@ registerLocaleData(localeMX, 'es');
     HttpClientModule,
     FormsModule,
     NgbModule,
-    ChartsModule,
     HttpModule,
     HttpClientModule,
     NgxMaskModule.forRoot(),
     ReactiveFormsModule,
     NgxLoadingModule.forRoot({
-      backdropBackgroundColour:'rgba(255,0,0,0.2)',
+      backdropBackgroundColour:'rgba(0, 140, 255, 0.2)',
       fullScreenBackdrop:true,
       animationType: ngxLoadingAnimationTypes.chasingDots,
     }),

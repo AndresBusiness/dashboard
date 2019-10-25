@@ -1,0 +1,13 @@
+<div *ngIf="list">
+    <div class="d-flex float-right" *ngIf="list.length > 20">
+        <label class="m-auto pr-3">Registros por página</label>
+        <div class="add-double-arrow-select">
+            <select class="form-control col-12" name="pager" (change)="getSize($event.target.value)">
+          <option value="10">10</option>
+          <option value="20">20</option>
+          <option value="50"  *ngIf="list.length > 50">50</option>
+          <option value="100" *ngIf="list.length > 100">100</option>
+        </select>
+        </div>
+    </div>
+</div>

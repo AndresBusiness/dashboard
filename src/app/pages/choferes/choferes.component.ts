@@ -3,6 +3,8 @@ import { Ng2SmartTableModule, LocalDataSource } from 'ng2-smart-table';
 import { FirebaseService } from 'src/app/service/firebase.service';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
+import { CustomCellFotoComponent } from './custom-cell/custom-cell-foto/custom-cell-foto.component';
+import { CustomCellTipoComponent } from './custom-cell/custom-cell-tipo/custom-cell-tipo.component';
 
 @Component({
   selector: 'app-choferes',
@@ -32,57 +34,76 @@ export class ChoferesComponent implements OnInit {
   ngOnInit() {
     this.settings = {
       actions: {
-        title: 'Ver',
         add: false,
         edit: false,
-        delete: false,
-        custom: [
-          {
-            name: 'Ver',
-            title: '<i class="icon-action-redo"></i>'
-          }
-        ],
-        position: 'right',
+        delete: false
       },
       defaultStyle: false,
       attr: {
-      class: 'table table-hover table-bordered'
+        class: 'table table-striped table-hover table-responsive-lg table-responsive-md table-responsive-sm'
+      },
+      pager: {
+        display: true,
+        perPage: 10
       },
       columns: {
         img: {
           title: 'Foto',
           filter: false,
-          type: 'html',
-          valuePrepareFunction: (img: string) => {
-            return `<img  width="50" height="50" class="profile-pic" src="${img}" />`; },
+          type: 'custom',
+          renderComponent: CustomCellFotoComponent
+        },
+        folio: {
+          title: 'Folio',
+          filter: true
         },
         nombre: {
           title: 'Nombre',
-          filter: false,
+          filter: true,
         },
         apellidos: {
           title: 'Apellidos',
-          filter: false,
+          filter: true,
         },
-         
-        activo: {
-            title: 'Conectado',
-            filter: false,
-            type: 'html',
-            valuePrepareFunction: (activo: string) => {
-              const activado = '<span class="custom-badge label label-success" style="width: 115px;">Online</span>';
-              const desactivado = '<span class="custom-badge label label-danger" style="width: 115px;">Offline</span>';
-              return activo ? activado : desactivado;
+        correo: {
+          title: 'Correo',
+          filter: true,
+        },
+        telefono: {
+          title: 'Teléfono',
+          filter: true,
+        },
+        etiqueta: {
+          title: 'Tipo',
+          filter: {
+            type: 'custom',
+            component: CustomCellTipoComponent,
+          },
+          type: 'html',
+          valuePrepareFunction: (etiqueta: any) => {
+            const socio = '<div class="custom-badge span-chofer span-socio">Socio</div>';
+            const ayudante = '<div class="custom-badge span-chofer span-ayudante">Ayudante</div>';
+            return etiqueta === '1' ? socio : ayudante;
           },
         },
+        // activo: {
+        //     title: 'Conectado',
+        //     filter: false,
+        //     type: 'html',
+        //     valuePrepareFunction: (activo: string) => {
+        //       const activado = '<span class="custom-badge label label-success" style="width: 115px;">Online</span>';
+        //       const desactivado = '<span class="custom-badge label label-danger" style="width: 115px;">Offline</span>';
+        //       return activo ? activado : desactivado;
+        //   },
+        // },
         concesiones_que_trabaja: {
-            title: 'Trabaja con',
+            title: 'Concesiones',
             filter: false,
             type: 'html',
             valuePrepareFunction: (arreglo: any) => {
               let data = '';
               arreglo.forEach(element => {
-                data+= '<span class="custom-badge label label-warning m-1">'+ element.placa +'</span>';
+                data+= '<span class="custom-badge span-conseciones">'+ element.placa +'</span>';
               });
               return data;
           },
@@ -122,30 +143,19 @@ export class ChoferesComponent implements OnInit {
           });
         });
         this.source = new LocalDataSource(list);
-      } else{
-          if(this.parametroBusqueda === 'socio' || this.parametroBusqueda === 'ayudante'){
-            let list = [];
-            let etiqueta = this.parametroBusqueda === 'socio' ? '1':'0';
-            this.infoChoferes.forEach(element => {
-              if(etiqueta === element.etiqueta ){
-                list.push(element);
-              }
-            });
-            this.source = new LocalDataSource(list);
-          } else {
-            this.source.setFilter([
-            {
-              field: 'nombre',
-              search: this.parametroBusqueda
-            },
-            {
-              field: 'folio',
-              search: this.parametroBusqueda
-            }
-          ], false);
-          }
-          
-      }
+      } 
+      // else{
+      //     if(this.parametroBusqueda === 'socio' || this.parametroBusqueda === 'ayudante'){
+      //       let list = [];
+      //       let etiqueta = this.parametroBusqueda === 'socio' ? '1':'0';
+      //       this.infoChoferes.forEach(element => {
+      //         if(etiqueta === element.etiqueta ){
+      //           list.push(element);
+      //         }
+      //       });
+      //       this.source = new LocalDataSource(list);
+      //     }
+      // }
        
     } else {
       this._observarInfoTaxistas();
@@ -162,14 +172,11 @@ export class ChoferesComponent implements OnInit {
 
 
   public _observarInfoTaxistas() {
-
-     this.servicioFirebase.obtenerInfoChoferes()
-            .subscribe((infoSnapshot) => {
+     this.servicioFirebase.obtenerCollection('choferes', 'nombre')
+            .then((list:any) => {
               this.infoChoferes = [];
               this.loading = false;
-              infoSnapshot.forEach((taxistaData: any) => {
-                this.infoChoferes.push(taxistaData);
-              });
+              this.infoChoferes = list;
 
               this.countAyudantes = 0;
               this.countSocios = 0;
@@ -189,6 +196,7 @@ export class ChoferesComponent implements OnInit {
                 }
               });
               this.countTotal = this.infoChoferes.length;
+              console.log(this.infoChoferes);
               this.source = new LocalDataSource(this.infoChoferes);
             });
   }
@@ -197,4 +205,15 @@ export class ChoferesComponent implements OnInit {
     this.router.navigate(['/agregar-chofer']);
   }
 
+  refrescar(){
+     localStorage.removeItem('choferes');
+     this.loading = true;
+     this._observarInfoTaxistas();
+  }
+
+
+  onChangePager(number:any){
+    this.source.getPaging().perPage = number;
+    this.source.refresh();
+  }
 }

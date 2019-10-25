@@ -1,0 +1,52 @@
+<div class="row">
+    <div class="col-lg-4">
+        <div class="card animated fadeIn sombra">
+            <div class="card-body">
+                <div class="d-flex no-block">
+                    <div class="m-r-20 align-self-center"><span class="lstick m-r-20"></span>
+                        <i class="fas fa-taxi fa-3x" style="color:#097aa6"></i>
+                    </div>
+                    <div class="align-self-center">
+                        <h4 class="m-t-10 m-b-0">Total Vehículos</h4>
+                        <h2 class="m-t-0">
+                            <ng2-odometer [number]="totalVehiculos" [config]="{ }"></ng2-odometer>
+                        </h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-12" *ngIf="listCount.length > 0">
+        <div class="card animated fadeIn sombra">
+            <div class="p-20" style="display: grid">
+                <div class="col-12 justify-content-end d-flex">
+                    <button (click)="refrescar()" class="ml-3" style="float: right;"><i class="fas fa-sync-alt"></i></button>
+                </div>
+                <div class="col-12" style="min-height:470px">
+                    <app-grafica-vertical [listdata]="listCount" [width]="750" [height]="400" title="Vehículos">
+                    </app-grafica-vertical>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="col-md-12">
+        <div class="card animated fadeIn sombra">
+            <div class="p-20" style="display: grid">
+                <div class="w-100 p-10">
+                    <div class="float-right d-flex" *ngIf="source">
+                        <app-paginador [list]="source.data" (size)="onChangePager($event)"></app-paginador>
+                    </div>
+                </div>
+                <app-loading *ngIf="loading" margin></app-loading>
+                <div class="animated fadeIn normal" *ngIf="!loading">
+                    <ng2-smart-table [settings]="settings" [source]="source" (userRowSelect)="onUserRowSelect($event)">
+                    </ng2-smart-table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
