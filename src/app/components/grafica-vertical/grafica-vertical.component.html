@@ -1,5 +1,9 @@
 <div class="col-12">
-    <h2 class="subtitle-date subtitle-charts" style="font-weight: 300">{{title}}</h2>
+    <div class="d-flex" >
+            <i class="fas fa-taxi fa-3x" style="color:#097aa6;margin-right: 15px"></i>
+            <h2 class="subtitle-date subtitle-charts" style="font-weight: 300">{{title}}</h2>
+    </div>
+  
 </div>
 <ngx-charts-bar-vertical *ngIf="bandera" [view]="view" [legend]="true" legendTitle="Marcas" 
 legendPosition="right" [noBarWhenZero]="true" [schemeType]="schemeType" 
