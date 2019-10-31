@@ -21,7 +21,7 @@
         <div class="card animated fadeIn sombra">
             <div class="p-20" style="display: grid">
                 <div class="col-12 justify-content-end d-flex">
-                    <button (click)="refrescar()" class="ml-3" style="float: right;"><i class="fas fa-sync-alt"></i></button>
+                    <div (click)="refrescar()" class="ml-3" style="float: right; cursor: pointer; margin: 9px;"><i class="fas fa-sync-alt"></i></div>
                 </div>
                 <div class="col-12" style="min-height:470px">
                     <app-grafica-vertical [listdata]="listCount" [width]="750" [height]="400" title="Vehículos">
@@ -36,11 +36,23 @@
     <div class="col-md-12">
         <div class="card animated fadeIn sombra">
             <div class="p-20" style="display: grid">
-                <div class="w-100 p-10">
+                <div class="w-100 d-flex justify-content-between">
+                    <div class="col-8 d-flex p-0">
+                            <input class="form-control search col-12" type="text" #buscar placeholder="Buscar por concesión, marca, modelo, año " 
+                            [(ngModel)]="parametroBusqueda" (ngModelChange)="onSearch()" (keydown.enter)="onSearch()">
+                            <div class="btn bg-transparent" style="margin-left: -40px; z-index: 100; line-height: 26px;" *ngIf="!buscar.value">
+                                <i class="fas fa-search"></i>
+                            </div>
+                            <button class="btn bg-transparent" (click)="limpiarBusqueda()" style="margin-left: -40px; z-index: 100;" *ngIf="buscar.value">
+                                <i class="fas fa-times"></i>
+                            </button>
+                    </div>
                     <div class="float-right d-flex" *ngIf="source">
                         <app-paginador [list]="source.data" (size)="onChangePager($event)"></app-paginador>
+                        <div (click)="refrescar()" class="ml-3" style="float: right; cursor: pointer; margin: 9px;"><i class="fas fa-sync-alt"></i></div>
                     </div>
                 </div>
+
                 <app-loading *ngIf="loading" margin></app-loading>
                 <div class="animated fadeIn normal" *ngIf="!loading">
                     <ng2-smart-table [settings]="settings" [source]="source" (userRowSelect)="onUserRowSelect($event)">

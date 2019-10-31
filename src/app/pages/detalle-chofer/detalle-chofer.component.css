@@ -72,3 +72,31 @@
     width: 60px;
     text-align: center;
 }
+.title-vehiculo{
+    font-size: 30px;
+    color: black;
+    padding-top: 28px;
+    padding-bottom: 20px;
+}
+.btn-vehiculos{
+ width: 150px;
+ height: 45px;
+ border-radius: 5px;
+ cursor: pointer;
+ text-align: center;
+line-height: 48px;
+}
+.btn-guardar {
+    background: #4aa558;
+    color:white;
+}
+
+.btn-cancelar{
+    background: #b4b4b4;
+    color:white;
+}
+
+.btn-editar{
+    background: #e6a315;
+    color:white;
+} 

@@ -297,3 +297,7 @@ th:last-child {
 .textDataLabel {
     font-size: 18px !important;
 }
+
+.pie-label {
+    font-size: 18px !important;
+}

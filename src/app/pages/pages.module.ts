@@ -1,3 +1,4 @@
+import { GraficaCircularComponent } from './../components/grafica-circular/grafica-circular.component';
 import { ModalChoferComponent } from './../shared/modal-chofer/modal-chofer.component';
 import { NgModule } from '@angular/core';
 
@@ -65,7 +66,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     CustomCellFotoComponent,
     CustomCellTipoComponent,
     VehiculosComponent,
-    GraficaVerticalComponent
+    GraficaVerticalComponent,
+    GraficaCircularComponent
   ],
   exports: [
     DashboardComponent,
@@ -78,7 +80,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     AdminPerfilComponent,
     ModalChoferComponent,
     GraficaBarrasComponent,
-    GraficaVerticalComponent
+    GraficaVerticalComponent,
+    GraficaCircularComponent
   ],
   imports: [
     ReactiveFormsModule,

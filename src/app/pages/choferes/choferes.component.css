@@ -1,3 +1,4 @@
-.search::placeholder {
-    font-weight: 700
+.form-control:focus {
+    border-color: #03abbe;
+    box-shadow: 0 0 5px #03abbe;
 }

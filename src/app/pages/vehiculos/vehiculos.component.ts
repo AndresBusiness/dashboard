@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FirebaseService } from 'src/app/service/firebase.service';
 import { LocalDataSource } from 'ng2-smart-table';
 import { Router } from '@angular/router';
@@ -15,6 +15,7 @@ export class VehiculosComponent implements OnInit {
   loading: boolean;
   parametroBusqueda: string;
   listCount:any[]=[];
+  @ViewChild('buscar', {static : false}) buscar: ElementRef;
 
 
   constructor(private servicioFirebase: FirebaseService,
@@ -41,7 +42,7 @@ export class VehiculosComponent implements OnInit {
       this.totalVehiculos = data.length;
       this.source = new LocalDataSource(data);
       this.listCount = this.order(this.listCount)
-      console.log(this.listCount);
+     
       
     });
   }
@@ -74,15 +75,15 @@ export class VehiculosComponent implements OnInit {
       columns: {
         concesion: {
           title: 'Concesión',
-          filter:true,
+          filter:false,
         },
         marca: {
           title: 'Marca',
-          filter:true
+          filter:false
         },
         modelo: {
           title: 'Modelo',
-          filter:true,
+          filter:false,
         },
         anio: {
           title: 'Año',
@@ -120,5 +121,37 @@ export class VehiculosComponent implements OnInit {
   const path = `/detalle-choferes/${event.data.uidChoferRegistro}`;
   this.router.navigate([path]);
 }
+
+ onSearch(){ 
+  if(this.parametroBusqueda){
+
+    this.source.setFilter([
+      {
+        field: 'concesion',
+        search: this.parametroBusqueda
+      },
+      {
+        field: 'modelo',
+        search: this.parametroBusqueda
+      },
+      {
+        field: 'marca',
+        search: this.parametroBusqueda
+      },
+      {
+        field: 'anio',
+        search: this.parametroBusqueda
+      }
+    ], false);
+  }else{
+    this.source.setFilter([]);
+  }
+ }
+
+
+ limpiarBusqueda(){
+  this.parametroBusqueda = '';
+  this.source.setFilter([]);
+ }
 
 }

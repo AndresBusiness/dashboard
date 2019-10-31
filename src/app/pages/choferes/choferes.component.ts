@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { Ng2SmartTableModule, LocalDataSource } from 'ng2-smart-table';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import {  LocalDataSource } from 'ng2-smart-table';
 import { FirebaseService } from 'src/app/service/firebase.service';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import { CustomCellFotoComponent } from './custom-cell/custom-cell-foto/custom-cell-foto.component';
-import { CustomCellTipoComponent } from './custom-cell/custom-cell-tipo/custom-cell-tipo.component';
-
+ 
+import * as moment from 'moment';
 @Component({
   selector: 'app-choferes',
   templateUrl: './choferes.component.html',
@@ -19,9 +19,36 @@ export class ChoferesComponent implements OnInit {
   infoChoferes: any [];
   countAyudantes: number = 0;
   countSocios: number = 0;
+  çountHombres: number = 0;
+  countMujeres: number = 0;
   countConectados: number = 0;
   countTotal: number= 0;
   parametroBusqueda: string;
+  meses: string[] = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
+  @ViewChild('buscar', {static : false}) buscar: ElementRef;
+  listDataClasificacion =
+  [
+    {
+      "name": "",
+      "value": 0
+    },
+    {
+      "name": "",
+      "value": 0
+    }
+  ]
+  listDataGenero =
+  [
+    {
+      "name": "",
+      "value": 0
+    },
+    {
+      "name": "",
+      "value": 0
+    }
+  ]
+  listDataEdad:any[]=[];
 
 
   private _observableSubscriptions: Subscription[] = [];
@@ -55,30 +82,27 @@ export class ChoferesComponent implements OnInit {
         },
         folio: {
           title: 'Folio',
-          filter: true
+          filter: false
         },
         nombre: {
           title: 'Nombre',
-          filter: true,
+          filter: false,
         },
         apellidos: {
           title: 'Apellidos',
-          filter: true,
+          filter: false,
         },
         correo: {
           title: 'Correo',
-          filter: true,
+          filter: false,
         },
-        telefono: {
-          title: 'Teléfono',
-          filter: true,
+        edad: {
+          title: 'Edad',
+          filter: false,
         },
         etiqueta: {
           title: 'Tipo',
-          filter: {
-            type: 'custom',
-            component: CustomCellTipoComponent,
-          },
+          filter: false,
           type: 'html',
           valuePrepareFunction: (etiqueta: any) => {
             const socio = '<div class="custom-badge span-chofer span-socio">Socio</div>';
@@ -86,16 +110,6 @@ export class ChoferesComponent implements OnInit {
             return etiqueta === '1' ? socio : ayudante;
           },
         },
-        // activo: {
-        //     title: 'Conectado',
-        //     filter: false,
-        //     type: 'html',
-        //     valuePrepareFunction: (activo: string) => {
-        //       const activado = '<span class="custom-badge label label-success" style="width: 115px;">Online</span>';
-        //       const desactivado = '<span class="custom-badge label label-danger" style="width: 115px;">Offline</span>';
-        //       return activo ? activado : desactivado;
-        //   },
-        // },
         concesiones_que_trabaja: {
             title: 'Concesiones',
             filter: false,
@@ -120,7 +134,6 @@ export class ChoferesComponent implements OnInit {
   }
 
   onSearch(event: any) {
-    console.log(this.parametroBusqueda);
     if(this.parametroBusqueda){
       if(this.isNumber(this.parametroBusqueda)){
         let list = [];
@@ -144,23 +157,49 @@ export class ChoferesComponent implements OnInit {
         });
         this.source = new LocalDataSource(list);
       } 
-      // else{
-      //     if(this.parametroBusqueda === 'socio' || this.parametroBusqueda === 'ayudante'){
-      //       let list = [];
-      //       let etiqueta = this.parametroBusqueda === 'socio' ? '1':'0';
-      //       this.infoChoferes.forEach(element => {
-      //         if(etiqueta === element.etiqueta ){
-      //           list.push(element);
-      //         }
-      //       });
-      //       this.source = new LocalDataSource(list);
-      //     }
-      // }
+       else{
+           if(this.parametroBusqueda === 'sss' || this.parametroBusqueda === 'aaa'){
+             let list = [];
+             let etiqueta = this.parametroBusqueda === 'sss' ? '1':'0';
+             this.infoChoferes.forEach(element => {
+               if(etiqueta === element.etiqueta ){
+                 list.push(element);
+               }
+             });
+             this.source = new LocalDataSource(list);
+           } else {
+                  this.source.setFilter([
+                    {
+                      field: 'folio',
+                      search: this.parametroBusqueda
+                    },
+                    {
+                      field: 'nombre',
+                      search: this.parametroBusqueda
+                    },
+                    {
+                      field: 'apellidos',
+                      search: this.parametroBusqueda
+                    },
+                    {
+                      field: 'correo',
+                      search: this.parametroBusqueda
+                    }
+                  ], false);
+            
+           }
+       }
        
     } else {
-      this._observarInfoTaxistas();
+      this.source.setFilter([]);
+      //this._observarInfoTaxistas();
     }
  
+  }
+
+  limpiarBusqueda(){
+   this.parametroBusqueda = '';
+   this.source.setFilter([]);
   }
   isNumber(value: any): value is number {
     return !isNaN(this.toInteger(value));
@@ -184,8 +223,11 @@ export class ChoferesComponent implements OnInit {
               this.countTotal = 0;
 
               this.infoChoferes.forEach(element => {
-                console.log(element);
-                
+                if(element.genero == '1'){
+                  this.çountHombres ++;
+                } else{
+                  this.countMujeres ++;
+                }
                 if(element.etiqueta === '1'){
                   this.countSocios ++;
                 } else {
@@ -194,10 +236,95 @@ export class ChoferesComponent implements OnInit {
                 if(element.activo){
                   this.countConectados ++;
                 }
+
+                let arrayDia = (element.fechaNacimiento).split("º");
+                let dia = parseInt(arrayDia[0]);
+      
+                let arrayMes = (arrayDia[1]).split(",");
+                let mes = this.meses.indexOf((arrayMes[0].trim())) + 1 ;
+                let anio = arrayMes[1].trim();
+                let fechaNacimientoFormat = anio + '-'+ mes + '-' + dia
+                let edad = this.calculateAge(fechaNacimientoFormat)
+                element.edad= edad;
+                if(edad >=19 && edad <=30){
+                  let existe1920 = this.listDataEdad.find(x=>x.name==='19-30')
+                  if(!existe1920){
+                    this.listDataEdad.push({
+                      name: '19-30',
+                      value:1
+                    })
+                  }else{
+                    existe1920.value++;
+                  }
+                }
+                if(edad >=31 && edad <=40){
+                  let existe3140 = this.listDataEdad.find(x=>x.name==='31-40')
+                  if(!existe3140){
+                    this.listDataEdad.push({
+                      name: '31-40',
+                      value:1
+                    })
+                  }else{
+                    existe3140.value++;
+                  }
+                }
+                if(edad >=41 && edad <=50){
+                  let existe4150 = this.listDataEdad.find(x=>x.name==='41-50')
+                  if(!existe4150){
+                    this.listDataEdad.push({
+                      name: '41-50',
+                      value:1
+                    })
+                  }else{
+                    existe4150.value++;
+                  }
+                }
+                if(edad >=51 && edad <=60){
+                  let existe5160 = this.listDataEdad.find(x=>x.name==='51-60')
+                  if(!existe5160){
+                    this.listDataEdad.push({
+                      name: '51-60',
+                      value:1
+                    })
+                  }else{
+                    existe5160.value++;
+                  }
+                }
+                if(edad >=61){
+                  let existe61 = this.listDataEdad.find(x=>x.name==='61+')
+                  if(!existe61){
+                    this.listDataEdad.push({
+                      name: '61+',
+                      value:1
+                    })
+                  }else{
+                    existe61.value++;
+                  }
+                }
+
               });
               this.countTotal = this.infoChoferes.length;
-              console.log(this.infoChoferes);
               this.source = new LocalDataSource(this.infoChoferes);
+              
+              this.listDataClasificacion[0].value =this.countSocios
+              this.listDataClasificacion[0].name = this.countSocios + ' Socios'
+              this.listDataClasificacion[1].value =this.countAyudantes
+              this.listDataClasificacion[1].name = this.countAyudantes + ' Ayudantes'
+
+              this.listDataGenero[0].value =this.çountHombres
+              this.listDataGenero[0].name = this.çountHombres + ' Hombres'
+              this.listDataGenero[1].value =this.countMujeres
+              this.listDataGenero[1].name = this.countMujeres + ' Mujeres'
+              console.log(this.listDataEdad)
+
+
+              setTimeout(() => {
+              
+                if(this.buscar){
+                  this.buscar.nativeElement.focus();
+                }
+              });
+            
             });
   }
 
@@ -216,4 +343,11 @@ export class ChoferesComponent implements OnInit {
     this.source.getPaging().perPage = number;
     this.source.refresh();
   }
+
+  calculateAge(fecha:string) {
+    let nacimiento=moment(fecha);
+    let hoy=moment();
+    return hoy.diff(nacimiento,"years");
+  }
+
 }
