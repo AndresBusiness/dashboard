@@ -19,7 +19,7 @@ export class ChoferesComponent implements OnInit {
   infoChoferes: any [];
   countAyudantes: number = 0;
   countSocios: number = 0;
-  çountHombres: number = 0;
+  countHombres: number = 0;
   countMujeres: number = 0;
   countConectados: number = 0;
   countTotal: number= 0;
@@ -224,7 +224,7 @@ export class ChoferesComponent implements OnInit {
 
               this.infoChoferes.forEach(element => {
                 if(element.genero == '1'){
-                  this.çountHombres ++;
+                  this.countHombres ++;
                 } else{
                   this.countMujeres ++;
                 }
@@ -247,10 +247,10 @@ export class ChoferesComponent implements OnInit {
                 let edad = this.calculateAge(fechaNacimientoFormat)
                 element.edad= edad;
                 if(edad >=19 && edad <=30){
-                  let existe1920 = this.listDataEdad.find(x=>x.name==='19-30')
+                  let existe1920 = this.listDataEdad.find(x=>x.name==='(19-30)')
                   if(!existe1920){
                     this.listDataEdad.push({
-                      name: '19-30',
+                      name: '(19-30)',
                       value:1
                     })
                   }else{
@@ -258,10 +258,10 @@ export class ChoferesComponent implements OnInit {
                   }
                 }
                 if(edad >=31 && edad <=40){
-                  let existe3140 = this.listDataEdad.find(x=>x.name==='31-40')
+                  let existe3140 = this.listDataEdad.find(x=>x.name==='(31-40)')
                   if(!existe3140){
                     this.listDataEdad.push({
-                      name: '31-40',
+                      name: '(31-40)',
                       value:1
                     })
                   }else{
@@ -269,10 +269,10 @@ export class ChoferesComponent implements OnInit {
                   }
                 }
                 if(edad >=41 && edad <=50){
-                  let existe4150 = this.listDataEdad.find(x=>x.name==='41-50')
+                  let existe4150 = this.listDataEdad.find(x=>x.name==='(41-50)')
                   if(!existe4150){
                     this.listDataEdad.push({
-                      name: '41-50',
+                      name: '(41-50)',
                       value:1
                     })
                   }else{
@@ -280,10 +280,10 @@ export class ChoferesComponent implements OnInit {
                   }
                 }
                 if(edad >=51 && edad <=60){
-                  let existe5160 = this.listDataEdad.find(x=>x.name==='51-60')
+                  let existe5160 = this.listDataEdad.find(x=>x.name==='(51-60)')
                   if(!existe5160){
                     this.listDataEdad.push({
-                      name: '51-60',
+                      name: '(51-60)',
                       value:1
                     })
                   }else{
@@ -291,10 +291,10 @@ export class ChoferesComponent implements OnInit {
                   }
                 }
                 if(edad >=61){
-                  let existe61 = this.listDataEdad.find(x=>x.name==='61+')
+                  let existe61 = this.listDataEdad.find(x=>x.name==='(61+)')
                   if(!existe61){
                     this.listDataEdad.push({
-                      name: '61+',
+                      name: '(61+)',
                       value:1
                     })
                   }else{
@@ -307,14 +307,14 @@ export class ChoferesComponent implements OnInit {
               this.source = new LocalDataSource(this.infoChoferes);
               
               this.listDataClasificacion[0].value =this.countSocios
-              this.listDataClasificacion[0].name = this.countSocios + ' Socios'
+              this.listDataClasificacion[0].name = 'Soc.'
               this.listDataClasificacion[1].value =this.countAyudantes
-              this.listDataClasificacion[1].name = this.countAyudantes + ' Ayudantes'
+              this.listDataClasificacion[1].name = 'Aytes.'
 
-              this.listDataGenero[0].value =this.çountHombres
-              this.listDataGenero[0].name = this.çountHombres + ' Hombres'
-              this.listDataGenero[1].value =this.countMujeres
-              this.listDataGenero[1].name = this.countMujeres + ' Mujeres'
+              this.listDataGenero[0].value =this.countHombres
+              this.listDataGenero[0].name = 'M.'
+              this.listDataGenero[1].value = this.countMujeres
+              this.listDataGenero[1].name  = 'F.'
               console.log(this.listDataEdad)
 
 
