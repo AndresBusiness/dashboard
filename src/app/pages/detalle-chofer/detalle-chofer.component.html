@@ -154,10 +154,9 @@
                                         <th style="font-weight: 600;">Marca</th>
                                         <th style="font-weight: 600;">Modelo</th>
                                         <th style="font-weight: 600;">Año</th>
-                                        <th style="font-weight: 600;text-align:center;">Matrícula</th>
-                                        <th style="font-weight: 600;text-align:center;">Capacidad</th>
-                                        <th style="font-weight: 600;text-align:center;">Con rampa</th>
-                                        <th style="font-weight: 600;">Modalidad</th>
+                                        <th style="font-weight: 600;text-align:center !important;">Matrícula</th>
+                                        <th style="font-weight: 600;text-align:center !important;">Capacidad</th>
+                                        <th style="font-weight: 600;text-align:center !important;">Con rampa</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -166,19 +165,21 @@
                                         <td style="text-align: left;">{{item.marca}}</td>
                                         <td>{{ item.modelo }}</td>
                                         <td>{{ item.anio }}</td>
-                                        <td>{{ item.matricula }}</td>
-                                        <td style="text-align:center;">{{ item.capacidad }}</td>
-                                        <td style="text-align:center;" *ngIf="item.conRampa">Si</td>
-                                        <td style="text-align:center;" *ngIf="!item.conRampa">No</td>
-                                        <td *ngIf="item.modalidad === '1'">Fijo</td>
-                                        <td *ngIf="item.modalidad === '0'">Posturero</td>
+                                        <td style="text-align:center !important;">{{ item.matricula }}</td>
+                                        <td style="text-align:center !important;">{{ item.capacidad }}</td>
+                                        <td style="text-align:center !important;" *ngIf="item.conRampa">Si</td>
+                                        <td style="text-align:center !important;" *ngIf="!item.conRampa">No</td>
                                     </tr>
                                 </tbody>
                             </table>
 
                             <div class="mt-3">
                                 <form [formGroup]="forma">
-                                    <h3 class="title-vehiculo">{{ title_vehiculos }}</h3>
+                                    <div class="d-flex justify-content-between" style="line-height: 86px;">
+                                        <h3 class="title-vehiculo">{{ title_vehiculos }}</h3>
+                                        <p class="btn-eliminar" *ngIf="title_vehiculos === 'Editar Vehículo'" 
+                                        (click)="eliminarVehiculo()" style="cursor: pointer"><i class="fas fa-trash-alt"></i> Eliminar</p>
+                                    </div>
                                    
                                     <div class="d-flex mt-3" >
                                         <div class="col-4">
@@ -271,6 +272,8 @@
 
                                         <div (click)="editarVehiculo()" *ngIf="title_vehiculos === 'Editar Vehículo'" 
                                                      class="btn-vehiculos btn-editar float-right m-4">Editar</div>
+
+                                        
                                        
 
                                     </div>

@@ -102,7 +102,7 @@ registerLocaleData(localeMX, 'es');
    ReadjsonService,
    FunctionsService,
    NgbDateCustomParserFormatter,
-   {provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter},
+   { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter},
    { provide: LOCALE_ID, useValue: 'es' },
    { provide: FirestoreSettingsToken, useValue: {} }
   ],

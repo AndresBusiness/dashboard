@@ -1,0 +1,26 @@
+.danger{
+    color:#d32e3e;
+}
+h5 {
+    color: #333333;
+}
+
+.btn-cancelar{
+    left: 15px; 
+    color:#333333;
+}
+.btn-cancelar:hover {
+    color:#1d1d1d;
+}
+
+.btn-eliminar{
+    color:#d32e3e;
+}
+.btn-eliminar:hover{
+    color:#a0212e;
+}
+
+.cursor{
+    cursor: pointer;
+
+}

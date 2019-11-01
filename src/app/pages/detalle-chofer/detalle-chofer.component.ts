@@ -7,6 +7,8 @@ import swal from 'sweetalert';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { NgbDateCustomParserFormatter } from 'src/app/service/dateformat.service';
 import * as moment from 'moment';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ModalDeleteComponent } from 'src/app/components/modal-delete/modal-delete.component';
 @Component({
   selector: 'app-detalle-chofer',
   templateUrl: './detalle-chofer.component.html',
@@ -104,6 +106,7 @@ export class DetalleChoferComponent implements OnInit {
   constructor(private route: ActivatedRoute,
     private servicioNode: FunctionsService,
     private sFormat: NgbDateCustomParserFormatter,
+    private modalService: NgbModal,
     private servicioFirebase: FirebaseService) {
     this.imgDefault = 'https://firebasestorage.googleapis.com/v0/b/directtaxi-prod.appspot.com/' +
     'o/imgDefault.png?alt=media&token=e65da24c-3355-4327-8e4f-d9c177564f47';
@@ -276,6 +279,7 @@ export class DetalleChoferComponent implements OnInit {
     this.forma.controls['matricula'].setValue(item.matricula);
     this.forma.controls['conRampa'].setValue(item.conRampa);
   }
+
   editarVehiculo(){
     console.log(this.forma.value);
     this.loading = true;
@@ -301,6 +305,22 @@ export class DetalleChoferComponent implements OnInit {
       }
     });
 
+  }
+
+  eliminarVehiculo(){
+    console.log(this.forma.value);
+    const modalRef = this.modalService.open(ModalDeleteComponent);
+    modalRef.componentInstance.item = this.forma.value;
+    modalRef.componentInstance.collection = 'choferes';
+    modalRef.result.then((data)=>{
+      if(data){
+       this.obtenerVehiculos(this.chofer.uid)
+       this.cancelarVehiculo()
+      }
+    }).catch(err=>{
+      console.log(err)
+    });
+    
   }
 
 

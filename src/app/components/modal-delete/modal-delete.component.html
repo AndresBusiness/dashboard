@@ -1,0 +1,19 @@
+<div role="document" class="modal-dialog pt-0 mt-1 pb-0 mb-1">
+    <div class="modal-content border-0">
+        <div class="modal-header">
+            <h2>Eliminar registro</h2>
+        </div>
+        <div class="modal-body">
+            <div class="w-100 text-center">
+                    <i class="fas fa-exclamation-triangle  fa-10x danger"></i> 
+            </div>
+            <div class="mt-5" *ngIf="item">
+                <h5>¿Estas seguro de que deseas eliminar de forma <strong>permanente</strong>  el vehículo  <strong>{{ item.marca }} {{ item.modelo }}, {{ item.anio }}</strong>?</h5>
+            </div>
+        </div>
+        <div class="modal-footer justify-content-around">
+            <div class="btn-cancelar cursor position-absolute" (click)="activeModal.close(false)" ><i class="fas fa-ban"></i> Cancelar</div>
+            <div class="btn-eliminar cursor" (click)="eliminar()"><i class="fas fa-trash-alt"></i>  Eliminar</div>
+        </div>
+    </div>
+</div>

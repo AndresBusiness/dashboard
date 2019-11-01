@@ -46,6 +46,7 @@ import { GraficaVerticalComponent } from '../components/grafica-vertical/grafica
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { ChartsModule } from 'ng2-charts';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ModalDeleteComponent } from '../components/modal-delete/modal-delete.component';
 
 @NgModule({
   declarations: [
@@ -67,7 +68,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     CustomCellTipoComponent,
     VehiculosComponent,
     GraficaVerticalComponent,
-    GraficaCircularComponent
+    GraficaCircularComponent,
+    ModalDeleteComponent
   ],
   exports: [
     DashboardComponent,
@@ -81,7 +83,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     ModalChoferComponent,
     GraficaBarrasComponent,
     GraficaVerticalComponent,
-    GraficaCircularComponent
+    GraficaCircularComponent,
+    ModalDeleteComponent
   ],
   imports: [
     ReactiveFormsModule,
@@ -104,7 +107,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     NgbActiveModal
   ],
   entryComponents: [
-    ModalChoferComponent, CustomCellFotoComponent, CustomCellTipoComponent
+    ModalChoferComponent, CustomCellFotoComponent, CustomCellTipoComponent,ModalDeleteComponent
   ]
 })
 export class PagesModule { }

@@ -79,9 +79,8 @@
     padding-bottom: 20px;
 }
 .btn-vehiculos{
- width: 150px;
+ width: 100px;
  height: 45px;
- border-radius: 5px;
  cursor: pointer;
  text-align: center;
 line-height: 48px;
@@ -99,4 +98,7 @@ line-height: 48px;
 .btn-editar{
     background: #e6a315;
     color:white;
+} 
+.btn-eliminar{
+    color:#d32e3e;
 } 
