@@ -1,9 +1,8 @@
-<div class="chart card animated fadeIn sombra p-4" style="display: block; width: 100%;text-align: -webkit-center;" *ngIf="pieChartLabels">
-        <div class="d-flex">
-                <i [ngClass]="icon"  style="color:#097aa6; margin-right: 10px"></i> 
-                <h3> {{title}}</h3>
-        </div>
-        <ngx-charts-pie-chart [view]="view" maxLabelLength="70" [labels]="true" [scheme]="colorScheme" (window:resize)="onResize($event)" class="card-body"
-        [results]="dataGraficaCircular"  [animations]="true" [legend]="false">
-        </ngx-charts-pie-chart>
+<div class="chart card animated fadeIn sombra pt-3 pl-3" style="display: block; width: 100%;text-align: -webkit-center;" *ngIf="pieChartLabels">
+    <div class="d-flex">
+        <i [ngClass]="icon" style="color:#097aa6; margin-right: 10px"></i>
+        <h3> {{title}}</h3>
     </div>
+    <ngx-charts-pie-chart [view]="view" maxLabelLength="70" [labels]="true" [scheme]="colorScheme" (window:resize)="onResize($event)" class="card-body" [results]="dataGraficaCircular" [animations]="true" [legend]="false">
+    </ngx-charts-pie-chart>
+</div>

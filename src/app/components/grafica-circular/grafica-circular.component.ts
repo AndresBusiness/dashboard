@@ -29,13 +29,16 @@ export class GraficaCircularComponent implements OnInit {
   ngOnChanges(changes: SimpleChanges): void {
     this.getData();      
     console.log(this.dataGraficaCircular)
+    this.dataGraficaCircular.forEach(element => {
+       element.name = element.value + ' ' +  element.name;
+    });
   }
 
  
  
 
   getData(){
-    this.view =  [400,200];
+    this.view =  [(window.innerWidth/3) -118,210];
 
     this.colorScheme =  {
       name: 'pax',
