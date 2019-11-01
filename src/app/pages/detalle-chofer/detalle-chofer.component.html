@@ -213,7 +213,8 @@
                                                 formControlName ="modelo"
                                                 placeHolder="Ejemplo: Aveo, Spark .." 
                                                 (selected)='selectEvent($event)'
-                                                [data]="modelos" 
+                                                [data]="modelos"
+                                                (inputFocused)='focusModelo()'
                                                 [itemTemplate]="itemTemplate">                                 
                                             </ng-autocomplete>
                                             <ng-template #itemTemplate let-item style="z-index: 999999">
@@ -265,13 +266,13 @@
                                         </div>
                                     </div>
                                     <div>
-                                        <div (click)="crearVehiculo()" *ngIf="title_vehiculos === 'Crear Vehículo'"  class="btn-vehiculos btn-guardar float-right m-4">Guardar</div>
+                                        <div (click)="crearVehiculo()" *ngIf="title_vehiculos === 'Crear Vehículo'"  class="btn-vehiculos btn-guardar float-right m-4"><i class="fas fa-plus"></i> Guardar</div>
                                         
                                         <div (click)="cancelarVehiculo()" *ngIf="title_vehiculos === 'Editar Vehículo'" 
                                          class="btn-vehiculos btn-cancelar float-right m-4">Cancelar</div>
 
                                         <div (click)="editarVehiculo()" *ngIf="title_vehiculos === 'Editar Vehículo'" 
-                                                     class="btn-vehiculos btn-editar float-right m-4">Editar</div>
+                                                     class="btn-vehiculos btn-editar float-right m-4"><i class="fas fa-edit"></i> Editar</div>
 
                                         
                                        
