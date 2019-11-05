@@ -145,7 +145,8 @@ export class ChoferesComponent implements OnInit {
             if(this.parametroBusqueda === concesion.placa){
               let existe = false;
               list.forEach(buscar => {
-                if(concesion.placa === buscar.concesion){
+                if(concesion.placa === buscar.concesion && buscar.nombre === element.nombre
+                  && buscar.apellidos === element.apellidos){
                   existe = true;
                 }
               });
@@ -191,8 +192,7 @@ export class ChoferesComponent implements OnInit {
        }
        
     } else {
-      this.source.setFilter([]);
-      //this._observarInfoTaxistas();
+      this._observarInfoTaxistas();
     }
  
   }
