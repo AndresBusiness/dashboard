@@ -6,21 +6,21 @@
                     <h5>No. de concesión :<span class="text-danger" >*</span></h5>
                     <input type="text" mask="000"  [showMaskTyped] = "true" name="text" class="form-control"
                       required formControlName ="placa">
-                      <span class="font-13 text-muted">del 001 al 765 (tres digitos)</span>
+                      <span class="font-13 text-muted">del 001 al 900 (tres digítos)</span>
                       <p class="field-requiered"
                          *ngIf="forma.controls['concesiones_que_trabaja']['controls'][i]['controls']['placa'].errors?.required">Campo requerido*</p>
                       <div *ngIf="forma.controls['concesiones_que_trabaja']['controls'][i]['controls']['placa'].errors" >
                         <p class="field-requiered"
-                        *ngIf="forma.controls['concesiones_que_trabaja']['controls'][i]['controls']['placa'].errors['Mask error']">Se requieren 3 digitos*</p>
+                        *ngIf="forma.controls['concesiones_que_trabaja']['controls'][i]['controls']['placa'].errors['Mask error']">Se requieren 3 digítos*</p>
                         <p class="field-requiered"
                         *ngIf="forma.controls['concesiones_que_trabaja']['controls'][i]['controls']['placa'].errors['yaEscrito']">Ya escribiste esta concesión*</p>
                       </div>
                       <p class="field-requiered"
-                      *ngIf="forma.controls['concesiones_que_trabaja']['controls'][i]['controls']['placa'].errors?.max">Máximo 765 concesiones*</p>
+                      *ngIf="forma.controls['concesiones_que_trabaja']['controls'][i]['controls']['placa'].errors?.max">Máximo 900 concesiones*</p>
                       <p class="field-requiered"
-                      *ngIf="forma.controls['concesiones_que_trabaja']['controls'][i]['controls']['placa'].errors?.min">Minimo 001*</p>
+                      *ngIf="forma.controls['concesiones_que_trabaja']['controls'][i]['controls']['placa'].errors?.min">Mínimo 001*</p>
                       <p class="field-requiered"
-                      *ngIf="forma.controls['concesiones_que_trabaja']['controls'][i]['controls']['placa'].errors?.maxLength">Máximo 3 digitos*</p>
+                      *ngIf="forma.controls['concesiones_que_trabaja']['controls'][i]['controls']['placa'].errors?.maxLength">Máximo 3 digítos*</p>
                     
 
                 </div>

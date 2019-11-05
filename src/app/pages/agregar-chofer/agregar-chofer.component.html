@@ -126,7 +126,7 @@
                                         <input type="text" formControlName="telefono" name="text" class="form-control" mask="(000) 000-0000" prefix="+52" [showMaskTyped]="true" required>
                                         <span class="font-13 text-muted">Ejemplo: +52(987) 118-9232</span>
                                         <p class="field-requiered" *ngIf="forma.controls['telefono'].errors?.required && VALIDATIONS_STEP1.telefono">Campo requerido*</p>
-                                        <p class="field-requiered" *ngIf="forma.controls['telefono'].errors?.minlength && forma.controls['telefono'].value">Se requieren 10 digitos*</p>
+                                        <p class="field-requiered" *ngIf="forma.controls['telefono'].errors?.minlength && forma.controls['telefono'].value">Se requieren 10 digítos*</p>
                                     </div>
                                 </div>
                                 <div class="container-form">
@@ -205,14 +205,14 @@
                                                 <div class="item item-form-3 col-12 pl-0 mytooltip">
                                                     <h5>No. de concesión <strong>Socio</strong> :<span class="text-danger">*</span></h5>
                                                     <input type="text" mask="000" [showMaskTyped]="true" name="text" class="form-control" required formControlName="concesion_socio">
-                                                    <span class="font-13 text-muted">del 001 al 900 (tres digitos)</span>
+                                                    <span class="font-13 text-muted">del 001 al 900 (tres digítos)</span>
                                                     <p class="field-requiered" *ngIf="forma.controls['concesion_socio'].errors?.required">Campo requerido*</p>
                                                     <div *ngIf="forma.controls['concesion_socio'].errors">
-                                                        <p class="field-requiered" *ngIf="forma.controls['concesion_socio'].errors['Mask error']">Se requieren 3 digitos*</p>
+                                                        <p class="field-requiered" *ngIf="forma.controls['concesion_socio'].errors['Mask error']">Se requieren 3 digítos*</p>
                                                     </div>
                                                     <p class="field-requiered" *ngIf="forma.controls['concesion_socio'].errors?.max">Máximo 900 concesiones*</p>
-                                                    <p class="field-requiered" *ngIf="forma.controls['concesion_socio'].errors?.min">Minimo 001*</p>
-                                                    <p class="field-requiered" *ngIf="forma.controls['concesion_socio'].errors?.maxLength">Máximo 3 digitos*</p>
+                                                    <p class="field-requiered" *ngIf="forma.controls['concesion_socio'].errors?.min">Mínimo 001*</p>
+                                                    <p class="field-requiered" *ngIf="forma.controls['concesion_socio'].errors?.maxLength">Máximo 3 digítos*</p>
                                                     <p class="field-requiered" *ngIf="forma.controls['concesion_socio'].errors?.existe">Ya registraron esta concesión*</p>
                                                     <span class="tooltip-content5">
                                                 <span class="tooltip-text3">

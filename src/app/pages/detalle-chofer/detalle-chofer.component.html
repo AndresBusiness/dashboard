@@ -182,9 +182,25 @@
                                     </div>
                                    
                                     <div class="d-flex mt-3" >
-                                        <div class="col-4">
-                                            <h5>Concesión: <span class="text-danger">*</span></h5>
-                                            <input type="text" name="text" formControlName="concesion" class="form-control"  [attr.disabled]="title_vehiculos ==='Editar Vehículo' ? '' : null">
+                                        <div class="col-5">
+                                            <h5>No. de concesión :<span class="text-danger" >*</span></h5>
+                                            <input type="text" mask="000"  [showMaskTyped] = "true" name="text" class="form-control"
+                                            required formControlName ="concesion" [attr.disabled]="title_vehiculos ==='Editar Vehículo' ? '' : null">
+                                            <span class="font-13 text-muted">del 001 al 900 (tres digítos)</span>
+                                            <p class="field-requiered"
+                                                *ngIf="forma.controls['concesion'].errors?.required  && forma['controls']['concesion'].dirty">Campo requerido*</p>
+                                            <div *ngIf="forma.controls['concesion'].errors" >
+                                            <p class="field-requiered"
+                                            *ngIf="forma.controls['concesion'].errors['Mask error']">Se requieren 3 digítos*</p>
+                                            </div>
+                                            <p class="field-requiered"
+                                            *ngIf="forma.controls['concesion'].errors?.max">Máximo 900 concesiones*</p>
+                                            <p class="field-requiered"
+                                            *ngIf="forma.controls['concesion'].errors?.min">Mínimo 001*</p>
+                                            <p class="field-requiered"
+                                            *ngIf="forma.controls['concesion'].errors?.maxLength">Máximo 3 digítos*</p>
+                                                
+                            
                                         </div>
                                         <div class="col-4" *ngIf="title_vehiculos ==='Editar Vehículo'">
                                             <h4>Id: <strong>{{forma.value.idVehiculo}}</strong></h4>
@@ -203,6 +219,8 @@
                                             <ng-template #itemTemplate let-item style="z-index: 999999">
                                                 <a [innerHTML]="item"></a>
                                             </ng-template>
+                                            <p class="field-requiered"
+                                            *ngIf="forma.controls['marca'].errors?.required  && forma['controls']['marca'].dirty">Campo requerido*</p>
 
 
                                             <!-- <input type="text" name="text" formControlName="marca" class="form-control" required> -->
@@ -220,11 +238,16 @@
                                             <ng-template #itemTemplate let-item style="z-index: 999999">
                                                 <a [innerHTML]="item"></a>
                                             </ng-template>
+                                            <p class="field-requiered"
+                                            *ngIf="forma.controls['modelo'].errors?.required  && forma['controls']['modelo'].dirty">Campo requerido*</p>
                                             <!-- <input type="text" name="text" formControlName="modelo" class="form-control" required> -->
                                         </div>
                                         <div class="col-4">
                                             <h5>Año: <span class="text-danger">*</span></h5>
-                                            <input type="text" name="text" formControlName="anio" class="form-control" required placeholder="Ejem. 2018, 2019">
+                                            <input type="text" name="number" formControlName="anio" class="form-control" required 
+                                             mask="0000" placeholder="Ejemplo: 2010" >
+                                            <p class="field-requiered"
+                                            *ngIf="forma.controls['anio'].errors?.required  && forma['controls']['anio'].dirty">Campo requerido*</p>
                                         </div>
                                        
                                     </div>
@@ -236,10 +259,15 @@
                                                 <option value="4">Hasta 4 personas</option>
                                                 <option value="8">Hasta 8 personas</option>
                                             </select>
+                                            <p class="field-requiered"
+                                            *ngIf="forma.controls['capacidad'].errors?.required  && forma['controls']['capacidad'].dirty">Campo requerido*</p>
                                         </div>
                                         <div class="col-4">
                                             <h5>Matrícula: <span class="text-danger">*</span></h5>
-                                            <input type="text" name="text" formControlName="matricula" class="form-control" required placeholder="Ejem. 6532TRY">
+                                            <input type="text" name="text" formControlName="matricula" class="form-control" required 
+                                            placeholder="Ejemplo: 65-48-TRY" onkeyup="this.value=this.value.toUpperCase()">
+                                            <p class="field-requiered"
+                                            *ngIf="forma.controls['matricula'].errors?.required  && forma['controls']['matricula'].dirty">Campo requerido*</p>
                                         </div>
                                         <!-- <div class="col-4">
                                             <h5>Modalidad: <span class="text-danger">*</span></h5>
@@ -263,10 +291,13 @@
                                                     <span class="custom-control-description">No</span>
                                                 </label>
                                             </div>
+                                            <p class="field-requiered"
+                                            *ngIf="forma.controls['conRampa'].errors?.required  && forma['controls']['conRampa'].dirty">Campo requerido*</p>
                                         </div>
                                     </div>
                                     <div>
-                                        <div (click)="crearVehiculo()" *ngIf="title_vehiculos === 'Crear Vehículo'"  class="btn-vehiculos btn-guardar float-right m-4"><i class="fas fa-plus"></i> Guardar</div>
+                                        <div (click)="crearVehiculo()" *ngIf="title_vehiculos === 'Crear Vehículo'"  
+                                        [ngClass]="{'disabledbutton': !forma.valid}" class="btn-vehiculos btn-guardar float-right m-4"><i class="fas fa-plus"></i> Guardar</div>
                                         
                                         <div (click)="cancelarVehiculo()" *ngIf="title_vehiculos === 'Editar Vehículo'" 
                                          class="btn-vehiculos btn-cancelar float-right m-4">Cancelar</div>

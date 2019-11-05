@@ -116,15 +116,14 @@ export class DetalleChoferComponent implements OnInit {
     this.obtenerInfoChofer(this.chofer.uid);
 
     this.forma = new FormGroup({
-      'idVehiculo':         new FormControl('', Validators.required),
+      'idVehiculo':         new FormControl(),
       'marca':           new FormControl('', Validators.required),
       'modelo':          new FormControl('', Validators.required),
       'matricula':          new FormControl('', Validators.required),
       'anio':          new FormControl('', Validators.required),
       'capacidad':          new FormControl('-1', Validators.required),
       'conRampa':          new FormControl('', Validators.required),
-      // 'modalidad':          new FormControl('-1', Validators.required)
-      'concesion':          new FormControl('', Validators.required),
+      'concesion':          new FormControl('', [Validators.required, Validators.maxLength(3), Validators.max(900), Validators.min(1)]),
     });
     
   }
@@ -396,13 +395,40 @@ export class DetalleChoferComponent implements OnInit {
 
 
   crearVehiculo(){
-    if(this.forma.value.concesion){
-      this.chofer.concesiones_que_trabaja.push({
-        placa: this.forma.value.concesion
-      })
-      console.log(this.chofer.concesiones_que_trabaja)
-    }
-   
+     this.loading = true;
+      let obj ={
+        'vehiculo':{
+          anio: this.forma.value.anio,
+          capacidad: this.forma.value.capacidad,
+          conRampa: this.forma.value.conRampa,
+          concesion: this.forma.value.concesion,
+          idVehiculo: null,
+          marca: this.forma.value.marca,
+          matricula: (this.forma.value.matricula).toUpperCase(),
+          modelo: this.forma.value.modelo,
+        },
+        'chofer':{
+          'nombre': this.chofer.nombre, 
+          'apellidos': this.chofer.apellidos, 
+          'folio': this.chofer.folio, 
+          'img': this.chofer.img, 
+          'uid': this.chofer.uid, 
+          'genero': this.chofer.genero,
+          'concesiones_que_trabaja': this.chofer.concesiones_que_trabaja
+        }
+      }
+       this.servicioNode.crearVehiculo(obj).subscribe((data: any)=>{
+         this.loading = false;
+         this.forma.reset();
+         this.vehiculoSeleccionado = false;
+         if(data.commit){
+           swal('Correcto!', 'Vehículo guardado correctamente', 'success').then(()=>{
+             this.obtenerVehiculos(this.chofer.uid)
+             this.cancelarVehiculo();
+           })
+         }
+       });
+
   }
 
   cancelarVehiculo(){

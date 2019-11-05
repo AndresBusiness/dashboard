@@ -41,6 +41,10 @@ export class FunctionsService  {
     editarChofer(obj: any){
       return this.launchPetitionServerNode("actualizarUsuario", obj);
     }
+    
+    crearVehiculo(obj: any){
+      return this.launchPetitionServerNode("crearVehiculo", obj);
+    }
 
     editarVehiculo(obj: any){
       return this.launchPetitionServerNode("actualizarVehiculo", obj);

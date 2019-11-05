@@ -102,3 +102,8 @@ line-height: 48px;
 .btn-eliminar{
     color:#d32e3e;
 } 
+
+.disabledbutton {
+    pointer-events: none;
+    opacity: 0.4;
+}
