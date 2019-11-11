@@ -88,8 +88,8 @@ export class MonitoreoComponent implements OnInit {
 
   obtenerInfoChofer(info: any) {
     const chofer = info;
-    this.servicioFirebase.buscarInfoChofer(info.chofer)
-        .then(data => {
+    const po= this.servicioFirebase.buscarInfoChofer(info.chofer)
+        .subscribe((data: any) => {
           chofer.correo = data.correo;
           chofer.nombre = data.nombre;
           chofer.apellidos = data.apellidos;
@@ -101,10 +101,12 @@ export class MonitoreoComponent implements OnInit {
           const modalRef = this.modalService.open(ModalChoferComponent);
           modalRef.componentInstance.chofer = chofer;
         });
+    
+    this._observableSubscriptions.push(po)
   }
 
   onSearch(unidad: any ) {
-     this.servicioFirebase.buscarConcesion(unidad)
+     const so = this.servicioFirebase.buscarConcesion(unidad)
       .subscribe((data: any) => {
         if (data) {
           this.taxistas = [];
@@ -122,6 +124,7 @@ export class MonitoreoComponent implements OnInit {
           swal('Sin datos!', `No hay unidades con número de concesión ${unidad}`, 'warning');
         }
       });
+      this._observableSubscriptions.push(so)
   }
 
   onChange($event) {

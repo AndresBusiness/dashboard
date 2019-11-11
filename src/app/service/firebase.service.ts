@@ -63,49 +63,28 @@ export class FirebaseService {
   }
 
   buscarInfoChofer(id: string) {
-    return new Promise<any>((resolve, reject) => {
-      this.afs.doc(`choferes/${id}`)
-      .valueChanges().pipe(take(1)) 
-      .subscribe((data: any) => {
-        if (data) {
-          resolve(data);
-        } else {
-          console.log('NO SE ENCONTRO TAXISTA CON ESE UID: ' , id);
-        }
-      }, err => reject(err)
-      );
-    });
+   return this.afs.doc(`choferes/${id}`).valueChanges().pipe(take(1)) 
   }
 
   buscarInfoConcesion(data: string, field:string) {
-    return new Promise<any>((resolve, reject) => {
-      this.afs.collection('choferes',
-      ref => ref.where(field, '==', data)).valueChanges().pipe(take(1)) 
-      .subscribe((data: any) => {
-        if (data.length > 0) {
-          resolve(true);
-        } else {
-          resolve(false);
-        }
-      }, err => reject(err)
-      );
-    });
+    return  this.afs.collection('choferes',
+             ref => ref.where(field, '==', data)).valueChanges().pipe(take(1))
   }
 
-  verificarConcesion(concesion: string) {
-    return new Promise<any>((resolve, reject) => {
-      this.afs.doc(`concesiones/${concesion}`)
-      .valueChanges().pipe(take(1)) 
-      .subscribe((data: any) => {
-        if (data) {
-          resolve(true);
-        } else {
-          resolve(false);
-        }
-      }, err => reject(err)
-      );
-    });
-  }
+  // verificarConcesion(concesion: string) {
+  //   return new Promise<any>((resolve, reject) => {
+  //     this.afs.doc(`concesiones/${concesion}`)
+  //     .valueChanges().pipe(take(1)) 
+  //     .subscribe((data: any) => {
+  //       if (data) {
+  //         resolve(true);
+  //       } else {
+  //         resolve(false);
+  //       }
+  //     }, err => reject(err)
+  //     );
+  //   });
+  // }
 
 
   // obtenerInfoChoferes() {
@@ -140,7 +119,6 @@ export class FirebaseService {
 
 
   agregarItem(uid: string, value: any) {
-
     value.geoposition = new firebase.firestore.GeoPoint(value.geoposition._lat, value.geoposition._long)
     return this.afs.collection('concesiones').doc(uid).set(value);
   }

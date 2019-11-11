@@ -116,7 +116,8 @@
                                 <div class="container-form">
                                     <div class="item item-form-6">
                                         <h5>Correo eléctronico: <span class="text-danger">*</span></h5>
-                                        <input type="text" name="text" formControlName="correo" placeholder="Ejemplo: juan-39@gmail.com" class="form-control" required>
+                                        <input type="text" name="text" formControlName="correo" #correo
+                                        (blur)="verificacionCorreo(correo.value)" placeholder="Ejemplo: juan-39@gmail.com" class="form-control" required>
                                         <p class="field-requiered" *ngIf="forma.controls['correo'].errors?.required && VALIDATIONS_STEP1.correo">Campo requerido*</p>
                                         <p class="field-requiered" *ngIf="forma.controls['correo'].errors?.pattern && forma.controls['correo'].value">Formato de correo incorrecto*</p>
                                         <p class="field-requiered" *ngIf="forma.controls['correo'].errors?.existe && forma.controls['correo'].value">Este correo ya fue registrado en el sistema*</p>

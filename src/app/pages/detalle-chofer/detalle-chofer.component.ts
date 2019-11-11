@@ -9,6 +9,7 @@ import { NgbDateCustomParserFormatter } from 'src/app/service/dateformat.service
 import * as moment from 'moment';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalDeleteComponent } from 'src/app/components/modal-delete/modal-delete.component';
+import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-detalle-chofer',
   templateUrl: './detalle-chofer.component.html',
@@ -29,6 +30,7 @@ export class DetalleChoferComponent implements OnInit {
   title_vehiculos:string ="Crear Vehículo"
   dateNac:any;
   fecha:string;
+  private _observableSubscriptions: Subscription[] = [];
 
   modelos=[];
   marcas = ["AUDI","BMW","CHEVROLET","CHRYSLER","DODGE","FIAT","FORD","HONDA","HYUNDAI","JEEP","KIA","MAZDA","MITSUBISHI","NISSAN","PEUGEOT","SEAT","TOYOTA","VOLKSWAGEN"];
@@ -132,8 +134,8 @@ export class DetalleChoferComponent implements OnInit {
   }
 
   obtenerInfoChofer(uid: string) {
-    this.servicioFirebase.buscarInfoChofer(uid)
-        .then(data => {
+    const s = this.servicioFirebase.buscarInfoChofer(uid)
+        .subscribe((data:any) => {
           this.chofer = data;
           this.minDate = {year: 1930, month: 1, day: 1};
           this.maxDate = {year: 2010, month: 1, day: 1};
@@ -152,13 +154,14 @@ export class DetalleChoferComponent implements OnInit {
           
           setTimeout(() => {
             this.cargandoimagen = false;            
-          }, 200);
+          });
           this.habilitado = this.chofer.autorizado;
           this.correo = this.chofer.correo;
           this.obtenerVehiculos(this.chofer.uid);
         });
-
-    this.servicioFirebase.buscarComentariosChoferes(uid)
+    this._observableSubscriptions.push(s);
+    
+    const c = this.servicioFirebase.buscarComentariosChoferes(uid)
         .subscribe((data: any) => {
           this.listComentarios = [];
           for (let i = 0; i < data.length; i++) {
@@ -172,6 +175,7 @@ export class DetalleChoferComponent implements OnInit {
             }
           }
         });
+    this._observableSubscriptions.push(c);    
   }
 
   updateDateNac(data){
@@ -179,19 +183,14 @@ export class DetalleChoferComponent implements OnInit {
   }
 
   obtenerVehiculos(idChofer: string){
-    this.servicioFirebase.buscarInfoVehiculoFijosChofer(idChofer)
-    .subscribe((vehiculos: any)=>{
+   const v = this.servicioFirebase.buscarInfoVehiculoFijosChofer(idChofer)
+       .subscribe((vehiculos: any)=>{
       this.vehiculosRegistrados = [];
       vehiculos.forEach(vehiculo => {
         this.vehiculosRegistrados.push(vehiculo);
       });
-    });
-    this.servicioFirebase.buscarInfoVehiculoPostureroChofer(idChofer)
-    .subscribe(vehiculos=>{
-      vehiculos.forEach(vehiculo => {
-        this.vehiculosRegistrados.push(vehiculo)
-      });
-    })
+     });
+   this._observableSubscriptions.push(v);
   }
 
   cambiarStatusChofer(){
@@ -443,5 +442,13 @@ export class DetalleChoferComponent implements OnInit {
     this.forma.controls['matricula'].setValue('');
     this.forma.controls['conRampa'].setValue('');
   }
+
+  ngOnDestroy() {
+    this._observableSubscriptions.forEach((s) => {
+      s.unsubscribe();
+      console.log('dessuscrito')
+    });
+  }
+  
 
 }

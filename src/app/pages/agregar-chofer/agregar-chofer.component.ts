@@ -2,7 +2,7 @@ import { Component, OnInit, ChangeDetectorRef, ElementRef, ViewChild, SimpleChan
 import {FormBuilder, FormGroup, Validators, FormControl, FormArray} from '@angular/forms';
 import * as moment from 'moment';
 import { FunctionsService } from 'src/app/service/functions.service';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { AngularFireStorage } from 'angularfire2/storage';
 import { finalize } from 'rxjs/operators';
 import { NgbDateCustomParserFormatter } from 'src/app/service/dateformat.service';
@@ -88,6 +88,8 @@ export class AgregarChoferComponent implements OnInit {
     'concesion':   false,
   };
 
+  private _observableSubscriptions: Subscription[] = [];
+  
   constructor(private fb: FormBuilder, private _changeDetectionRef: ChangeDetectorRef,
     public servicioFecha: NgbDateCustomParserFormatter,
     private firebaseService: FirebaseService,
@@ -156,28 +158,14 @@ export class AgregarChoferComponent implements OnInit {
       this.fecha = this.servicioFecha.format(data);
     });
 
-    this.forma.controls['correo'].valueChanges
-    .subscribe(data => {
-      if(data !== ''){
-        if(data.length > 5 ){
-          this.firebaseService.buscarInfoConcesion(data, 'correo').then(result=>{
-            if(result){
-              this.forma.controls['correo'].setErrors({existe: true});
-            } else {
-              let countErrors = 0
-              if (this.forma.controls['correo'].errors) {
-                if (this.forma.controls['correo'].errors['required'] ||  this.forma.controls['correo'].errors['pattern'] ) {
-                  countErrors ++;
-                }
-              }
-              if(countErrors === 0 ){
-                this.forma.controls['correo'].setErrors(null);
-              }
-            }
-          });  
-        }
-      }
-    });
+    // this.forma.controls['correo'].valueChanges
+    // .subscribe(data => {
+    //   if(data !== ''){
+    //     if(data.length > 5 ){
+          
+    //     }
+    //   }
+    // });
 
     const fieldStep1 = ['nombre', 'apellidos', 'correo', 'telefono', 'fechaNacimiento', 'img', 'genero']
     for (let index = 0; index < fieldStep1.length; index++) {
@@ -187,6 +175,27 @@ export class AgregarChoferComponent implements OnInit {
     }
 
     this._pushConcesion_Vehiculos('1');
+  }
+
+  verificacionCorreo(data:any){
+    console.log(data)
+    const c = this.firebaseService.buscarInfoConcesion(data, 'correo')
+    .subscribe(result=>{
+      if(result.length > 0){
+        this.forma.controls['correo'].setErrors({existe: true});
+      } else {
+        let countErrors = 0
+        if (this.forma.controls['correo'].errors) {
+          if (this.forma.controls['correo'].errors['required'] ||  this.forma.controls['correo'].errors['pattern'] ) {
+            countErrors ++;
+          }
+        }
+        if(countErrors === 0 ){
+          this.forma.controls['correo'].setErrors(null);
+        }
+      }
+    }); 
+    this._observableSubscriptions.push(c); 
   }
 
   ngOnInit() {
@@ -199,22 +208,24 @@ export class AgregarChoferComponent implements OnInit {
   validarConcesion(placa: string) {
     if (placa !== '***' && placa !== "") {
         const controlConcesion = (this.forma.controls['concesion_socio'] as FormControl)
-        this.firebaseService.buscarInfoConcesion(placa, 'concesion').then(result=>{
-        if(result){
-          controlConcesion.setErrors({existe:true});
-        } else {
-          let countErrors = 0
-          if (controlConcesion.errors) {
-            if (controlConcesion.errors['required'] || controlConcesion.errors['max'] || controlConcesion.errors['min']
-            || controlConcesion.errors['maxLength'] || controlConcesion.errors['Mask error'] ) {
-              countErrors ++;
+        const c = this.firebaseService.buscarInfoConcesion(placa, 'concesion')
+        .subscribe((result: any)=>{
+          if(result.length > 0){
+            controlConcesion.setErrors({existe:true});
+          } else {
+            let countErrors = 0
+            if (controlConcesion.errors) {
+              if (controlConcesion.errors['required'] || controlConcesion.errors['max'] || controlConcesion.errors['min']
+              || controlConcesion.errors['maxLength'] || controlConcesion.errors['Mask error'] ) {
+                countErrors ++;
+              }
+            }
+            if(countErrors === 0 ){
+              controlConcesion.setErrors(null);
             }
           }
-          if(countErrors === 0 ){
-            controlConcesion.setErrors(null);
-          }
-        }
-      });
+        });
+        this._observableSubscriptions.push(c);
     }
   }
 
@@ -383,20 +394,22 @@ export class AgregarChoferComponent implements OnInit {
   }
 
   _consultarVehiculo(placa: string, control: any){
-    this.firebaseService.buscarInfoVehiculo(placa)
+    const po = this.firebaseService.buscarInfoVehiculo(placa)
     .subscribe((vehiculo: any) => {
       if (vehiculo[0]) {
         if (vehiculo[0].propietario) {
-            this.firebaseService.buscarInfoChofer(vehiculo[0].propietario)
-            .then(chofer => {
-               this._asignarDatosVehiculo(control, vehiculo[0], chofer.nombre + ' ' + chofer.apellidos);
-            });
+            const so= this.firebaseService.buscarInfoChofer(vehiculo[0].propietario)
+                      .subscribe((chofer:any) => {
+                         this._asignarDatosVehiculo(control, vehiculo[0], chofer.nombre + ' ' + chofer.apellidos);
+                      });
+            this._observableSubscriptions.push(so); 
         }
         else if (vehiculo[0].choferes) {
-            this.firebaseService.buscarInfoChofer(vehiculo[0].choferes[0])
-            .then(chofer => {
+           const to = this.firebaseService.buscarInfoChofer(vehiculo[0].choferes[0])
+            .subscribe((chofer:any) => {
               this._asignarDatosVehiculo(control, vehiculo[0], chofer.nombre + ' ' + chofer.apellidos);
             });
+            this._observableSubscriptions.push(to); 
         }
       }
         else {
@@ -415,6 +428,7 @@ export class AgregarChoferComponent implements OnInit {
           }
        }
     });
+    this._observableSubscriptions.push(po); 
   }
 
   _asignarDatosVehiculo(control: any, datos: any, nombreChofer:string){
@@ -560,6 +574,10 @@ export class AgregarChoferComponent implements OnInit {
                 this._pushConcesion_Vehiculos('1');  
                 this.finishReset.nativeElement.click();
                 this.respuesta = '';
+                this._observableSubscriptions.forEach((s) => {
+                  s.unsubscribe();
+                  console.log('dessuscrito')
+                });
                 window.scroll(0,0);
                })
   
@@ -681,11 +699,19 @@ export class AgregarChoferComponent implements OnInit {
     this.concesiones_que_trabajaArray.push(control);
 
   }
-
   upload(event) {
     this.fileImg = event.target.files[0];
     const reader = new FileReader();
     reader.onload = e => this.imageSrc = reader.result;
     reader.readAsDataURL(this.fileImg);
   }
+
+  ngOnDestroy() {
+    this._observableSubscriptions.forEach((s) => {
+      s.unsubscribe();
+      console.log('dessuscrito')
+    });
+  }
+
+
 }
