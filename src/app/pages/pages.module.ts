@@ -47,6 +47,7 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { ChartsModule } from 'ng2-charts';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ModalDeleteComponent } from '../components/modal-delete/modal-delete.component';
+import { ViajesComponent } from './detalle-chofer/viajes/viajes.component';
 
 @NgModule({
   declarations: [

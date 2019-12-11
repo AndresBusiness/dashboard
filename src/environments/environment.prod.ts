@@ -7,5 +7,9 @@ export const environment = {
     projectId: "directtaxi-prod",
     storageBucket: "directtaxi-prod.appspot.com",
     messagingSenderId: "262883718255"
-  }
+  },
+  nombreEmpresa: 'TRAK MOVIL ARSENALCODE INC.',
+  emailEmpresa: 'arsenalcodeinc@gmail.com',
+  appChofer: 'Trak Driver',
+  appPasajero: 'Trak'
 };

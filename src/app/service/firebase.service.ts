@@ -62,6 +62,16 @@ export class FirebaseService {
               .where('modalidad', '==', '0')).valueChanges().pipe(take(1));
   }
 
+
+  obtenerViajesChofer(uid: string, status:string, from?:any, to?:any) {
+    return this.afs.collection('viajes',
+    ref => ref.where('uidChofer', '==', uid)
+              .where('estatus', '==', status)
+              .where('fecha', '>=', from)
+              .where('fecha', '<=', to)).valueChanges().pipe(take(1));
+  }
+
+
   buscarInfoChofer(id: string) {
    return this.afs.doc(`choferes/${id}`).valueChanges().pipe(take(1)) 
   }
@@ -70,26 +80,6 @@ export class FirebaseService {
     return  this.afs.collection('choferes',
              ref => ref.where(field, '==', data)).valueChanges().pipe(take(1))
   }
-
-  // verificarConcesion(concesion: string) {
-  //   return new Promise<any>((resolve, reject) => {
-  //     this.afs.doc(`concesiones/${concesion}`)
-  //     .valueChanges().pipe(take(1)) 
-  //     .subscribe((data: any) => {
-  //       if (data) {
-  //         resolve(true);
-  //       } else {
-  //         resolve(false);
-  //       }
-  //     }, err => reject(err)
-  //     );
-  //   });
-  // }
-
-
-  // obtenerInfoChoferes() {
-  //   return this.afs.collection('choferes').valueChanges().pipe(take(1)) 
-  // }
 
   obtenerCollection(collection:string, field:string){
     return new Promise((resolve, reject) => {

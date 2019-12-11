@@ -1,0 +1,30 @@
+<div class="col-12 d-flex">
+    <div class="col-5">
+        <h3 class="font-medium m-t-30">Historial de Viajes</h3>
+        <hr>
+        <ng-container *ngIf="list.length > 0; else elseTemplate">
+            <h2>{{count}} Viajes Completados</h2> 
+            <div *ngFor="let item of list" >
+                  Origen: {{item.direccionOrigen}} <br>
+                  Destino: {{item.direccionDestino}} <br>
+                  <br>
+                  <br>
+                  
+            </div>
+        </ng-container>
+        <ng-template #elseTemplate>
+            <h4>Este Chofer aún no ha comenzado a dar viajes</h4>            
+        </ng-template>
+        
+    </div>
+    <div class="col-7">
+        <h3 class="font-medium  m-t-30">Porcentaje de viajes recibidos</h3>
+        <hr>
+        <div>
+            <!-- <div style="display: block">
+                <canvas baseChart [data]="doughnutChartData" [options]="barChartOptions" [labels]="doughnutChartLabels" [chartType]="doughnutChartType">
+                    </canvas>
+            </div> -->
+        </div>
+    </div>
+</div>

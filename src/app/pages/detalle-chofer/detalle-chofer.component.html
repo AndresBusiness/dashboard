@@ -125,22 +125,8 @@
 
                 </div>
                 <div class="tab-pane m-b-20" id="historial" role="tabpanel">
-                    <div class="col-12 d-flex">
-                        <div class="col-5">
-                            <h3 class="font-medium m-t-30">Historial de Viajes</h3>
-                            <hr>
-                            <h4>Este Chofer aún no ha comenzado a dar viajes</h4>
-                        </div>
-                        <div class="col-7">
-                            <h3 class="font-medium  m-t-30">Porcentaje de viajes recibidos</h3>
-                            <hr>
-                            <div>
-                                <!-- <div style="display: block">
-                                    <canvas baseChart [data]="doughnutChartData" [options]="barChartOptions" [labels]="doughnutChartLabels" [chartType]="doughnutChartType">
-                                        </canvas>
-                                </div> -->
-                            </div>
-                        </div>
+                    <div *ngIf="chofer.uid !== ''" >
+                            <app-viajes [uidChofer]="chofer.uid"></app-viajes>
                     </div>
                 </div>
                 <div class="tab-pane m-b-20" id="vehiculos" role="tabpanel">

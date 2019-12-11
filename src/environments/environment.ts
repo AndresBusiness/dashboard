@@ -11,7 +11,11 @@ export const environment = {
     projectId: 'taxiapp-70751',
     storageBucket: 'taxiapp-70751.appspot.com',
     messagingSenderId: '697356156489'
-  }
+  },
+  nombreEmpresa: 'TRAK MOVIL ARSENALCODE INC.',
+  emailEmpresa: 'arsenalcodeinc@gmail.com',
+  appChofer: 'Trak Driver',
+  appPasajero: 'Trak'
 };
 
 

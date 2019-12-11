@@ -53,6 +53,11 @@ import { OrderModule } from 'ngx-order-pipe';
 import { NgxLoadingModule, ngxLoadingAnimationTypes } from 'ngx-loading';
 import { DetalleChoferComponent } from './pages/detalle-chofer/detalle-chofer.component';
 import { UsuariosComponent } from './pages/usuarios/usuarios.component';
+import { ViajesComponent } from './pages/detalle-chofer/viajes/viajes.component';
+import { PoliticasPrivacidadConductoresComponent } from './conductores/politicas-privacidad-conductores/politicas-privacidad-conductores.component';
+import { PoliticasPrivacidadPasajerosComponent } from './pasajeros/politicas-privacidad-pasajeros/politicas-privacidad-pasajeros.component';
+import { TerminosCondicionesComponent } from './conductores/terminos-condiciones/terminos-condiciones.component';
+import { TerminosCondicionesPasajeroComponent } from './pasajeros/terminos-condiciones/terminos-condiciones.component';
 
 
 // registrar los locales con el nombre que quieras utilizar a la hora de proveer
@@ -65,9 +70,14 @@ registerLocaleData(localeMX, 'es');
     AgregarChoferComponent,
     DetalleChoferComponent,
     UsuariosComponent,
-    SanitizeUrlPipe,
+    SanitizeUrlPipe, 
     FormularioVehiculosComponent,
-    FormularioConcesionesComponent
+    FormularioConcesionesComponent,
+    ViajesComponent,
+    PoliticasPrivacidadConductoresComponent,
+    PoliticasPrivacidadPasajerosComponent,
+    TerminosCondicionesComponent,
+    TerminosCondicionesPasajeroComponent
   ],
   imports: [
     BrowserModule,
